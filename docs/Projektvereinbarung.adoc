@@ -22,17 +22,19 @@ Die Studierenden arbeiten in Gruppen von 6 bis 8 Personen. Jeder Gruppe steht di
 
 == Ziel der Arbeit
 
-Das Ziel der Arbeit ist die Implementierung eines Hardware Simulators für die Grove Sensoren und Aktuatoren. Der Simulator soll die Programmierschnittstellen des Raspberry Pi softwaretechnisch simulieren können. Den Studierenden soll es ermöglicht werden, Sensoren und Aktuatoren im User Interface des Simulators an den Grove Hat anzuschliessen. Danach können die Studierenden unter Verwendung von Java gegen ihren simulierten Aufbau programmieren und sollen vom Simulator Feedback erhalten (Led geht an, Servo Motor stellt neue Position ein, ...). Der Simulator muss möglichst realitätsnah umgesetzt werden, sodass er ohne grösseren Aufwand durch den physischen Raspberry Pi mi dem Grove Hat ausgetauscht werden kann. Folgende Sensoren und Aktuatoren werden von den Studierenden häufig in ihren Projekten eingesetzt und müssen deshalb unbedingt simuliert werden können: LED, Motor, Servo,  Schrittmotor, Schnittstelle zum Serial Port.
+Das Ziel der Arbeit ist die Implementierung eines Hardware Simulators für die Sensoren und Aktuatoren, die an den GroveHat angeschlossen werden können. Der Simulator soll die Programmierschnittstellen des Raspberry Pi softwaretechnisch simulieren können. Den Studierenden soll es ermöglicht werden, Sensoren und Aktuatoren im User Interface des Simulators an den Grove Hat anzuschliessen. Danach können die Studierenden unter Verwendung von Java gegen ihren simulierten Aufbau programmieren und sollen vom Simulator Feedback erhalten (Led geht an, Servo Motor stellt neue Position ein, ...). Der Simulator muss möglichst realitätsnah umgesetzt werden, sodass er ohne grösseren Aufwand durch den physischen Raspberry Pi mit dem Grove Hat ausgetauscht werden kann. Folgende Sensoren und Aktuatoren werden von den Studierenden häufig in ihren Projekten eingesetzt und müssen deshalb unbedingt simuliert werden können: LED, LCD Anzeige, Motor, Servo,  Schrittmotor, Schnittstelle zum Serial Port.
 
 == Problemstellung
 
 In einem ersten Schritt gilt es die aktuelle Implementation in Zusammenhang mit der bestehenden Library Pi4J zu analysieren. Dazu steht uns ein Raspberry Pi mit dem Grove Hat sowie diversen Sensoren und Aktuatoren zur Verfügung. 
 
-Es muss entschieden werden, auf welcher Eben die Simulation greifen soll. Hardware nah durch Simulation der GPIO Pins des Grove Hat oder auf Sensoren/Aktuatoren Ebene. Eine Mischform ist ebenfalls denkbar. 
+Es muss entschieden werden, auf welcher Ebene die Simulation greifen soll. Hardware nah durch Simulation der GPIO Pins des Grove Hat oder auf Sensoren/Aktuatoren Ebene. Eine Mischform ist ebenfalls denkbar. 
 
 Auf Basis unserer Entscheidung soll ein UI implementiert werden, auf welchem die verschiedenen Sensoren und Aktuatoren mit dem Grove Hat verbunden werden können. Das implementierte UI soll eine Interaktion des Benutzers mittels Pi4J erlauben und entsprechend reagieren. 
 
-Schlussendlich soll ein Beispiel-Projekt mit dem Simulator umgesetzt werden, welches mittels aussagekräftigen Unit-Tests getestet wird. Das Projekt soll dann auch mit dem realen Grove Hat mit Sensoren und Aktuatoren demonstrierbar sein. 
+Schlussendlich soll ein Beispielprojekt mit dem Simulator umgesetzt werden, welches mittels aussagekräftigen Unit-Tests getestet wird. Das Projekt soll dann auch mit dem realen Grove Hat mit Sensoren und Aktuatoren demonstrierbar sein. 
+
+Die Ansteuerung und Verwendung aller Sensoren und Aktuatoren, welche im Simulator eingebaut wurden, sollte ersichtlich sein in einem User-Guide und vorzugsweise mit Code Snippets und Beispielen.
 
 == Abgabe
 

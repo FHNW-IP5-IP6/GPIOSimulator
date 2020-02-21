@@ -34,7 +34,7 @@ Auf Basis unserer Entscheidung soll ein UI implementiert werden, auf welchem die
 
 Schlussendlich soll ein Beispielprojekt mit dem Simulator umgesetzt werden, welches mittels aussagekräftigen Unit-Tests getestet wird. Das Projekt soll dann auch mit dem realen Grove Hat mit Sensoren und Aktuatoren demonstrierbar sein. 
 
-Die Ansteuerung und Verwendung aller Sensoren und Aktuatoren, welche im Simulator eingebaut wurden, sollte ersichtlich sein in einem User-Guide und vorzugsweise mit Code Snippets und Beispielen.
+Die Ansteuerung und Verwendung aller vom Simulator unterstützen Sensoren und Aktuatoren soll mit konkreten Code Beispielen in geeigneter Form dokumentiert werden.
 
 == Abgabe
 

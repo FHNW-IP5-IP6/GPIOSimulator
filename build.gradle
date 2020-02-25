@@ -72,3 +72,12 @@ asciidoctorPdf {
                'targeted-env': 'PDF Sample'
   }
 }
+
+jar {
+    manifest {
+        attributes "Main-Class": "gpiosimulator.HelloGPIO"
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

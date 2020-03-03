@@ -1,5 +1,6 @@
 :toc: macro
-:toc-title: 
+:toc-title:
+:asciidoc.asciidoctorpdf_command: "asciidoctor-pdf":
 :imagesdir: ./assets/images
 :iconsdir: ./icons
 :stylesdir: ./styles
@@ -24,7 +25,7 @@ image::FHNW.png[FHNW,382,59]
 * Frau Dr. Barbara Scheuner (barbara.scheuner@fhnw.ch) 
 * Herr Dr. Dieter Holz (dieter.holz@fhnw.ch) 
 
-*Datum*: 
+*Datum*: {docdate}
 
 //This is a Page Break
 <<<
@@ -32,12 +33,12 @@ image::FHNW.png[FHNW,382,59]
 [discrete]
 == Summary 
 TBD am Ende: + 
-Anhand	dieses	Textes	soll	eine	Person	entscheiden	können,	ob	sie	sich	für	ihr	Thema	interessiert.
+Anhand dieses Textes soll eine Person entscheiden können, ob sie sich für ihr Thema interessiert.
 
-. Was	wurde	erreicht?
-. Was	sind	die	Ergebnisse
-Warum	wurde	es	gemacht?	Was	war	das	Problem?	
-. Wie	wurde	es	gemacht/untersucht/getestet?
+. Was wurde erreicht?
+. Was sind die Ergebnisse
+. Warum wurde es gemacht? Was war das Problem? 
+. Wie wurde es gemacht/untersucht/getestet?
 
 [discrete]
 == Vorwort
@@ -57,7 +58,7 @@ Durch die Projektvereinbarung konnten wir folgende Anforderungen spezifizieren, 
 |===
 |Nummer |Beschreibung  |Priorität
 
-|{counter:reqNumber}	
+|{counter:reqNumber} 
 |Anwender sollen unabhängig von der Hardwareverfügbarkeit an ihren Raspberry Pi Projekten arbeiten können
 |1
 
@@ -73,7 +74,7 @@ Durch die Projektvereinbarung konnten wir folgende Anforderungen spezifizieren, 
 |Anwender sollen mittels den zur Verfügung gestellten Funktionen die analogen und digitalen Pins des Raspberry Pi via pi4j setzen können
 |1
 
-|{counter:reqNumber}	
+|{counter:reqNumber} 
 |Anwender sollen mittels den zur Verfügung gestellten Funktionen die analogen und digitalen Pins des GPIO Simulators setzen können
 |1
 
@@ -109,7 +110,7 @@ Durch die Projektvereinbarung konnten wir folgende Anforderungen spezifizieren, 
 |Anwender sollen vom GPIO Simulator Feedback im User Interface erhalten
 |3
 
-|{counter:reqNumber}	
+|{counter:reqNumber} 
 |Anwender sollen im GPIO Simulator alle gängigen Sensoren und Aktuatoren zur Verfügung haben
 |3
 
@@ -117,7 +118,7 @@ Durch die Projektvereinbarung konnten wir folgende Anforderungen spezifizieren, 
 |Anwender sollen im User Interface des GPIO Simulators Sensoren und Aktuatoren mit dem Grove Hat verbinden können
 |3
 
-|{counter:reqNumber}	
+|{counter:reqNumber} 
 |Anwender sollen ihre Sensor- und Aktuator- Konfigurationen speichern und wiederverwenden können
 |3
 

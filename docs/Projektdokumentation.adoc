@@ -5,7 +5,7 @@
 :stylesdir: ./styles
 :homepage: https://github.com/FHNW-IP5-IP6/GPIOSimulator
 
-image::FHNW.png[FHNW,300,400]
+image::FHNW.png[FHNW,382,59]
 [discrete]
 = IP5: GPIOSimoulator
 

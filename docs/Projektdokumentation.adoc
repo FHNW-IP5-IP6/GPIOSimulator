@@ -61,17 +61,13 @@ Durch die Projektvereinbarung konnten wir folgende Anforderungen spezifizieren, 
 |Anwender sollen unabhängig von der Hardwareverfügbarkeit an ihren Raspberry Pi Projekten arbeiten können
 |1
 
-|{counter:reqNumber}	
-|Anwender sollen im GPIO Simulator alle gängigen Sensoren und Aktuatoren zur Verfügung haben
-|
+|{counter:reqNumber}
+|Anwender sollen konfigurieren können, ob der Code auf dem GPIO Simulator oder auf dem Raspberry Pi ausgeführt werden soll
+|1
 
 |{counter:reqNumber}
-|Anwender sollen im User Interface des GPIO Simulators Sensoren und Aktuatoren mit dem Grove Hat verbinden können
-|
-
-|{counter:reqNumber}	
-|Anwender sollen ihre Sensor- und Aktuator- Konfigurationen speichern und wiederverwenden können
-|
+|Anwender sollen das Logging des GPIO Simulators konfigurieren können
+|1
 
 |{counter:reqNumber}
 |Anwender sollen mittels den zur Verfügung gestellten Funktionen die analogen und digitalen Pins des Raspberry Pi via pi4j setzen können
@@ -91,39 +87,46 @@ Durch die Projektvereinbarung konnten wir folgende Anforderungen spezifizieren, 
 
 |{counter:reqNumber}
 |Anwender sollen mittels den zur Verfügung gestellten Funktionen die Grove Anschlüsse des Raspberry Pi via pi4j setzen können
-|
+|2
 
 |{counter:reqNumber}
 |Anwender sollen mittels den zur Verfügung gestellten Funktionen die Grove Anschlüsse des GPIO Simulators setzen können
-|
+|2
 
 |{counter:reqNumber}
 |Anwender sollen mittels den zur Verfügung gestellten Funktionen die Grove Anschlüsse des Raspberry Pi via pi4j abfragen können
-|
+|2
 
 |{counter:reqNumber}
 |Anwender sollen mittels den zur Verfügung gestellten Funktionen die Grove Anschlüsse des GPIO Simulators abfragen können
-|
-
-|{counter:reqNumber}
-|Anwender sollen vom GPIO Simulator Feedback im User Interface erhalten
-|
+|2
 
 |{counter:reqNumber}
 |Anwender sollen Beispiel Code für die gängigen Sensoren und Aktuatoren zur Verfügung haben
-|
+|2
 
 |{counter:reqNumber}
-|Anwender sollen konfigurieren können, ob der Code auf dem GPIO Simulator oder auf dem Raspberry Pi ausgeführt werden soll
-|1
+|Anwender sollen vom GPIO Simulator Feedback im User Interface erhalten
+|3
+
+|{counter:reqNumber}	
+|Anwender sollen im GPIO Simulator alle gängigen Sensoren und Aktuatoren zur Verfügung haben
+|3
 
 |{counter:reqNumber}
-|Anwender sollen das Logging des GPIO Simulators konfigurieren können
-|1
+|Anwender sollen im User Interface des GPIO Simulators Sensoren und Aktuatoren mit dem Grove Hat verbinden können
+|3
+
+|{counter:reqNumber}	
+|Anwender sollen ihre Sensor- und Aktuator- Konfigurationen speichern und wiederverwenden können
+|3
 
 |===
 
-=== MVP
+=== Legende
+* *Priorität 1*: MVP
+* *Priorität 2*: 
+* *Priorität 3*:
 
 
 == Schluss

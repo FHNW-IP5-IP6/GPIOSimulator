@@ -1,0 +1,138 @@
+:toc: macro
+:toc-title: 
+:imagesdir: ./assets/images
+:iconsdir: ./icons
+:stylesdir: ./styles
+:homepage: https://github.com/FHNW-IP5-IP6/GPIOSimulator
+
+image::FHNW.png[FHNW,300,400]
+[discrete]
+= IP5: GPIOSimoulator
+
+*Semesterarbeit von*:
+
+* Herr Jonathan Bättig (jonathan.baettig@students.fhnw.ch) 
+* Herr Anessollah Ima (anessollah.ima@students.fhnw.ch)
+
+*FHNW* +
+*Hochschule für Technik* +
+*Studiengang* : Informatik +
+*Semester* : 6BB
+
+*Betreuende Dozenten*:
+
+* Frau Dr. Barbara Scheuner (barbara.scheuner@fhnw.ch) 
+* Herr Dr. Dieter Holz (dieter.holz@fhnw.ch) 
+
+*Datum*: 
+
+//This is a Page Break
+<<<
+
+[discrete]
+== Summary 
+TBD am Ende: + 
+Anhand	dieses	Textes	soll	eine	Person	entscheiden	können,	ob	sie	sich	für	ihr	Thema	interessiert.
+
+. Was	wurde	erreicht?
+. Was	sind	die	Ergebnisse
+Warum	wurde	es	gemacht?	Was	war	das	Problem?	
+. Wie	wurde	es	gemacht/untersucht/getestet?
+
+[discrete]
+== Vorwort
+
+[discrete]
+== Inhaltsverzeichnis
+toc::[]
+
+== Einleitung
+TBD
+
+== Anforderungen
+Durch die Projektvereinbarung konnten wir folgende Anforderungen spezifizieren, welche dieses Projekt erfüllen muss:
+
+.Anforderungen
+[cols="1,7,1"]
+|===
+|Nummer |Beschreibung  |Priorität
+
+|{counter:reqNumber}	
+|Anwender sollen unabhängig von der Hardwareverfügbarkeit an ihren Raspberry Pi Projekten arbeiten können
+|1
+
+|{counter:reqNumber}	
+|Anwender sollen im GPIO Simulator alle gängigen Sensoren und Aktuatoren zur Verfügung haben
+|
+
+|{counter:reqNumber}
+|Anwender sollen im User Interface des GPIO Simulators Sensoren und Aktuatoren mit dem Grove Hat verbinden können
+|
+
+|{counter:reqNumber}	
+|Anwender sollen ihre Sensor- und Aktuator- Konfigurationen speichern und wiederverwenden können
+|
+
+|{counter:reqNumber}
+|Anwender sollen mittels den zur Verfügung gestellten Funktionen die analogen und digitalen Pins des Raspberry Pi via pi4j setzen können
+|1
+
+|{counter:reqNumber}	
+|Anwender sollen mittels den zur Verfügung gestellten Funktionen die analogen und digitalen Pins des GPIO Simulators setzen können
+|1
+
+|{counter:reqNumber}
+|Anwender sollen mittels den zur Verfügung gestellten Funktionen die analogen und digitalen Pins des Raspberry Pi via pi4j abfragen können
+|1
+
+|{counter:reqNumber}
+|Anwender sollen mittels den zur Verfügung gestellten Funktionen die analogen und digitalen Pins des GPIO Simulators abfragen können
+|1
+
+|{counter:reqNumber}
+|Anwender sollen mittels den zur Verfügung gestellten Funktionen die Grove Anschlüsse des Raspberry Pi via pi4j setzen können
+|
+
+|{counter:reqNumber}
+|Anwender sollen mittels den zur Verfügung gestellten Funktionen die Grove Anschlüsse des GPIO Simulators setzen können
+|
+
+|{counter:reqNumber}
+|Anwender sollen mittels den zur Verfügung gestellten Funktionen die Grove Anschlüsse des Raspberry Pi via pi4j abfragen können
+|
+
+|{counter:reqNumber}
+|Anwender sollen mittels den zur Verfügung gestellten Funktionen die Grove Anschlüsse des GPIO Simulators abfragen können
+|
+
+|{counter:reqNumber}
+|Anwender sollen vom GPIO Simulator Feedback im User Interface erhalten
+|
+
+|{counter:reqNumber}
+|Anwender sollen Beispiel Code für die gängigen Sensoren und Aktuatoren zur Verfügung haben
+|
+
+|{counter:reqNumber}
+|Anwender sollen konfigurieren können, ob der Code auf dem GPIO Simulator oder auf dem Raspberry Pi ausgeführt werden soll
+|1
+
+|{counter:reqNumber}
+|Anwender sollen das Logging des GPIO Simulators konfigurieren können
+|1
+
+|===
+
+=== MVP
+
+
+== Schluss
+
+== Literaturverzeichnis
+
+== Anhang
+
+=== Ehrlichkeitserklärung
+
+==== Test
+

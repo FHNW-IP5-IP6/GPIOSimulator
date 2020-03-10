@@ -1,4 +1,4 @@
-:toc: macro
+:toc: left
 :toc-title:
 :asciidoc.asciidoctorpdf_command: "asciidoctor-pdf":
 :sectnums:
@@ -142,14 +142,14 @@ Es gibt die Möglichkeit es als Dependency zu entwickeln
 
 [#img-design] 
 .Dependency Design 
-image::Design_Dependancy.svg[Design Dependecy]
+image::Design_Dependancy.png[Design Dependecy]
 
 ==== Integration als Standalone Applikation
 Es gibt die Möglichkeit es als Dependency zu entwickeln
 
 [#img-design] 
-.Dependency Design 
-image::Design_Standalone.svg[Design Dependecy]
+.Standalone Design 
+image::Design_Standalone.png[Design Dependecy]
 
 == Praktischer Teil
 

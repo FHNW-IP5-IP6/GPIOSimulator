@@ -141,20 +141,21 @@ Die Erkenntnisse der Anforderungsanalyse lassen uns zwei gangbare Wege für den 
 ==== Integration als Dependency
 Bei diesem Integrationstyp wird der komplette Simulator zu einem festen Bestandteil des Raspberry Pi Projektes des Anwenders. Das Projekt umfasst nebst dem selbst geschriebenen Code, welcher schlussendlich auf dem Raspberry Pi ausgeführt werden soll, das gesamte User Interface des Simulators. Dies führt dazu, dass das Projekt des Anwenders um einiges grösser wird. Allerdings würde uns die direkte Integration unsere Arbeit erleichtern. Die Kommunikation zwischen User Code und UI könnte über die bekannten UI Bindings von JavaFX implementiert werden. Des Weiteren gibt uns die Integration des Simulators in das Projekt des Anwenders mehr Freiheit bezüglich der Konfiguration des Simulators.
 
+===== Konfiguration via Code
 [#img-design] 
 .Dependency Design 
-image::Design_Dependancy.png[Design Dependecy]
-
-===== Konfiguration via Code
+image::Dependency_Integration_Code.png[Design Dependecy]
 
 ===== Konfiguraiton via Simulator
+[#img-design] 
+.Dependency Design 
+image::Dependency_Integration_Simulator.png[Design Dependecy]
 
 ==== Integration als Standalone Applikation
-Es gibt die Möglichkeit es als Dependency zu entwickeln
 
 [#img-design] 
 .Standalone Design 
-image::Design_Standalone.png[Design Standalone]
+image::Standalone_Integration.png[Design Standalone]
 
 == Praktischer Teil
 

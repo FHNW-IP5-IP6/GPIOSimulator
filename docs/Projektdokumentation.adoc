@@ -1,6 +1,8 @@
 :toc: macro
 :toc-title:
 :asciidoc.asciidoctorpdf_command: "asciidoctor-pdf":
+:sectnums:
+:sectnumlevels: 5
 :imagesdir: ./assets/images
 :iconsdir: ./icons
 :stylesdir: ./styles
@@ -50,7 +52,9 @@ toc::[]
 == Einleitung
 TBD
 
-== Anforderungen
+== Theoretischer Teil
+
+=== Anforderungen
 Durch die Projektvereinbarung konnten wir folgende Anforderungen spezifizieren, welche dieses Projekt erfüllen muss:
 
 .Anforderungen
@@ -124,11 +128,33 @@ Durch die Projektvereinbarung konnten wir folgende Anforderungen spezifizieren, 
 
 |===
 
-=== Legende
-* *Priorität 1*: MVP
-* *Priorität 2*: 
-* *Priorität 3*:
+==== Legende
+Projektentwicklung wird durch ihre Priorität in 3 Phasen eingeteilt:
 
+* *Priorität 1*: MVP Entwicklung
+* *Priorität 2*: Grove Anschlüsse
+* *Priorität 3*: Grafische Oberfläche und Konfiguration
+
+=== Technischer Aufbau
+
+==== Integration als Dependency
+Es gibt die Möglichkeit es als Dependency zu entwickeln
+
+[#img-design] 
+.Dependency Design 
+image::Design_Dependancy.svg[Design Dependecy]
+
+==== Integration als Standalone Applikation
+Es gibt die Möglichkeit es als Dependency zu entwickeln
+
+[#img-design] 
+.Dependency Design 
+image::Design_Standalone.svg[Design Dependecy]
+
+== Praktischer Teil
+
+== Software Architektur
+<TBD>
 
 == Schluss
 
@@ -137,6 +163,4 @@ Durch die Projektvereinbarung konnten wir folgende Anforderungen spezifizieren, 
 == Anhang
 
 === Ehrlichkeitserklärung
-
-==== Test
 

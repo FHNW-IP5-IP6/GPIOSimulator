@@ -136,13 +136,18 @@ Projektentwicklung wird durch ihre Priorität in 3 Phasen eingeteilt:
 * *Priorität 3*: Grafische Oberfläche und Konfiguration
 
 === Technischer Aufbau
+Die Erkenntnisse der Anforderungsanalyse lassen uns zwei gangbare Wege für den Aufbau des Simulators offen. Einerseits können wir den Simulator als Standalone Applikation zur Verfügung stellen, andererseits könnte der Simulator auch direkt als Dependance in das Projekt der Anwender inkludiert werden. Beide Vorgehensweisen sind im Kern gleich, haben aber auch ihre Vor- und Nachteile. Auf diese gehen wir in diesem Kapitel genauer ein.
 
 ==== Integration als Dependency
-Es gibt die Möglichkeit es als Dependency zu entwickeln
+Bei diesem Integrationstyp wird der komplette Simulator zu einem festen Bestandteil des Raspberry Pi Projektes des Anwenders. Das Projekt umfasst nebst dem selbst geschriebenen Code, welcher schlussendlich auf dem Raspberry Pi ausgeführt werden soll, das gesamte User Interface des Simulators. Dies führt dazu, dass das Projekt des Anwenders um einiges grösser wird. Allerdings würde uns die direkte Integration unsere Arbeit erleichtern. Die Kommunikation zwischen User Code und UI könnte über die bekannten UI Bindings von JavaFX implementiert werden. Des Weiteren gibt uns die Integration des Simulators in das Projekt des Anwenders mehr Freiheit bezüglich der Konfiguration des Simulators.
 
 [#img-design] 
 .Dependency Design 
 image::Design_Dependancy.png[Design Dependecy]
+
+===== Konfiguration via Code
+
+===== Konfiguraiton via Simulator
 
 ==== Integration als Standalone Applikation
 Es gibt die Möglichkeit es als Dependency zu entwickeln

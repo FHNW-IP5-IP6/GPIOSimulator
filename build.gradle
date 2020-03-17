@@ -75,7 +75,7 @@ asciidoctorPdf {
 
 jar {
     manifest {
-        attributes "Main-Class": "gpiosimulator.HelloGPIO"
+        attributes "Main-Class": "pi4jexamples.BlinkLed"
     }
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }

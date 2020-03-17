@@ -3,8 +3,10 @@ package pi4jexamples;
 import com.pi4j.io.gpio.*;
 import com.pi4j.util.Console;
 
-public class BlinkLed {
-    public static void main(String[] args) throws Exception {
+public class BlinkLed implements Example{
+
+    @Override
+    public void execute() throws Exception {
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING)); //like on GPIO Extension Board
 
         final GpioController gpio = GpioFactory.getInstance();
@@ -16,7 +18,7 @@ public class BlinkLed {
         console.promptForExit();
 
         while (console.isRunning()) {
-            if (led.getState() == PinState.LOW) {
+            if (led.isLow()) {
                 led.high();
                 console.println("Led is high.");
             } else {

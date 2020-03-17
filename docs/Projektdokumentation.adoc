@@ -1,5 +1,6 @@
 :toc: macro
 :toc-title:
+:toclevels: 5
 :asciidoc.asciidoctorpdf_command: "asciidoctor-pdf":
 :sectnums:
 :sectnumlevels: 5
@@ -29,9 +30,8 @@ image::FHNW.png[FHNW,382,59]
 
 *Datum*: {docdate}
 
-//This is a Page Break
-<<<
 
+<<<
 [discrete]
 == Summary 
 TBD am Ende: + 
@@ -42,16 +42,19 @@ Anhand dieses Textes soll eine Person entscheiden können, ob sie sich für ihr 
 . Warum wurde es gemacht? Was war das Problem? 
 . Wie wurde es gemacht/untersucht/getestet?
 
+<<<
 [discrete]
 == Vorwort
 
+<<<
 [discrete]
 == Inhaltsverzeichnis
 toc::[]
 
+<<<
 == Einleitung
-TBD
 
+<<<
 == Theoretischer Teil
 
 === Anforderungen
@@ -135,38 +138,56 @@ Projektentwicklung wird durch ihre Priorität in 3 Phasen eingeteilt:
 * *Priorität 2*: Grove Anschlüsse
 * *Priorität 3*: Grafische Oberfläche und Konfiguration
 
-=== Technischer Aufbau
-Die Erkenntnisse der Anforderungsanalyse lassen uns zwei gangbare Wege für den Aufbau des Simulators offen. Einerseits können wir den Simulator als Standalone Applikation zur Verfügung stellen, andererseits könnte der Simulator auch direkt als Dependance in das Projekt der Anwender inkludiert werden. Beide Vorgehensweisen sind im Kern gleich, haben aber auch ihre Vor- und Nachteile. Auf diese gehen wir in diesem Kapitel genauer ein.
+<<<
+== Analyse Applikationsdesign
+Durch die Ergebnisse der Anforderungsanalyse haben wir viele neue Erkentnisse gewonnen. Auf Basis dieser Erkentnisse galt es Entscheidungen zu treffen, welche in diesem Kapitel festgehalten wurden.
 
-==== Integration als Dependency
+=== Genereller Aufbau des GPIO Simulators
+
+=== Logging
+Die Log Funktionalität ist für unser Produkt essenziell. Die Umsetzung des Loggins ist Bestandteil der Minimum Viable Product. Ziel ist es, dass alle Interaktionen mit den GPIO Pins und Grove Adaptoren in einem geeigneten Format geloggt werden. Für Java stehen bereits diverse Logging Frameworks zur verfügung. Ein weit verbreiteter und beliebter Vertreter ist Log4j 2 von Apache. Es beitet die Funktionalität, Logs in eine Rolling File zu schreiben. Diese Funktionalität eignet sich hervorragen für unsere Zwecke, weshalb wir uns für die Verwendung dieses Frameworks entschieden haben.
+
+=== Benutzeroberfläche
+Ein wichtiger Entscheid, welcher in diesem Projekt getroffen werden muss, ist die Integrationsart der Benutzeroberfläche der Simulators. Unsere Analyse zeigt, dass es zwei verschidene möglichkeiten gibt. Einerseits können wir den Simulator als Standalone Applikation zur Verfügung stellen, andererseits könnte der Simulator auch direkt als Dependance in das Projekt der Anwender inkludiert werden. Beide Vorgehensweisen sind im Kern gleich, haben aber auch ihre Vor- und Nachteile. Auf diese gehen wir in diesem Kapitel genauer ein.
+
+===== Integration als Dependency
 Bei diesem Integrationstyp wird der komplette Simulator zu einem festen Bestandteil des Raspberry Pi Projektes des Anwenders. Das Projekt umfasst nebst dem selbst geschriebenen Code, welcher schlussendlich auf dem Raspberry Pi ausgeführt werden soll, das gesamte User Interface des Simulators. Dies führt dazu, dass das Projekt des Anwenders um einiges grösser wird. Allerdings würde uns die direkte Integration unsere Arbeit erleichtern. Die Kommunikation zwischen User Code und UI könnte über die bekannten UI Bindings von JavaFX implementiert werden. Des Weiteren gibt uns die Integration des Simulators in das Projekt des Anwenders mehr Freiheit bezüglich der Konfiguration des Simulators.
 
-===== Konfiguration via Code
+====== Konfiguration via Code
+Unter Verwendung dieser Konfigurationsart entscheidet der Code des Benutzers, welche Sensoren und Aktuatoren an welche virtuellen Anschlüsse des Simulators angeschlossen werden. Sobald der Benutzer den Code unter Verwendung des GPIO Simulators startet, generiert der Simulator das UI gemäss den im Code verwendeten Sensoren und Aktuatoren. Ein wesentlicher Vorteil dieses Konfigurationstyps ist sicher die Einfachheit der Anwendung. Der Benutzer muss sich lediglich um seinen Code kümmern. Genau so, wie die Sensoren im Code verwendet werden, werden diese auch im Simulator angezeigt. Es ist somit ausgeschlossen, dass Pins verwendet werden, welche nicht mit Sensoren oder Aktuatoren verbunden sind. Dies kann aber auch ein Nachteil sein, da diese Konfigurationsart nicht wirklich der Realität entspricht, welche man in einem IoT Projekt antrifft. Dort ist der Anwender für die Verkabelung der Sensoren und Aktuatoren mit dem Raspberry Pi verantwortlich. Es kann durchaus passieren, dass beispielsweise die falschen Pins verbunden werden. Dieser Aspekt würde unter Verwendung der aus dem Code generierten Konfiguration verloren gehen.
 [#img-design] 
-.Dependency Design 
+.Dependency Integration mit Konfiguration im Code 
 image::Dependency_Integration_Code.png[Design Dependecy]
 
-===== Konfiguraiton via Simulator
+====== Konfiguraiton via Simulator
+Bei diesem Konfigurationstyp wird die Konfiguration direkt im Simulator vorgenommen. Nach dem Starten seines eigenen Codes öffnet sich das UI des GPIO Simulators. Der Benutzer kann nun via Drag and Drop Sensoren und Aktuatoren im dafür vorgesehenen Bereich platzieren und diese mit den GPIO oder Grove Pins des virtuellen GroveHat verbinden. Nachdem der Benutzer die Konfiguration abgeschlossen hat, kann er dies über einen Button bestätigen und die Simulation startet. Der Vorteil dieses Konfigurationstyps liegt ganz klar in der Realitätsnähe, welche über die Konfiguration via Code fehlt. Der Benutzer hat die Möglichkeit, Sensoren und Aktuatoren falsch anzuschliessen und muss dem Problem selbst nachgehen. Dies erhöht den Lerneffekt und trägt zum Verständnis bei. Nachteil ist allerdings, dass die Konfiguration erst beim Starten des Codes gemacht werden kann.Bei diesem Konfigurationstyp wird die Konfiguration direkt im Simulator vorgenommen. Nach dem Starten seines eigenen Codes öffnet sich das UI des GPIO Simulators. Der Benutzer kann nun via Drag and Drop Sensoren und Aktuatoren im dafür vorgesehenen Bereich platzieren und diese mit den GPIO oder Grove Pins des virtuellen GroveHat verbinden. Nachdem der Benutzer die Konfiguration abgeschlossen hat, kann er dies über einen Button bestätigen und die Simulation startet. Der Vorteil dieses Konfigurationstyps liegt ganz klar in der Realitätsnähe, welche über die Konfiguration via Code fehlt. Der Benutzer hat die Möglichkeit, Sensoren und Aktuatoren falsch anzuschliessen und muss dem Problem selbst nachgehen. Dies erhöht den Lerneffekt und trägt zum Verständnis bei. Nachteil ist allerdings, dass die Konfiguration erst beim Starten des Codes gemacht werden kann.
 [#img-design] 
-.Dependency Design 
+.Dependency Integration mit Konfiguration im Simulator
 image::Dependency_Integration_Simulator.png[Design Dependecy]
 
-==== Integration als Standalone Applikation
-
+===== Integration als Standalone Applikation
+Bei diesem Integrationstyp wird der Simulator zu einer separaten Applikation, die auf einem eigenen Prozess läuft. Der Code des Anwenders läuft komplett unabhängig vom Simulator und muss nicht erweitert werden durch den Simulator. 
+Die Unabhängigkeit der Projekte macht die Kommunikation der beiden Programme komplizierter, da ein neuer indirekter Weg für die Datenübertragung gefunden werden muss. Eine Standalone Applikation aber den Vorteil, dass die Konfiguration des Simulators nicht erst zur Laufzeit stattfinden müsste. Man könnte die Konfiguration abspeichern und laden, wenn der Simulator gestartet wird. Dies wäre für den Anwender angenehmer, da er die Konfiguration nicht immer neu vornehmen muss. Dieser Integrationstyp Simuliert die Realität sicher am besten, da der Raspberry Pi auch eine separate Instanz ist.
 [#img-design] 
-.Standalone Design 
+.Standalone Integration 
 image::Standalone_Integration.png[Design Standalone]
 
+===== Entscheidung
+
+<<<
 == Praktischer Teil
 
+<<<
 == Software Architektur
-<TBD>
 
+<<<
 == Schluss
 
+<<<
 == Literaturverzeichnis
 
+<<<
 == Anhang
 
-=== Ehrlichkeitserklärung
-
+<<<
+== Ehrlichkeitserklärung

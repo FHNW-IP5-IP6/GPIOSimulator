@@ -75,7 +75,7 @@ asciidoctorPdf {
 
 jar {
     manifest {
-        attributes "Main-Class": "pi4jexamples.BlinkLed"
+        attributes "Main-Class": "pi4jexamples.Examples"
     }
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }

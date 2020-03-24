@@ -1,7 +1,5 @@
 package pi4jexamples;
 
-import com.pi4j.util.Console;
-
 import java.util.Scanner;
 
 public class Examples {
@@ -27,7 +25,7 @@ public class Examples {
             break;
         case 3:
             System.out.println("Run Hello World LCD Example");
-            var lcd = new HelloWorldLcd();
+            var lcd = new LcdSystemTime();
             lcd.execute();
             break;
         default:

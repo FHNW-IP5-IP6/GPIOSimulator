@@ -7,7 +7,7 @@ import com.pi4j.wiringpi.Lcd;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class HelloWorldLcd implements Example {
+public class LcdSystemTime implements Example {
     private final static int LCD_ROWS = 2;
     private final static int LCD_COLUMNS = 16;
     private final static int LCD_BITS = 4;
@@ -19,7 +19,7 @@ public class HelloWorldLcd implements Example {
         }
 
         // setup the lcd handler
-        int lcdHandle = Lcd.lcdInit(LCD_ROWS,        // number of row supported by LCD
+        int lcdHandle = Lcd.lcdInit(LCD_ROWS,       // number of row supported by LCD
                 LCD_COLUMNS,                        // number of columns supported by LCD
                 LCD_BITS,                           // number of bits used to communicate to LCD
                 RaspiPin.GPIO_06.getAddress(),      // LCD RS pin

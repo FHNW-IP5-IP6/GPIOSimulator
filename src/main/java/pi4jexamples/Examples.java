@@ -28,6 +28,10 @@ public class Examples {
             var lcd = new LcdSystemTime();
             lcd.execute();
             break;
+        case 4:
+            System.out.println("Run Motor Direction Example");
+            var motorDirection = new MotorDirection();
+            motorDirection.execute();
         default:
             System.out.println("Did not recognize input");
         }
@@ -40,5 +44,6 @@ public class Examples {
         System.out.println("Press 1 to start Blink LED Test");
         System.out.println("Press 2 to start Button Test");
         System.out.println("Press 3 to start LCD Display Test");
+        System.out.println("Press 4 to start Motor Direction Test");
     }
 }

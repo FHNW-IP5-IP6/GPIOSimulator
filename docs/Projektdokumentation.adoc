@@ -51,7 +51,9 @@ Anhand dieses Textes soll eine Person entscheiden können, ob sie sich für ihr 
 toc::[]
 
 <<<
+:sectnums!:
 == Einleitung
+:sectnums:
 
 <<<
 == Theoretischer Teil
@@ -169,7 +171,7 @@ Bei diesem Konfigurationstyp wird die Konfiguration direkt im Simulator vorgenom
 .Dependency Integration mit Konfiguration im Simulator
 image::Dependency_Integration_Simulator.png[Design Dependecy]
 
-==== Integration als Standalone Applikation
+===== Integration als Standalone Applikation
 Bei diesem Integrationstyp wird der Simulator zu einer separaten Applikation, die auf einem eigenen Prozess läuft. Der Code des Anwenders läuft komplett unabhängig vom Simulator selbst. Die Unabhängigkeit der Projekte macht die Kommunikation der beiden Programme komplizierter, da ein neuer indirekter Weg für die Datenübertragung gefunden werden muss. Eine Standalone Applikation hat aber den Vorteil, dass die Konfiguration des Simulators nicht erst zur Laufzeit stattfinden müsste. Man könnte den Simulator also starten und konfigurieren, ohne den Code bereits geschriben zu haben. Er kann dann die Simulation starten und gegen den Simulator programmieren. Immer wenn der Anwender seinen Code ausführt, kann er direkt im Simulator sehen, ob der Code die gewünschte Wirkung hat. Dieser Integrationstyp Simuliert die Realität sicher am besten, da der Raspberry Pi auch eine separate Instanz ist.
 
 .Standalone Integration 
@@ -185,6 +187,8 @@ TODO: Entscheidung dokumentieren, sobald gefallen.
 === Software Architektur
 
 <<<
+
+:sectnums!:
 == Schluss
 
 <<<

@@ -58,7 +58,13 @@ toc::[]
 == Theoretischer Teil
 
 === Anforderungen
-Durch die Projektvereinbarung konnten wir folgende Anforderungen spezifizieren, welche dieses Projekt erfüllen muss:
+Die nachfolgende Tabelle enthält alle Anforderungen an den GPIO Simulator, welche wir während der Requirements Analyse identifizieren konnten. Die einzelnen Anforderungen haben wir drei Prioriäten zugeteilt.
+
+* *Priorität 1*: Anforderungen an den MVP
+* *Priorität 2*: Unterstützung der Grove Sensoren
+* *Priorität 3*: Implementation User Interface
+
+Die Umsetzung der Requirements soll gemäss Ihrer Priorität erfolgen.
 
 .Anforderungen
 [cols="1,7,1"]
@@ -66,119 +72,115 @@ Durch die Projektvereinbarung konnten wir folgende Anforderungen spezifizieren, 
 |Nummer |Beschreibung  |Priorität
 
 |{counter:reqNumber} 
-|Anwender sollen unabhängig von der Hardwareverfügbarkeit an ihren Raspberry Pi Projekten arbeiten können
+|Anwender sollen unabhängig von der Hardwareverfügbarkeit an ihren Raspberry Pi Projekten arbeiten können.
 |1
 
 |{counter:reqNumber}
-|Anwender sollen konfigurieren können, ob der Code auf dem GPIO Simulator oder auf dem Raspberry Pi ausgeführt werden soll
+|Anwender sollen auf eine einfache und intuitive Art konfigurieren können, ob der Code auf dem GPIO Simulator oder auf dem Raspberry Pi ausgeführt werden soll.
 |1
 
 |{counter:reqNumber}
-|Anwender sollen das Logging des GPIO Simulators konfigurieren können
+|Anwender sollen das Logging Level des GPIO Simulators konfigurieren können, ohne dass das Projekt neu gebaut werden muss.
 |1
 
 |{counter:reqNumber}
-|Anwender sollen mittels den zur Verfügung gestellten Funktionen die analogen und digitalen Pins des Raspberry Pi via pi4j setzen können
+|Anwender sollen mittels den vom GPIO Simulator zur Verfügung gestellten Funktionen die analogen und digitalen Pins des Raspberry Pi via Pi4J setzen können.
 |1
 
 |{counter:reqNumber} 
-|Anwender sollen mittels den zur Verfügung gestellten Funktionen die analogen und digitalen Pins des GPIO Simulators setzen können
+|Anwender sollen mittels den vom GPIO Simulator zur Verfügung gestellten Funktionen die analogen und digitalen Pins des GPIO Simulators setzen können.
 |1
 
 |{counter:reqNumber}
-|Anwender sollen mittels den zur Verfügung gestellten Funktionen die analogen und digitalen Pins des Raspberry Pi via pi4j abfragen können
+|Anwender sollen mittels den vom GPIO Simulator zur Verfügung gestellten Funktionen die analogen und digitalen Pins des Raspberry Pi via Pi4J auslesen können.
 |1
 
 |{counter:reqNumber}
-|Anwender sollen mittels den zur Verfügung gestellten Funktionen die analogen und digitalen Pins des GPIO Simulators abfragen können
+|Anwender sollen mittels den vom GPIO Simulator zur Verfügung gestellten Funktionen die analogen und digitalen Pins des GPIO Simulators auslesen können.
 |1
 
 |{counter:reqNumber}
-|Anwender sollen mittels den zur Verfügung gestellten Funktionen die Grove Anschlüsse des Raspberry Pi via pi4j setzen können
+|Anwender sollen mittels den vom GPIO Simulator zur Verfügung gestellten Funktionen die Grove Anschlüsse des Raspberry Pi via Pi4J setzen können.
 |2
 
 |{counter:reqNumber}
-|Anwender sollen mittels den zur Verfügung gestellten Funktionen die Grove Anschlüsse des GPIO Simulators setzen können
+|Anwender sollen mittels den vom GPIO Simulator zur Verfügung gestellten Funktionen die Grove Anschlüsse des GPIO Simulators setzen können.
 |2
 
 |{counter:reqNumber}
-|Anwender sollen mittels den zur Verfügung gestellten Funktionen die Grove Anschlüsse des Raspberry Pi via pi4j abfragen können
+|Anwender sollen mittels den vom GPIO Simulator zur Verfügung gestellten Funktionen die Grove Anschlüsse des Raspberry Pi via Pi4J auslesen können.
 |2
 
 |{counter:reqNumber}
-|Anwender sollen mittels den zur Verfügung gestellten Funktionen die Grove Anschlüsse des GPIO Simulators abfragen können
+|Anwender sollen mittels den vom GPIO Simulator zur Verfügung gestellten Funktionen die Grove Anschlüsse des GPIO Simulators auslesen können.
 |2
 
 |{counter:reqNumber}
-|Anwender sollen Beispiel Code für die gängigen Sensoren und Aktuatoren zur Verfügung haben
+|Den Benutzern des GPIO Simulators sollen Code Beispiele für die gängigen Sensoren und Aktuatoren zur Verfügung stehen.
 |2
 
 |{counter:reqNumber}
-|Anwender sollen vom GPIO Simulator Feedback im User Interface erhalten
+|Anwender sollen vom GPIO Simulator Feedback in einem User Interface erhalten.
 |3
 
 |{counter:reqNumber} 
-|Anwender sollen im GPIO Simulator alle gängigen Sensoren und Aktuatoren zur Verfügung haben
+|Anwender sollen im User Interface des GPIO Simulators alle gängigen Sensoren und Aktuatoren zur Verfügung haben.
 |3
 
 |{counter:reqNumber}
-|Anwender sollen im User Interface des GPIO Simulators Sensoren und Aktuatoren mit dem Grove Hat verbinden können
+|Anwender sollen im User Interface des GPIO Simulators Sensoren und Aktuatoren mit dem Grove Hat verbinden können.
 |3
 
 |{counter:reqNumber} 
-|Anwender sollen ihre Sensor- und Aktuator- Konfigurationen speichern und wiederverwenden können
+|Anwender sollen die Konfiguration der Sensoren und Aktuatoren des GPIO Simulators speichern und wiederverwenden können.
 |3
 
 |===
 
-==== Legende
-Projektentwicklung wird durch ihre Priorität in 3 Phasen eingeteilt:
-
-* *Priorität 1*: MVP Entwicklung
-* *Priorität 2*: Grove Anschlüsse
-* *Priorität 3*: Grafische Oberfläche und Konfiguration
+<<<
+=== Projektplan
 
 <<<
-== Analyse Applikationsdesign
-Durch die Ergebnisse der Anforderungsanalyse haben wir viele neue Erkentnisse gewonnen. Auf Basis dieser Erkentnisse galt es Entscheidungen zu treffen, welche in diesem Kapitel festgehalten wurden.
+=== Analyse Applikationsdesign
+Durch die Ergebnisse der Anforderungsanalyse haben wir viele neue Erkentnisse gewonnen. Diese Erkenntnisse bilden die Basis für technische Entscheidungen, welche wir in diesem Kapitel festhalten.
 
-=== Genereller Aufbau des GPIO Simulators
+==== Software Aufbau
 
-=== Logging
-Die Log Funktionalität ist für unser Produkt essenziell. Die Umsetzung des Loggins ist Bestandteil der Minimum Viable Product. Ziel ist es, dass alle Interaktionen mit den GPIO Pins und Grove Adaptoren in einem geeigneten Format geloggt werden. Für Java stehen bereits diverse Logging Frameworks zur verfügung. Ein weit verbreiteter und beliebter Vertreter ist Log4j 2 von Apache. Es beitet die Funktionalität, Logs in eine Rolling File zu schreiben. Diese Funktionalität eignet sich hervorragen für unsere Zwecke, weshalb wir uns für die Verwendung dieses Frameworks entschieden haben.
 
-=== Benutzeroberfläche
-Ein wichtiger Entscheid, welcher in diesem Projekt getroffen werden muss, ist die Integrationsart der Benutzeroberfläche der Simulators. Unsere Analyse zeigt, dass es zwei verschidene möglichkeiten gibt. Einerseits können wir den Simulator als Standalone Applikation zur Verfügung stellen, andererseits könnte der Simulator auch direkt als Dependance in das Projekt der Anwender inkludiert werden. Beide Vorgehensweisen sind im Kern gleich, haben aber auch ihre Vor- und Nachteile. Auf diese gehen wir in diesem Kapitel genauer ein.
+==== Logging
+Die Log Funktionalität ist für unser Produkt essenziell. Die Umsetzung des Loggins ist Bestandteil des Minimum Viable Product. Ziel ist es, dass alle Interaktionen mit den GPIO Pins und Grove Adaptoren in einem geeigneten Format geloggt werden. Für Java stehen bereits diverse Logging Frameworks zur verfügung. Ein weit verbreiteter und beliebter Vertreter ist Log4j 2 von Apache. Es beitet die Funktionalität, Logs in eine Rolling File zu schreiben. Diese Funktionalität eignet sich hervorragen für unsere Zwecke, weshalb wir uns für die Verwendung dieses Frameworks entschieden haben.
 
-===== Integration als Dependency
-Bei diesem Integrationstyp wird der komplette Simulator zu einem festen Bestandteil des Raspberry Pi Projektes des Anwenders. Das Projekt umfasst nebst dem selbst geschriebenen Code, welcher schlussendlich auf dem Raspberry Pi ausgeführt werden soll, das gesamte User Interface des Simulators. Dies führt dazu, dass das Projekt des Anwenders um einiges grösser wird. Allerdings würde uns die direkte Integration unsere Arbeit erleichtern. Die Kommunikation zwischen User Code und UI könnte über die bekannten UI Bindings von JavaFX implementiert werden. Des Weiteren gibt uns die Integration des Simulators in das Projekt des Anwenders mehr Freiheit bezüglich der Konfiguration des Simulators.
+==== Benutzeroberfläche
+Ein wichtiger Entscheid, welcher in diesem Projekt getroffen werden muss, ist die Integrationsart der Benutzeroberfläche des Simulators. Unsere Analyse hat gezeigt, dass es zwei verschidene möglichkeiten gibt, wie das User Interface des Simulators integriert werden kann. Einerseits können wir den Simulator als Standalone Applikation zur Verfügung stellen, andererseits könnte der Simulator auch direkt als Dependance in das Projekt der Anwender inkludiert werden. Beide Vorgehensweisen sind im Kern gleich, haben aber ihre jeweiligen Vor- und Nachteile.
 
-====== Konfiguration via Code
-Unter Verwendung dieser Konfigurationsart entscheidet der Code des Benutzers, welche Sensoren und Aktuatoren an welche virtuellen Anschlüsse des Simulators angeschlossen werden. Sobald der Benutzer den Code unter Verwendung des GPIO Simulators startet, generiert der Simulator das UI gemäss den im Code verwendeten Sensoren und Aktuatoren. Ein wesentlicher Vorteil dieses Konfigurationstyps ist sicher die Einfachheit der Anwendung. Der Benutzer muss sich lediglich um seinen Code kümmern. Genau so, wie die Sensoren im Code verwendet werden, werden diese auch im Simulator angezeigt. Es ist somit ausgeschlossen, dass Pins verwendet werden, welche nicht mit Sensoren oder Aktuatoren verbunden sind. Dies kann aber auch ein Nachteil sein, da diese Konfigurationsart nicht wirklich der Realität entspricht, welche man in einem IoT Projekt antrifft. Dort ist der Anwender für die Verkabelung der Sensoren und Aktuatoren mit dem Raspberry Pi verantwortlich. Es kann durchaus passieren, dass beispielsweise die falschen Pins verbunden werden. Dieser Aspekt würde unter Verwendung der aus dem Code generierten Konfiguration verloren gehen.
+====== Integration als Dependency
+Bei diesem Integrationstyp wird der komplette Simulator zu einem festen Bestandteil des Raspberry Pi Projektes des Anwenders. Das Projekt umfasst nebst dem vom Anwender selbst geschriebenen Code, welcher schlussendlich auf dem Raspberry Pi ausgeführt werden soll, zusätzlich das gesamte User Interface des Simulators. Dies führt dazu, dass das Projekt des Anwenders um einiges grösser wird. Allerdings würde uns die direkte Integration unsere Arbeit erleichtern. Die Kommunikation zwischen User Code und UI könnte über die uns bereits aus dem Unterricht bekannten UI Bindings von JavaFX implementiert werden. Des Weiteren gibt uns die Integration des Simulators in das Projekt des Anwenders mehr Freiheit bezüglich der Konfiguration des Simulators. Einerseits könnte das User Interface gleich aus dem Code des Anwwenders generiert werden, andererseits kann die Konfiguration der GPIO Schnittstellen auch im Simulator selbst erfolgen.
+
+*+++<u>Konfiguration via Code</u>+++*
+
+Unter Verwendung dieser Konfigurationsart entscheidet der Code des Benutzers, welche Sensoren und Aktuatoren an welche virtuellen Anschlüsse des Simulators angeschlossen werden. Sobald der Benutzer den Code unter Verwendung des GPIO Simulators startet, generiert der Simulator das UI gemäss den im Code verwendeten Pins, Sensoren und Aktuatoren. Ein wesentlicher Vorteil dieses Konfigurationstyps ist sicher die Einfachheit der Anwendung. Der Benutzer muss sich lediglich um seinen Code kümmern. Genau so wie die Sensoren im Code verwendet werden, werden diese auch im Simulator angezeigt. Es ist somit ausgeschlossen, dass Pins verwendet werden, welche nicht mit Sensoren oder Aktuatoren verbunden sind. Dies kann aber auch ein Nachteil sein, da diese Konfigurationsart nicht wirklich der Realität entspricht, welche man in einem IoT Projekt antrifft. Dort ist der Anwender für die Verkabelung der Sensoren und Aktuatoren mit dem Raspberry Pi verantwortlich, nicht der von im verfasste Code. Es kann durchaus passieren, dass beispielsweise die falschen Pins verbunden werden. Dieser Aspekt würde unter Verwendung der aus dem Code generierten Konfiguration verloren gehen.
 [#img-design] 
 .Dependency Integration mit Konfiguration im Code 
 image::Dependency_Integration_Code.png[Design Dependecy]
 
-====== Konfiguraiton via Simulator
-Bei diesem Konfigurationstyp wird die Konfiguration direkt im Simulator vorgenommen. Nach dem Starten seines eigenen Codes öffnet sich das UI des GPIO Simulators. Der Benutzer kann nun via Drag and Drop Sensoren und Aktuatoren im dafür vorgesehenen Bereich platzieren und diese mit den GPIO oder Grove Pins des virtuellen GroveHat verbinden. Nachdem der Benutzer die Konfiguration abgeschlossen hat, kann er dies über einen Button bestätigen und die Simulation startet. Der Vorteil dieses Konfigurationstyps liegt ganz klar in der Realitätsnähe, welche über die Konfiguration via Code fehlt. Der Benutzer hat die Möglichkeit, Sensoren und Aktuatoren falsch anzuschliessen und muss dem Problem selbst nachgehen. Dies erhöht den Lerneffekt und trägt zum Verständnis bei. Nachteil ist allerdings, dass die Konfiguration erst beim Starten des Codes gemacht werden kann.Bei diesem Konfigurationstyp wird die Konfiguration direkt im Simulator vorgenommen. Nach dem Starten seines eigenen Codes öffnet sich das UI des GPIO Simulators. Der Benutzer kann nun via Drag and Drop Sensoren und Aktuatoren im dafür vorgesehenen Bereich platzieren und diese mit den GPIO oder Grove Pins des virtuellen GroveHat verbinden. Nachdem der Benutzer die Konfiguration abgeschlossen hat, kann er dies über einen Button bestätigen und die Simulation startet. Der Vorteil dieses Konfigurationstyps liegt ganz klar in der Realitätsnähe, welche über die Konfiguration via Code fehlt. Der Benutzer hat die Möglichkeit, Sensoren und Aktuatoren falsch anzuschliessen und muss dem Problem selbst nachgehen. Dies erhöht den Lerneffekt und trägt zum Verständnis bei. Nachteil ist allerdings, dass die Konfiguration erst beim Starten des Codes gemacht werden kann.
+*+++<u>Konfiguraiton via Simulator</u>+++*
+
+Bei diesem Konfigurationstyp wird die Konfiguration direkt im Simulator vorgenommen. Nachdem ein Anwender seinen Code Ausführt, öffnet sich das UI des GPIO Simulators. Der Benutzer kann nun via Drag and Drop Sensoren und Aktuatoren im dafür vorgesehenen Bereich platzieren und diese mit den GPIO oder Grove Pins des virtuellen GroveHat verbinden. Nachdem der Benutzer die Konfiguration abgeschlossen hat, kann er dies über einen Button bestätigen und die Simulation startet. Der Vorteil dieses Konfigurationstyps liegt ganz klar in der Realitätsnähe, welche über die Konfiguration via Code fehlt. Der Benutzer hat die Möglichkeit, Sensoren und Aktuatoren falsch anzuschliessen und muss dem Problem selbst nachgehen. Dies erhöht den Lerneffekt und trägt zum Verständnis bei. Nachteil ist allerdings, dass die Konfiguration erst nach dem Starten des Codes gemacht werden kann.
 [#img-design] 
 .Dependency Integration mit Konfiguration im Simulator
 image::Dependency_Integration_Simulator.png[Design Dependecy]
 
 ===== Integration als Standalone Applikation
-Bei diesem Integrationstyp wird der Simulator zu einer separaten Applikation, die auf einem eigenen Prozess läuft. Der Code des Anwenders läuft komplett unabhängig vom Simulator und muss nicht erweitert werden durch den Simulator. 
-Die Unabhängigkeit der Projekte macht die Kommunikation der beiden Programme komplizierter, da ein neuer indirekter Weg für die Datenübertragung gefunden werden muss. Eine Standalone Applikation aber den Vorteil, dass die Konfiguration des Simulators nicht erst zur Laufzeit stattfinden müsste. Man könnte die Konfiguration abspeichern und laden, wenn der Simulator gestartet wird. Dies wäre für den Anwender angenehmer, da er die Konfiguration nicht immer neu vornehmen muss. Dieser Integrationstyp Simuliert die Realität sicher am besten, da der Raspberry Pi auch eine separate Instanz ist.
+Bei diesem Integrationstyp wird der Simulator zu einer separaten Applikation, die auf einem eigenen Prozess läuft. Der Code des Anwenders läuft komplett unabhängig vom Simulator selbst. Die Unabhängigkeit der Projekte macht die Kommunikation der beiden Programme komplizierter, da ein neuer indirekter Weg für die Datenübertragung gefunden werden muss. Eine Standalone Applikation hat aber den Vorteil, dass die Konfiguration des Simulators nicht erst zur Laufzeit stattfinden müsste. Man könnte den Simulator also starten und konfigurieren, ohne den Code bereits geschriben zu haben. Er kann dann die Simulation starten und gegen den Simulator programmieren. Immer wenn der Anwender seinen Code ausführt, kann er direkt im Simulator sehen, ob der Code die gewünschte Wirkung hat. Dieser Integrationstyp Simuliert die Realität sicher am besten, da der Raspberry Pi auch eine separate Instanz ist.
 [#img-design] 
 .Standalone Integration 
 image::Standalone_Integration.png[Design Standalone]
 
 ===== Entscheidung
-
+TODO: Entscheidung dokumentieren, sobald gefallen.
 <<<
 == Praktischer Teil
-
-<<<
-== Software Architektur
+=== Software Architektur
 
 <<<
 == Schluss

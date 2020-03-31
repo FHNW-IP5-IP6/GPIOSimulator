@@ -1,7 +1,6 @@
 :toc: macro
 :toc-title:
 :toclevels: 5
-:asciidoc.asciidoctorpdf_command: "asciidoctor-pdf":
 :sectnums:
 :sectnumlevels: 5
 :imagesdir: ./assets/images
@@ -178,8 +177,11 @@ image::Standalone_Integration.png[Design Standalone]
 
 ===== Entscheidung
 TODO: Entscheidung dokumentieren, sobald gefallen.
+
 <<<
+
 == Praktischer Teil
+
 === Software Architektur
 
 <<<

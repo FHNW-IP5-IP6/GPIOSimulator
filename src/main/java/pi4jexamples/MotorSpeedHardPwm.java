@@ -20,12 +20,12 @@ public class MotorSpeedHardPwm implements Example {
         while (console.isRunning()){
             for (int i = 0; i < 10; i++) {
                 pwm.setPwm(i * 100);
-                console.println("Motor is at " + (1000 - pwm.getPwm()) + "%");
+                console.println("Motor is at " + (100 - (pwm.getPwm()) / 10) + "%");
                 Thread.sleep(1000);
             }
             for (int i = 10; i > 1; i--) {
-                pwm.setPwm(i * 10);
-                console.println("Motor is at " + (100 - pwm.getPwm()) + "%");
+                pwm.setPwm(i * 100);
+                console.println("Motor is at " + (100 - (pwm.getPwm()) / 10) + "%");
                 Thread.sleep(1000);
             }
         }

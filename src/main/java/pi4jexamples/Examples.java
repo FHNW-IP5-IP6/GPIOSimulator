@@ -15,30 +15,30 @@ public class Examples {
             break;
         case 1:
             System.out.println("Run Blink LED Example");
-            var led = new BlinkLed();
+            BlinkLed led = new BlinkLed();
             led.execute();
             break;
         case 2:
             System.out.println("Run Button Click Example");
-            var button = new ButtonClick();
+            ButtonClick button = new ButtonClick();
             button.execute();
             break;
         case 3:
             System.out.println("Run Hello World LCD Example");
-            var lcd = new LcdSystemTime();
+            LcdSystemTime lcd = new LcdSystemTime();
             lcd.execute();
             break;
         case 4:
             System.out.println("Run Motor Direction Example");
-            var motorDirection = new MotorDirection();
+            MotorDirection motorDirection = new MotorDirection();
             motorDirection.execute();
         case 5:
             System.out.println("Run Motor Speed Software PWM Example");
-            var motorSpeedSoftPwm = new MotorSpeedSoftPwm();
+            MotorSpeedSoftPwm motorSpeedSoftPwm = new MotorSpeedSoftPwm();
             motorSpeedSoftPwm.execute();
         case 6:
             System.out.println("Run Motor Speed Hardware PWM Example");
-            var motorSpeedHardPwm = new MotorSpeedHardPwm();
+            MotorSpeedHardPwm motorSpeedHardPwm = new MotorSpeedHardPwm();
             motorSpeedHardPwm.execute();
         default:
             System.out.println("Did not recognize input");

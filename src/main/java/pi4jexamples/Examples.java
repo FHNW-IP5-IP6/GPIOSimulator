@@ -33,9 +33,13 @@ public class Examples {
             var motorDirection = new MotorDirection();
             motorDirection.execute();
         case 5:
-            System.out.println("Run Motor Speed Example");
-            var motorSpeed = new MotorSpeed();
-            motorSpeed.execute();
+            System.out.println("Run Motor Speed Software PWM Example");
+            var motorSpeedSoftPwm = new MotorSpeedSoftPwm();
+            motorSpeedSoftPwm.execute();
+        case 6:
+            System.out.println("Run Motor Speed Hardware PWM Example");
+            var motorSpeedHardPwm = new MotorSpeedHardPwm();
+            motorSpeedHardPwm.execute();
         default:
             System.out.println("Did not recognize input");
         }
@@ -49,6 +53,7 @@ public class Examples {
         System.out.println("Press 2 to start Button Test");
         System.out.println("Press 3 to start LCD Display Test");
         System.out.println("Press 4 to start Motor Direction Test");
-        System.out.println("Press 5 to start Motor Speed Test");
+        System.out.println("Press 5 to start Motor Speed Software PWM Test");
+        System.out.println("Press 6 to start Motor Speed Hardware PWM Test");
     }
 }

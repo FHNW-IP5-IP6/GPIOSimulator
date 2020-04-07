@@ -3,7 +3,7 @@ package pi4jexamples;
 import com.pi4j.io.gpio.*;
 import com.pi4j.util.Console;
 
-public class MotorSpeed implements Example {
+public class MotorSpeedSoftPwm implements Example {
     private Console console;
 
     @Override public void execute() throws Exception {

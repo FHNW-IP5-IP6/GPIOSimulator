@@ -10,43 +10,51 @@ public class Examples {
         int input;
         input = scanner.nextInt();
         switch (input) {
-            case 0:
-                System.exit(0);
-                break;
-            case 1:
-                System.out.println("Run Blink LED Example");
-                BlinkLed led = new BlinkLed();
-                led.execute();
-                break;
-            case 2:
-                System.out.println("Run Button Click Example");
-                ButtonClick button = new ButtonClick();
-                button.execute();
-                break;
-            case 3:
-                System.out.println("Run Hello World LCD Example");
-                LcdSystemTime lcd = new LcdSystemTime();
-                lcd.execute();
-                break;
-            case 4:
-                System.out.println("Run Hello World I2C LCD Example");
-                LcdSystemTimeI2C lcdI2C = new LcdSystemTimeI2C();
-                lcdI2C.execute();
-                break;
-            case 5:
-                System.out.println("Run Motor Direction Example");
-                MotorDirection motorDirection = new MotorDirection();
-                motorDirection.execute();
-            case 6:
-                System.out.println("Run Motor Speed Software PWM Example");
-                MotorSpeedSoftPwm motorSpeedSoftPwm = new MotorSpeedSoftPwm();
-                motorSpeedSoftPwm.execute();
-            case 7:
-                System.out.println("Run Motor Speed Hardware PWM Example");
-                MotorSpeedHardPwm motorSpeedHardPwm = new MotorSpeedHardPwm();
-                motorSpeedHardPwm.execute();
-            default:
-                System.out.println("Did not recognize input");
+        case 0:
+            System.exit(0);
+            break;
+        case 1:
+            System.out.println("Run Blink LED Example");
+            BlinkLed led = new BlinkLed();
+            led.execute();
+            break;
+        case 2:
+            System.out.println("Run Button Click Example");
+            ButtonClick button = new ButtonClick();
+            button.execute();
+            break;
+        case 3:
+            System.out.println("Run Hello World LCD Example");
+            LcdSystemTime lcd = new LcdSystemTime();
+            lcd.execute();
+            break;
+        case 4:
+            System.out.println("Run Hello World I2C LCD Example");
+            LcdSystemTimeI2C lcdI2C = new LcdSystemTimeI2C();
+            lcdI2C.execute();
+            break;
+        case 5:
+            System.out.println("Run Motor Direction Example");
+            MotorDirection motorDirection = new MotorDirection();
+            motorDirection.execute();
+            break;
+        case 6:
+            System.out.println("Run Motor Speed Software PWM Example");
+            MotorSpeedSoftPwm motorSpeedSoftPwm = new MotorSpeedSoftPwm();
+            motorSpeedSoftPwm.execute();
+            break;
+        case 7:
+            System.out.println("Run Motor Speed Hardware PWM Example");
+            MotorSpeedHardPwm motorSpeedHardPwm = new MotorSpeedHardPwm();
+            motorSpeedHardPwm.execute();
+            break;
+        case 8:
+            System.out.println("Run Servo Motor Example");
+            ServoMotor servoMotor = new ServoMotor();
+            servoMotor.execute();
+            break;
+        default:
+            System.out.println("Did not recognize input");
         }
         System.out.println("Press any Button to close the application");
         int read = System.in.read();

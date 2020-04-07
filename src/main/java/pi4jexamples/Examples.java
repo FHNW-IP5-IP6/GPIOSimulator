@@ -70,5 +70,6 @@ public class Examples {
         System.out.println("Press 5 to start Motor Direction Test");
         System.out.println("Press 6 to start Motor Speed Software PWM Test");
         System.out.println("Press 7 to start Motor Speed Hardware PWM Test");
+        System.out.println("Press 8 to start Servo Motor Test");
     }
 }

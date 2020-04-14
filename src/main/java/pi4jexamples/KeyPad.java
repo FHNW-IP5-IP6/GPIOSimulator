@@ -6,7 +6,7 @@ import com.pi4j.util.Console;
 public class KeyPad implements Example {
     Console console;
 
-    @Override public void execute() {
+    @Override public void execute() throws Exception {
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         final GpioController gpio = GpioFactory.getInstance();
 
@@ -20,36 +20,34 @@ public class KeyPad implements Example {
                 { '*', '0', '#', 'D' }
         };
 
-        GpioPinDigitalInput rowPins[] = {
-                gpio.provisionDigitalInputPin(RaspiPin.GPIO_01, PinPullResistance.PULL_UP),
-                gpio.provisionDigitalInputPin(RaspiPin.GPIO_04, PinPullResistance.PULL_UP),
-                gpio.provisionDigitalInputPin(RaspiPin.GPIO_05, PinPullResistance.PULL_UP),
-                gpio.provisionDigitalInputPin(RaspiPin.GPIO_06, PinPullResistance.PULL_UP)
+        GpioPinDigitalInput colPins[] = {
+                gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_18),
+                gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_23),
+                gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_24),
+                gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_25)
         };
 
-        GpioPinDigitalOutput colPins[] = {
-                gpio.provisionDigitalOutputPin(RaspiPin.GPIO_12, PinState.HIGH),
-                gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, PinState.HIGH),
-                gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, PinState.HIGH),
-                gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00, PinState.HIGH)
+        GpioPinDigitalOutput rowPins[] = {
+                gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_17, PinState.LOW),
+                gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_27, PinState.LOW),
+                gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_22, PinState.LOW),
+                gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_05, PinState.LOW)
         };
-
-        char key = 0;
 
         while (console.isRunning()) {
-            for (int i = 0; i < colPins.length; i++) {
-                GpioPinDigitalOutput colPin = colPins[i];
-                colPin.low();
+            for (int i = 0; i < rowPins.length; i++) {
+                GpioPinDigitalOutput rowPin = rowPins[i];
+                rowPin.high();
 
-                for (int j = 0; j < rowPins.length; j++) {
-                    GpioPinDigitalInput rowPin = rowPins[j];
-                    if (rowPin.isLow()) {
+                for (int j = 0; j < colPins.length; j++) {
+                    GpioPinDigitalInput colPin = colPins[j];
+                    if (colPin.isHigh()) {
                         console.println(keys[i][j]);
-                        while (rowPin.isLow()){}
+                        while (colPin.isHigh()){}
                     }
                 }
 
-                colPin.high();
+                rowPin.low();
             }
         }
 

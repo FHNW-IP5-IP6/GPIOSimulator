@@ -4,6 +4,9 @@ import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class LcdSystemTimeI2C implements Example {
 
     @Override
@@ -14,8 +17,15 @@ public class LcdSystemTimeI2C implements Example {
             I2CDevice device = bus.getDevice(0x27);
             I2CLCD lcd = new I2CLCD(device);
             lcd.init();
-            lcd.backlight(true);
-            lcd.display_string_pos("Hello, world!", 1, 2);
+            lcd.backlight(false);
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+
+            lcd.display_string_pos("GPIO Simulator", 1, 2);
+
+            while(true){
+                lcd.display_string_pos(formatter.format((new Date())), 2, 2);
+                Thread.sleep(1000);
+            }
         } catch (Exception ex) {
             System.out.println(ex.toString());
         }

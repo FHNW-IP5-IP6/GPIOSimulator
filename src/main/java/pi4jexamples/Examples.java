@@ -58,6 +58,11 @@ public class Examples {
             StepperMotor stepperMotor = new StepperMotor();
             stepperMotor.execute();
             break;
+        case 10:
+            System.out.println("Run Key Pad Example");
+            KeyPad keyPad = new KeyPad();
+            keyPad.execute();
+            break;
         default:
             System.out.println("Did not recognize input");
         }
@@ -77,5 +82,6 @@ public class Examples {
         System.out.println("Press 7 to start Motor Speed Hardware PWM Test");
         System.out.println("Press 8 to start Servo Motor Test");
         System.out.println("Press 9 to start Stepper Motor Test");
+        System.out.println("Press 10 to start Key Pad Test");
     }
 }

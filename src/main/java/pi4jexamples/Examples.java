@@ -53,6 +53,11 @@ public class Examples {
             ServoMotor servoMotor = new ServoMotor();
             servoMotor.execute();
             break;
+        case 9:
+            System.out.println("Run Stepper Motor Example");
+            StepperMotor stepperMotor = new StepperMotor();
+            stepperMotor.execute();
+            break;
         default:
             System.out.println("Did not recognize input");
         }
@@ -71,5 +76,6 @@ public class Examples {
         System.out.println("Press 6 to start Motor Speed Software PWM Test");
         System.out.println("Press 7 to start Motor Speed Hardware PWM Test");
         System.out.println("Press 8 to start Servo Motor Test");
+        System.out.println("Press 9 to start Stepper Motor Test");
     }
 }

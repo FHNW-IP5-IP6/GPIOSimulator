@@ -1,7 +1,7 @@
 package gpioexample.gpio;
 
 import com.pi4j.io.gpio.*;
-import com.pi4j.component.motor.impl.GpioStepperMotorComponent;
+import gpiodevice.component.motor.impl.GpioStepperMotorComponent;
 
 public class StepperMotor implements Example {
     @Override public void execute() throws Exception {

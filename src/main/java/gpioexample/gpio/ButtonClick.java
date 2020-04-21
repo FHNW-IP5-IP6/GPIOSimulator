@@ -1,4 +1,4 @@
-package pi4jexamples;
+package gpioexample.gpio;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;

@@ -1,4 +1,4 @@
-package pi4jexamples;
+package gpioexample.gpio;
 
 import java.util.Scanner;
 

@@ -63,6 +63,11 @@ public class Examples {
             KeyPad keyPad = new KeyPad();
             keyPad.execute();
             break;
+        case 11:
+            System.out.println("Run Serial Camera Example");
+            SerialCamera serialCam = new SerialCamera();
+            serialCam.execute();
+            break;
         default:
             System.out.println("Did not recognize input");
         }
@@ -83,5 +88,6 @@ public class Examples {
         System.out.println("Press 8 to start Servo Motor Test");
         System.out.println("Press 9 to start Stepper Motor Test");
         System.out.println("Press 10 to start Key Pad Test");
+        System.out.println("Press 11 to start Serial Camera Test");
     }
 }

@@ -110,6 +110,11 @@ public class Examples {
                 KeyPad keyPad = new KeyPad();
                 keyPad.execute();
                 break;
+            case 11:
+                System.out.println("Run Serial Camera Example");
+                SerialCamera serialCam = new SerialCamera();
+                serialCam.execute();
+                break;
             default:
                 System.out.println("Did not recognize input");
         }
@@ -133,19 +138,11 @@ public class Examples {
         System.out.println("Press 8 to start Servo Motor Test");
         System.out.println("Press 9 to start Stepper Motor Test");
         System.out.println("Press 10 to start Key Pad Test");
+        System.out.println("Press 11 to start Serial Camera Test");
     }
 
     private static void showDeviceExamplesInformation() {
         System.out.println("Press 0 to exit");
         System.out.println("Press 1 to start Blink LED Test");
-        System.out.println("Press 2 to start Button Test");
-        System.out.println("Press 3 to start LCD Display Test");
-        System.out.println("Press 4 to start I2C LCD Display Test");
-        System.out.println("Press 5 to start Motor Direction Test");
-        System.out.println("Press 6 to start Motor Speed Software PWM Test");
-        System.out.println("Press 7 to start Motor Speed Hardware PWM Test");
-        System.out.println("Press 8 to start Servo Motor Test");
-        System.out.println("Press 9 to start Stepper Motor Test");
-        System.out.println("Press 10 to start Key Pad Test");
     }
 }

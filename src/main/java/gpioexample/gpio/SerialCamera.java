@@ -5,6 +5,7 @@ import com.pi4j.io.gpio.RaspiGpioProvider;
 import com.pi4j.io.gpio.RaspiPinNumberingScheme;
 import com.pi4j.io.serial.*;
 import com.pi4j.util.Console;
+import gpioexample.Example;
 
 import java.io.File;
 import java.io.FileOutputStream;

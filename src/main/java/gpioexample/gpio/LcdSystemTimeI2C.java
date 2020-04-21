@@ -3,6 +3,7 @@ package gpioexample.gpio;
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
+import gpioexample.Example;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

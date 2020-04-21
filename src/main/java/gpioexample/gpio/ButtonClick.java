@@ -9,6 +9,7 @@ import com.pi4j.io.gpio.RaspiGpioProvider;
 import com.pi4j.io.gpio.RaspiPinNumberingScheme;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import com.pi4j.util.Console;
+import gpioexample.Example;
 
 public class ButtonClick implements Example {
 

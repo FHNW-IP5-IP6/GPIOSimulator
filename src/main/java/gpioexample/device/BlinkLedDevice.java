@@ -1,10 +1,11 @@
-package gpioexample.gpio;
+package gpioexample.device;
 
 import com.pi4j.io.gpio.*;
 import com.pi4j.util.Console;
+import gpiodevice.component.light.impl.GpioLEDComponent;
 import gpioexample.Example;
 
-public class BlinkLed implements Example {
+public class BlinkLedDevice implements Example {
 
     @Override
     public void execute() throws Exception {
@@ -15,19 +16,15 @@ public class BlinkLed implements Example {
         GpioPinDigitalOutput led = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_02, "Blinking LED" , PinState.LOW);
         led.setShutdownOptions(true, PinState.LOW);
 
+        GpioLEDComponent ledComponent = new GpioLEDComponent(led);
+
         Console console = new Console();
         console.promptForExit();
 
-        while (console.isRunning()) {
-            if (led.isLow()) {
-                led.high();
-                console.println("Led is high.");
-            } else {
-                led.low();
-                console.println("Led is low.");
-            }
-            Thread.sleep(1000);
-        }
+        long delay = 1000;
+        console.println("start blinking with "+delay+" delay");
+
+        ledComponent.blink(delay);
 
         gpio.shutdown();
     }

@@ -2,6 +2,7 @@ package gpioexample.gpio;
 
 import com.pi4j.io.gpio.*;
 import com.pi4j.util.Console;
+import gpioexample.Example;
 
 public class MotorSpeedHardPwm implements Example {
     private Console console;

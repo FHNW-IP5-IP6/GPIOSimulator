@@ -3,6 +3,7 @@ package gpioexample.gpio;
 import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.wiringpi.Gpio;
 import com.pi4j.wiringpi.Lcd;
+import gpioexample.Example;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,7 +46,7 @@ public class LcdSystemTime implements Example {
 
         // write line 1 to LCD
         Lcd.lcdHome(lcdHandle);
-        Lcd.lcdPuts(lcdHandle, "GPIOSimulator");
+        Lcd.lcdPuts(lcdHandle, "gpiosimulator");
 
         Lcd.lcdPosition(lcdHandle, 0, 1);
         Lcd.lcdPuts(lcdHandle, "----------------");

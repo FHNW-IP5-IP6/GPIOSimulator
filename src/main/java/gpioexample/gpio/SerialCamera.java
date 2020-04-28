@@ -14,11 +14,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class SerialCamera implements Example {
+public class SerialCamera extends Example {
     private Console console;
     private Serial serial = null;
     private static String defaultFileName = "RaspiCamImage_";
     private static String defaultFileExtension = ".jpg";
+
+    public SerialCamera(int key, String title) {
+        super(key, title);
+    }
 
     @Override public void execute() throws Exception {
         GpioFactory.setDefaultProvider(

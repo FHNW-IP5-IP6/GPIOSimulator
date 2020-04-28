@@ -4,7 +4,11 @@ import com.pi4j.io.gpio.*;
 import com.pi4j.util.Console;
 import gpioexample.Example;
 
-public class BlinkLed implements Example {
+public class BlinkLed extends Example {
+
+    public BlinkLed(int key, String title) {
+        super(key, title);
+    }
 
     @Override
     public void execute() throws Exception {

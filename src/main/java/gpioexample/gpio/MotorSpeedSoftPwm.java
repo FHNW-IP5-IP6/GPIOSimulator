@@ -4,8 +4,12 @@ import com.pi4j.io.gpio.*;
 import com.pi4j.util.Console;
 import gpioexample.Example;
 
-public class MotorSpeedSoftPwm implements Example {
+public class MotorSpeedSoftPwm extends Example {
     private Console console;
+
+    public MotorSpeedSoftPwm(int key, String title) {
+        super(key, title);
+    }
 
     @Override public void execute() throws Exception {
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));

@@ -4,8 +4,12 @@ import com.pi4j.io.gpio.*;
 import com.pi4j.util.Console;
 import gpioexample.Example;
 
-public class ServoMotor implements Example {
+public class ServoMotor extends Example {
     private Console console;
+
+    public ServoMotor(int key, String title) {
+        super(key, title);
+    }
 
     @Override public void execute() throws Exception {
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));

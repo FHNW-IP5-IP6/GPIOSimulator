@@ -4,7 +4,12 @@ import com.pi4j.io.gpio.*;
 import gpiodevice.component.motor.impl.GpioStepperMotorComponent;
 import gpioexample.Example;
 
-public class StepperMotor implements Example {
+public class StepperMotor extends Example {
+
+    public StepperMotor(int key, String title) {
+        super(key, title);
+    }
+
     @Override public void execute() throws Exception {
         System.out.println("<--Pi4J--> GPIO Stepper Motor Example ... started.");
 

@@ -8,7 +8,11 @@ import gpioexample.Example;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class LcdSystemTimeI2C implements Example {
+public class LcdSystemTimeI2C extends Example {
+
+    public LcdSystemTimeI2C(int key, String title) {
+        super(key, title);
+    }
 
     @Override
     public void execute() {

@@ -11,7 +11,11 @@ import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import com.pi4j.util.Console;
 import gpioexample.Example;
 
-public class ButtonClick implements Example {
+public class ButtonClick extends Example {
+
+    public ButtonClick(int key, String title) {
+        super(key, title);
+    }
 
     @Override
     public void execute() throws Exception {

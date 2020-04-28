@@ -8,10 +8,14 @@ import gpioexample.Example;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class LcdSystemTime implements Example {
+public class LcdSystemTime extends Example {
     private final static int LCD_ROWS = 2;
     private final static int LCD_COLUMNS = 16;
     private final static int LCD_BITS = 4;
+
+    public LcdSystemTime(int key, String title) {
+        super(key, title);
+    }
 
     @Override public void execute() throws Exception {
         if (Gpio.wiringPiSetup() == -1) {

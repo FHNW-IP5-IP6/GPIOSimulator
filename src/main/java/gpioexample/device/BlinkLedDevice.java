@@ -5,7 +5,11 @@ import com.pi4j.util.Console;
 import gpiodevice.component.light.impl.GpioLEDComponent;
 import gpioexample.Example;
 
-public class BlinkLedDevice implements Example {
+public class BlinkLedDevice extends Example {
+
+    public BlinkLedDevice(int key, String title) {
+        super(key, title);
+    }
 
     @Override
     public void execute() throws Exception {

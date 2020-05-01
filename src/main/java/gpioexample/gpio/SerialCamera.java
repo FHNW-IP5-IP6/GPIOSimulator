@@ -87,7 +87,7 @@ public class SerialCamera extends Example {
                     break;
                 }
             }
-            console.println("camera settings send");
+            console.println("camera settings sent");
         } catch (Exception ex) {
             console.println(ex);
         }

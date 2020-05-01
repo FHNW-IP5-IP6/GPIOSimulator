@@ -244,10 +244,80 @@ Bei diesem Integrationstyp wird der Simulator zu einer separaten Applikation, di
 .Standalone Integration 
 image::Standalone_Integration.png[Design Standalone]
 
-==== Entscheidung
+===== Entscheidung
 TODO: Entscheidung dokumentieren, sobald gefallen.
 
 <<<
+
+
+=== Simulatiosstrategie
+Zu Beginn war es unser Plan das Factory Design Pattern zu verwenden, um zwischen dem Simulator und dem richtigen Hardwarezugriff mit Pi4J zu differenzieren. Da der erste Zugriffspunkt in Pi4J immer eine Factory war, wie z. B die GpioFactory, I2CFactory oder die SerialFactory. 
+
+Der Simulator und Pi4J wären dann in einem Projekt gekapselt und man müsste nur im obersten Zugriffspunkt eine kleine Veränderung vornehmen, um zwischen Simulator und Pi4J zu wechseln.
+
+.Simulator Factory
+image::GpioSimulatorFactory_Idee.png[Design Dependecy]
+
+Dies hat sich leider nicht bewährt, da Pi4J eine Dependency ist die wir nicht verändern können. 
+
+Wir bräuchten Interfaces oder Abstraktionen von den Factories in Pi4J, um sie in einer höheren Factory zu kapseln und im Simulator zu implementieren. Solche Interfaces gibt es in Pi4J nicht. Es gäbe noch die Möglichkeit eine eigene FHNW-Version von Pi4J zu schreiben die solche Schnittstellen hat, aber das wäre schwierig im Nachhinein zu implementieren und in Zukunft zu warten. Das war das eindeutige Zeichen, dass wir unseren Plan anpassen müssen.
+
+Zunächst gilt es, das gesamte Pi4J-Paket zu analysieren und sich damit neue Simulationsstrategien zu überlegen.
+
+Pi4J ist aufgeteilt in:
+
+. *pi4j-core*: +
+Stellt alle Klassen und Methoden zur Verfügung, um direkt auf die GPIO Pins zu zugreifen. 
+. *pi4j-device*: +
+Ist ein Abstraktions Layer, der die Nutzung vereinfacht, indem es eigene Klassen für alle Sensoren und Aktoren zur Verfügung stellt.
+. *pi4j-distribution*: +
+Enthält Scripts und Dateien, welche man für die Installation und Deinstallation benötigt.
+. *pi4j-example*: + 
+Enthält Beispiele für Verschiedene Devices, die mit Pi4J angesteuert werden können.
+. *pi4j-gpio-extension*: +
+Enthält Software für die erleichterte Verwendung von Extenstion Boards wie z.B PiFace
+. *pi4j-native*: +
+Enthält native Scripts für weitere Entwicklungsboards wie NanoPi oder BananaPi
+
+Für die Verwendung und schlussendlich die Simulation benötigen wir ausschliesslich die ersten beiden Teile: pi4j-core und pi4j-device.
+
+==== Simulator = Tutorial
+Der Hauptzweck dieses Projektes besteht darin, die Studentinnen und Studenten der ersten Semester bei den IoT Projekten zu unterstützen. Da der Umfang der Simulation von Pi4j zu gross wäre, besteht auch die Möglichkeit auf den Simulationsaspekt des Projektes komplett zu verzichten. +
+
+In diesem Fall müsste man alle Beispiele für die Verwendung der wichtigsten Sensoren und Aktoren so ausarbeiten, dass es den Studierenden als direkte Referenz dienen kann. Damit könnte man auch die hardwarenahe Arbeit reduzieren, sodass die Studierenden wieder vermehrt parallel arbeiten könnten.
+
+==== Simulator auf Ebene von Pi4J-Core
+Da Pi4J-Core der Kern von Pi4J ist und direkt mit den GPIO Pins arbeitet, müsste der Simulator auch auf dieser Ebene funktionieren, wenn die Simulation für jeglichen Source Code vom Endbenutzer funktionieren soll.
+
+Die Schwierigkeit einer Simulation auf dieser Ebene besteht hauptsächlich im Umfang von der Pi4J-Core Library und darin, dass es schwer vorhersehbar ist, welche Bereiche wirklich gebraucht werden. Das hat man bei der Arbeit an den Beispielen für die Sensoren und Aktoren gemerkt.
+Für manche Geräte benötigten wir Bereiche von Pi4J-Core die äusserst umfangreich waren, wie z.B WiringPi. Es ist sehr schwierig abzuschätzen wie weit die Simulation in solchen Fällen gehen müsste.
+
+Auf dieser Ebene zu simulieren, würde dazu führen, dass der Simulator  sehr umfangreich wäre und ein höheres Risiko dafür bestünde, dass die Arbeit im Backend zu gross wird. Ausserdem könnten die Usability und die Arbeit an der Benutzeroberfläche dadurch zu kurz kommen.
+
+Wenn man mit viel Arbeit konfrontiert wird, dann muss man sich immer die Frage stellen, ob diese Arbeit auch zielführend ist für das Gesamtprojekt.
+
+<TBD> Evtl. Bild von Pi4J-Core hinzufügen Klassendiagramm/ Dependency  </TBD>
+
+==== Simulator auf Ebene von Pi4J-Device
+Der Pi4J-Device Layer ist von der Grösse her definitiv überschaubarer, als Pi4J-Core, da es als Abstraktions Layer direkt Klassen anbietet für die einzelnen Devices.
+
+Ein Simulator auf dieser Ebene würde die Klassen von Sensoren und Aktoren für den Simulator neuimplementieren. Das hätte den Vorteil, dass die Arbeit im Backend einen Rahmen hätte, der ein weniger grosses Risiko birgt als bei Pi4J-Core.
+
+Leider wird Pi4J-Device in zukünftigen Releases nicht mehr weitergeführt. Aus diesem Grund bräuchte man eine eigene Pi4J-Device Version von der FHNW, welche wir weiterführen und erweitern können, wenn  neue Devices benötigt werden. Da Pi4J-Device auch kleiner ist als Core wird es einfacher sein, es zu warten.
+Der Simulator würde dann in der tiefsten Ebene mit Simulationsklassen der FHNW-Version der Pi4J-Device Library arbeiten.
+
+
+==== Entscheidung
+Wir haben uns für die Simulation auf Ebene von Pi4J-Device entschieden, da das Risiko und der Umfang der Arbeit an Pi4J-Core zu gross und zu unvorhersehbar wäre. 
+Der Tutorialaspekt des Projekt geht dabei auch nicht verloren, da wir für alle Geräte 3 Beispiele machen werden:
+
+. Ein Beispiel, welches direkt mit den Pins arbeitet mittels Pi4J-Core
+
+. Ein Beispiel, welches die Pi4J-Device Klasse des Geräts verwendet
+
+. Ein Beispiel, welches den GPIO-Simulator verwendet
+
+Mit den verschiedenen Beispielen sind die angehenden Studentinnen und Studenten dann sehr flexibel für ihre Projekte und können auch hoffentlich etwas von den verschiedenen Implementierungen lernen.
 
 == Praktischer Teil
 

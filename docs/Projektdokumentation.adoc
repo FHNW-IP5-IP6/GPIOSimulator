@@ -251,12 +251,13 @@ TODO: Entscheidung dokumentieren, sobald gefallen.
 
 
 === Simulatiosstrategie
-Zu Beginn war es unser Plan das Factory Design Pattern zu verwenden, um zwischen dem Simulator und dem richtigen Hardwarezugriff mit Pi4J zu differenzieren. Da der erste Zugriffspunkt in Pi4J immer eine Factory war, wie z. B die GpioFactory, I2CFactory oder die SerialFactory. 
+Zu Beginn war es unser Plan das Factory Design Pattern zu verwenden, um zwischen dem Simulator und dem richtigen Hardwarezugriff mit Pi4J zu differenzieren. Da der erste Zugriffspunkt in Pi4J immer eine Factory ist, wie z. B die GpioFactory, I2CFactory oder die SerialFactory. 
 
 Der Simulator und Pi4J wären dann in einem Projekt gekapselt und man müsste nur im obersten Zugriffspunkt eine kleine Veränderung vornehmen, um zwischen Simulator und Pi4J zu wechseln.
 
 .Simulator Factory
-image::GpioSimulatorFactory_Idee.png[Design Dependecy]
+image::GpioSimulatorFactory_Idee.png[Factory Idee, 400,400]
+
 
 Dies hat sich leider nicht bewährt, da Pi4J eine Dependency ist die wir nicht verändern können. 
 

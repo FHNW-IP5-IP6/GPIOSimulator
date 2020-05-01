@@ -7,17 +7,21 @@ import com.pi4j.io.serial.*;
 import com.pi4j.util.Console;
 import gpioexample.Example;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public class SerialCamera extends Example {
     private Console console;
     private Serial serial = null;
-    private static String defaultFileName = "RaspiCamImage_";
+    private int packageSize = 512;
+    private int nofNoDataBits = 6;
+    private int lowDataSizeBit = 2;
+    private int highDataSizeBit = 3;
+    private static String defaultFileName = "RasPiCamImage_";
     private static String defaultFileExtension = ".jpg";
 
     public SerialCamera(int key, String title) {
@@ -33,8 +37,7 @@ public class SerialCamera extends Example {
         serial = SerialFactory.createInstance();
         SerialConfig config = new SerialConfig();
         console.println(SerialPort.getDefaultPort());
-        config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
-                .stopBits(StopBits._1).flowControl(FlowControl.SOFTWARE);
+        config.device(SerialPort.getDefaultPort()).baud(Baud._9600);
         serial.open(config);
         initialize();
         preCapture();
@@ -96,8 +99,8 @@ public class SerialCamera extends Example {
         try {
             // Load size is 128 bytes. Needs to be separated into 2 bytes.
             // First is low byte (pos 4), second is high byte (pos 5).
-            byte[] setPackageSizeCommand = { (byte) 0xaa, (byte) 0x06, (byte) 0x08, (byte) (128 & 0xff),
-                    (byte) ((128 >> 8) & 0xff), (byte) 0x00 };
+            byte[] setPackageSizeCommand = { (byte) 0xaa, (byte) 0x06, (byte) 0x08, (byte) (packageSize & 0xff),
+                    (byte) ((packageSize >> 8) & 0xff), (byte) 0x00 };
             byte[] snapshotCommand = { (byte) 0xaa, (byte) 0x05, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00 };
             byte[] getPictureCommand = { (byte) 0xaa, (byte) 0x04, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00 };
 
@@ -153,40 +156,57 @@ public class SerialCamera extends Example {
 
     private void getPicture(long pictureLength) {
         try {
-            int packageCount = (int) Math.ceil(pictureLength / (128 - 6));
             byte[] receiveDataPackageCommand = { (byte) 0xaa, (byte) 0x0e, (byte) 0x00, (byte) 0x00, (byte) 0x00,
                     (byte) 0x00 };
             byte[] ackPackageEndCommand = { (byte) 0xaa, (byte) 0x0e, (byte) 0x00, (byte) 0x00, (byte) 0xf0,
                     (byte) 0xF0 };
 
-            console.println("will receive " + packageCount + " packages");
+            int packageCount = pictureLength % (packageSize - nofNoDataBits) == 0 ?
+                    (int) pictureLength / (packageSize - nofNoDataBits) :
+                    (int) Math.ceil(pictureLength / (packageSize - nofNoDataBits));
+            console.println("package count is " + packageCount);
 
-            File picture = new File(getFileName());
+            int successCount = 0;
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ByteBuffer byteBuffer = ByteBuffer.allocate(packageSize);
 
-            console.println("created file " + picture.getName());
+            while (successCount < packageCount) {
+                receiveDataPackageCommand[4] = (byte) successCount;
+                receiveDataPackageCommand[5] = (byte) (successCount >> 8);
 
-            if (picture.createNewFile()) {
-                FileOutputStream stream = new FileOutputStream(picture.getName());
+                serial.write(receiveDataPackageCommand);
 
-                for (int i = 0; i < packageCount; i++) {
-                    receiveDataPackageCommand[4] = (byte) (i & 0xff);
-                    receiveDataPackageCommand[5] = (byte) ((i >> 8) & 0xff);
-
-                    serial.write(receiveDataPackageCommand);
-                    byte[] bytes = serial.read(128);
-                    stream.write(bytes);
+                while (byteBuffer.position() < packageSize - 1) {
+                    byteBuffer.put(serial.read());
                 }
 
-                stream.close();
-                serial.write(ackPackageEndCommand);
-                console.println("picture received and saved");
-            } else {
-                console.println("file already exists");
+                byte[] receivedData = byteBuffer.array();
+                byteBuffer.position(0);
+                int relevantByteCount = getIntegerFromBytes(receivedData[lowDataSizeBit],
+                        receivedData[highDataSizeBit]);
+                byteArrayOutputStream.write(receivedData, 4, relevantByteCount);
+
+                successCount++;
             }
+
+            console.println("read a total of " + byteArrayOutputStream.size() + " bytes");
+            serial.write(ackPackageEndCommand);
+            console.println("sent acknowledgement to camera");
+
+            String fileName = getFileName();
+            console.println("save file " + fileName);
+            BufferedImage image = ImageIO.read(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
+            ImageIO.write(image, "JPG", new File(fileName));
+            console.println("file " + fileName + " saved");
+
         } catch (Exception ex) {
             console.println(ex);
         }
 
+    }
+
+    private static int getIntegerFromBytes(byte low, byte high) {
+        return (0xff & (byte) 0x00) << 24 | (0xff & (byte) 0x00) << 16 | (0xff & high) << 8 | (0xff & low) << 0;
     }
 
     private String getFileName() {

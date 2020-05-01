@@ -135,18 +135,85 @@ Die Umsetzung der Requirements soll gemäss Ihrer Priorität erfolgen.
 |{counter:reqNumber} 
 |Anwender sollen die Konfiguration der Sensoren und Aktuatoren des GPIO Simulators speichern und wiederverwenden können.
 |3
-
 |===
 
 <<<
 === Projektplan
 
 <<<
+
+=== Hardware
+
+.Micro Computer
+[cols="1,7"]
+|===
+|Anzahl |Typ
+|2 |https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/[Raspberry Pi 3 B+^]
+|===
+
+.Freenove Box
+[cols="1,7"]
+|===
+|Anzahl |Typ
+|1 |http://www.freenove.com/index.html[Freenove Ultimate Starter Kit for Raspberry Pi] (FNK0020)
+|===
+
+.Sensoren & Aktuatoren
+[cols="1,7"]
+|===
+|Anzahl |Typ
+|1 |https://wiki.seeedstudio.com/Grove_Base_Hat_for_Raspberry_Pi/[Grove Base Hat for Raspberry Pi^]
+|1 |https://wiki.seeedstudio.com/Grove_Base_Hat_for_Raspberry_Pi/[Grove Base Hat for Raspberry Pi^]
+|3 |https://wiki.seeedstudio.com/Grove-TemperatureAndHumidity_Sensor/[Grove - Temperature & Humidity Sensor^]
+|3 |https://wiki.seeedstudio.com/Grove-Touch_Sensor/[Grove – Touch^]
+|3 |https://wiki.seeedstudio.com/Grove-Buzzer/[Grove – Buzzer^]
+|2 |https://wiki.seeedstudio.com/Grove-Magnetic_Switch/[Grove - Magnetic Switch^]
+|2 |https://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/[Grove Rotary Angle Sensor^]
+|2 |https://wiki.seeedstudio.com/Grove-Gesture_v1.0/[Grove - Gesture^]
+|1 |https://wiki.seeedstudio.com/Grove-Button/[Grove - Button^]
+|1 |https://wiki.seeedstudio.com/Grove-Light_Sensor/[Grove – Light Sensor^]
+|1 |https://wiki.seeedstudio.com/Grove-Serial_Camera_Kit/[Grove - Serial Camera^]
+|1 |https://wiki.seeedstudio.com/Grove-Light-Gesture-Color-Proximity_Sensor-TMG39931/[Grove – Light & Gesture & Color & Proximity Sensor^]
+|1 |https://wiki.seeedstudio.com/Grove-I2C_Color_Sensor/[Grove - I2C Color Sensor^]
+|1 |https://wiki.seeedstudio.com/Grove-Temperature_Sensor_V1.2/[Grove – Temperature Sensor^]
+|1 |https://wiki.seeedstudio.com/Grove-Sound_Sensor/[Grove – Sound Sensor^]
+|1 |https://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/[Grove – Ultrasonic Ranger^]
+|1 |https://wiki.seeedstudio.com/Grove-LED_Strip_Driver/[Grove – LED Strip Driver^]
+|1 |https://wiki.seeedstudio.com/Grove-125KHz_RFID_Reader/[Grove - RFID Reader^]
+|1 |https://www.dexterindustries.com/pivotpi/[PivotPi Board^]
+|1 |https://www.raspberrypi.org/products/camera-module-v2/[Raspberry Pi Camera V2^]
+|===
+
+=== Software
+==== Pi4J
+Das Projekt Pi4J bietet vollzugriff auf die I/O Funktionalität des Raspberry Pi über eine objektorientierte Java API. Die Bibliothek abstrahiert die komplexe Hardware Programmierung und ermöglicht es Java Programmieren, sich auf die Implementation ihrer Logik zu konzentrieren.
+
+* Exportieren und Importieren von GPIO Pins
+* Konfigurieren der GPIO Pin Flussrichtung
+* Lesen und Schreiben des GPIO Pin State
+* Pulse Width Modulation (Hardware & Software)
+* Erstellen von GPIO State Listeners (Hardware Interrupt)
+* Automatisches setzen eines Pin State bei Programmende (GPIO Shutdown)
+* Senden und empfangen von Daten via serielle Schnittstelle (RS232)
+* Support für Kommunikation über den I2C Bus (Inter-Integrated Circuit)
+* Support für Kommunikation über den SPI Bus (Serial Peripheral Interface)
+* Erweiterbarer GPIO Provider mit Support für GPIO Extension Boards
+* Zugriff auf System- und Netzwerkinformationen des Raspberry Pi
+* Wrapper Klassen für den direkten Zugriff auf WiringPi
+
+Zu Projektstart war geplant, dass wir für unser Projekt die Pi4J Bibliothek in der aktuellsten Snapshot Version 1.4 verwenden werden, welche sich noch in Entwicklung befindet. Basis für diesen Entscheid war die Tatsache, dass Pi4J 1.4 Java 11 unterstützen soll. Die release Version 1.2 unterstützt lediglich Java 8 und ist deshalb weniger interessant. Im Verlauf unseres Projekts mussten wir diesen Entscheid jedoch überdenken. Es hat sich herausgestellt, dass der aktuelle Stand von Pi4J 1.4 nicht die gewünschte Stabilität für unser Projekt bieten kann. Bei der Arbeit an unseren Code Beispielen für den I2C LCD-Display sind wir auf Probleme gestossen, welche direkt mit der Pi4J Version zusammenhängen. Die I2C Schnittstelle wird in Kombination mit Java 11 nicht unterstützt. Zu diesem Problem gibt es bereits ein offenes GibHub Issue auf dem Pi4J Projekt, welches als Workaround ein Downgrade auf Java 8 vorschlägt. Grundsätzlich war es aber das Ziel, durch den Einsatz von Pi4J 1.4 Java 8 zu vermeiden. Zusätzlich sind die Device Klassen, welche ein einfaches Interfache für die Ansteuerung einer Vielzahl von Sensoren und Aktuatoren erlaubt, in Pi4J 1.4 nicht mehr enthalten. Diese wurden von den Entwicklern aus dem Projekt entfernt, da die Device Implementation kaum von Anwendern benutzt wurden. Für den GPIO Simulator sind diese Device Implementationen allerdings sehr interessant. Sie vereinfachen die Ansteuerung der Hardwarekomponenten und sind somit bestens für Studenten in den ersten Semestern geeignet.
+
+Die Tatsache, dass in Pi4J 1.4 die Device Klassen fehlen und Java 11 wohl doch noch komplett unterstütz wird, hat uns dazu bewegt, dass wir für unser Projekt auf die aktuelle Release Version 1.2 zurückgreifen.
+
+==== Java
+Aus kompatibilitätsgründen mit Pi4J 1.2 verwenden wir Java 8.
+
+==== Gradle
+
+==== Log4j
+
 === Analyse Applikationsdesign
 Durch die Ergebnisse der Anforderungsanalyse haben wir viele neue Erkentnisse gewonnen. Diese Erkenntnisse bilden die Basis für technische Entscheidungen, welche wir in diesem Kapitel festhalten.
-
-==== Software Aufbau
-
 
 ==== Logging
 Die Log Funktionalität ist für unser Produkt essenziell. Die Umsetzung des Loggins ist Bestandteil des Minimum Viable Product. Ziel ist es, dass alle Interaktionen mit den GPIO Pins und Grove Adaptoren in einem geeigneten Format geloggt werden. Für Java stehen bereits diverse Logging Frameworks zur verfügung. Ein weit verbreiteter und beliebter Vertreter ist Log4j 2 von Apache. Es beitet die Funktionalität, Logs in eine Rolling File zu schreiben. Diese Funktionalität eignet sich hervorragen für unsere Zwecke, weshalb wir uns für die Verwendung dieses Frameworks entschieden haben.
@@ -185,6 +252,28 @@ TODO: Entscheidung dokumentieren, sobald gefallen.
 == Praktischer Teil
 
 === Software Architektur
+
+=== Code Beispiele
+==== GPIO
+===== Blink LED
+
+===== Button Click
+
+===== LCD System Time
+
+===== LCD System Time I2C
+
+===== Motor Direction
+
+===== Motor Speed Hardware PWM
+
+===== Motor Speed Software PWM
+
+===== Serial Camera
+
+===== Servo Motor
+
+===== Stepper Motor
 
 <<<
 

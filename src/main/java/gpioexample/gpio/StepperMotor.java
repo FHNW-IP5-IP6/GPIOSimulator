@@ -1,7 +1,7 @@
 package gpioexample.gpio;
 
 import com.pi4j.io.gpio.*;
-import gpiodevice.component.motor.impl.GpioStepperMotorComponent;
+import gpiosimulator.component.motor.impl.GpioStepperMotorComponent;
 import gpioexample.Example;
 
 public class StepperMotor extends Example {

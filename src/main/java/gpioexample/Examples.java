@@ -1,6 +1,6 @@
 package gpioexample;
 
-import gpioexample.device.BlinkLedDevice;
+import gpioexample.component.BlinkLedDevice;
 import gpioexample.gpio.*;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class Examples {
             chooseExample(gpioExamples);
             break;
         case 2:
-            //GPIO Examples using pi4j-device
+            //GPIO Examples using pi4j-component
             System.out.println("CHOOSE A DEVICE EXAMPLE");
             System.out.println("--------------------");
             showCommandInformation(deviceExamples);
@@ -109,7 +109,7 @@ public class Examples {
     }
 
     /**
-     * initializes the device examples
+     * initializes the component examples
      */
     private static void initializeDeviceExamples() {
         deviceExamples.add(new BlinkLedDevice(1, "Blink LED Test"));

@@ -84,3 +84,4 @@ nbproject/
 
 # jbaettig's Section
 docs/*.pdf
+/log/*

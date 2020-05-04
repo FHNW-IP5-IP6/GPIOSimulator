@@ -2,6 +2,8 @@ package gpioexample.component;
 
 import com.pi4j.io.gpio.*;
 import com.pi4j.util.Console;
+import gpiosimulator.GpioSimulatorFactory;
+import gpiosimulator.component.light.LEDBase;
 import gpiosimulator.component.light.impl.GpioLEDComponent;
 import gpioexample.Example;
 
@@ -20,7 +22,9 @@ public class BlinkLedDevice extends Example {
         GpioPinDigitalOutput led = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_02, "Blinking LED" , PinState.LOW);
         led.setShutdownOptions(true, PinState.LOW);
 
-        GpioLEDComponent ledComponent = new GpioLEDComponent(led);
+        GpioSimulatorFactory gpioSimulatorFactory = new GpioSimulatorFactory(true, true);
+
+        LEDBase ledComponent =  gpioSimulatorFactory.getLED(led);
 
         Console console = new Console();
         console.promptForExit();

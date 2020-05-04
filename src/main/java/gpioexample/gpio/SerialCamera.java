@@ -53,19 +53,27 @@ public class SerialCamera extends Example {
 
             console.println("initializing camera");
 
-            while (true) {
+            while (serial.available() == 0) {
+                console.println(serial.available());
                 serial.write(syncCommand);
-                byte[] bytes = serial.read(6);
-                if (bytes[0] == (byte) 0xaa && bytes[1] == (byte) 0x0e && bytes[2] == (byte) 0x0d
-                        && bytes[4] == (byte) 0x00 && bytes[5] == (byte) 0x00) {
+                Thread.sleep(10);
+            }
 
-                    bytes = serial.read(6);
-                    if (bytes[0] == (byte) 0xaa && bytes[1] == (byte) 0x0d && bytes[2] == (byte) 0x00
-                            && bytes[3] == (byte) 0x00 && bytes[4] == (byte) 0x00 && bytes[5] == (byte) 0x00)
-                        break;
+            byte[] bytes = serial.read(6);
+            clearDataFromSerialInput();
+
+            if (bytes[0] == (byte) 0xaa && bytes[1] == (byte) 0x0e && bytes[2] == (byte) 0x0d && bytes[4] == (byte) 0x00
+                    && bytes[5] == (byte) 0x00) {
+
+                bytes = serial.read(6);
+
+                if (bytes[0] == (byte) 0xaa && bytes[1] == (byte) 0x0d && bytes[2] == (byte) 0x00
+                        && bytes[3] == (byte) 0x00 && bytes[4] == (byte) 0x00 && bytes[5] == (byte) 0x00) {
+                    serial.write(ackCommand);
                 }
             }
-            serial.write(ackCommand);
+
+            clearDataFromSerialInput();
             console.println("initialization done");
         } catch (Exception ex) {
             console.println(ex);
@@ -214,5 +222,13 @@ public class SerialCamera extends Example {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         return defaultFileName + formatter.format(now) + defaultFileExtension;
 
+    }
+
+    private void clearDataFromSerialInput() throws IOException {
+        int byteCount = serial.available();
+        console.println("removing " + byteCount + " bytes from serial");
+        if (byteCount > 0) {
+            serial.read(byteCount);
+        }
     }
 }

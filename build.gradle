@@ -33,7 +33,7 @@ compileJava {
 
 dependencies {
     implementation 'com.pi4j:pi4j-core:1.2'
-    implementation 'com.pi4j:pi4j-device:1.2'
+    implementation 'com.pi4j:pi4j-gpio-extension:1.2'
 
 	testImplementation('org.junit.jupiter:junit-jupiter:5.6.0')
 }
@@ -76,7 +76,7 @@ asciidoctorPdf {
 
 jar {
     manifest {
-        attributes "Main-Class": "pi4jexamples.Examples"
+        attributes "Main-Class": "gpioexample.Examples"
     }
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }

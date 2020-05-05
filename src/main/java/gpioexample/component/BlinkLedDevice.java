@@ -2,10 +2,10 @@ package gpioexample.component;
 
 import com.pi4j.io.gpio.*;
 import com.pi4j.util.Console;
-import gpiosimulator.GpioSimulatorFactory;
-import gpiosimulator.component.light.LEDBase;
 import gpiosimulator.component.light.impl.GpioLEDComponent;
 import gpioexample.Example;
+
+import java.util.concurrent.Future;
 
 public class BlinkLedDevice extends Example {
 
@@ -13,26 +13,23 @@ public class BlinkLedDevice extends Example {
         super(key, title);
     }
 
-    @Override
-    public void execute() throws Exception {
-        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING)); //like on GPIO Extension Board
-
+    @Override public void execute() throws Exception {
+        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         final GpioController gpio = GpioFactory.getInstance();
 
-        GpioPinDigitalOutput led = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_02, "Blinking LED" , PinState.LOW);
+        GpioPinDigitalOutput led = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_02, "Blinking LED", PinState.LOW);
         led.setShutdownOptions(true, PinState.LOW);
 
-        GpioSimulatorFactory gpioSimulatorFactory = new GpioSimulatorFactory(false);
-
-        LEDBase ledComponent =  gpioSimulatorFactory.getLED(led);
+        GpioLEDComponent ledComponent = new GpioLEDComponent(led);
 
         Console console = new Console();
         console.promptForExit();
 
         long delay = 1000;
-        console.println("start blinking with "+delay+" delay");
+        console.println("start blinking with " + delay + " delay");
 
-        ledComponent.blink(delay);
+        Future<?> blinkTask = ledComponent.blink(delay);
+        while (!blinkTask.isDone() && console.isRunning());
 
         gpio.shutdown();
     }

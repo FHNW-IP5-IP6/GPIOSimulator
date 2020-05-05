@@ -12,8 +12,7 @@ public class BlinkLed extends Example {
 
     @Override
     public void execute() throws Exception {
-        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING)); //like on GPIO Extension Board
-
+        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         final GpioController gpio = GpioFactory.getInstance();
 
         GpioPinDigitalOutput led = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_02, "Blinking LED" , PinState.LOW);
@@ -21,6 +20,9 @@ public class BlinkLed extends Example {
 
         Console console = new Console();
         console.promptForExit();
+
+        long delay = 1000;
+        console.println("start blinking with " + delay + " delay");
 
         while (console.isRunning()) {
             if (led.isLow()) {
@@ -30,7 +32,7 @@ public class BlinkLed extends Example {
                 led.low();
                 console.println("Led is low.");
             }
-            Thread.sleep(1000);
+            Thread.sleep(delay);
         }
 
         gpio.shutdown();

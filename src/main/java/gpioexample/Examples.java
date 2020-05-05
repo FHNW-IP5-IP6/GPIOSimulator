@@ -1,6 +1,8 @@
 package gpioexample;
 
 import gpioexample.component.BlinkLedDevice;
+import gpioexample.component.ButtonClickDevice;
+import gpioexample.component.LcdSystemTimeDevice;
 import gpioexample.gpio.*;
 
 import java.util.ArrayList;
@@ -113,6 +115,8 @@ public class Examples {
      */
     private static void initializeDeviceExamples() {
         deviceExamples.add(new BlinkLedDevice(1, "Blink LED Test"));
+        deviceExamples.add(new ButtonClickDevice(2,"Button Click Test using pi4j-device"));
+        deviceExamples.add(new LcdSystemTimeDevice(3,"LCD System Time Test using pi4j-device"));
     }
 
     /**

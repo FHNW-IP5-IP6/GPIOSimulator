@@ -22,7 +22,7 @@ public class BlinkLedDevice extends Example {
         GpioPinDigitalOutput led = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_02, "Blinking LED" , PinState.LOW);
         led.setShutdownOptions(true, PinState.LOW);
 
-        GpioSimulatorFactory gpioSimulatorFactory = new GpioSimulatorFactory(true, true);
+        GpioSimulatorFactory gpioSimulatorFactory = new GpioSimulatorFactory(false);
 
         LEDBase ledComponent =  gpioSimulatorFactory.getLED(led);
 

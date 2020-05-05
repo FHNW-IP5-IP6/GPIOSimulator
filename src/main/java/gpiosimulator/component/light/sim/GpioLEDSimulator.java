@@ -63,7 +63,6 @@ public class GpioLEDSimulator extends LEDBase {
      */
     public GpioLEDSimulator(GpioPinDigitalOutput pin) {
         this.pin = pin;
-        this.pin.addListener(listener);
     }
 
     @Override

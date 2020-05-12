@@ -29,11 +29,10 @@ public class SerialCameraComponent {
         serialConfig = new SerialConfig().device(SerialPort.getDefaultPort()).baud(Baud._115200);
     }
 
-    private void initialize() {
+    public void initialize() {
         try {
             if (serial.isClosed()) {
                 serial.open(serialConfig);
-                ;
             }
 
             byte[] syncCommand = { (byte) 0xaa, (byte) 0x0d, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00 };
@@ -68,7 +67,7 @@ public class SerialCameraComponent {
         }
     }
 
-    private void preCapture() {
+    public void preCapture() {
         try {
             if (serial.isClosed()) {
                 serial.open(serialConfig);
@@ -93,7 +92,7 @@ public class SerialCameraComponent {
         }
     }
 
-    private int getPictureLength() {
+    public int getPictureLength() {
         int pictureLength = 0;
 
         try {
@@ -159,7 +158,7 @@ public class SerialCameraComponent {
         return pictureLength;
     }
 
-    private void getPicture(long pictureLength, String fileName, String fileExtension) {
+    public void getPicture(long pictureLength, String fileName, String fileExtension) {
         try {
             if (serial.isClosed()) {
                 serial.open(serialConfig);

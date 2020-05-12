@@ -417,7 +417,7 @@ Wir können auch mehrere Beispiele machen mit verschiedenen Schwierigkeitsgraden
 Beispiel Source code Einbindung für die Zukunft:
 [source,java]
 ----
-include::{sourcedir}/gpioexample/gpio/BlinkLed.java[lines=5..10]
+include::{sourcedir}/FHNWExamples/gpio/BlinkLed.java[lines=5..10]
 ----
 
 == Praktischer Teil

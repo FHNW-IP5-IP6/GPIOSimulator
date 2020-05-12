@@ -1,0 +1,133 @@
+:toc: macro
+:toc-title:
+:toclevels: 5
+:sectnums:
+:sectnumlevels: 5
+:sourcedir: ../src/main/java
+:imagesdir: ./assets/images
+:iconsdir: ./icons
+:stylesdir: ./styles
+:homepage: https://github.com/FHNW-IP5-IP6/GPIOSimulator
+
+image::FHNW.png[FHNW,382,59]
+[discrete]
+= IP5: FHNW Pi4J Tutorial
+
+*Autoren*:
+
+* Herr Jonathan Bättig (jonathan.baettig@students.fhnw.ch) 
+* Herr Anessollah Ima (anessollah.ima@students.fhnw.ch)
+
+*FHNW* +
+*Hochschule für Technik* +
+*Studiengang* : Informatik +
+*Semester* : 6BB
+
+*Betreuende Dozenten*:
+
+* Frau Dr. Barbara Scheuner (barbara.scheuner@fhnw.ch) 
+* Herr Dr. Dieter Holz (dieter.holz@fhnw.ch) 
+
+*Datum*: {docdate}
+
+<<<
+[discrete]
+== Inhaltsverzeichnis
+toc::[]
+
+<<<
+:sectnums!:
+== Einleitung
+:sectnums:
+
+<<<
+
+== Unterstützte Hardware und Software
+=== Hardware
+--
+include::Projektdokumentation.adoc[lines=147..187]
+--
+=== Software
+
+==== Pi4J
+--
+include::Projektdokumentation.adoc[lines=190..204]
+--
+=== Java
+
+== Setup des RaspberryPi
+
+
+== Beispiele
+In diesem Kapitel finden sie alle Sensoren und Aktoren mit Verkabelung und Code Beispielen. Für die Code Beispiele werden jeweils gewisse Vorkenntnisse erwartet, die wir hier in Levels eingeteilt haben:
+
+* *Level 1: Basic*
+    ** Variablen und Berechnungen: primitive Datentypen, Wertebereiche und deren Auswirkung beim Rechnen
+    ** Methoden und Parameter: Deklaration, Aufruf, Signatur, Argumente und Rückgabewert
+    ** Kontrollstrukturen: Schleifen und Fallunterscheidungen
+    ** Grundlagen Klassen, Objekte und Vererbung: Deklaration, Instanziierung von Klassen, Überladen und Überschreiben von Methoden, Vererbung, Polymorphie
+* *Level 2: Intermediate*
+    ** Verwendung grundlegender Datenstrukturen (List, Map, Set) und Iteratoren
+    ** Generics und ihre Besonderheiten in Java
+    ** Event Handling
+    ** Collection-Streams und Lambda-Ausdrücke
+
+* *Level 3: Advanced*
+    ** Nebenläufigkeit mit Threads
+    Strukturierung von Applikationen
+    ** Daten-Persistenz (File-Handling, Serialisierung)
+
+=== LED
+
+==== Verkabelung
+
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 2x Kabel
+* 1x LED
+* 1x 220Ω Wiederstand
+
+
+.LED Verkabelung 
+image::./fritzing/blink_led.png[LED Wiring]
+
+==== Code Beispiel
+
+In diesem Beispiel wird einfach eine LED blinken gelassen mit einem delay von einer Sekunde. +
+*Vorkenntnisse: Basic*
+[source,java]
+----
+include::{sourcedir}/gpioexample/gpio/BlinkLed.java[lines=14..39]
+----
+
+=== Button
+
+=== LCD
+
+=== LCD I2C
+
+=== Motor Direction
+
+=== Motor Hardware PWM
+
+=== Motor Software PWM
+
+=== Serial Camera
+
+=== Servo Motor
+
+===== Stepper Motor
+
+<<<
+
+:sectnums!:
+== Schluss
+
+<<<
+== Literaturverzeichnis
+
+<<<
+== Ehrlichkeitserklärung
+
+<<<
+== Anhang

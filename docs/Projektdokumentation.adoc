@@ -3,6 +3,7 @@
 :toclevels: 5
 :sectnums:
 :sectnumlevels: 5
+:sourcedir: ../src/main/java
 :imagesdir: ./assets/images
 :iconsdir: ./icons
 :stylesdir: ./styles
@@ -297,8 +298,6 @@ Auf dieser Ebene zu simulieren, würde dazu führen, dass der Simulator  sehr um
 
 Wenn man mit viel Arbeit konfrontiert wird, dann muss man sich immer die Frage stellen, ob diese Arbeit auch zielführend ist für das Gesamtprojekt.
 
-<TBD> Evtl. Bild von Pi4J-Core hinzufügen Klassendiagramm/ Dependency  </TBD>
-
 ==== Simulator auf Ebene von Pi4J-Device
 Der Pi4J-Device Layer ist von der Grösse her definitiv überschaubarer, als Pi4J-Core, da es als Abstraktions Layer direkt Klassen anbietet für die einzelnen Devices.
 
@@ -319,6 +318,107 @@ Der Tutorialaspekt des Projekt geht dabei auch nicht verloren, da wir für alle 
 . Ein Beispiel, welches den GPIO-Simulator verwendet
 
 Mit den verschiedenen Beispielen sind die angehenden Studentinnen und Studenten dann sehr flexibel für ihre Projekte und können auch hoffentlich etwas von den verschiedenen Implementierungen lernen.
+
+=== Simulatiosstrategie: 2. Iteration
+Nachdem wir einige Zeit damit verbracht haben, die Pi4J-Device Simulationsstrategie zu verfolgen, sind wir auf neue Hindernisse gestossen.
+
+Für den Simulator haben wir eine Factory erstellt, welche im Konstruktor einen Boolean annimmt. Dieser Boolean bestimmt dann, welcher Typ von Device zurückgegeben wird. Entweder ein Pi4J Device oder unser Custom LED Simulator Device.
+
+[source,java]
+----
+public LEDBase getLED(GpioPinDigitalOutput pin) {
+    LEDBase led = simulator ? new GpioLEDSimulator(pin) : new GpioLEDComponent(pin);
+    return led;
+}
+----
+Das Simulator LED Device unterstützt im Moment lediglich die Funktion blink(), welche wiederum die Funktionen on() und off() aufrufen. In den beiden letzteren Funktionen wird jeweils einfach der aktuelle Status mittels Log4J2 auf die Konsole und in ein File geschrieben.
+
+
+[source,java]
+----
+@Override
+public Future<?> blink(long delay) {
+    return executor.submit(() -> {
+        while (true) {
+            if (isOn())
+                off();
+            else
+                on();
+            Thread.sleep(delay);
+        }
+    });
+}
+----
+
+Soweit so gut. Um unsere Implementation zu testen, haben wir die Klasse BlinkLedDevice so modifiziert, dass wir eine LEDBase vom Typ GpioLEDSimulator erhalten und darauf die blink() Funktion ausgeführt.
+
+[source,java]
+----
+public class BlinkLedDevice extends Example {
+
+    public BlinkLedDevice(int key, String title) {
+        super(key, title);
+    }
+
+    @Override
+    public void execute() throws Exception {
+        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
+        final GpioController gpio = GpioFactory.getInstance();
+
+        GpioPinDigitalOutput led = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_02, "Blinking LED" , PinState.LOW);
+        led.setShutdownOptions(true, PinState.LOW);
+
+        GpioSimulatorFactory gpioSimulatorFactory = new GpioSimulatorFactory(true);
+        LEDBase ledComponent = gpioSimulatorFactory.getLED(led);
+
+        Console console = new Console();
+        console.promptForExit();
+
+        long delay = 1000;
+        console.println("start blinking with "+delay+" delay");
+
+        ledComponent.blink(delay);
+
+        gpio.shutdown();
+    }
+}
+----
+
+Beim Testen unseres Codes mussten wir allerdings feststellen, dass diverse Pi4J Aufrufe nicht funktionieren, welche für die Hardware Simulation allerdings immer von Nöten sein werden. Beispielsweise ist es uns nicht möglich, über die statische Klasse GpioFactory den Default-Provider zu setzen, wenn wir als Provider den RaspiGpioProvider verwenden. Dieser greift in seinen Tiefen auf WiringPi zu. WiringPi erwartet dann gewisse Files an einem bestimmten Ort auf einem Linux System, welche er auf meinem Windows Rechner natürlich nicht findet.
+
+Eine andere Möglichkeit wäre es, anstelle des RaspiGpioProvider einen anderen Provider zu benutzen. Pi4J stellt nämlich einen SimulatedGpioProvidre zur Verfügung.
+
+[source,java]
+----
+GpioFactory.setDefaultProvider(new SimulatedGpioProvider());
+----
+Momentan wissen wir, dass dieser Provider das gleiche Interface implementiert wie der RaspiGpioProvider. Allerdings retourinert er wohl überall einfach null oder löst bestimmte Events nicht aus. Wenn wir diesen Provider in einem unserer GPIO Beispiele verwenden, passiert einfach nichts. Bei der Anwendung in unserem LED Simulator Device wird aber wie gewünscht geloggt.
+So sieht ein beispiel aus:
+
+Uns bleiben daher 2 Möglichkeiten, das Projekt weiterzuführen
+
+==== SimulatedGpioProvider verwerden
+Generell gehen wir davon aus, dass wir unter Verwendung des des SimulatedGpioProvider den Simulator wie geplant implementieren können. Der Benutzer müsste seinen Code jedoch nicht nur an einer Stelle anpassen, sondern an zwei. Das wäre aber wohl noch verkraftbar.
+Durch unsere bisherig gesammelten Erfahrungen mit den Sensoren und Aktuatoren sind wir uns aber unsicher, wie viel eine Simulation dem Studenten überhaupt bringt. Wenn wir beispielsweise ein I2C LCD simulieren würden, könnten wir ja lediglich den Text an einem bestimmten Ort (Konsole/ File /Simulator) weitergeben und anzeigen. Ob nun die Verkabelung stimmt und der Text in die richtigen Bytes zerlegt wird, können wir wohl kaum testen/ sicherstellen.
+
+
+==== Der Simulator wird zum ausführlichen Tutorial
+Diesen Ansatz haben wir ja bereits besprochen. Resultat der Projektarbeit wären dann eine Art Guide für die Verwendung von Pi4J Devices, welche wir mit unseren eigen Devices ergänzen können. Zusätzlich können wir noch die Grove Adapter unterstützen. Wir bieten dem Studenten so stabile Beispiele, welche auf der verwendeten Hardware funktionieren. Unserer Meinung nach wäre dieser Ansatz wesentlich gewinnbringender für die Studenten, da eine oberflächliche Simulation keinen Nutzen hat, weil die schwierige Arbeit immer von der tatsächlichen Hardware abhängen wird.
+
+==== Entscheidung
+Gemeinsam mit unseren Coaches haben wir uns dafür entschieden ein ausführliches Tutorial zu schreiben, da es schlussendlich erfolgsversprechender ist und einen grösseren Nutzen hat für die Studenten.
+
+Das Tutorial soll ein separates Dokument sein und am Anfang auch einen Setup enthalten. Man kann auch ein Image für die angehenden Studenten zur Verfügung stellen, um dies zu erleichtern.
+
+Bei den Examples muss ausserdem darauf geachtet werden, dass sie nicht zu komplexe Themen wie Asynchronizität ansprechen, da dass den Rahmen eines Projektes für das erste und zweite Semester sprengt.
+
+Wir können auch mehrere Beispiele machen mit verschiedenen Schwierigkeitsgraden, was zu den Fähigkeiten der Studenten passt. z.B eines was nur in einer Schleife funktioniert für den Anfang und ein weiteres mit.
+
+Beispiel Source code Einbindung für die Zukunft:
+[source,java]
+----
+include::{sourcedir}/gpioexample/gpio/BlinkLed.java[lines=5..10]
+----
 
 == Praktischer Teil
 

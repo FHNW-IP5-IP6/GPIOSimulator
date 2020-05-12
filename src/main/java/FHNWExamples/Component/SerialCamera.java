@@ -21,7 +21,7 @@ public class SerialCamera extends Example {
         cam.preCapture();
         long pictureLength = cam.getPictureLength();
         cam.getPicture(pictureLength, "GroveCamPic_", ".jpg");
-        
+
         console.promptForExit();
     }
 }

@@ -44,16 +44,12 @@ toc::[]
 
 == Unterstützte Hardware und Software
 === Hardware
---
-include::Projektdokumentation.adoc[lines=147..187]
---
+
 === Software
 
 ==== Pi4J
---
-include::Projektdokumentation.adoc[lines=190..204]
---
-=== Java
+
+==== Java
 
 == Setup des RaspberryPi
 
@@ -97,14 +93,50 @@ In diesem Beispiel wird einfach eine LED blinken gelassen mit einem delay von ei
 *Vorkenntnisse: Basic*
 [source,java]
 ----
-include::{sourcedir}/gpioexample/gpio/BlinkLed.java[lines=14..39]
+include::{sourcedir}/fhnwexamples/gpio/BlinkLed.java[lines=14..39]
 ----
 
 === Button
+==== Verkabelung
 
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 4x Kabel
+* 1x Button
+* 1x 220Ω Wiederstand
+
+
+.Button Verkabelung 
+image::./fritzing/button_click.png[Button Wiring]
+
+==== Code Beispiel
+
+In diesem Beispiel wird jeder Klick auf dem Button in der Konsole angezeigt +
+*Vorkenntnisse: Basic*
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/gpio/ButtonClick.java[lines=18..39]
+----
 === LCD
 
 === LCD I2C
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 4x Kabel
+* 1x LCD1602 I2C Modul mit PCF8574 I2C extender
+
+.LCD I2C Modul Verkabelung 
+image::./fritzing/LCDI2C.png[I2C Wiring]
+
+==== Code Beispiel
+
+In diesem wird der Titel des Projekts in der ersten Zeile angezeigt und die Uhrzeit in der zweiten. Die Uhrzeit wird auch jede Sekunde geupdated  +
+*Vorkenntnisse: Basic*
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/gpio/LcdSystemTimeI2C.java[lines=24..44]
+----
 
 === Motor Direction
 
@@ -116,7 +148,7 @@ include::{sourcedir}/gpioexample/gpio/BlinkLed.java[lines=14..39]
 
 === Servo Motor
 
-===== Stepper Motor
+=== Stepper Motor
 
 <<<
 

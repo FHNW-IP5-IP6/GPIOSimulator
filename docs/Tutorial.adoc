@@ -53,6 +53,135 @@ toc::[]
 
 == Setup des RaspberryPi
 
+=== Installation vom RaspbianOS
+Als erstes benötigen wir das Betriebssystem, welches wir auf die Mini SD-Karte aufsetzen müssen.
+
+Zuerst benötigen Sie das image von Raspbian, welches sie installieren möchten. Besuchen sie hierfür die Website:
+https://www.raspberrypi.org/downloads/raspbian/
+
+.Raspbian Download 
+image::./installation/raspbianDownload.png[balenaEtcher Download]
+
+Wählen sie jetzt "Raspbian Buster with desktop" aus und downloaden sie den zip-Ordner.
+Extrahieren sie den Ordner, welcher die img-Datei enthält, die wir später verwenden möchten.
+
+Jetzt braucht es dafür eine Software mit der sie OS images installieren können. 
+Wir empfehlen dafür balenaEtcher, aber es gibt auch andere gute Disk Imaging Software.
+
+Downloaden und installieren sie balenaEtcher über diesen link:
+https://www.balena.io/etcher/
+
+.balenaEtcher Download 
+image::./installation/balenaDownload.png[balenaEtcher Download]
+
+Starten sie balenaEtcher. Sie können das Image in 3 einfachen Schritten aufsetzen.
+
+.balenaEtcher Startbildschirm 
+image::./installation/balenaStart.png[balenaEtcher Startbildschirm]
+
+. Wählen Sie zuerst das Image aus Welches sie vorher gedownloaded haben
+. Wählen Sie jetzt das die Mini SD-Karte aus, welche Sie an ihren PC angeschlossen haben.
+. Klicken Sie jetzt auf "Flash!"
+
+Wenn sie zusätzlich Maus, Monitor und Tastatur besitzen, dann können sie jetzt die Mini SD-Karte an den Pi anschliessen starten.
+
+Die Standard Credentials für den Pi sind:
+
+* *User*: pi +
+* *Passwort*: raspberry
+
+=== Nutzung ohne zusätzliche Hardware
+Da die meisten nicht immer zusätzliche Hardware dabei haben, erkären wir hier, wie man den Pi an den Laptop anschliessen kann und somit arbeiten kann.
+
+Hierfür benutzen wir die Software PuTTY, um auf den Pi zu zugreifen. Sie können es downloaden über den folgenden Link:
+https://www.putty.org/
+
+==== Zugriff über SSH
+Zuerst muss man wieder die SD-Karte an den PC anschliessen und normal auf den Folder zugreifen.
+
+Jetzt müssen sie verschieden Einstellungen direkt an den markierten Files in diesem Ordner vornehmen:
+
+.boot Ordner 
+image::./installation/bootFolder.png[boot Ordner]
+
+* Im File `config.txt` muss man ganz am Schluss den Folgenden snippet hinzufügen +
+[source]
+----
+dtoverlay=dwc2
+----
+
+* Im File `cmdline.txt` muss man nach den text "rootwait" suchen und danach den folgenden snippet hinzufügen +
+[source]
+----
+modules-load=dwc2,g_ether
+----
+
+Das sieht dann z. B so aus 
+
+.cmdLine File 
+image::./installation/cmdLine.png[cmdLine file]
+
+
+Jetzt muss man ein leeres File ohne Dateiendung erstellen, und dieses ssh nennen. Man kann z. B ein Textfile erstellen und dann die Endung wegnehmen:
+
+.SSH aktivieren 
+image::./installation/activateSSH.png[activate SSH]
+
+Schliessen sie die Mini SD-Karte wieder an den RaspberryPi an und schliessen sie dann den Raspberry Pi an den Laptop an.
+
+Jetzt können sie PuTTY starten und mit der folgenden Konfiguration auf den Pi zugreifen.
+
+.SSH Zugriff mit PuTTY 
+image::./installation/SSHputty.png[SSH Zugru]
+
+Jetzt können sie sich anmelden mit den Standard Credentials und den Raspberry Pi über die Konsole verwenden.
+
+.Login in PuTTY 
+image::./installation/puttyLogin.png[Login in PuTTY]
+
+
+==== Zugriff über Wifi
+Um über WLAN auf den Raspberry Pi zu zugreifen, muss man wieder eine Datei im boot Ordner erstellen: Das `wpa_supplicant.conf` file:
+
+[source]
+----
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=US
+
+network={
+    ssid="NETZWERK"
+    psk="PASSWORT"
+}
+----
+
+Bei `ssid` müssen sie den Netzwerknamen angeben und bei `psk` das Passwort.
+
+Jetzt können sie in PuTTY die IP-Adresse eingeben und sich damit verbinden.
+
+Sie können ihre IP-Addresse auch über den folgenden Befehl `hostname -I` im Raspberry Pi finden, falls sie die Verbindung über SSH bereits gemacht haben.
+
+
+==== VNC Viewer anstatt Monitor
+Um ohne Monitor das Grafische Interface von Raspbian verwenden zu können, kann man die VNC Funktionalitäten des Raspberry Pi verwenden.
+
+Zuerst muss man einen VNC auf dem Raspberry Pi aktivieren:
+
+`sudo raspi-config`, dann `Interfacing Options`, dann auf `VNC` und die Auswahl bestätigen.
+
+Dann muss man einen VNC Viewer auf dem eigenen Rechner installieren. Wie z. B den Real VNC Viewer:
+
+https://www.realvnc.com/de/connect/download/viewer/
+
+Diesen kann man dan starten und die IP Addresse des Raspberry Pis eingeben, um den Remotezugriff auf den Pi aufzubauen:
+
+.VNC Viewer Zugriff auf Pi
+image::./installation/VNCViewer.png[VNC Viewer Zugriff auf Pi]
+
+Jetzt sieht man auch die GUI von Raspbian mit dem Remotezugriff von VNC:
+
+.VNC Viewer GUI von Raspbian
+image::./installation/VNCViewerGUI.png[VNC Viewer GUI von Raspbian]
 
 == Beispiele
 In diesem Kapitel finden sie alle Sensoren und Aktoren mit Verkabelung und Code Beispielen. Für die Code Beispiele werden jeweils gewisse Vorkenntnisse erwartet, die wir hier in Levels eingeteilt haben:

@@ -53,55 +53,56 @@ toc::[]
 
 == Setup des RaspberryPi
 
-=== Installation vom RaspbianOS
-Als erstes benötigen wir das Betriebssystem, welches wir auf die Mini SD-Karte aufsetzen müssen.
+=== Installation vom Raspbian 
+Als erstes benötigen wir das Betriebssystem Raspbian, welches wir auf die Mini SD-Karte aufsetzen möchten.
 
-Zuerst benötigen Sie das image von Raspbian, welches sie installieren möchten. Besuchen sie hierfür die Website:
+Dafür müssen Sie sich das Image downloaden, welches Sie installieren möchten. Besuchen Sie hierfür die Website: + 
 https://www.raspberrypi.org/downloads/raspbian/
 
-.Raspbian Download 
+._Raspbian Download_
 image::./installation/raspbianDownload.png[balenaEtcher Download]
 
-Wählen sie jetzt "Raspbian Buster with desktop" aus und downloaden sie den zip-Ordner.
-Extrahieren sie den Ordner, welcher die img-Datei enthält, die wir später verwenden möchten.
+
+Wählen sie jetzt `Raspbian Buster with desktop` aus und downloaden sie den zip-Ordner.
+Extrahieren sie dann diesen Ordner. Der Ordner enthält die img-Datei, die wir später benötigen.
 
 Jetzt braucht es dafür eine Software mit der sie OS images installieren können. 
 Wir empfehlen dafür balenaEtcher, aber es gibt auch andere gute Disk Imaging Software.
 
-Downloaden und installieren sie balenaEtcher über diesen link:
+Downloaden und installieren sie balenaEtcher über diesen link: + 
 https://www.balena.io/etcher/
 
-.balenaEtcher Download 
+._balenaEtcher Download_
 image::./installation/balenaDownload.png[balenaEtcher Download]
 
 Starten sie balenaEtcher. Sie können das Image in 3 einfachen Schritten aufsetzen.
 
-.balenaEtcher Startbildschirm 
+._balenaEtcher Startbildschirm_
 image::./installation/balenaStart.png[balenaEtcher Startbildschirm]
 
 . Wählen Sie zuerst das Image aus Welches sie vorher gedownloaded haben
-. Wählen Sie jetzt das die Mini SD-Karte aus, welche Sie an ihren PC angeschlossen haben.
-. Klicken Sie jetzt auf "Flash!"
+. Wählen Sie danach die Mini SD-Karte aus, welche Sie an ihren PC angeschlossen haben.
+. Klicken Sie dann auf "Flash!" und warten Sie bis balenaEtcher fertig ist mit der image installation.
 
-Wenn sie zusätzlich Maus, Monitor und Tastatur besitzen, dann können sie jetzt die Mini SD-Karte an den Pi anschliessen starten.
+Wenn sie zusätzlich Maus, Monitor und Tastatur besitzen, dann können sie jetzt die Mini SD-Karte an den Pi anschliessen und den Pi starten.
 
-Die Standard Credentials für den Pi sind:
+Die Standard Credentials für den Login auf dem Pi sind:
 
 * *User*: pi +
 * *Passwort*: raspberry
 
 === Nutzung ohne zusätzliche Hardware
-Da die meisten nicht immer zusätzliche Hardware dabei haben, erkären wir hier, wie man den Pi an den Laptop anschliessen kann und somit arbeiten kann.
+Da die Meisten nicht immer zusätzliche Hardware dabei haben, erkären wir hier, wie man mit dem Pi arbeiten kann, wenn man es nur mit dem USB-Kabel anschliesst oder mit über das Internet darauf zugreifen möchte.
 
-Hierfür benutzen wir die Software PuTTY, um auf den Pi zu zugreifen. Sie können es downloaden über den folgenden Link:
+Hierfür benutzen wir die Software PuTTY, um auf den Pi zu zugreifen. Sie können es downloaden über den folgenden Link: + 
 https://www.putty.org/
 
 ==== Zugriff über SSH
-Zuerst muss man wieder die SD-Karte an den PC anschliessen und normal auf den Folder zugreifen.
+Zuerst muss man wieder die SD-Karte an den PC anschliessen und normal auf den boot Folder zugreifen.
 
 Jetzt müssen sie verschieden Einstellungen direkt an den markierten Files in diesem Ordner vornehmen:
 
-.boot Ordner 
+._boot Ordner_
 image::./installation/bootFolder.png[boot Ordner]
 
 * Im File `config.txt` muss man ganz am Schluss den Folgenden snippet hinzufügen +
@@ -118,25 +119,25 @@ modules-load=dwc2,g_ether
 
 Das sieht dann z. B so aus 
 
-.cmdLine File 
+._cmdLine File_
 image::./installation/cmdLine.png[cmdLine file]
 
 
 Jetzt muss man ein leeres File ohne Dateiendung erstellen, und dieses ssh nennen. Man kann z. B ein Textfile erstellen und dann die Endung wegnehmen:
 
-.SSH aktivieren 
+._SSH aktivieren_
 image::./installation/activateSSH.png[activate SSH]
 
 Schliessen sie die Mini SD-Karte wieder an den RaspberryPi an und schliessen sie dann den Raspberry Pi an den Laptop an.
 
 Jetzt können sie PuTTY starten und mit der folgenden Konfiguration auf den Pi zugreifen.
 
-.SSH Zugriff mit PuTTY 
+._SSH Zugriff mit PuTTY_
 image::./installation/SSHputty.png[SSH Zugru]
 
 Jetzt können sie sich anmelden mit den Standard Credentials und den Raspberry Pi über die Konsole verwenden.
 
-.Login in PuTTY 
+._Login in PuTTY_
 image::./installation/puttyLogin.png[Login in PuTTY]
 
 
@@ -169,18 +170,18 @@ Zuerst muss man einen VNC auf dem Raspberry Pi aktivieren:
 
 `sudo raspi-config`, dann `Interfacing Options`, dann auf `VNC` und die Auswahl bestätigen.
 
-Dann muss man einen VNC Viewer auf dem eigenen Rechner installieren. Wie z. B den Real VNC Viewer:
+Dann muss man einen VNC Viewer auf dem eigenen Rechner installieren. Wie z. B den Real VNC Viewer: + 
 
 https://www.realvnc.com/de/connect/download/viewer/
 
 Diesen kann man dan starten und die IP Addresse des Raspberry Pis eingeben, um den Remotezugriff auf den Pi aufzubauen:
 
-.VNC Viewer Zugriff auf Pi
+._VNC Viewer Zugriff auf Pi_
 image::./installation/VNCViewer.png[VNC Viewer Zugriff auf Pi]
 
 Jetzt sieht man auch die GUI von Raspbian mit dem Remotezugriff von VNC:
 
-.VNC Viewer GUI von Raspbian
+._VNC Viewer GUI von Raspbian_
 image::./installation/VNCViewerGUI.png[VNC Viewer GUI von Raspbian]
 
 == Beispiele

@@ -12,16 +12,12 @@ public class SerialCamera extends Example {
 
     @Override public void execute() throws Exception {
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
-        final GpioController gpio = GpioFactory.getInstance();
-
         Console console = new Console();
-
-        SerialCameraComponent cam = new SerialCameraComponent(console);
-        cam.initialize();
-        cam.preCapture();
-        long pictureLength = cam.getPictureLength();
-        cam.getPicture(pictureLength, "GroveCamPic_", ".jpg");
-
         console.promptForExit();
+
+        console.println("taking a picture. please smile :)");
+        SerialCameraComponent cam = new SerialCameraComponent(console, 256, true);
+        String fileName = cam.getPicture("GroveCamPic_", ".jpg");
+        console.println("picture was taken and saved in file " + fileName);
     }
 }

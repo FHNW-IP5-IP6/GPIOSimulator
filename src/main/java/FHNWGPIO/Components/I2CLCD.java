@@ -12,6 +12,8 @@ import java.io.IOException;
  */
 public class I2CLCD {
 
+    private final int ROWS = 2;
+    private final int COLUMNS = 16;
     private I2CDevice I2Cdevice;
 
     public I2CLCD(I2CDevice device) {
@@ -24,7 +26,7 @@ public class I2CLCD {
     }
 
     /**
-     * initializes objects and lcd
+     * sends initialisation commands to display
      */
     public void init() {
         try {
@@ -44,62 +46,124 @@ public class I2CLCD {
     }
 
     /**
-     * displays the string with an additional position
-     * @param string to show on the lcd display
-     * @param line line on the lcd display
-     * @param pos is the position on the line
+     * displays a text on the first line of the display.
+     * If it's larger than 16 characters then it will jump over to the second line.
+     * The excess characters (>32) are not shown on the display
+     *
+     * @param text text to diplay on lcd
      */
-    public void displayStringPos(String string, int line, int pos) {
+    public void displayText(String text) {
+        displayText(text, 1, 0, true);
+    }
+
+    /**
+     * writes string to the lcd display on a specific line.
+     * Excess characters (>16) are not shown on the line
+     *
+     * @param text to be displayed
+     * @param line on the display for the text to appear
+     */
+    public void displayText(String text, int line) {
+        displayText(text, line, 0, false);
+    }
+
+    /**
+     * displays the string with an additional position. There are 16 fields on one LCD1602 line.
+     * The position gives the number of fields that should be empty before the text.
+     * Excess characters (>16-position) on the line will not be shown.
+     *
+     * @param text           text to show on the lcd text.
+     * @param line           line on the lcd display
+     * @param pos            is the position on the line.
+     * @param jumpToNextLine jumps to the second line if the first line is
+     */
+    public void displayText(String text, int line, int pos, boolean jumpToNextLine) {
+        if (text.length() > 32 - pos)
+            text = text.substring(0, 31 - pos);
+
+        String firstLine = text, secondLine = text;
+
         byte posNew = 0;
 
-        if (line == 1) {
+        if (line != 2) {
             posNew = (byte) pos;
-        } else if (line == 2) {
+            if (text.length() > COLUMNS - pos) {
+                firstLine = text.substring(0, 15 - pos);
+                secondLine = text.substring(COLUMNS - pos, text.length() - 1);
+            }
+            displayLine(firstLine, posNew);
+            if (jumpToNextLine) displayLine(secondLine, posNew + 0x40);
+        } else {
             posNew = (byte) (0x40 + pos);
-        } else if (line == 3) {
-            posNew = (byte) (0x14 + pos);
-        } else if (line == 4) {
-            posNew = (byte) (0x54 + pos);
-        }
-
-        lcdWrite((byte) (0x80 + posNew));
-
-        for (int i = 0; i < string.length(); i++) {
-            lcdWrite((byte) string.charAt(i), Rs);
+            displayLine(secondLine, posNew);
         }
     }
 
     /**
-     * writes string to the lcd display on a specific line
-     * @param string
-     * @param line
+     * shows text on display scrolls it with a delay
+     * @param text to display
+     * @param line on which the text should be visible
+     * @param delay for every position jump
+     * @throws InterruptedException
      */
-    public void displayString(String string, int line) {
-        switch (line) {
-            case 1:
-                lcdWrite((byte) 0x80);
-                break;
-            case 2:
-                lcdWrite((byte) 0xC0);
-                break;
-            case 3:
-                lcdWrite((byte) 0x94);
-                break;
-            case 4:
-                lcdWrite((byte) 0xD4);
-                break;
+    public void displayScrollText(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) throws InterruptedException {
+        String paddedtext = getEmptyLine() + text;
+
+        for (int i = 0; i < paddedtext.length(); i++) {
+            displayText(paddedtext.substring(i), line, 0, jumpToNextLine);
+            Thread.sleep(delay);
+            if (jumpToNextLine)
+                clearText();
+            else
+                clearLine(line);
+
+            if (i == paddedtext.length() - 1 && startAgain)
+                displayScrollText(text, line, delay, startAgain, jumpToNextLine);
+        }
+    }
+
+    /**
+     * displays the text and scrolls to the sides, but bounces back.
+     * This only works for short texts, otherwise it would be unreadable
+     * @param text to display
+     * @param line for the text
+     * @param delay for every position jump
+     * @param jumpToNextLine jumps to the second line before bouncing back
+     * @param startAgain decides wether it's done only once or again and again
+     * @throws InterruptedException
+     */
+    public void displayBounceText(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) throws InterruptedException {
+        if (text.length() > COLUMNS - 1) {
+            displayText(text, line);
         }
 
-        for (int i = 0; i < string.length(); i++) {
-            lcdWrite((byte) string.charAt(i), Rs);
+        for (int i = 0; i < COLUMNS - text.length(); i++) {
+            if (i + text.length() <= COLUMNS) {
+                displayText(text, line, i, jumpToNextLine);
+                Thread.sleep(delay);
+                if (jumpToNextLine)
+                    clearText();
+                else
+                    clearLine(line);
+            }
         }
+        for (int i = COLUMNS - text.length(); i > 0; i--) {
+            displayText(text, line, i, jumpToNextLine);
+            Thread.sleep(delay);
+            if (jumpToNextLine)
+                clearText();
+            else
+                clearLine(line);
+        }
+        if (startAgain) displayBounceText(text, line, delay, jumpToNextLine, startAgain);
     }
 
     /**
      * define backlight on / off(lcd.backlight(1) off = lcd.backlight(0)
+     *
      * @param state sets the backlight (1 == on, 0 == off)
      */
-    public void backlight(boolean state) {
+    public void setBacklightState(boolean state) {
         if (state) {
             writeCmd(LCD_BACKLIGHT);
         } else {
@@ -108,8 +172,28 @@ public class I2CLCD {
     }
 
     /**
+     * clears the lcd text
+     */
+    public void clearText() {
+        lcdWrite((byte) LCD_CLEARDISPLAY);
+        lcdWrite((byte) LCD_RETURNHOME);
+    }
+
+    /**
+     * displays a line on a specific position
+     * @param text to display
+     * @param pos for the start of the text
+     */
+    private void displayLine(String text, int pos) {
+        lcdWrite((byte) (0x80 + pos));
+
+        for (int i = 0; i < text.length(); i++) {
+            writeChar((byte) text.charAt(i), Rs);
+        }
+    }
+
+    /**
      * write a character to lcd
-     * @param charvalue
      */
     public void writeChar(byte charvalue) {
         byte mode = 1;
@@ -117,10 +201,21 @@ public class I2CLCD {
         lcdWriteFourBits((byte) (mode | ((charvalue << 4) & 0xF0)));
     }
 
+    //Gets an empty line
+    private String getEmptyLine() {
+        String text = "";
+        return String.format("%16s", text);
+    }
+
+    //Clears a line
+    private void clearLine(int line) {
+        displayText(getEmptyLine(), line);
+    }
 
     /**
-     * Write a single command
-     * @param cmd
+     * send a single command
+     *
+     * @param cmd command to send
      */
     private void writeCmd(byte cmd) {
         try {
@@ -133,6 +228,7 @@ public class I2CLCD {
 
     /**
      * Write Block of data
+     *
      * @param cmd
      * @param data
      */
@@ -147,7 +243,7 @@ public class I2CLCD {
 
     /**
      * Read a single byte
-     * @return
+     *
      */
     private byte read() {
         try {
@@ -158,7 +254,9 @@ public class I2CLCD {
         return (byte) 0;
     }
 
-    // Read
+    /**
+     * Reads a byte array
+     */
     private byte[] readData(byte cmd) {
         byte[] buffer = new byte[cmd];
         try {
@@ -169,7 +267,9 @@ public class I2CLCD {
         return buffer;
     }
 
-    // Read a block of data
+    /**
+     * Reads a block of data
+     */
     private byte[] readBlockData(byte cmd) {
         byte[] buffer = new byte[cmd];
         try {
@@ -182,7 +282,6 @@ public class I2CLCD {
 
     /**
      * clocks EN to latch command
-     * @param data
      */
     private void lcdStrobe(byte data) {
         try {
@@ -195,6 +294,9 @@ public class I2CLCD {
         }
     }
 
+    /**
+     * writes four bits
+     */
     private void lcdWriteFourBits(byte data) {
         try {
             I2Cdevice.write((byte) (data | LCD_BACKLIGHT));
@@ -204,30 +306,23 @@ public class I2CLCD {
         }
     }
 
-    private void lcdWrite(byte cmd, byte mode) {
+    /**
+     * write characters
+     */
+    private void writeChar(byte cmd, byte mode) {
         lcdWriteFourBits((byte) (mode | (cmd & 0xF0)));
         lcdWriteFourBits((byte) (mode | ((cmd << 4) & 0xF0)));
     }
 
     /**
-     * // write a command to lcd
-     * @param cmd
+     * write a command to lcd
      */
     private void lcdWrite(byte cmd) {
-        lcdWrite(cmd, (byte) 0);
-    }
-
-    /**
-     * clears the lcd
-     */
-    private void clear() {
-        lcdWrite((byte) LCD_CLEARDISPLAY);
-        lcdWrite((byte) LCD_RETURNHOME);
+        writeChar(cmd, (byte) 0);
     }
 
     /**
      * add custom characters(0 - 7)
-     * @param fontdata
      */
     private void loadCustomChars(byte[][] fontdata) {
         lcdWrite((byte) 0x40);

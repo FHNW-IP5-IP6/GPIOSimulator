@@ -53,20 +53,19 @@ toc::[]
 
 == Setup des RaspberryPi
 
-=== Installation vom Raspbian 
-Als erstes benötigen wir das Betriebssystem Raspbian, welches wir auf die Mini SD-Karte aufsetzen möchten.
+=== Installation von Raspbian 
+Als erstes benötigen Sie das Betriebssystem Raspbian, welches später auf die Mini SD-Karte aufgesetzt wird.
 
-Dafür müssen Sie sich das Image downloaden, welches Sie installieren möchten. Besuchen Sie hierfür die Website: + 
+Dafür müssen Sie sich das Image downloaden. Besuchen Sie hierfür die Website: + 
 https://www.raspberrypi.org/downloads/raspbian/
 
 ._Raspbian Download_
 image::./installation/raspbianDownload.png[balenaEtcher Download]
 
 
-Wählen sie jetzt `Raspbian Buster with desktop` aus und downloaden sie den zip-Ordner.
-Extrahieren sie dann diesen Ordner. Der Ordner enthält die img-Datei, die wir später benötigen.
+Wählen sie jetzt `Raspbian Buster with desktop` aus. Downloaden und extrahieren sie den Zip-Ordner. Der Ordner enthält die img-Datei, die wir danach benötigen.
 
-Jetzt braucht es dafür eine Software mit der sie OS images installieren können. 
+Um OS Images installieren zu können, brauchen Sie eine Disk Imaging Software.
 Wir empfehlen dafür balenaEtcher, aber es gibt auch andere gute Disk Imaging Software.
 
 Downloaden und installieren sie balenaEtcher über diesen link: + 
@@ -183,6 +182,20 @@ Jetzt sieht man auch die GUI von Raspbian mit dem Remotezugriff von VNC:
 
 ._VNC Viewer GUI von Raspbian_
 image::./installation/VNCViewerGUI.png[VNC Viewer GUI von Raspbian]
+
+Es kann gut sein, dass die Auflösung und die Grösse der Icons nicht optimal ist.
+Dies können Sie wie folgt einstellen:
+
+* *Auflösung*: + 
+    _Preferences -> Raspberry Pi Configuration -> Display_ +
+    Hier können Sie  die Unter "Set Resolution" die Auflösung veränder. Es kann auch sein, dass die _"Underscan"_ deaktiviert werden muss, weil sie eventuell ihre Einstellungen zur Auflösung überschreibt.
+
+* *Icon Grösse*: + 
+    _Preferences -> Appearance Settings -> System -> Defaults_ + 
+    Hier können Sie die Grösse verändern, je nach Grösse Ihres Geräts.
+
+=== Installation von zusätzlicher Software auf dem Pi
+
 
 == Beispiele
 In diesem Kapitel finden sie alle Sensoren und Aktoren mit Verkabelung und Code Beispielen. Für die Code Beispiele werden jeweils gewisse Vorkenntnisse erwartet, die wir hier in Levels eingeteilt haben:

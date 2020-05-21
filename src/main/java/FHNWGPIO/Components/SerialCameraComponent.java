@@ -33,6 +33,7 @@ public class SerialCameraComponent {
     private int highDataSizeBit = 3;
     private int lowCheckSumBitPosition = -1;
     private int syncRetryCount = 64;
+    private byte lastWrittenByte = (byte) 0x00;
 
     /**
      * Constructor of the SerialCameraComponent. Configures the default serial port of the Raspberry Pi.
@@ -45,6 +46,10 @@ public class SerialCameraComponent {
      */
     public SerialCameraComponent(Console console, int packageSize, boolean activateLogging)
             throws IOException, InterruptedException {
+        if (packageSize < 16 || packageSize > 2048) {
+            throw new IllegalArgumentException("package size needs to be bigger than 15 and smaller than 2049");
+        }
+
         this.console = console;
         this.packageSize = packageSize;
         logIsActive = activateLogging;
@@ -95,9 +100,14 @@ public class SerialCameraComponent {
         this(console, 512, false);
     }
 
-    public String getPicture(String fileName, String extension) {
+    public byte[] getImageAsJpgBytes() throws IOException, InterruptedException {
         int pictureLength = getPictureLengthFromCamera();
-        return savePicture(pictureLength, fileName, extension);
+        return getJpgBytes(pictureLength);
+    }
+
+    public String saveImageAsJpg(String fileName) throws IOException, InterruptedException {
+        int pictureLength = getPictureLengthFromCamera();
+        return saveAsJpg(fileName, getJpgBytes(pictureLength));
     }
 
     /**
@@ -174,147 +184,151 @@ public class SerialCameraComponent {
     /**
      * @return pictureLength
      */
-    private int getPictureLengthFromCamera() {
+    private int getPictureLengthFromCamera() throws IOException, InterruptedException {
         int pictureLength = 0;
 
-        try {
-            byte[] setPackageSizeCommand = { (byte) 0xaa, 0x06, 0x08, (byte) (packageSize & 0xff),
-                    (byte) ((packageSize >> 8) & 0xff), 0x00 };
-            byte[] snapshotCommand = { (byte) 0xaa, 0x05, 0x00, 0x00, 0x00, 0x00 };
-            byte[] getPictureCommand = { (byte) 0xaa, 0x04, 0x01, 0x00, 0x00, 0x00 };
+        byte[] setPackageSizeCommand = { (byte) 0xaa, 0x06, 0x08, (byte) (packageSize & 0xff),
+                (byte) ((packageSize >> 8) & 0xff), 0x00 };
+        byte[] snapshotCommand = { (byte) 0xaa, 0x05, 0x00, 0x00, 0x00, 0x00 };
+        byte[] getPictureCommand = { (byte) 0xaa, 0x04, 0x01, 0x00, 0x00, 0x00 };
 
-            logMessage("sending the desired package size to the camera");
-            serial.write(setPackageSizeCommand);
+        logMessage("sending the desired package size to the camera");
+        serial.write(setPackageSizeCommand);
 
-            while (serial.available() < 6) {
-                Thread.sleep(10);
-            }
-
-            logMessage("received a response from the camera");
-            byte[] bytes = serial.read(6);
-
-            if (bytes[0] == (byte) 0xaa && bytes[1] == (byte) 0x0e && bytes[2] == (byte) 0x06 && bytes[4] == (byte) 0x00
-                    && bytes[5] == (byte) 0x00) {
-                logMessage("response was a valid package size acknowledgement");
-            }
-
-            logMessage("sending snapshot command");
-            serial.write(snapshotCommand);
-
-            while (serial.available() < 6) {
-                Thread.sleep(10);
-            }
-
-            logMessage("received a response from the camera");
-            bytes = serial.read(6);
-
-            if (bytes[0] == (byte) 0xaa && bytes[1] == (byte) 0x0e && bytes[2] == (byte) 0x05 && bytes[4] == (byte) 0x00
-                    && bytes[5] == (byte) 0x00) {
-                logMessage("response was a valid snapshot acknowledgement");
-            }
-
-            logMessage("sending get picture length command");
-            serial.write(getPictureCommand);
-
-            while (serial.available() < 6) {
-                Thread.sleep(10);
-            }
-
-            logMessage("received a response from the camera");
-            bytes = serial.read(6);
-
-            if (bytes[0] == (byte) 0xaa && bytes[1] == (byte) 0x0e && bytes[2] == (byte) 0x04 && bytes[4] == (byte) 0x00
-                    && bytes[5] == (byte) 0x00) {
-                logMessage("response was a valid picture length acknowledgement");
-                logMessage("reading the next 6 bytes to get the picture length");
-                bytes = serial.read(6);
-
-                if (bytes[0] == (byte) 0xaa && bytes[1] == 0x0a && bytes[2] == 0x01) {
-                    pictureLength = (int) bytes[3] + (bytes[4] << 8) + (bytes[5] << 16);
-                    logMessage("picture length is: " + pictureLength);
-                }
-            }
-        } catch (Exception ex) {
-            console.println(ex);
+        while (serial.available() < 6) {
+            Thread.sleep(10);
         }
+
+        logMessage("received a response from the camera");
+        byte[] bytes = serial.read(6);
+
+        if (bytes[0] == (byte) 0xaa && bytes[1] == (byte) 0x0e && bytes[2] == (byte) 0x06 && bytes[4] == (byte) 0x00
+                && bytes[5] == (byte) 0x00) {
+            logMessage("response was a valid package size acknowledgement");
+        }
+
+        logMessage("sending snapshot command");
+        serial.write(snapshotCommand);
+
+        while (serial.available() < 6) {
+            Thread.sleep(10);
+        }
+
+        logMessage("received a response from the camera");
+        bytes = serial.read(6);
+
+        if (bytes[0] == (byte) 0xaa && bytes[1] == (byte) 0x0e && bytes[2] == (byte) 0x05 && bytes[4] == (byte) 0x00
+                && bytes[5] == (byte) 0x00) {
+            logMessage("response was a valid snapshot acknowledgement");
+        }
+
+        logMessage("sending get picture length command");
+        serial.write(getPictureCommand);
+
+        while (serial.available() < 6) {
+            Thread.sleep(10);
+        }
+
+        logMessage("received a response from the camera");
+        bytes = serial.read(6);
+
+        if (bytes[0] == (byte) 0xaa && bytes[1] == (byte) 0x0e && bytes[2] == (byte) 0x04 && bytes[4] == (byte) 0x00
+                && bytes[5] == (byte) 0x00) {
+            logMessage("response was a valid picture length acknowledgement");
+            logMessage("reading the next 6 bytes to get the picture length");
+            bytes = serial.read(6);
+
+            if (bytes[0] == (byte) 0xaa && bytes[1] == 0x0a && bytes[2] == 0x01) {
+                pictureLength = (int) bytes[3] + (bytes[4] << 8) + (bytes[5] << 16);
+                logMessage("picture length is: " + pictureLength);
+            }
+        }
+
         return pictureLength;
     }
 
     /**
      * @param pictureLength
-     * @param defaultFileName
-     * @param defaultFileExtension
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
      */
-    private String savePicture(int pictureLength, String defaultFileName, String defaultFileExtension) {
-        String fileName = "ERROR";
-        int bytesRemaining = pictureLength;
-        try {
-            byte[] receiveDataPackageCommand = { (byte) 0xaa, 0x0e, 0x00, 0x00, 0x00, 0x00 };
-            byte[] ackPackageEndCommand = { (byte) 0xaa, 0x0e, 0x00, 0x00, (byte) 0xf0, (byte) 0xF0 };
+    private byte[] getJpgBytes(int pictureLength) throws IOException, InterruptedException {
+        byte[] receiveDataPackageCommand = { (byte) 0xaa, 0x0e, 0x00, 0x00, 0x00, 0x00 };
+        byte[] ackPackageEndCommand = { (byte) 0xaa, 0x0e, 0x00, 0x00, (byte) 0xf0, (byte) 0xF0 };
 
-            int packageCount = pictureLength % (packageSize - nofNoDataBits) == 0 ?
-                    pictureLength / (packageSize - nofNoDataBits) :
-                    (pictureLength / (packageSize - nofNoDataBits)) + 1;
+        int successCount = 0;
+        boolean pictureEnd = false;
+        ByteArrayOutputStream camStream = new ByteArrayOutputStream();
+        ByteBuffer imageBuffer = ByteBuffer.allocate(packageSize);
 
-            logMessage("camera will send " + packageCount + " packages");
+        while (!pictureEnd) {
+            receiveDataPackageCommand[4] = (byte) successCount;
+            receiveDataPackageCommand[5] = (byte) (successCount >> 8);
 
-            int successCount = 0;
-            ByteArrayOutputStream camStream = new ByteArrayOutputStream();
-            ByteBuffer imageBuffer = ByteBuffer.allocate(packageSize);
+            serial.write(receiveDataPackageCommand);
 
-            while (successCount < packageCount) {
-                receiveDataPackageCommand[4] = (byte) successCount;
-                receiveDataPackageCommand[5] = (byte) (successCount >> 8);
-
-                serial.write(receiveDataPackageCommand);
-
-                boolean lastItem = successCount == packageCount - 1;
-                int readSize = lastItem ? bytesRemaining + nofNoDataBits - 1 : packageSize - 1;
-
-                while (imageBuffer.position() < readSize) {
+            while (imageBuffer.position() < packageSize && !pictureEnd) {
+                pictureEnd = lastPackageComplete(imageBuffer);
+                if (!pictureEnd) {
+                    Thread.sleep(10);
                     imageBuffer.put(serial.read());
-                }
-
-                byte[] receivedData = imageBuffer.array();
-                imageBuffer.position(0);
-                byte calculatedCheckSum = getCheckSum(receivedData);
-                byte receivedCheckSum = receivedData[receivedData.length - 1 + lowCheckSumBitPosition];
-
-                if (calculatedCheckSum == receivedCheckSum || lastItem) {
-                    int byteCount = getIntegerFromBytes(receivedData[lowDataSizeBit], receivedData[highDataSizeBit]);
-                    bytesRemaining -= byteCount;
-                    logMessage(bytesRemaining + " bytes remaining");
-                    camStream.write(receivedData, 4, byteCount);
-                    successCount++;
-                } else {
-                    logMessage("calculated check sum is " + calculatedCheckSum);
-                    logMessage("received check sum is " + receivedCheckSum);
-                    logMessage("package error at package " + successCount);
-                    logMessage(" => retry");
                 }
             }
 
-            logMessage("read a total of " + camStream.size() + " bytes");
-            logMessage("sending package end acknowledgement to camera");
-            serial.write(ackPackageEndCommand);
+            byte[] receivedData = imageBuffer.array();
+            imageBuffer.position(0);
+            byte calculatedCheckSum = getCheckSum(receivedData);
+            byte receivedCheckSum = receivedData[receivedData.length - 1 + lowCheckSumBitPosition];
 
-            fileName = getFileName(defaultFileName, defaultFileExtension);
-            BufferedImage image = ImageIO.read(new ByteArrayInputStream(camStream.toByteArray()));
-            ImageIO.write(image, "JPG", new File(fileName));
-            logMessage("picture saved in file " + fileName);
-        } catch (Exception ex) {
-            console.println(ex);
+            if (calculatedCheckSum == receivedCheckSum || pictureEnd) {
+                int byteCount = getIntegerFromBytes(receivedData[lowDataSizeBit], receivedData[highDataSizeBit]);
+                lastWrittenByte = receivedData[receivedData.length - 3];
+                camStream.write(receivedData, 4, byteCount);
+                logMessage("package at " + successCount + " was handled successfully");
+                successCount++;
+            } else {
+                logMessage("calculated check sum is " + calculatedCheckSum);
+                logMessage("received check sum is " + receivedCheckSum);
+                logMessage("package error at package " + successCount);
+                logMessage(" => retry");
+            }
         }
+
+        logMessage("read a total of " + camStream.size() + " bytes");
+        logMessage("pure picture length was " + pictureLength);
+        logMessage("sending package end acknowledgement to camera");
+        serial.write(ackPackageEndCommand);
+
+        return camStream.toByteArray();
+    }
+
+    private String saveAsJpg(String defaultFileName, byte[] imageBytes) throws IOException {
+        String fileName = getFileName(defaultFileName);
+        BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBytes));
+        ImageIO.write(image, "JPG", new File(fileName));
+        logMessage("picture saved in file " + fileName);
         return fileName;
+    }
+
+    private boolean lastPackageComplete(ByteBuffer imageBuffer) {
+        if (imageBuffer.position() == nofNoDataBits + 1) {
+            byte endTagD9 = imageBuffer.get(imageBuffer.position() - 3);
+            return lastWrittenByte == (byte) 0xFF && endTagD9 == (byte) 0xD9;
+        } else if (imageBuffer.position() > nofNoDataBits + 1) {
+            byte endTagFF = imageBuffer.get(imageBuffer.position() - 4);
+            byte endTagD9 = imageBuffer.get(imageBuffer.position() - 3);
+            return endTagFF == (byte) 0xFF && endTagD9 == (byte) 0xD9;
+        }
+
+        return false;
     }
 
     private byte getCheckSum(byte[] bytes) {
         byte result = 0;
-
         for (byte b : Arrays.copyOf(bytes, bytes.length - 2)) {
             result += b;
         }
-
         return result;
     }
 
@@ -322,10 +336,10 @@ public class SerialCameraComponent {
         return (0xff & (byte) 0x00) << 24 | (0xff & (byte) 0x00) << 16 | (0xff & high) << 8 | (0xff & low) << 0;
     }
 
-    private String getFileName(String defaultFileName, String defaultFileExtension) {
+    private String getFileName(String defaultFileName) {
         Date now = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        return defaultFileName + formatter.format(now) + defaultFileExtension;
+        return defaultFileName + formatter.format(now) + ".jpg";
 
     }
 

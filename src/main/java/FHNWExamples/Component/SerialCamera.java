@@ -16,8 +16,8 @@ public class SerialCamera extends Example {
         console.promptForExit();
 
         console.println("taking a picture. please smile :)");
-        SerialCameraComponent cam = new SerialCameraComponent(console, 256, true);
-        String fileName = cam.getPicture("GroveCamPic_", ".jpg");
+        SerialCameraComponent cam = new SerialCameraComponent(console, 1024, true);
+        String fileName = cam.saveImageAsJpg("GroveCamPic_");
         console.println("picture was taken and saved in file " + fileName);
     }
 }

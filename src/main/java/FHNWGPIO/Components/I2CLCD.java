@@ -1,6 +1,6 @@
 package FHNWGPIO.Components;
 
-import FHNWExamples.Component.Base.I2CBase;
+import FHNWGPIO.Components.Base.I2CBase;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
 
@@ -260,6 +260,8 @@ public class I2CLCD extends I2CBase {
     /**
      * Set of commands of LCD1602 based on page 6 of the datasheet:
      * https://www.openhacks.com/uploadsproductos/eone-1602a1.pdf
+     * or
+     * https://www.waveshare.com/datasheet/LCD_en_PDF/LCD1602.pdf
      */
     private final byte LCD_CLEARDISPLAY = (byte) 0x01;
     private final byte LCD_RETURNHOME = (byte) 0x02;

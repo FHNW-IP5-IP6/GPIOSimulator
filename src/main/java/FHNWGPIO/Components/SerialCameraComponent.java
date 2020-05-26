@@ -10,11 +10,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
-// TODO: JavaDoc
 // TODO: Make different settings available
 // TODO: Make different file types available
 
@@ -22,6 +24,7 @@ import java.util.Date;
  * FHNW component for the grove serial camera. This class implements the communication protocol and simplifies
  * accessing the grove serial camera via the built-in default serial bus of the Raspberry Pi.
  * Grove Serial Camera: https://wiki.seeedstudio.com/Grove-Serial_Camera_Kit/
+ * Documentation: https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf
  */
 public class SerialCameraComponent {
     private Console console;
@@ -38,9 +41,9 @@ public class SerialCameraComponent {
     /**
      * Constructor of the SerialCameraComponent. Configures the default serial port of the Raspberry Pi.
      *
-     * @param console
-     * @param packageSize
-     * @param activateLogging
+     * @param console         Pi4J Console
+     * @param packageSize     Desired package size. Must be between 15 and 2049 bytes.
+     * @param activateLogging Activates / deactivates logging.
      * @throws IOException
      * @throws InterruptedException
      */
@@ -66,8 +69,8 @@ public class SerialCameraComponent {
      * Constructor of the SerialCameraComponent without logging. Configures the default serial port of the
      * Raspberry Pi.
      *
-     * @param console
-     * @param packageSize
+     * @param console     Pi4j Console
+     * @param packageSize Desired package size. Must be between 15 and 2049 bytes.
      * @throws IOException
      * @throws InterruptedException
      */
@@ -79,8 +82,8 @@ public class SerialCameraComponent {
      * Constructor of the SerialCameraComponent with a default package size of 512 bytes. Configures the
      * default serial port of the Raspberry Pi.
      *
-     * @param console
-     * @param activateLogging
+     * @param console         Pi4j Console
+     * @param activateLogging Activates / deactivates logging.
      * @throws IOException
      * @throws InterruptedException
      */
@@ -92,7 +95,7 @@ public class SerialCameraComponent {
      * Constructor of the SerialCameraComponent without logging and a default package size of 512 bytes.
      * Configures the default serial port of the Raspberry Pi.
      *
-     * @param console
+     * @param console Pi4j Console
      * @throws IOException
      * @throws InterruptedException
      */
@@ -100,19 +103,55 @@ public class SerialCameraComponent {
         this(console, 512, false);
     }
 
+    /**
+     * This method request a jpg image of the camera and returns it as a byte array.
+     *
+     * @return Byte array of the jpg image
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public byte[] getImageAsJpgBytes() throws IOException, InterruptedException {
         int pictureLength = getPictureLengthFromCamera();
         return getJpgBytes(pictureLength);
     }
 
+    /**
+     * Requests a jpg image from the camera and streams it to a file. The file name will be extended with a time stamp
+     * and the .jpg file extension.
+     *
+     * @param fileName The desired file name.
+     * @return Tile name of the image without file extension.
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public String saveImageAsJpg(String fileName) throws IOException, InterruptedException {
         int pictureLength = getPictureLengthFromCamera();
         return saveAsJpg(fileName, getJpgBytes(pictureLength));
     }
 
     /**
+     * Requests a jpg image from the camera and streams it to a file. The file name will be extended with a time stamp
+     * and the .jpg file extension.
+     *
+     * @param relativePath The desired relative path.
+     * @param fileName     The desired file name.
+     * @return Tile name of the image without file extension.
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public String saveImageAsJpg(String relativePath, String fileName) throws IOException, InterruptedException {
+        String absolutePath = new File(relativePath).getAbsolutePath();
+        logMessage("Absolute save location will be " + absolutePath);
+        Path path = Paths.get(absolutePath);
+        if (!Files.exists(path)) {
+            Files.createDirectory(path);
+        }
+        int pictureLength = getPictureLengthFromCamera();
+        return saveAsJpg(absolutePath + "/" + fileName, getJpgBytes(pictureLength));
+    }
+
+    /**
      * This method initializes the serial bus communication for the grove serial camera.
-     * Documentation: https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf
      */
     private void initializeSerialBusCommunication() {
         try {
@@ -156,6 +195,9 @@ public class SerialCameraComponent {
         }
     }
 
+    /**
+     * Transmitting of the desired camera settings.
+     */
     private void sendSettingsToCamera() {
         try {
             byte[] initialCommand = { (byte) 0xaa, 0x01, 0x00, 0x07, 0x03, 0x07 };
@@ -182,7 +224,9 @@ public class SerialCameraComponent {
     }
 
     /**
-     * @return pictureLength
+     * Request image from the camera. Returns the assumed length of the picture.
+     *
+     * @return The length of the picture received by the serial camera.
      */
     private int getPictureLengthFromCamera() throws IOException, InterruptedException {
         int pictureLength = 0;
@@ -248,8 +292,10 @@ public class SerialCameraComponent {
     }
 
     /**
-     * @param pictureLength
-     * @return
+     * Request the picture from the camera package by package. Returns the image as a byte array.
+     *
+     * @param pictureLength Picture length according to serial camera.
+     * @return The jpg image as a byte array.
      * @throws IOException
      * @throws InterruptedException
      */
@@ -303,6 +349,14 @@ public class SerialCameraComponent {
         return camStream.toByteArray();
     }
 
+    /**
+     * Saves the byte array in a file with the file name specified.
+     *
+     * @param defaultFileName The desired file name.
+     * @param imageBytes      The jpg image as a byte array.
+     * @return The file name of the saved image.
+     * @throws IOException
+     */
     private String saveAsJpg(String defaultFileName, byte[] imageBytes) throws IOException {
         String fileName = getFileName(defaultFileName);
         BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBytes));
@@ -311,6 +365,12 @@ public class SerialCameraComponent {
         return fileName;
     }
 
+    /**
+     * Checks if the end tag of the jpg was received. JPG files end with 0xFF 0xD9.
+     *
+     * @param imageBuffer Byte buffer.
+     * @return Boolean indicating if the last package was received.
+     */
     private boolean lastPackageComplete(ByteBuffer imageBuffer) {
         if (imageBuffer.position() == nofNoDataBits + 1) {
             byte endTagD9 = imageBuffer.get(imageBuffer.position() - 3);
@@ -324,6 +384,12 @@ public class SerialCameraComponent {
         return false;
     }
 
+    /**
+     * Calculates the check sum of a package according to the camera documentation.
+     *
+     * @param bytes The bytes of the package.
+     * @return Byte of the calculated check sum.
+     */
     private byte getCheckSum(byte[] bytes) {
         byte result = 0;
         for (byte b : Arrays.copyOf(bytes, bytes.length - 2)) {
@@ -332,10 +398,23 @@ public class SerialCameraComponent {
         return result;
     }
 
+    /**
+     * Converts a byte into an integer.
+     *
+     * @param low  Low byte
+     * @param high High byte
+     * @return Integer value of the byte.
+     */
     private static int getIntegerFromBytes(byte low, byte high) {
         return (0xff & (byte) 0x00) << 24 | (0xff & (byte) 0x00) << 16 | (0xff & high) << 8 | (0xff & low) << 0;
     }
 
+    /**
+     * Adds a time stamp to the file name.
+     *
+     * @param defaultFileName The desired file name.
+     * @return the desired file name extended with a time stamp an the .jpg extension.
+     */
     private String getFileName(String defaultFileName) {
         Date now = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmssSSS");
@@ -343,6 +422,11 @@ public class SerialCameraComponent {
 
     }
 
+    /**
+     * Reads all remaining bytes on the serial bus and disposes them.
+     *
+     * @throws IOException
+     */
     private void clearDataFromSerialInput() throws IOException {
         int byteCount = serial.available();
         if (byteCount > 0) {
@@ -350,6 +434,11 @@ public class SerialCameraComponent {
         }
     }
 
+    /**
+     * Logs a given message to the console if logging is activated.
+     *
+     * @param message The log message.
+     */
     private void logMessage(String message) {
         if (logIsActive) {
             console.println(message);

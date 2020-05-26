@@ -22,13 +22,18 @@ public class LcdSystemTimeI2C extends Example {
 
     @Override
     public void execute() {
+        Console console = new Console();
         try {
+            //find the address and the bus with the following command on the pi
+            //sudo i2cdetect -y 1
             I2CLCD lcd = new I2CLCD(0x27, I2CBus.BUS_1);
             lcd.init();
 
-            Console console = new Console();
+            Scanner scanner = new Scanner(System.in);
+            console.println("Please enter a text to be displayed above the system time");
+            String text = scanner.nextLine();
 
-            lcd.displayBounceText("GPIOSimulator", 1, 1000, false, true);
+            lcd.displayScrollText(text, 1, 1000, false, true);
 
             SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
             while(true){
@@ -36,7 +41,7 @@ public class LcdSystemTimeI2C extends Example {
                 Thread.sleep(1000);
             }
         } catch (Exception ex) {
-            System.out.println(ex.toString());
+            console.println(ex.toString());
         }
     }
 }

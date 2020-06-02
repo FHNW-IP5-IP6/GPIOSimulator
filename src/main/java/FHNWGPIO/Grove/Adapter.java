@@ -31,15 +31,15 @@ public class Adapter {
         return lowerPin;
     }
 
-    private int getAnalogI2CAddress() {
+    public int getAnalogI2CAddress() {
         return analogI2CAddress;
     }
 
-    private int getUpperDeviceAddress() {
+    public int getUpperDeviceAddress() {
         return upperDeviceAddress;
     }
 
-    private int getLowerDeviceAddress() {
+    public int getLowerDeviceAddress() {
         return lowerDeviceAddress;
     }
 

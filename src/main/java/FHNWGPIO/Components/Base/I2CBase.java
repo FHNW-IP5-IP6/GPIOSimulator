@@ -47,7 +47,7 @@ public abstract class I2CBase {
      * @param cmd
      * @param data
      */
-    private void writeBlockData(byte cmd, byte[] data) {
+    public void writeBlockData(byte cmd, byte[] data) {
         try {
             I2Cdevice.write(cmd, data);
             Thread.sleep(0, 100000);
@@ -60,7 +60,7 @@ public abstract class I2CBase {
      * Read a single byte
      *
      */
-    private byte read() {
+    public byte read() {
         try {
             return (byte) I2Cdevice.read();
         } catch (Exception ex) {
@@ -72,27 +72,27 @@ public abstract class I2CBase {
     /**
      * Reads a byte array
      */
-    private byte[] readData(byte cmd) {
-        byte[] buffer = new byte[cmd];
+    public byte[] readData(byte size) {
+        byte[] bytes = new byte[size];
         try {
-            I2Cdevice.read(buffer, 0, cmd);
+            I2Cdevice.read(bytes, 0, size);
         } catch (Exception ex) {
             getConsole().println(ex.getMessage());
         }
-        return buffer;
+        return bytes;
     }
 
     /**
      * Reads a block of data
      */
-    private byte[] readBlockData(byte cmd) {
-        byte[] buffer = new byte[cmd];
+    public byte[] readBlockData(byte size) {
+        byte[] bytes = new byte[size];
         try {
-            I2Cdevice.read(buffer, 0, cmd);
+            I2Cdevice.read(bytes, 0, size);
         } catch (Exception ex) {
             getConsole().println(ex.getMessage());
         }
-        return buffer;
+        return bytes;
     }
 
 

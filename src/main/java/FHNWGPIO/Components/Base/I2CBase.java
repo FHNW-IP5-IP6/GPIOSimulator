@@ -23,7 +23,8 @@ public abstract class I2CBase {
         this(address, busNumber, new Console());
     }
 
-    public I2CBase(int address, int busNumber, Console console) throws IOException, I2CFactory.UnsupportedBusNumberException {
+    public I2CBase(int address, int busNumber, Console console)
+            throws IOException, I2CFactory.UnsupportedBusNumberException {
         I2CBus bus = I2CFactory.getInstance(busNumber);
         this.I2Cdevice = bus.getDevice(address);
         this.setConsole(console);
@@ -31,6 +32,7 @@ public abstract class I2CBase {
 
     /**
      * send a single command
+     *
      * @param cmd command to send
      */
     protected void writeCmd(byte cmd) {
@@ -44,6 +46,7 @@ public abstract class I2CBase {
 
     /**
      * Write Block of data
+     *
      * @param cmd
      * @param data
      */
@@ -58,13 +61,27 @@ public abstract class I2CBase {
 
     /**
      * Read a single byte
-     *
      */
     public byte read() {
         try {
             return (byte) I2Cdevice.read();
         } catch (Exception ex) {
             getConsole().println(ex.getMessage());
+        }
+        return (byte) 0;
+    }
+
+    /**
+     * Read a single byte
+     *
+     * @param dataAddress
+     * @return
+     */
+    public byte read(byte dataAddress) {
+        try {
+            return (byte) I2Cdevice.read(dataAddress);
+        } catch (Exception ex) {
+            getConsole().println();
         }
         return (byte) 0;
     }
@@ -83,6 +100,23 @@ public abstract class I2CBase {
     }
 
     /**
+     * Reads a byte array
+     *
+     * @param dataAddress
+     * @param size
+     * @return
+     */
+    public byte[] readData(byte dataAddress, byte size) {
+        byte[] bytes = new byte[size];
+        try {
+            I2Cdevice.read(dataAddress, bytes, 0, size);
+        } catch (Exception ex) {
+            getConsole().println(ex.getMessage());
+        }
+        return bytes;
+    }
+
+    /**
      * Reads a block of data
      */
     public byte[] readBlockData(byte size) {
@@ -94,7 +128,6 @@ public abstract class I2CBase {
         }
         return bytes;
     }
-
 
     public Console getConsole() {
         return console;

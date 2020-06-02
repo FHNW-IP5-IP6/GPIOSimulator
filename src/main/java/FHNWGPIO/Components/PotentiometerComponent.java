@@ -1,6 +1,7 @@
 package FHNWGPIO.Components;
 
 import FHNWGPIO.Components.Base.I2CBase;
+import FHNWGPIO.Grove.Adapter;
 import FHNWGPIO.Grove.GroveAdapter;
 import com.pi4j.io.i2c.I2CFactory;
 
@@ -9,9 +10,12 @@ import java.io.IOException;
 public class PotentiometerComponent extends I2CBase {
     private int minValue = 0;
     private int maxValue = 999;
+    private Adapter adapter;
 
-    public PotentiometerComponent(GroveAdapter adapter) throws IOException, I2CFactory.UnsupportedBusNumberException {
-        super(adapter.getAdapter().getDeviceAddress(), adapter.getAdapter().getAnalogI2CAddress());
+    public PotentiometerComponent(GroveAdapter groveAdapter)
+            throws IOException, I2CFactory.UnsupportedBusNumberException {
+        super(groveAdapter.getAdapter().getAnalogI2CAddress(), 1);
+        this.adapter = groveAdapter.getAdapter();
     }
 
     public void setRange(int minValue, int maxValue) {
@@ -28,7 +32,7 @@ public class PotentiometerComponent extends I2CBase {
     }
 
     public int getValue() {
-        byte[] bytes = super.readData((byte) 0x02);
+        byte[] bytes = super.readData((byte) adapter.getDeviceAddress(), (byte) 0x02);
         int readValue = getIntegerFromBytes(bytes[0], bytes[1]);
         if (minValue == 0 && maxValue == 999) {
             return readValue;
@@ -38,7 +42,7 @@ public class PotentiometerComponent extends I2CBase {
                 return readValue;
             } else {
                 double reducedValue = (readValue / 1000) * difference;
-                return Math.round(minValue + readValue);
+                return (int) Math.round(minValue + reducedValue);
             }
         }
     }

@@ -34,7 +34,7 @@ public class LcdSystemTimeI2C extends Example {
             console.println("Please enter a text to be displayed above the system time");
             String text = scanner.nextLine();
 
-            lcd.displayText(text, 1, 1000, false);
+            lcd.displayText(text, 1, 0, false);
 
             SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
             while (true) {

@@ -21,7 +21,7 @@ import java.util.Date;
 // TODO: Make different file types available
 
 /**
- * FHNW component for the grove serial camera. This class implements the communication protocol and simplifies
+ * FHNW implementation for the grove serial camera. This class implements the communication protocol and simplifies
  * accessing the grove serial camera via the built-in default serial bus of the Raspberry Pi.
  * Grove Serial Camera: https://wiki.seeedstudio.com/Grove-Serial_Camera_Kit/
  * Documentation: https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf

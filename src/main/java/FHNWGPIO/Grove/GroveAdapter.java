@@ -7,12 +7,15 @@ import com.pi4j.io.gpio.RaspiBcmPin;
  * This enum provides Adapter objects for programming the adaptors of the grove hat.
  * Attention! Board only supports 3.3V Grove Devices!
  * https://wiki.seeedstudio.com/Grove_Base_Hat_for_Raspberry_Pi/
+ * The analog adapters are managed via the I2C bus. The addresses correspond to the python implementation
+ * of the Grove Hat from Seed Studio.
+ * https://github.com/Seeed-Studio/grove.py/blob/master/grove/adc.py
  */
 public enum GroveAdapter {
-    A0(0x00, 0x01, AdapterType.ANALOG),
-    A2(0x02, 0x03, AdapterType.ANALOG),
-    A4(0x04, 0x05, AdapterType.ANALOG),
-    A6(0x05, 0x07, AdapterType.ANALOG),
+    A0(0x30, AdapterType.ANALOG),
+    A2(0x32, AdapterType.ANALOG),
+    A4(0x34, AdapterType.ANALOG),
+    A6(0x35, AdapterType.ANALOG),
     D5(RaspiBcmPin.GPIO_05, RaspiBcmPin.GPIO_06, AdapterType.DIGITAL),
     D16(RaspiBcmPin.GPIO_16, RaspiBcmPin.GPIO_17, AdapterType.DIGITAL),
     D18(RaspiBcmPin.GPIO_18, RaspiBcmPin.GPIO_19, AdapterType.DIGITAL),
@@ -30,8 +33,8 @@ public enum GroveAdapter {
         this.adapter = new Adapter(upperPin, lowerPin, type);
     }
 
-    GroveAdapter(int upperDeviceAddress, int lowerDeviceAddress, AdapterType type) {
-        this.adapter = new Adapter(analogI2CBus, upperDeviceAddress, lowerDeviceAddress, type);
+    GroveAdapter(int deviceAddress, AdapterType type) {
+        this.adapter = new Adapter(analogI2CBus, deviceAddress, type);
     }
 
     public Adapter getAdapter() {

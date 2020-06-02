@@ -6,8 +6,7 @@ public class Adapter {
     private Pin upperPin;
     private Pin lowerPin;
     private int analogI2CAddress;
-    private int upperDeviceAddress;
-    private int lowerDeviceAddress;
+    private int deviceAddress;
     private AdapterType type;
 
     protected Adapter(Pin upperPin, Pin lowerPin, AdapterType type) {
@@ -16,10 +15,9 @@ public class Adapter {
         this.type = type;
     }
 
-    protected Adapter(int analogI2CAddress, int upperDeviceAddress, int lowerDeviceAddress, AdapterType type) {
+    protected Adapter(int analogI2CAddress, int deviceAddress, AdapterType type) {
         this.analogI2CAddress = analogI2CAddress;
-        this.upperDeviceAddress = upperDeviceAddress;
-        this.lowerDeviceAddress = lowerDeviceAddress;
+        this.deviceAddress = deviceAddress;
         this.type = type;
     }
 
@@ -35,12 +33,8 @@ public class Adapter {
         return analogI2CAddress;
     }
 
-    public int getUpperDeviceAddress() {
-        return upperDeviceAddress;
-    }
-
-    public int getLowerDeviceAddress() {
-        return lowerDeviceAddress;
+    public int getDeviceAddress() {
+        return deviceAddress;
     }
 
     public AdapterType getAdapterType() {

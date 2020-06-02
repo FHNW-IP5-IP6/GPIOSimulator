@@ -118,6 +118,7 @@ public class Examples {
         deviceExamples.add(new ButtonClickDevice(2,"Button Click Test using pi4j-device"));
         deviceExamples.add(new FHNWExamples.Component.LcdSystemTimeI2C(3,"LCD System Time I2C Test"));
         deviceExamples.add(new FHNWExamples.Component.SerialCamera(4,"Grove Serial Camera example"));
+        deviceExamples.add(new FHNWExamples.Component.PotentiometerDevice(5,"Potentiometer example"));
     }
 
     /**

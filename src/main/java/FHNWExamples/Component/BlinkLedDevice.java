@@ -13,6 +13,8 @@ public class BlinkLedDevice extends Example {
         super(key, title);
     }
 
+    // tag::BlinkLedDevice[]
+    // end::BlinkLedDevice[]
     @Override public void execute() throws Exception {
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         final GpioController gpio = GpioFactory.getInstance();
@@ -33,4 +35,5 @@ public class BlinkLedDevice extends Example {
 
         gpio.shutdown();
     }
+    // end::BlinkLedDevice[]
 }

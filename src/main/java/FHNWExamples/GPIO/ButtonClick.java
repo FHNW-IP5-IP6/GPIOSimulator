@@ -16,6 +16,7 @@ public class ButtonClick extends Example {
         super(key, title);
     }
 
+    // tag::ButtonClick[]
     @Override public void execute() throws Exception {
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         final GpioController gpio = GpioFactory.getInstance();
@@ -40,4 +41,5 @@ public class ButtonClick extends Example {
 
         gpio.shutdown();
     }
+    // end::ButtonClick[]
 }

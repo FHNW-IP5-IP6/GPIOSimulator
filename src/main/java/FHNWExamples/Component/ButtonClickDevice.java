@@ -12,9 +12,8 @@ public class ButtonClickDevice extends Example {
         super(key, title);
     }
 
-    //private static InputChangeEventListener listener;
-
     @Override
+    // tag::ButtonClickDevice[]
     public void execute() throws Exception {
 
         GpioProvider provider = new  RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING); //like on GPIO Extension Board
@@ -50,6 +49,7 @@ public class ButtonClickDevice extends Example {
 
         gpio.shutdown();
     }
+    // end::ButtonClickDevice[]
 }
 
 

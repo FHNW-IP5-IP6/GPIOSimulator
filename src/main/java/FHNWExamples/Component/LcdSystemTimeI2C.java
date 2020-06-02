@@ -21,6 +21,7 @@ public class LcdSystemTimeI2C extends Example {
     }
 
     @Override
+    // tag::LcdSystemTimeI2C[]
     public void execute() {
         Console console = new Console();
         try {
@@ -33,16 +34,17 @@ public class LcdSystemTimeI2C extends Example {
             console.println("Please enter a text to be displayed above the system time");
             String text = scanner.nextLine();
 
-            lcd.displayScrollText(text, 1, 1000, false, true);
+            lcd.displayText(text, 1, 1000, false);
 
             SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-            while(true){
-                lcd.displayText(formatter.format((new Date())), 2, 2, false);
+            while (true) {
+                lcd.displayText(formatter.format((new Date())), 2, 4, false);
                 Thread.sleep(1000);
             }
         } catch (Exception ex) {
             console.println(ex.toString());
         }
     }
+    // end::LcdSystemTimeI2C[]
 }
 

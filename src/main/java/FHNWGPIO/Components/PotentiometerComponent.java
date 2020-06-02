@@ -11,7 +11,7 @@ public class PotentiometerComponent extends I2CBase {
     private int maxValue = 999;
 
     public PotentiometerComponent(GroveAdapter adapter) throws IOException, I2CFactory.UnsupportedBusNumberException {
-        super(adapter.getAdapter().getAnalogI2CAddress(), adapter.getAdapter().getDeviceAddress());
+        super(adapter.getAdapter().getDeviceAddress(), adapter.getAdapter().getAnalogI2CAddress());
     }
 
     public void setRange(int minValue, int maxValue) {

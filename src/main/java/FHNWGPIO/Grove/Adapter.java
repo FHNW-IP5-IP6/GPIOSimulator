@@ -5,7 +5,7 @@ import com.pi4j.io.gpio.Pin;
 public class Adapter {
     private Pin upperPin;
     private Pin lowerPin;
-    private int analotI2CAddress;
+    private int analogI2CAddress;
     private int upperDeviceAddress;
     private int lowerDeviceAddress;
     private AdapterType type;
@@ -16,8 +16,8 @@ public class Adapter {
         this.type = type;
     }
 
-    protected Adapter(int analotI2CAddress, int upperDeviceAddress, int lowerDeviceAddress, AdapterType type) {
-        this.analotI2CAddress = analotI2CAddress;
+    protected Adapter(int analogI2CAddress, int upperDeviceAddress, int lowerDeviceAddress, AdapterType type) {
+        this.analogI2CAddress = analogI2CAddress;
         this.upperDeviceAddress = upperDeviceAddress;
         this.lowerDeviceAddress = lowerDeviceAddress;
         this.type = type;
@@ -31,8 +31,8 @@ public class Adapter {
         return lowerPin;
     }
 
-    private int getAnalotI2CAddress() {
-        return analotI2CAddress;
+    private int getAnalogI2CAddress() {
+        return analogI2CAddress;
     }
 
     private int getUpperDeviceAddress() {

@@ -35,26 +35,26 @@ public class Examples {
         int input = getNextScannerInt();
 
         switch (input) {
-        case 0:
-            System.exit(0);
-            break;
-        case 1:
-            //GPIO Examples
-            System.out.println("CHOOSE A GPIO EXAMPLE");
-            System.out.println("--------------------");
-            showCommandInformation(gpioExamples);
-            chooseExample(gpioExamples);
-            break;
-        case 2:
-            //GPIO Examples using pi4j-Component
-            System.out.println("CHOOSE A DEVICE EXAMPLE");
-            System.out.println("--------------------");
-            showCommandInformation(deviceExamples);
-            chooseExample(deviceExamples);
-            break;
-        default:
-            System.out.println("Did not recognize input");
-            showInitialInformation();
+            case 0:
+                System.exit(0);
+                break;
+            case 1:
+                //GPIO Examples
+                System.out.println("CHOOSE A GPIO EXAMPLE");
+                System.out.println("--------------------");
+                showCommandInformation(gpioExamples);
+                chooseExample(gpioExamples);
+                break;
+            case 2:
+                //GPIO Examples using pi4j-Component
+                System.out.println("CHOOSE A DEVICE EXAMPLE");
+                System.out.println("--------------------");
+                showCommandInformation(deviceExamples);
+                chooseExample(deviceExamples);
+                break;
+            default:
+                System.out.println("Did not recognize input");
+                showInitialInformation();
         }
     }
 
@@ -115,10 +115,11 @@ public class Examples {
      */
     private static void initializeDeviceExamples() {
         deviceExamples.add(new BlinkLedDevice(1, "Blink LED Test"));
-        deviceExamples.add(new ButtonClickDevice(2,"Button Click Test using pi4j-device"));
-        deviceExamples.add(new FHNWExamples.Component.LcdSystemTimeI2C(3,"LCD System Time I2C Test"));
-        deviceExamples.add(new FHNWExamples.Component.SerialCamera(4,"Grove Serial Camera example"));
-        deviceExamples.add(new FHNWExamples.Component.PotentiometerDevice(5,"Potentiometer example"));
+        deviceExamples.add(new ButtonClickDevice(2, "Button Click Test using pi4j-device"));
+        deviceExamples.add(new FHNWExamples.Component.LcdSystemTimeI2C(3, "LCD System Time I2C Test"));
+        deviceExamples.add(new FHNWExamples.Component.SerialCamera(4, "Grove Serial Camera example"));
+        deviceExamples.add(new FHNWExamples.Component.PotentiometerDevice(5, "Potentiometer example"));
+        deviceExamples.add(new FHNWExamples.Component.RaspberryPiCamera(6, "Raspberry Pi Camera example"));
     }
 
     /**

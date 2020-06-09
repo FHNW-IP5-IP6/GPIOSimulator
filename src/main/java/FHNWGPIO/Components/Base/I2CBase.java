@@ -12,11 +12,11 @@ import java.io.IOException;
  * Provides methods that all I2C devices might need
  */
 public abstract class I2CBase {
-    protected I2CDevice I2Cdevice;
+    private I2CDevice i2CDevice;
     private Console console;
 
     public I2CBase(I2CDevice device) {
-        I2Cdevice = device;
+        i2CDevice = device;
     }
 
     public I2CBase(int address, int busNumber) throws IOException, I2CFactory.UnsupportedBusNumberException {
@@ -26,7 +26,7 @@ public abstract class I2CBase {
     public I2CBase(int address, int busNumber, Console console)
             throws IOException, I2CFactory.UnsupportedBusNumberException {
         I2CBus bus = I2CFactory.getInstance(busNumber);
-        this.I2Cdevice = bus.getDevice(address);
+        this.i2CDevice = bus.getDevice(address);
         this.setConsole(console);
     }
 
@@ -37,7 +37,7 @@ public abstract class I2CBase {
      */
     protected void writeCmd(byte cmd) {
         try {
-            I2Cdevice.write(cmd);
+            i2CDevice.write(cmd);
             Thread.sleep(0, 100000);
         } catch (Exception ex) {
             getConsole().println(ex.getMessage());
@@ -52,7 +52,7 @@ public abstract class I2CBase {
      */
     public void writeBlockData(byte cmd, byte[] data) {
         try {
-            I2Cdevice.write(cmd, data);
+            i2CDevice.write(cmd, data);
             Thread.sleep(0, 100000);
         } catch (Exception ex) {
             getConsole().println(ex.getMessage());
@@ -64,7 +64,7 @@ public abstract class I2CBase {
      */
     public byte read() {
         try {
-            return (byte) I2Cdevice.read();
+            return (byte) i2CDevice.read();
         } catch (Exception ex) {
             getConsole().println(ex.getMessage());
         }
@@ -79,7 +79,7 @@ public abstract class I2CBase {
      */
     public byte read(byte dataAddress) {
         try {
-            return (byte) I2Cdevice.read(dataAddress);
+            return (byte) i2CDevice.read(dataAddress);
         } catch (Exception ex) {
             getConsole().println();
         }
@@ -92,7 +92,7 @@ public abstract class I2CBase {
     public byte[] readData(byte size) {
         byte[] bytes = new byte[size];
         try {
-            I2Cdevice.read(bytes, 0, size);
+            i2CDevice.read(bytes, 0, size);
         } catch (Exception ex) {
             getConsole().println(ex.getMessage());
         }
@@ -109,7 +109,7 @@ public abstract class I2CBase {
     public byte[] readData(byte dataAddress, byte size) {
         byte[] bytes = new byte[size];
         try {
-            I2Cdevice.read(dataAddress, bytes, 0, size);
+            i2CDevice.read(dataAddress, bytes, 0, size);
         } catch (Exception ex) {
             getConsole().println(ex.getMessage());
         }
@@ -122,7 +122,7 @@ public abstract class I2CBase {
     public byte[] readBlockData(byte size) {
         byte[] bytes = new byte[size];
         try {
-            I2Cdevice.read(bytes, 0, size);
+            i2CDevice.read(bytes, 0, size);
         } catch (Exception ex) {
             getConsole().println(ex.getMessage());
         }

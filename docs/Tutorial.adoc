@@ -1,5 +1,5 @@
-//:toc: left better for html, but not for the local preview
-:toc: macro
+:toc: left
+//:toc: macro
 :toc-title:
 :toclevels: 5
 :sectnums:
@@ -73,13 +73,13 @@ Downloaden und installieren Sie balenaEtcher von der balena Homepage: +
 https://www.balena.io/etcher/
 
 ._balenaEtcher Download_
-image::./installation/balenaDownload.png[balenaEtcher Download]
+image::./installation/balenaDownload.png[width=70% balenaEtcher Download]
 
 Starten Sie nach dem Download balenaEtcher.
 Sie können das Image jetzt in 3 einfachen Schritten aufsetzen.
 
 ._balenaEtcher Startbildschirm_
-image::./installation/balenaStart.png[balenaEtcher Startbildschirm]
+image::./installation/balenaStart.png[width=70% balenaEtcher Startbildschirm]
 
 . Wählen Sie zuerst das Image aus, welches Sie vorher gedownloaded haben
 . Wählen Sie danach die Mini SD-Karte aus, welche Sie an ihren PC angeschlossen haben. Bitte beachten Sie, dass die SD-Karte formatiert wird und alle Daten darauf gelöscht werden.
@@ -104,7 +104,7 @@ Zuerst müssen Sie wieder die SD-Karte an den PC anschliessen und normal auf den
 Jetzt müssen Sie verschieden Einstellungen direkt an den markierten Files in diesem Ordner vornehmen:
 
 ._boot Ordner_
-image::./installation/bootFolder.png[boot Ordner]
+image::./installation/bootFolder.png[width=70% boot Ordner]
 
 * Im File `config.txt` müssen Sie ganz am Schluss den Folgenden Snippet hinzufügen +
 [source]
@@ -121,25 +121,25 @@ modules-load=dwc2,g_ether
 Das sieht dann z. B so aus 
 
 ._cmdLine File_
-image::./installation/cmdLine.png[cmdLine file]
+image::./installation/cmdLine.png[width=70% cmdLine file]
 
 
 Jetzt müssen Sie ein leeres File ohne Dateiendung erstellen, und dieses ssh nennen. Hierfür kann man z. B ein Textfile erstellen und dann die Endung entfernen:
 
 ._SSH aktivieren_
-image::./installation/activateSSH.png[activate SSH]
+image::./installation/activateSSH.png[width=70% activate SSH]
 
 Schliessen Sie die Mini SD-Karte wieder an den RaspberryPi an und schliessen Sie danach den Raspberry Pi mit dem USB-Kabel an den Laptop an.
 
 Danach können Sie PuTTY starten und mit der folgenden Konfiguration auf den Pi zugreifen.
 
 ._SSH Zugriff mit PuTTY_
-image::./installation/SSHputty.png[SSH Zugru]
+image::./installation/SSHputty.png[width=60% SSH Zugriff]
 
 Jetzt können Sie sich mit den Standard Credentials anmelden und den Raspberry Pi über die Konsole verwenden.
 
 ._Login in PuTTY_
-image::./installation/puttyLogin.png[Login in PuTTY]
+image::./installation/puttyLogin.png[width=70% Login in PuTTY]
 
 
 ==== Zugriff über Wifi
@@ -179,12 +179,12 @@ https://www.realvnc.com/de/connect/download/viewer/
 Diesen kann man dan starten und die IP Addresse des Raspberry Pis eingeben, um den Remotezugriff auf den Pi aufzubauen:
 
 ._VNC Viewer Zugriff auf Pi_
-image::./installation/VNCViewer.png[VNC Viewer Zugriff auf Pi]
+image::./installation/VNCViewer.png[width=70% VNC Viewer Zugriff auf Pi]
 
 Jetzt sieht man auch die GUI von Raspbian mit dem Remotezugriff von VNC:
 
 ._VNC Viewer GUI von Raspbian_
-image::./installation/VNCViewerGUI.png[VNC Viewer GUI von Raspbian]
+image::./installation/VNCViewerGUI.png[width=70% VNC Viewer GUI von Raspbian]
 
 Es kann gut sein, dass die Auflösung und die Grösse der Icons nicht optimal ist.
 Dies können Sie wie folgt einstellen:
@@ -233,7 +233,7 @@ Für die Verkabelung wird folgende Hardware benötigt:
 
 
 .LED Verkabelung 
-image::./fritzing/blink_led.png[LED Wiring]
+image::./fritzing/blink_led.png[width=100% LED Wiring]
 
 ==== Code Beispiel
 
@@ -241,7 +241,7 @@ In diesem Beispiel wird einfach eine LED blinken gelassen mit einem delay von ei
 *Vorkenntnisse: Basic*
 [source,java]
 ----
-include::{sourcedir}/fhnwexamples/gpio/BlinkLed.java[lines=14..39]
+include::{sourcedir}/fhnwexamples/gpio/BlinkLed.java[tags=BlinkLed]
 ----
 
 === Button
@@ -275,7 +275,7 @@ Für die Verkabelung wird folgende Hardware benötigt:
 * 1x LCD1602 I2C Modul mit PCF8574 I2C extender
 
 .LCD I2C Modul Verkabelung 
-image::./fritzing/LCDI2C.png[I2C Wiring]
+image::./fritzing/LCDI2C.png[width=70% I2C Wiring]
 
 ==== Code Beispiel
 
@@ -293,6 +293,26 @@ include::{sourcedir}/fhnwexamples/component/LcdSystemTimeI2C.java[tags=LcdSystem
 === Motor Software PWM
 
 === Serial Camera
+
+=== Raspberry Pi Camera
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Raspberry Pi Camera mit Flachbandkabel
+
+.Raspberry Pi Camera Verkabelung 
+image::./fritzing/raspiCam.png[width=50% RaspiCam Wiring]
+
+==== Code Beispiel
+In diesem Beispiel wird die Raspberry Pi Camera mit einer externen Library verwendet.
+Es werden 10 Bilder nacheinander geschossen und in den Ordner `/home/pi/Pictures/PiCamPics` gespeichert.  +
+*Vorkenntnisse: Intermediate*
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/RaspberryPiCamera.java[tags=RaspberryPiCamera]
+----
+
 
 === Servo Motor
 

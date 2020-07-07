@@ -2,7 +2,7 @@ package FHNWExamples.Component;
 
 import FHNWExamples.Example;
 
-import java.io.File;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -58,13 +58,33 @@ public class RaspberryPiCamera extends Example {
             console.println("picture 1 successfully taken");
 
             //takes 9 pictures quicker now to get 10 in total
-            for (int i = 2; i <= 10; i++) {
+            for (int i = 2; i <= 3; i++) {
                 camera.takePicture(new FilePictureCaptureHandler(new File(path + "/picam" + i + ".jpg")));
                 console.println("picture " + i + " successfully taken");
             }
         } catch (CameraException e) {
             console.println(e.getMessage());
         }
+
+        TakeVideo(console);
     }
     // end::RaspberryPiCamera[]
+
+    public static void TakeVideo(Console console) {
+        console.println("START VIDEO RECORDING FOR 15 SEC");
+        long start = System.currentTimeMillis();
+        try {
+            // takes a 5 second full hd video and -hf or -vf flip the video
+            String command = "raspivid -n -vf -t 15000 -o testvid.h264";
+
+            //always writes it to a file, but with command "-o -" it writes to stdout
+            //This will just run in the background and save the video in a file
+            Process p = Runtime.getRuntime().exec(command);
+            Thread.sleep(15000);
+
+        } catch (IOException | InterruptedException ieo) {
+            ieo.printStackTrace();
+        }
+        console.println("END OF VIDEO RECORDING");
+    }
 }

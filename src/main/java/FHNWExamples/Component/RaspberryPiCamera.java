@@ -6,9 +6,11 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import com.hopding.jrpicam.*;
+import com.hopding.jrpicam.exceptions.*;
 import com.pi4j.util.Console;
 import uk.co.caprica.picam.*;
-import uk.co.caprica.picam.enums.*;
+import uk.co.caprica.picam.enums.Encoding;
 
 import static uk.co.caprica.picam.CameraConfiguration.cameraConfiguration;
 import static uk.co.caprica.picam.PicamNativeLibrary.installTempLibrary;
@@ -34,43 +36,15 @@ public class RaspberryPiCamera extends Example {
     public void execute() throws Exception {
         Console console = new Console();
         console.promptForExit();
-
-        // Extract the bundled picam native library to a temporary file and load it
-        installTempLibrary();
-
-        //Create Configuration object with builder approach
-        CameraConfiguration config = cameraConfiguration()
-                .width(1920)
-                .height(1080)
-                .encoding(Encoding.JPEG)
-                .quality(85);
-
-        //select default home directory for pictures
-        String path = "/home/pi/Pictures/PiCamPics";
-        Files.createDirectories(Paths.get(path));
-
-        console.println("tries to take 10 pictures to the directory" + path);
-
-        //takes picture to the added jpg file
-        try (Camera camera = new Camera(config)) {
-            //For the first picture a longer delay is sometimes needed
-            camera.takePicture(new FilePictureCaptureHandler(new File(path + "/picam1.jpg")), 3000);
-            console.println("picture 1 successfully taken");
-
-            //takes 9 pictures quicker now to get 10 in total
-            for (int i = 2; i <= 3; i++) {
-                camera.takePicture(new FilePictureCaptureHandler(new File(path + "/picam" + i + ".jpg")));
-                console.println("picture " + i + " successfully taken");
-            }
-        } catch (CameraException e) {
-            console.println(e.getMessage());
-        }
-
-        TakeVideo(console);
+        long start = System.currentTimeMillis();
+        takePiCamPics(console);
+        long diff = System.currentTimeMillis() - start;
+        System.out.println("Elapsed time" + diff);
+        //TakeVideo(console);
     }
     // end::RaspberryPiCamera[]
 
-    public static void TakeVideo(Console console) {
+    public static void takeVideo(Console console) {
         console.println("START VIDEO RECORDING FOR 15 SEC");
         long start = System.currentTimeMillis();
         try {
@@ -86,5 +60,81 @@ public class RaspberryPiCamera extends Example {
             ieo.printStackTrace();
         }
         console.println("END OF VIDEO RECORDING");
+    }
+
+    /**
+     * Compares the two Raspberry Pi Camera Libraries in terms of speed
+     * @param console
+     * @throws FailedToRunRaspistillException
+     * @throws IOException
+     * @throws NativeLibraryException
+     */
+    private static void compareLibraries(Console console) throws FailedToRunRaspistillException, IOException, NativeLibraryException {
+        long start = System.currentTimeMillis();
+
+        takeRPiCameraPics(console);
+        long end = System.currentTimeMillis();
+        long diff = end - start;
+        System.out.println("Elapsed Time: " + diff);
+
+        takePiCamPics(console);
+        end = System.currentTimeMillis();
+        diff = end - start;
+
+        System.out.println("Elapsed Time: " + diff);
+    }
+
+    private static void takeRPiCameraPics(Console console) throws FailedToRunRaspistillException {
+        // Create a Camera that saves images to the Pi's Pictures directory.
+        RPiCamera piCamera = new RPiCamera("/home/pi/Pictures");
+        piCamera.setWidth(1920).setHeight(1080)
+                .setVerticalFlipOn();
+        // Sets all Camera options to their default settings, overriding any changes previously made.
+        piCamera.setToDefaults();
+        console.println("Settings done");
+        console.println("Takes 10 pictures in home directory");
+        try {
+
+            for (int i = 0; i < 10; i++) {
+                piCamera.takeStill("AnAwesomePic" + i + ".jpg");
+                console.println("Pic taken");
+            }
+        } catch (Exception e) {
+            console.println(e.getStackTrace());
+        }
+    }
+
+    private static void takePiCamPics(Console console) throws NativeLibraryException, IOException {
+        // Extract the bundled picam native library to a temporary file and load it
+        installTempLibrary();
+
+        //Create Configuration object with builder approach
+        CameraConfiguration config = cameraConfiguration()
+                .width(1920)
+                .height(1080)
+                .encoding(Encoding.JPEG)
+                .quality(85)
+                .rotation(180);
+
+        //select default home directory for pictures
+        String path = "/home/pi/Pictures/PiCamPics";
+        Files.createDirectories(Paths.get(path));
+
+        console.println("tries to take 10 pictures to the directory" + path);
+
+        //takes picture to the added jpg file
+        try (Camera camera = new Camera(config)) {
+            //For the first picture a longer delay is sometimes needed
+            camera.takePicture(new FilePictureCaptureHandler(new File(path + "/picam1.jpg")), 3000);
+            console.println("picture 1 successfully taken");
+
+            //takes 9 pictures quicker now to get 10 in total
+            for (int i = 2; i <= 10; i++) {
+                camera.takePicture(new FilePictureCaptureHandler(new File(path + "/picam" + i + ".jpg")));
+                console.println("picture " + i + " successfully taken");
+            }
+        } catch (CameraException | CaptureFailedException e) {
+            console.println(e.getMessage());
+        }
     }
 }

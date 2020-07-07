@@ -12,7 +12,10 @@ repositories {
     mavenCentral()
 	maven {
 		url "https://oss.sonatype.org/content/repositories/snapshots/"
-	}
+    }
+    maven {
+        url "https://jitpack.io"
+    }
 
 }
 
@@ -34,6 +37,7 @@ compileJava {
 dependencies {
     implementation 'com.pi4j:pi4j-core:1.2'
     implementation 'com.pi4j:pi4j-device:1.2'
+    implementation 'com.github.Hopding:JRPiCam:v1.1.1'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.2'
     compile "uk.co.caprica:picam:2.0.2"
 

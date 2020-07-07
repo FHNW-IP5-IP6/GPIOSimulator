@@ -8,7 +8,6 @@ import java.io.IOException;
 
 /**
  * I2C LCD Component for easier usage
- * Inspired by https://github.com/Poduzov/PI4J-I2C-LCD
  */
 public class I2CLCD extends I2CBase {
 

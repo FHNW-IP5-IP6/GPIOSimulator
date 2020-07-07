@@ -46,6 +46,10 @@ toc::[]
 == Unterstützte Hardware und Software
 === Hardware
 
+==== Raspberry Pi
+
+==== Grove Sensoren & Aktuatoren
+
 === Software
 
 ==== Pi4J
@@ -53,8 +57,9 @@ toc::[]
 ==== Java
 
 == Setup des RaspberryPi
+Bevor Sie mit der Implementation ihere ersten Raspberry Pi Projekten starten können, muss der Mini-Computer aufgesetzt werden. Im Gegensatz zu Micro Controllern wie Beispielsweise der Arduino Uno benötigt der Pi ein Betriebssystem. Wir verwenden das auf Linux basierende System Raspbian, eine speziell für den Raspberry Pi modifiziertes Derbian.
 
-=== Installation von Raspbian 
+=== Installation von Raspbian
 Als erstes benötigen Sie das Betriebssystem Raspbian, welches später auf die Mini SD-Karte aufgesetzt wird.
 
 Dafür müssen Sie sich das Image downloaden. Besuchen Sie hierfür die Download-Website der Raspberry Organisation: + 
@@ -64,10 +69,9 @@ https://www.raspberrypi.org/downloads/raspbian/
 image::./installation/raspbianDownload.png[balenaEtcher Download]
 
 
-Wählen Sie jetzt `Raspbian Buster with desktop` aus. Downloaden und extrahieren Sie den Zip-Ordner. Dieser Ordner enthält die img-Datei, die danach benötigt wird für die Installation.
+Wählen Sie jetzt `Raspbian Buster with desktop` aus. Downloaden und extrahieren Sie den Zip-Ordner. Dieser Ordner enthält die .img-Datei, welche wir in den folgenden Installationsschritten benötigen werden.
 
-Um OS Images auf SD-Karten oder USB-Sticks installieren zu können, brauchen Sie eine Disk Imaging Software.
-Wir empfehlen dafür balenaEtcher, aber es gibt auch andere gute Software.
+Damit Sie OS Images auf SD-Karten oder USB-Sticks installieren zu können, brauchen Sie eine Disk Imaging Software. Wir empfehlen dafür balenaEtcher, aber es gibt auch andere gute Software.
 
 Downloaden und installieren Sie balenaEtcher von der balena Homepage: + 
 https://www.balena.io/etcher/
@@ -81,11 +85,11 @@ Sie können das Image jetzt in 3 einfachen Schritten aufsetzen.
 ._balenaEtcher Startbildschirm_
 image::./installation/balenaStart.png[width=70% balenaEtcher Startbildschirm]
 
-. Wählen Sie zuerst das Image aus, welches Sie vorher gedownloaded haben
-. Wählen Sie danach die Mini SD-Karte aus, welche Sie an ihren PC angeschlossen haben. Bitte beachten Sie, dass die SD-Karte formatiert wird und alle Daten darauf gelöscht werden.
-. Klicken Sie dann auf "Flash!" und warten Sie bis balenaEtcher fertig ist mit der image installation.
+. Wählen Sie zuerst die .img-Datei des zuvor heruntergeladenen Raspbian aus.
+. Wählen Sie nun die Mini SD-Karte aus, welche Sie an Ihren PC angeschlossen haben. Bitte beachten Sie, dass die SD-Karte während der Installation formatiert wird und somit alle Daten darauf gelöscht werden.
+. Klicken Sie auf "Flash!" um die Installation des Images zu starten. Dieser Prozess kann einige Minuten in Anspruch nehmen.
 
-Wenn Sie die zusätzliche Hardware besitzen, um den Pi als normalen Rechner zu verwenden (Maus, Monitor und Tastatur), dann können Sie jetzt die Mini SD-Karte an den Pi anschliessen und den Pi starten.
+Wenn Sie den Raspberry Pi als normalen Desktop Rechner verwenden möchten, können Sie nun die Mini SD-Karte in den Pi einsetzen und weitere Harware wie Maus, Monitor und Tastatur anschliessen. Ihr Desktop PC ist startklar.
 
 Die Standard Credentials für den Login auf dem Pi sind:
 
@@ -93,13 +97,13 @@ Die Standard Credentials für den Login auf dem Pi sind:
 * *Passwort*: raspberry
 
 === Nutzung ohne zusätzliche Hardware
-Da zusätzliche Hardware nicht immer zur Verfügung steht und die bequemen Entwicklungsumgebungen, auf die man nicht mehr verzichten möchte, zu hohe Systemanforderungen an den Raspberry Pi stellen, erkären wir hier, wie man mit dem Pi arbeiten kann, wenn man es nur mit dem USB-Kabel an den Laptop anschliesst.
+Es gibt verschiedene Gründe, weshalb Sie den Raspberry Pi ohne zusätzliche Hardware benutzen möchten. Womöglich erfüllt der Pi die Mindestanforderungen Ihrer bevorzugten Entwicklungsumgebung nicht oder Ihnen steht schlicht und einfach nicht die nötige Hardware zur Verfügung. In diesem Kapitel möchten wir Ihnen erklären, wie Sie den Mini Computer ganz ohne zusätzlicher Hardware Konfigurieren und verwenden können. Sie benötigen dazu ledeglich ein USB-Kabel und Ihren Laptop.
 
-Zuerst benötigen Sie die Software PuTTY, um auf den Pi zu zugreifen. Sie können es downloaden über den folgenden Link: + 
+Damit Sie via SSH auf den Pi zugreiffe können, benötigen Sie eine SSH Software. Ein beliebtes Tool ist PuTTY. Sie können es unter folgendem Link auf Ihrem Rechner installieren: + 
 https://www.putty.org/
 
 ==== Zugriff über SSH
-Zuerst müssen Sie wieder die SD-Karte an den PC anschliessen und normal auf den boot Folder zugreifen zu können.
+Bevor Sie sich mit PuTTY via SSH auf den Pi einloggen können, müssen Sie SSH in Raspbian aktivieren. Dazu legen Sie die SD-Karte erneut in Ihren PC ein und navigieren anschliessend mittels Explorer in den boot Folder der SD-Karte.
 
 Jetzt müssen Sie verschieden Einstellungen direkt an den markierten Files in diesem Ordner vornehmen:
 
@@ -123,13 +127,12 @@ Das sieht dann z. B so aus
 ._cmdLine File_
 image::./installation/cmdLine.png[width=70% cmdLine file]
 
-
-Jetzt müssen Sie ein leeres File ohne Dateiendung erstellen, und dieses ssh nennen. Hierfür kann man z. B ein Textfile erstellen und dann die Endung entfernen:
+Zu guter Letzt erstellen Sie ein leeres File ohne Dateiendung mit dem Namen `ssh`. Hierfür kann man z.B ein Textfile erstellen und dann die Endung entfernen:
 
 ._SSH aktivieren_
 image::./installation/activateSSH.png[width=70% activate SSH]
 
-Schliessen Sie die Mini SD-Karte wieder an den RaspberryPi an und schliessen Sie danach den Raspberry Pi mit dem USB-Kabel an den Laptop an.
+Nun können Sie die Mini SD-Karte wieder in den Raspberry Pi einlegen und diesen mittels USB-Kabel an Ihren Computer anschliessen.
 
 Danach können Sie PuTTY starten und mit der folgenden Konfiguration auf den Pi zugreifen.
 
@@ -138,19 +141,21 @@ image::./installation/SSHputty.png[width=60% SSH Zugriff]
 
 Jetzt können Sie sich mit den Standard Credentials anmelden und den Raspberry Pi über die Konsole verwenden.
 
+* *User*: pi +
+* *Passwort*: raspberry
+
 ._Login in PuTTY_
 image::./installation/puttyLogin.png[width=70% Login in PuTTY]
 
 
 ==== Zugriff über Wifi
-Wenn Sie sich im selben Netzwerk befinden, wie das Raspberry Pi, dann können Sie auch über das Netz auf den Pi zugreifen.
-Damit der Pi auf das WLAN zugreifen kann, müssen Sie wieder die SD-Karte an Ihren Laptop anschliessen und eine Datei im boot Ordner erstellen: Das `wpa_supplicant.conf` file:
+Wenn Sie sich im selben Netzwerk befinden wie das Raspberry Pi,  können Sie auch über das Netz auf den Pi zugreifen. Damit der Pi auf das WLAN zugreifen kann, müssen Sie wieder die SD-Karte an Ihren Laptop anschliessen und eine Datei im boot Ordner erstellen. Das `wpa_supplicant.conf` file.
 
 [source]
 ----
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
-country=US
+country=CH
 
 network={
     ssid="NETZWERK"
@@ -159,7 +164,7 @@ network={
 ----
 
 Bei `ssid` müssen Sie den Netzwerknamen angeben und bei `psk` das Passwort.
-Schliessen sie die SD-Karte wieder an den Raspberry Pi und den Pi wieder an den Laptop.
+Schliessen sie die SD-Karte wieder an den Raspberry Pi an und den Pi an den Laptop.
 
 Jetzt können Sie in PuTTY die IP-Adresse eingeben und sich somit verbinden.
 

@@ -6,6 +6,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import FHNWGPIO.Components.RaspberryPiCameraComponent;
 import com.hopding.jrpicam.*;
 import com.hopding.jrpicam.exceptions.*;
 import com.pi4j.util.Console;
@@ -37,10 +38,24 @@ public class RaspberryPiCamera extends Example {
         Console console = new Console();
         console.promptForExit();
         long start = System.currentTimeMillis();
-        takePiCamPics(console);
+        CameraConfiguration cameraConfiguration = cameraConfiguration()
+                .width(1920)
+                .height(1080)
+                .encoding(Encoding.JPEG)
+                .quality(85)
+                .rotation(180);
+
+        RaspberryPiCameraComponent raspberryPiCamera = new RaspberryPiCameraComponent(console, cameraConfiguration);
+
+        console.println("Config done");
+
+        raspberryPiCamera.takeStill(cameraConfiguration, "/home/pi/Pictures/picam1.jpg", 3000);
+        raspberryPiCamera.takeStill(cameraConfiguration, "/home/pi/Pictures/picam2.jpg");
+
+        raspberryPiCamera.takeVid("/home/pi/Pictures/vid.h264");
+
         long diff = System.currentTimeMillis() - start;
         System.out.println("Elapsed time" + diff);
-        //TakeVideo(console);
     }
     // end::RaspberryPiCamera[]
 

@@ -12,36 +12,32 @@ public class ButtonClickDevice extends Example {
         super(key, title);
     }
 
-    @Override
     // tag::ButtonClickDevice[]
-    public void execute() throws Exception {
+    @Override public void execute() throws Exception {
 
-        GpioProvider provider = new  RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING); //like on GPIO Extension Board
-        GpioFactory.setDefaultProvider(provider); //like on GPIO Extension Board
+        GpioProvider provider = new RaspiGpioProvider(
+                RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING); //like on GPIO Extension Board
+        GpioFactory.setDefaultProvider(provider);
 
         final GpioController gpio = GpioFactory.getInstance();
 
         Console console = new Console();
         console.promptForExit();
 
-        final GpioPinDigitalInput pin = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_03,
-                PinPullResistance.PULL_DOWN);
+        final GpioPinDigitalInput pin = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_03, PinPullResistance.PULL_DOWN);
 
         // set shutdown state for this input pin
         pin.setShutdownOptions(true);
 
         GpioButtonComponent buttonComponent = new GpioButtonComponent(pin, PinState.HIGH, PinState.LOW);
 
-
         pin.addListener((GpioPinListenerDigital) event -> {
-            if(event.getState().isHigh()){
+            if (event.getState().isHigh()) {
                 console.println("button pressed");
-            }
-            else {
+            } else {
                 console.println("button released");
             }
         });
-
 
         while (console.isRunning()) {
             Thread.sleep(10);

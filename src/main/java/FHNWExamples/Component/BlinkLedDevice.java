@@ -14,7 +14,6 @@ public class BlinkLedDevice extends Example {
     }
 
     // tag::BlinkLedDevice[]
-    // end::BlinkLedDevice[]
     @Override public void execute() throws Exception {
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         final GpioController gpio = GpioFactory.getInstance();

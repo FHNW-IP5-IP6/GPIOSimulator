@@ -10,13 +10,12 @@ public class BlinkLed extends Example {
         super(key, title);
     }
 
-    @Override
     // tag::BlinkLed[]
-    public void execute() throws Exception {
+    @Override public void execute() throws Exception {
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         final GpioController gpio = GpioFactory.getInstance();
 
-        GpioPinDigitalOutput led = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_02, "Blinking LED" , PinState.LOW);
+        GpioPinDigitalOutput led = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_02, "Blinking LED", PinState.LOW);
         led.setShutdownOptions(true, PinState.LOW);
 
         Console console = new Console();

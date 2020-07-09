@@ -38,17 +38,21 @@ toc::[]
 
 <<<
 :sectnums!:
-== Einleitung
+== TODO Einleitung
 :sectnums:
 
 <<<
 
-== Unterstützte Hardware und Software
+== TODO: Unterstützte Hardware und Software
 === Hardware
 
 ==== Raspberry Pi
 
 ==== Grove Sensoren & Aktuatoren
+
+==== Grove Hat
+
+==== Breadboard
 
 === Software
 
@@ -57,99 +61,105 @@ toc::[]
 ==== Java
 
 == Setup des RaspberryPi
-Bevor Sie mit der Implementation ihere ersten Raspberry Pi Projekten starten können, muss der Mini-Computer aufgesetzt werden. Im Gegensatz zu Micro Controllern wie Beispielsweise der Arduino Uno benötigt der Pi ein Betriebssystem. Wir verwenden das auf Linux basierende System Raspbian, eine speziell für den Raspberry Pi modifiziertes Derbian.
+Bevor Sie mit der Implementation ihres ersten Raspberry Pi Projekts starten können, muss der Mini-Computer aufgesetzt werden. Im Gegensatz zu den verschiedenen im Handel erhältichen Micro Controllern, wie Beispielsweise der Arduino Uno, benötigt der Pi ein Betriebssystem. Wir verwenden das auf Linux basierende System Raspbian, eine speziell für den Raspberry Pi modifiziertes Derbian.
 
-=== Installation von Raspbian
-Als erstes benötigen Sie das Betriebssystem Raspbian, welches später auf die Mini SD-Karte aufgesetzt wird.
+=== Vorbereitung der Mini SD-Karte
+Wie bereits erwähnt, verwenden wir für den Betrieb des Raspberry Pi das Linux OS Raspbian. Das Betriebssystem werden Sie später auf die Ihnen zur Verfügung gestellte Mini SD-Karte installieren.
 
-Dafür müssen Sie sich das Image downloaden. Besuchen Sie hierfür die Download-Website der Raspberry Organisation: + 
+In einem ersten Schritt laden Sie bitte das Raspbian Image aus dem Internet auf Ihren Rechner und speichern die Datei ab. Besuchen Sie hierfür die Download-Website der Raspberry Organisation: + 
 https://www.raspberrypi.org/downloads/raspbian/
 
 ._Raspbian Download_
-image::./installation/raspbianDownload.png[balenaEtcher Download]
+image::./installation/raspbianDownload.png[width=75% raspbian Download]
 
+Wählen Sie nun die Raspbian Version `Raspbian Buster with desktop` aus. Sobald Ihr Browser den Download abgeschlossen hat, extrahieren Sie bitte den Zip-Ordner an eine beliebige Stelle. Im extrahierten Ordner befindet sich eine .img-Datei, welche wir in den folgenden Installationsschritten benötigen werden. Merken Sie sich also, wo auf dem Dateisystem der entpackte Folder liegt.
 
-Wählen Sie jetzt `Raspbian Buster with desktop` aus. Downloaden und extrahieren Sie den Zip-Ordner. Dieser Ordner enthält die .img-Datei, welche wir in den folgenden Installationsschritten benötigen werden.
+Damit Sie das Raspbian Image auf Ihre SD-Karte installieren können, brauchen Sie eine geeignete Disk Imaging Software. Wir empfehlen Ihnen dafür balenaEtcher zu verwenden. Es gibt aber auch andere dafür geeignete Programme.
 
-Damit Sie OS Images auf SD-Karten oder USB-Sticks installieren zu können, brauchen Sie eine Disk Imaging Software. Wir empfehlen dafür balenaEtcher, aber es gibt auch andere gute Software.
-
-Downloaden und installieren Sie balenaEtcher von der balena Homepage: + 
+Wenn Sie sich ebenfalls für balenaEtcher entscheiden, können Sie das Programm über den folgenden Link direkt von der balena Webseite herunterladen und installieren: + 
 https://www.balena.io/etcher/
 
 ._balenaEtcher Download_
-image::./installation/balenaDownload.png[width=70% balenaEtcher Download]
+image::./installation/balenaDownload.png[width=75% balenaEtcher Download]
 
-Starten Sie nach dem Download balenaEtcher.
-Sie können das Image jetzt in 3 einfachen Schritten aufsetzen.
+Nachdem Sie balenaEtcher installiert haben, können Sie die Applikation starten. In nur drei einfachen Schritten spiegelt balenaEtcher das Raspbian Image auf Ihre Mini SD-Karte.
 
 ._balenaEtcher Startbildschirm_
-image::./installation/balenaStart.png[width=70% balenaEtcher Startbildschirm]
+image::./installation/balenaStart.png[width=75% balenaEtcher Startbildschirm]
 
-. Wählen Sie zuerst die .img-Datei des zuvor heruntergeladenen Raspbian aus.
-. Wählen Sie nun die Mini SD-Karte aus, welche Sie an Ihren PC angeschlossen haben. Bitte beachten Sie, dass die SD-Karte während der Installation formatiert wird und somit alle Daten darauf gelöscht werden.
+. Wählen Sie in einem ersten Schritt die .img-Datei des zuvor heruntergeladenen Raspbian aus.
+. Wählen Sie nun die Mini SD-Karte aus, welche Sie an Ihren PC angeschlossen haben. Bitte beachten Sie, dass die SD-Karte während der Installation formatiert wird und somit alle sich auf der Karte befindenden Daten unwiederruflich gelöscht werden.
 . Klicken Sie auf "Flash!" um die Installation des Images zu starten. Dieser Prozess kann einige Minuten in Anspruch nehmen.
 
-Wenn Sie den Raspberry Pi als normalen Desktop Rechner verwenden möchten, können Sie nun die Mini SD-Karte in den Pi einsetzen und weitere Harware wie Maus, Monitor und Tastatur anschliessen. Ihr Desktop PC ist startklar.
+Sobald der Flash Vorgang abgeschlossen wurde, ist Raspbian auf der SD-Karte installiert und das OS ist betriebsbereit.
 
-Die Standard Credentials für den Login auf dem Pi sind:
+=== Raspberry Pi mit zusätzlicher Hardware nutzen
+Wenn Sie den Raspberry Pi als normalen Desktop Rechner verwenden möchten, können Sie die vorbereitete Mini SD-Karte in den Pi einsetzen und weitere Hardware wie Maus, Monitor und Tastatur direkt an Ihren Pi anschliessen. Sobald Sie den Computer an das Stromnetz anschliessen, fährt Raspbian hoch und eine Login Maske erscheint.
 
-* *User*: pi +
+Für das initiale Login auf dem Pi können Sie die folgenden Standard Credentials verwenden:
+
+* *User*: pi
 * *Passwort*: raspberry
 
-=== Nutzung ohne zusätzliche Hardware
-Es gibt verschiedene Gründe, weshalb Sie den Raspberry Pi ohne zusätzliche Hardware benutzen möchten. Womöglich erfüllt der Pi die Mindestanforderungen Ihrer bevorzugten Entwicklungsumgebung nicht oder Ihnen steht schlicht und einfach nicht die nötige Hardware zur Verfügung. In diesem Kapitel möchten wir Ihnen erklären, wie Sie den Mini Computer ganz ohne zusätzlicher Hardware Konfigurieren und verwenden können. Sie benötigen dazu ledeglich ein USB-Kabel und Ihren Laptop.
+=== Raspberry Pi ohne zusätzliche Hardware nutzen
+Es gibt verschiedene Gründe, weshalb Sie den Raspberry Pi ohne zusätzliche Hardware verwenden möchten. Womöglich erfüllt der Pi die Mindestanforderungen Ihrer bevorzugten Entwicklungsumgebung nicht oder Ihnen steht schlicht und einfach nicht die nötige Hardware zur Verfügung. In diesem Kapitel möchten wir Ihnen aufzeigen, wie Sie den Mini Computer ganz ohne zusätzliche Hardware konfigurieren und verwenden können. Sie benötigen dazu ledeglich ein USB-Kabel und Ihren Laptop.
 
-Damit Sie via SSH auf den Pi zugreiffe können, benötigen Sie eine SSH Software. Ein beliebtes Tool ist PuTTY. Sie können es unter folgendem Link auf Ihrem Rechner installieren: + 
+Um mit dem Raspberry Pi ohne zusätzliche Hardware arbeiten zu können, wird SSH verwendet. Damit Sie via SSH auf den Pi zugreifen können, benötigen Sie eine SSH Software. Ein beliebtes Tool ist PuTTY. Sie können es unter folgendem Link direkt vom Hersteller herunterladen und auf Ihrem Rechner installieren: +
 https://www.putty.org/
 
 ==== Zugriff über SSH
-Bevor Sie sich mit PuTTY via SSH auf den Pi einloggen können, müssen Sie SSH in Raspbian aktivieren. Dazu legen Sie die SD-Karte erneut in Ihren PC ein und navigieren anschliessend mittels Explorer in den boot Folder der SD-Karte.
+Bevor Sie sich mit PuTTY via SSH auf den Pi einloggen können, müssen Sie SSH in Raspbian aktivieren. Dazu legen Sie die SD-Karte erneut in Ihren PC ein und navigieren anschliessend mittels Datei-Explorer in den `boot` Folder der SD-Karte.
 
-Jetzt müssen Sie verschieden Einstellungen direkt an den markierten Files in diesem Ordner vornehmen:
+Jetzt müssen Sie verschiedene Einstellungen direkt an den markierten Files im `boot` Ordner vornehmen:
 
 ._boot Ordner_
-image::./installation/bootFolder.png[width=70% boot Ordner]
+image::./installation/bootFolder.png[width=75% boot Ordner]
 
-* Im File `config.txt` müssen Sie ganz am Schluss den Folgenden Snippet hinzufügen +
+* Im File `config.txt` müssen Sie ganz am Schluss den folgenden Snippet hinzufügen: +
 [source]
 ----
 dtoverlay=dwc2
 ----
 
-* Im File `cmdline.txt` müssen Sie nach dem Text "rootwait" suchen und danach den folgenden snippet hinzufügen +
+* Im File `cmdline.txt` müssen Sie nach dem Text "rootwait" suchen und danach den folgenden Snippet hinzufügen: +
 [source]
 ----
 modules-load=dwc2,g_ether
 ----
 
-Das sieht dann z. B so aus 
+Der relevante Ausschnitt des Files sieht dann zum Beispiel so aus: 
 
 ._cmdLine File_
-image::./installation/cmdLine.png[width=70% cmdLine file]
+image::./installation/cmdLine.png[width=75% cmdLine file]
 
-Zu guter Letzt erstellen Sie ein leeres File ohne Dateiendung mit dem Namen `ssh`. Hierfür kann man z.B ein Textfile erstellen und dann die Endung entfernen:
+Zu guter Letzt erstellen Sie ein leeres File ohne Dateiendung mit dem Namen `ssh`. Um dies zu erreichen, können Sie beispielsweise ein neues Textfile erstellen und dieses `ssh` nennen. Nun entfernen Sie die Dateiendung .txt.
 
 ._SSH aktivieren_
-image::./installation/activateSSH.png[width=70% activate SSH]
+image::./installation/activateSSH.png[width=75% activate SSH]
 
-Nun können Sie die Mini SD-Karte wieder in den Raspberry Pi einlegen und diesen mittels USB-Kabel an Ihren Computer anschliessen.
-
-Danach können Sie PuTTY starten und mit der folgenden Konfiguration auf den Pi zugreifen.
+Nun können Sie die Mini SD-Karte wieder in den Raspberry Pi einlegen und diesen mittels USB-Kabel an Ihren Computer anschliessen. Beim Startup von Raspbian untersucht das System den boot Folder und lädt Ihre neuen Einstellungen. Anschliessend können Sie PuTTY starten und mit der folgenden Konfiguration auf den Pi zugreifen.
 
 ._SSH Zugriff mit PuTTY_
-image::./installation/SSHputty.png[width=60% SSH Zugriff]
+image::./installation/SSHputty.png[width=65% SSH Zugriff]
 
-Jetzt können Sie sich mit den Standard Credentials anmelden und den Raspberry Pi über die Konsole verwenden.
+Im neuen Shell Fenster können Sie sich mit den Standard Credentials anmelden und den Raspberry Pi über die Konsole verwenden.
 
-* *User*: pi +
+* *User*: pi
 * *Passwort*: raspberry
 
 ._Login in PuTTY_
-image::./installation/puttyLogin.png[width=70% Login in PuTTY]
+image::./installation/puttyLogin.png[width=75% Login in PuTTY]
 
 
-==== Zugriff über Wifi
-Wenn Sie sich im selben Netzwerk befinden wie das Raspberry Pi,  können Sie auch über das Netz auf den Pi zugreifen. Damit der Pi auf das WLAN zugreifen kann, müssen Sie wieder die SD-Karte an Ihren Laptop anschliessen und eine Datei im boot Ordner erstellen. Das `wpa_supplicant.conf` file.
+==== Zugriff über WiFi
+Die Verbindung zum Raspberry Pi via SSH funktioniert auch kabellos. Dafür muss sich Ihr Computer lediglich im gleichen Netzwerk befinden wie der Raspberry Pi. Zum Beispiel bei Ihnen Zuhause im WLAN oder über Ihren mobilen HotSpot. Damit der Pi auf das WLAN zugreifen kann, müssen Sie die SD-Karte erneut an Ihren Laptop anschliessen und eine neue Datei im boot Ordner erstellen. Das `wpa_supplicant.conf` File.
+
+Wenn Sie bereits mit dem Pi über Kabel verbunden sind, können Sie die Datei auch direkt über die PuTTY Konsole erstellen. Mit dem unteren Befehl wird das File mit dem Text Editor `nano` erstellt.
+
+[source]
+----
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+----
 
 [source]
 ----
@@ -163,71 +173,74 @@ network={
 }
 ----
 
-Bei `ssid` müssen Sie den Netzwerknamen angeben und bei `psk` das Passwort.
-Schliessen sie die SD-Karte wieder an den Raspberry Pi an und den Pi an den Laptop.
+Bei `ssid` müssen Sie Ihren Netzwerknamen angeben und bei `psk` das Passwort. Sobald Sie die nötigen Einstellungen abgeschlossen haben, speichern Sie die getätigten Änderungen. Sofern nötig, schliessen Sie die SD-Karte wieder an den Raspberry Pi an.
 
-Jetzt können Sie in PuTTY die IP-Adresse eingeben und sich somit verbinden.
+Jetzt können Sie in PuTTY die IP-Adresse Ihres Raspberry Pi eingeben und sich somit direkt über das WLAN mit ihm verbinden.
 
-Sie können ihre IP-Addresse auch über den folgenden Befehl `hostname -I` im Raspberry Pi finden, falls sie die Verbindung über SSH bereits gemacht haben.
+Die IP Adresse Ihres Raspberry Pi können Sie über den Befehl `hostname -I` anzeigen lassen, sofern Sie bereits über Kabel mit dem Pi verbunden sind. Alternativ können Sie auch ein Tool auf Ihrem Laptop installieren, welches Ihr Netzwerk nach IPs scannt. Dafür haben wir den Advanced IP Scanner verwendet. Er ist einfach zu verwenden und seine Funktionalität ist selbsterklärend. Das Tool kann unter dem folgenden Link für Windows Rechner heruntergeladen werden: +
+https://www.advanced-ip-scanner.com/de/
 
-==== VNC Viewer anstatt Monitor
-Um ohne Monitor das Grafische Interface von Raspbian verwenden zu können, kann man die VNC Funktionalitäten des Raspberry Pi verwenden.
+._Advanced IP Scanner_
+image::./installation/advanced_ip_scanner.png[width=75% Advanced IP Scanner]
 
-Zuerst muss man einen VNC auf dem Raspberry Pi aktivieren:
+==== Zugriff auf UI via VNC Viewer
+Um ohne Monitor von den Vorzügen des grafischen User Interface von Raspbian profitieren zu können, kann man die VNC Funktionalitäten des Raspberry Pi verwenden. Dieses Feature muss allerdings zuerst in den Einstellungen des Raspberry Pi aktiviert werden.
 
-`sudo raspi-config`, dann `Interfacing Options`, dann auf `VNC` und die Auswahl bestätigen.
+. Die Raspberry Pi Konfiguration mit dem Befehl `sudo raspi-config` öffnen.
+. Unter `Interfacing Options` zu `VNC` navigieren und die Auswahl bestätigen.
 
-Dann muss man einen VNC Viewer auf dem eigenen Rechner installieren. Wie z. B den Real VNC Viewer: + 
-
+Der Pi ist nun für die Verwendung von VNC konfiguriert. Jetzt müssen Sie noch ein entsprechendes Tool auf Ihrem Rechner installieren. Wir haben mit der Software Real VNC Viewer gute Erfahrungen gemacht und würden Ihnen ebenfalls empfehlen, dieses Tool zu verwenden. Es untersützt eine breite Palette von Betriebssystemen, auf welchen es installiert werden kann. Das Tool kann über diese Webseite bezogen werden: + 
 https://www.realvnc.com/de/connect/download/viewer/
 
-Diesen kann man dan starten und die IP Addresse des Raspberry Pis eingeben, um den Remotezugriff auf den Pi aufzubauen:
+Beim Startup des Tools muss zuerst eine neue Verbindung angegeben werden. Diese wird dann für die künftige Verwendung abgespeichert.
 
 ._VNC Viewer Zugriff auf Pi_
 image::./installation/VNCViewer.png[width=70% VNC Viewer Zugriff auf Pi]
 
-Jetzt sieht man auch die GUI von Raspbian mit dem Remotezugriff von VNC:
+Nach einem kurzen Verbindungsaufbau öffnet sich ein neues Fenster, welches einem den Remote Zugriff auf das User Interface des Raspberry Pi erlaubt.
 
 ._VNC Viewer GUI von Raspbian_
 image::./installation/VNCViewerGUI.png[width=70% VNC Viewer GUI von Raspbian]
 
-Es kann gut sein, dass die Auflösung und die Grösse der Icons nicht optimal ist.
-Dies können Sie wie folgt einstellen:
+Es kann gut sein, dass die Auflösung sowie die Grösse der Icons zu Beginn noch nicht optimal ist. Die Einstellungen können Sie wie folgend anpassen:
 
 * *Auflösung*: + 
     _Preferences -> Raspberry Pi Configuration -> Display_ +
-    Hier können Sie  die Unter "Set Resolution" die Auflösung veränder. Es kann auch sein, dass die _"Underscan"_ deaktiviert werden muss, weil sie eventuell ihre Einstellungen zur Auflösung überschreibt.
+    Hier können Sie unter "Set Resolution" die Auflösung verändern. Es kann sein, dass Sie zusätzlich die Option _"Underscan"_ deaktivieren müssen, weil sie eventuell Ihre Einstellungen zur Auflösung überschreibt.
 
 * *Icon Grösse*: + 
     _Preferences -> Appearance Settings -> System -> Defaults_ + 
-    Hier können Sie die Grösse verändern, je nach Grösse Ihres Geräts.
+    Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.
 
+=== TODO: Installation von zusätzlicher Software auf dem Pi
 
-=== Installation von zusätzlicher Software auf dem Pi
+==== Java
 
-==== Deployment auf dem Pi
+==== Git
+
+==== Gradle
+
+== TODO: Code auf dem Pi bauen
 
 == Beispiele
-In diesem Kapitel finden sie alle Sensoren und Aktoren mit Verkabelung und Code Beispielen. Für die Code Beispiele werden jeweils gewisse Vorkenntnisse erwartet, die wir hier in Levels eingeteilt haben:
+In diesem Kapitel finden Sie für eine Vielzahl an gängigen Sensoren und Aktuatoren Code Beispiele sowie Beispiele zur Verkabelung. Für ein vollständiges Verständnis der Code Beispiele sind gewisse Vorkenntnisse von Nöten. Wir haben die Beispiele deshalb in Levels eingeteilt, an welchen Sie den Grad an nötigen Vorkenntnissen einfach erkennen können.
 
 * *Level 1: Basic*
-    ** Variablen und Berechnungen: primitive Datentypen, Wertebereiche und deren Auswirkung beim Rechnen
-    ** Methoden und Parameter: Deklaration, Aufruf, Signatur, Argumente und Rückgabewert
-    ** Kontrollstrukturen: Schleifen und Fallunterscheidungen
-    ** Grundlagen Klassen, Objekte und Vererbung: Deklaration, Instanziierung von Klassen, Überladen und Überschreiben von Methoden, Vererbung, Polymorphie
+    ** Variablen und Berechnungen: primitive Datentypen, Wertebereiche und deren Auswirkung beim Rechnen.
+    ** Methoden und Parameter: Deklaration, Aufruf, Signatur, Argumente und Rückgabewerte.
+    ** Kontrollstrukturen: Schleifen und Fallunterscheidungen.
+    ** Grundlagen Klassen, Objekte und Vererbung: Deklaration und Instanziierung von Klassen, Überladen und Überschreiben von Methoden, Vererbung, Polymorphie.
 * *Level 2: Intermediate*
-    ** Verwendung grundlegender Datenstrukturen (List, Map, Set) und Iteratoren
-    ** Generics und ihre Besonderheiten in Java
-    ** Event Handling
-    ** Collection-Streams und Lambda-Ausdrücke
-
+    ** Verwendung grundlegender Datenstrukturen (List, Map, Set) und Iteratoren.
+    ** Generics und ihre Besonderheiten in Java.
+    ** Event Handling.
+    ** Collection-Streams und Lambda-Ausdrücke.
 * *Level 3: Advanced*
-    ** Nebenläufigkeit mit Threads
-    Strukturierung von Applikationen
-    ** Daten-Persistenz (File-Handling, Serialisierung)
+    ** Nebenläufigkeit mit Threads.
+    ** Strukturierung von Applikationen.
+    ** Daten-Persistenz (File-Handling, Serialisierung).
 
-=== LED
-
+=== Blink LED
 ==== Verkabelung
 
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -236,42 +249,54 @@ Für die Verkabelung wird folgende Hardware benötigt:
 * 1x LED
 * 1x 220Ω Wiederstand
 
-
 .LED Verkabelung 
-image::./fritzing/blink_led.png[width=100% LED Wiring]
+image::./fritzing/blink_led.png[width=75% LED Wiring]
 
 ==== Code Beispiel
+Die blinkende LED ist das "Hello World"-Äquivalent der GPIO Programmierung. Mit dem nachfolgenden Code lassen wir eine LED im Abstand von einer Sekunde blinken.
 
-In diesem Beispiel wird einfach eine LED blinken gelassen mit einem delay von einer Sekunde. +
+===== GPIO Beispiel
 *Vorkenntnisse: Basic*
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/gpio/BlinkLed.java[tags=BlinkLed]
 ----
+===== Device Beispiel
+*Vorkenntnisse: Advanced*
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/BlinkLedDevice.java[tags=BlinkLedDevice]
+----
 
-=== Button
+=== Button Click
 ==== Verkabelung
-
 Für die Verkabelung wird folgende Hardware benötigt:
 
 * 4x Kabel
 * 1x Button
 * 1x 220Ω Wiederstand
 
-
 .Button Verkabelung 
-image::./fritzing/button_click.png[Button Wiring]
+image::./fritzing/button_click.png[width=75% Button Wiring]
 
 ==== Code Beispiel
+In diesem Beispiel wird jeder Klick auf dem Button in der Konsole angezeigt.
 
-In diesem Beispiel wird jeder Klick auf dem Button in der Konsole angezeigt +
+===== GPIO Beispiel
 *Vorkenntnisse: Basic*
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/gpio/ButtonClick.java[tags=ButtonClick]
 ----
-=== LCD
 
+===== Device Beispiel
+*Vorkenntnisse: Intermediate*
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/ButtonClickDevice.java[tags=ButtonClickDevice]
+----
+
+=== LCD
 === LCD I2C
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -280,11 +305,11 @@ Für die Verkabelung wird folgende Hardware benötigt:
 * 1x LCD1602 I2C Modul mit PCF8574 I2C extender
 
 .LCD I2C Modul Verkabelung 
-image::./fritzing/LCDI2C.png[width=70% I2C Wiring]
+image::./fritzing/LCDI2C.png[width=75% I2C Wiring]
 
 ==== Code Beispiel
 
-In diesem wird der Titel des Projekts in der ersten Zeile angezeigt und die Uhrzeit in der zweiten. Die Uhrzeit wird auch jede Sekunde geupdated  +
+In diesem Code Beispiel wird der Titel des Projekts in der ersten Zeile angezeigt und die Uhrzeit in der Zweiten. Die Uhrzeit wird im Sekundentakt aktualisiert. +
 *Vorkenntnisse: Basic*
 [source,java]
 ----
@@ -307,11 +332,10 @@ Für die Verkabelung wird folgende Hardware benötigt:
 * 1x Raspberry Pi Camera mit Flachbandkabel
 
 .Raspberry Pi Camera Verkabelung 
-image::./fritzing/raspiCam.png[width=50% RaspiCam Wiring]
+image::./fritzing/raspiCam.png[width=60% RaspiCam Wiring]
 
 ==== Code Beispiel
-In diesem Beispiel wird die Raspberry Pi Camera mit einer externen Library verwendet.
-Es werden 10 Bilder nacheinander geschossen und in den Ordner `/home/pi/Pictures/PiCamPics` gespeichert.  +
+In diesem Code Beispiel wird die Raspberry Pi Camera mit einer externen Library verwendet. Es werden 10 Bilder nacheinander geschossen und in den Ordner `/home/pi/Pictures/PiCamPics` gespeichert.  +
 *Vorkenntnisse: Intermediate*
 [source,java]
 ----
@@ -326,13 +350,7 @@ include::{sourcedir}/fhnwexamples/component/RaspberryPiCamera.java[tags=Raspberr
 <<<
 
 :sectnums!:
-== Schluss
+== TODO: Schluss
 
 <<<
-== Literaturverzeichnis
-
-<<<
-== Ehrlichkeitserklärung
-
-<<<
-== Anhang
+== TODO: Literaturverzeichnis

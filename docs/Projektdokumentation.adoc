@@ -166,7 +166,6 @@ Zur Umsetzung unseres Projekts benötigen wir nebst einem Micro Computer noch di
 |===
 |Anzahl |Typ
 |1 |https://wiki.seeedstudio.com/Grove_Base_Hat_for_Raspberry_Pi/[Grove Base Hat for Raspberry Pi^]
-|1 |https://wiki.seeedstudio.com/Grove_Base_Hat_for_Raspberry_Pi/[Grove Base Hat for Raspberry Pi^]
 |3 |https://wiki.seeedstudio.com/Grove-TemperatureAndHumidity_Sensor/[Grove - Temperature & Humidity Sensor^]
 |3 |https://wiki.seeedstudio.com/Grove-Touch_Sensor/[Grove – Touch^]
 |3 |https://wiki.seeedstudio.com/Grove-Buzzer/[Grove – Buzzer^]
@@ -440,29 +439,15 @@ Bei den Code Beispielen muss ausserdem darauf geachtet werden, dass sie nicht zu
 
 == Praktischer Teil
 
-=== Software Architektur
+=== Asynchronität und Multi-Threading
 
-=== Code Beispiele
-==== GPIO
-===== Blink LED
+=== Grove Hat
 
-===== Button Click
+=== Grove Serial Camera
 
-===== LCD System Time
+=== Raspbery Pi Camera V2
 
-===== LCD System Time I2C
-
-===== Motor Direction
-
-===== Motor Speed Hardware PWM
-
-===== Motor Speed Software PWM
-
-===== Serial Camera
-
-===== Servo Motor
-
-===== Stepper Motor
+=== I2C Interface
 
 <<<
 

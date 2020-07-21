@@ -4,6 +4,7 @@ import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
 import com.pi4j.util.Console;
+import fhnwgpio.grove.GroveAdapter;
 
 import java.io.IOException;
 
@@ -23,9 +24,20 @@ public abstract class I2CBase {
         this(address, busNumber, new Console());
     }
 
+    public I2CBase(int address, GroveAdapter adapter) throws IOException, I2CFactory.UnsupportedBusNumberException{
+        this(address, adapter.getAdapter().getI2cBus().getBusNumber(), new Console());
+    }
+
     public I2CBase(int address, int busNumber, Console console)
             throws IOException, I2CFactory.UnsupportedBusNumberException {
         I2CBus bus = I2CFactory.getInstance(busNumber);
+        this.i2CDevice = bus.getDevice(address);
+        this.setConsole(console);
+    }
+
+    public I2CBase(int address, GroveAdapter adapter, Console console)
+            throws IOException, I2CFactory.UnsupportedBusNumberException {
+        I2CBus bus = I2CFactory.getInstance(adapter.getAdapter().getI2cBus().getBusNumber());
         this.i2CDevice = bus.getDevice(address);
         this.setConsole(console);
     }

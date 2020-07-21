@@ -44,6 +44,10 @@ public class Adapter {
         return deviceAddress;
     }
 
+    public I2CBus getI2cBus() {
+        return i2cBus;
+    }
+
     public AdapterType getAdapterType() {
         return type;
     }

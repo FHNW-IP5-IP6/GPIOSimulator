@@ -1,12 +1,14 @@
 package fhnwgpio.grove;
 
 import com.pi4j.io.gpio.Pin;
+import com.pi4j.io.i2c.I2CBus;
 
 public class Adapter {
     private Pin upperPin;
     private Pin lowerPin;
     private int analogI2CAddress;
     private int deviceAddress;
+    private I2CBus i2cBus;
     private AdapterType type;
 
     protected Adapter(Pin upperPin, Pin lowerPin, AdapterType type) {
@@ -18,6 +20,11 @@ public class Adapter {
     protected Adapter(int analogI2CAddress, int deviceAddress, AdapterType type) {
         this.analogI2CAddress = analogI2CAddress;
         this.deviceAddress = deviceAddress;
+        this.type = type;
+    }
+
+    protected Adapter(I2CBus bus, AdapterType type) {
+        this.i2cBus = bus;
         this.type = type;
     }
 

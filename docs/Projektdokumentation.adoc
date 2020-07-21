@@ -443,10 +443,54 @@ Bei den Code Beispielen muss ausserdem darauf geachtet werden, dass sie nicht zu
 
 === Button
 
-=== Grove Hat
+=== Grove Base Hat
+Grove Sensoren und Aktuatoren sind beliebt und werden oft in Projekten eingesetzt. Sie verfügen über simple Steckverbindungen, sogenannte Adapter, welche in Kombination mit dem Grove Base Hat eine sichere und fehlerfreie Verbindung mit dem Raspberry Pi garantieren.
+
+.Grove Base Hat
+image::Grove_Base_Hat.png[width=75% Grove Base Hat]
+
+Der Grove Base Hat stellt Adapter für PWM, Digital, Analog, UART sowie I2C zur Verfügung. Zusätzlich werden alle GPIO Pins auf den Hat projiziert. Unsere Implementation des Grove Adapters unterstützt alle diese Anschlüsse.
+
+[source,java]
+----
+include::{sourcedir}\fhnwgpio\grove\GroveAdapter.java[tags=GroveAdapter]
+----
+
+Die Sensoren und Aktuatoren können über unsere Implementation sehr einfach verwendet werden. Das untere Beispiel zeigt, wie ein Potentiometer, welcher am Grove Base Hat Adapter A0 angeschlossen ist, erzeugt und abgefragt werden kann.
+
+[source,java]
+----
+PotentiometerComponent potentiometer = new PotentiometerComponent(GroveAdapter.A0);
+potentiometer.getValue()
+----
+
+==== PWM
+Der Grove Base Hat unterstütz die Hardware PWM Pins 12 sowie 13. Beide Pins sind im selben Adapter vereinigt.
+
+==== UART
+Der UART Adapter macht den Serial Bus der Raspberry Pi für Grove Sensoren und Aktuatoren verfügbar. Er benutzt die GPIO Pins 14 und 15. An diesem Port würden wir die Grove Serial Camera anschliessen, wenn diese mit 3.3 Volt kompatibel wäre.
+
+==== Digital
+Der Grove Base Hat stellt sechs digitale Adapter zur Verfügung. Die Adapter stellen die Standard GPIO Pins des Pi dar. Die Pin Nummern entsprechen den Zahlen auf dem Board. Beispielsweise entspricht der Adapter D22 den Pins 22 und 23.
+
+==== Analog
+Der Raspberry Pi selbst besitzt nur digitale GPIO Pins. Hier stellt uns der Grove Base Hat also zusätzliche Funktionalität zur Verfügung. An die vier analogen Adapter können analoge Sensoren und Aktuatoren angeschlossen werden. Diese kommunizieren mit einem Chip, welcher sich auf der Rückseite des Hats befindet. Dieser Chip wandelt dann die analogen Daten in ein digitales Format um. Zusätzlich implementiert der Chip das I2C Interface, über welches er mit dem Pi kommunizieren kann.
+
+Der Chip hat die I2C Adresse 0x04. Die einzelnen analogen Anschlüsse haben jeweils eine eigene Device Adresse.
+
+* **A0**: 0x30
+* **A2**: 0x32
+* **A4**: 0x34
+* **A6**: 0x36
+
+==== I2C
+Die drei I2C Anschlüsse sind alle mit dem I2C Bus 1 des Raspberry Pi verbunden. Mit I2C können mehrere Devices auf einmal angesteuert werden.
 
 === Grove Serial Camera
 Die Grove Serial Camera besteht aus einem Kamera Modul und einem Control Board, welches die Kommunikation zwischen der Kamera und dem Raspberry Pi über den Serial Bus ermöglicht. Die Kamera benötigt eine Spannung von 5 Volt, weshalb sie leider nicht mit unserem Grove Hat kompatibel ist. Dieser liefert nur 3.3 Volt an die Grove Adapter. Um die Kamera dennoch nutzen zu können, muss sie via Jumper Kabeln an den Serial Port des Raspberry Pi angeschlossen werden. Weitere Informationen zur Verkabelung können dem Tutorial entnommen werden.
+
+.Grove Serial Camera
+image::Grove_Serial_Camera.jpg[width=75% Grove Serial Camera]
 
 ==== Protokoll
 Die Datenübermittlung zwischen Kamera und Pi erfolgt über den Serial Bus und das OV528 Protokoll. Die einzelnen Kommandos umfassen jeweils 6 Bytes, welche zusammen als Paket übermittelt werden. Das nachfolgende Beispiel zeigt das SYNC Kommando, welches jeweils zu Beginn der Kommunikation vom Pi ausgesendet wird. Folgende Bytes werden übermittelt: AA0D00000000h.

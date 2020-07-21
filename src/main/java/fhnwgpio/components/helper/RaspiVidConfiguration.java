@@ -112,7 +112,10 @@ public class RaspiVidConfiguration {
         if (h < 64 || h > getHeight())
             throw new IllegalArgumentException("height must be in the range 64 - specified height or default 1080");
 
-        commands.put("preview", "-p " + x + "," + y + "," + w + "," + h);
+        StringBuilder sb = new StringBuilder();
+        sb.append("-p ").append(x).append(",").append(y).append(",").append(w).append(",").append(h);
+
+        commands.put("preview", sb.toString());
         return this;
     }
 

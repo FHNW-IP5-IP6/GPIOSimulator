@@ -6,6 +6,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import FHNWGPIO.Components.Helper.RaspiVidConfiguration;
 import FHNWGPIO.Components.RaspberryPiCameraComponent;
 import com.hopding.jrpicam.*;
 import com.hopding.jrpicam.exceptions.*;
@@ -17,8 +18,12 @@ import static uk.co.caprica.picam.CameraConfiguration.cameraConfiguration;
 import static uk.co.caprica.picam.PicamNativeLibrary.installTempLibrary;
 
 /**
- * This is an example of the raspberry pi camera using a java library:
+ * This is an example of the raspberry pi camera using our own component.
+ *
+ * There are also examples that use that use the two libraries for raspistill directly
  * https://github.com/caprica/picam
+ * https://github.com/Hopding/JRPiCam
+ *
  * <p>
  * The raspberry pi camera has to be enabled first in the raspberry pi configuration:
  * sudo raspi-config -> Interfacing Options -> Camera
@@ -38,44 +43,38 @@ public class RaspberryPiCamera extends Example {
         Console console = new Console();
         console.promptForExit();
         long start = System.currentTimeMillis();
-        CameraConfiguration cameraConfiguration = cameraConfiguration()
+
+        //configuration for pictures using raspistill
+        CameraConfiguration stillConfig = RaspberryPiCameraComponent.createCameraConfiguration()
                 .width(1920)
                 .height(1080)
                 .encoding(Encoding.JPEG)
                 .quality(85)
                 .rotation(180);
 
-        RaspberryPiCameraComponent raspberryPiCamera = new RaspberryPiCameraComponent(console, cameraConfiguration);
+
+        //configuration for videos using raspivid
+        RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
+                .verticalflip()
+                .previewOff()
+                .time(15000);
+
+        //initialise the camera component using the two configurations
+        RaspberryPiCameraComponent raspberryPiCamera = new RaspberryPiCameraComponent(console, stillConfig, vidConfig);
 
         console.println("Config done");
 
-        raspberryPiCamera.takeStill(cameraConfiguration, "/home/pi/Pictures/picam1.jpg", 3000);
-        raspberryPiCamera.takeStill(cameraConfiguration, "/home/pi/Pictures/picam2.jpg");
+        raspberryPiCamera.takeStill("/home/pi/Pictures/picam1.jpg", 3000);
+        raspberryPiCamera.takeStill("/home/pi/Pictures/picam2.jpg");
 
-        raspberryPiCamera.takeVid("/home/pi/Pictures/vid.h264");
+        //take video
+        raspberryPiCamera.takeVid("/home/pi/Pictures/video.h264");
 
         long diff = System.currentTimeMillis() - start;
         System.out.println("Elapsed time" + diff);
     }
     // end::RaspberryPiCamera[]
 
-    public static void takeVideo(Console console) {
-        console.println("START VIDEO RECORDING FOR 15 SEC");
-        long start = System.currentTimeMillis();
-        try {
-            // takes a 5 second full hd video and -hf or -vf flip the video
-            String command = "raspivid -n -vf -t 15000 -o testvid.h264";
-
-            //always writes it to a file, but with command "-o -" it writes to stdout
-            //This will just run in the background and save the video in a file
-            Process p = Runtime.getRuntime().exec(command);
-            Thread.sleep(15000);
-
-        } catch (IOException | InterruptedException ieo) {
-            ieo.printStackTrace();
-        }
-        console.println("END OF VIDEO RECORDING");
-    }
 
     /**
      * Compares the two Raspberry Pi Camera Libraries in terms of speed
@@ -99,6 +98,7 @@ public class RaspberryPiCamera extends Example {
         System.out.println("Elapsed Time: " + diff);
     }
 
+    //taking 10 pictures using RpiCamera Library
     private static void takeRPiCameraPics(Console console) throws FailedToRunRaspistillException {
         // Create a Camera that saves images to the Pi's Pictures directory.
         RPiCamera piCamera = new RPiCamera("/home/pi/Pictures");
@@ -119,6 +119,7 @@ public class RaspberryPiCamera extends Example {
         }
     }
 
+    //taking 10 pictures using the PiCam library directly
     private static void takePiCamPics(Console console) throws NativeLibraryException, IOException {
         // Extract the bundled picam native library to a temporary file and load it
         installTempLibrary();
@@ -151,5 +152,24 @@ public class RaspberryPiCamera extends Example {
         } catch (CameraException | CaptureFailedException e) {
             console.println(e.getMessage());
         }
+    }
+
+    //takes video directly using a java process
+    private static void takeVideo(Console console) {
+        console.println("START VIDEO RECORDING FOR 15 SEC");
+        long start = System.currentTimeMillis();
+        try {
+            // takes a 5 second full hd video and -hf or -vf flip the video
+            String command = "raspivid -n -vf -t 15000 -o testvid.h264";
+
+            //always writes it to a file, but with command "-o -" it writes to stdout
+            //This will just run in the background and save the video in a file
+            Process p = Runtime.getRuntime().exec(command);
+            Thread.sleep(15000);
+
+        } catch (IOException | InterruptedException ieo) {
+            ieo.printStackTrace();
+        }
+        console.println("END OF VIDEO RECORDING");
     }
 }

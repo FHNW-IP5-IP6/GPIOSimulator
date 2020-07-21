@@ -1,4 +1,4 @@
-package fhnwgpio.components.helper;
+package FHNWGPIO.Components.Helper;
 
 import java.util.*;
 

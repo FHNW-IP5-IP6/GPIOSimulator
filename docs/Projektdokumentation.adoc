@@ -166,7 +166,6 @@ Zur Umsetzung unseres Projekts benötigen wir nebst einem Micro Computer noch di
 |===
 |Anzahl |Typ
 |1 |https://wiki.seeedstudio.com/Grove_Base_Hat_for_Raspberry_Pi/[Grove Base Hat for Raspberry Pi^]
-|1 |https://wiki.seeedstudio.com/Grove_Base_Hat_for_Raspberry_Pi/[Grove Base Hat for Raspberry Pi^]
 |3 |https://wiki.seeedstudio.com/Grove-TemperatureAndHumidity_Sensor/[Grove - Temperature & Humidity Sensor^]
 |3 |https://wiki.seeedstudio.com/Grove-Touch_Sensor/[Grove – Touch^]
 |3 |https://wiki.seeedstudio.com/Grove-Buzzer/[Grove – Buzzer^]
@@ -235,20 +234,20 @@ Bei diesem Integrationstyp wird der komplette Simulator zu einem festen Bestandt
 Unter Verwendung dieser Konfigurationsart entscheidet der Code des Benutzers, welche Sensoren und Aktuatoren an welche virtuellen Anschlüsse des Simulators angeschlossen werden. Sobald der Benutzer den Code unter Verwendung des GPIO Simulators startet, generiert der Simulator das UI gemäss den im Code verwendeten Pins, Sensoren und Aktuatoren. Ein wesentlicher Vorteil dieses Konfigurationstyps ist sicher die Einfachheit der Anwendung. Der Benutzer muss sich lediglich um seinen Code kümmern. Genau so wie die Sensoren im Code verwendet werden, werden diese auch im Simulator angezeigt. Es ist somit ausgeschlossen, dass Pins verwendet werden, welche nicht mit Sensoren oder Aktuatoren verbunden sind. Dies kann aber auch ein Nachteil sein, da diese Konfigurationsart nicht wirklich der Realität entspricht, welche man in einem IoT Projekt antrifft. Dort ist der Anwender für die Verkabelung der Sensoren und Aktuatoren mit dem Raspberry Pi selbst verantwortlich. Es kann durchaus passieren, dass beispielsweise die falschen Pins verbunden werden. Dieser Aspekt würde unter Verwendung der aus dem Code generierten Konfiguration verloren gehen.
 
 .Dependency Integration mit Konfiguration im Code 
-image::Dependency_Integration_Code.png[Design Dependecy]
+image::Dependency_Integration_Code.png[width=75% Design Dependecy]
 
 [.underline]#*Konfiguraiton via Simulator*#
 
 Bei diesem Konfigurationstyp wird die Konfiguration direkt im Simulator vorgenommen. Nachdem ein Anwender seinen Code Ausführt, öffnet sich das UI des GPIO Simulators. Der Benutzer kann nun via Drag and Drop Sensoren und Aktuatoren im dafür vorgesehenen Bereich platzieren und diese mit den GPIO oder Grove Pins des virtuellen GroveHat verbinden. Nachdem der Benutzer die Konfiguration abgeschlossen hat, kann er dies über einen Button bestätigen und die Simulation startet. Der Vorteil dieses Konfigurationstyps liegt ganz klar in der Realitätsnähe, welche über die Konfiguration via Code fehlt. Der Benutzer hat die Möglichkeit, Sensoren und Aktuatoren falsch anzuschliessen und muss dem Problem selbst nachgehen. Dies erhöht den Lerneffekt und trägt zum Verständnis bei. Nachteil ist allerdings, dass die Konfiguration erst nach dem Starten des Codes gemacht werden kann.
 
 .Dependency Integration mit Konfiguration im Simulator
-image::Dependency_Integration_Simulator.png[Design Dependecy]
+image::Dependency_Integration_Simulator.png[width=75% Design Dependecy]
 
 ===== Integration als Standalone Applikation
 Bei diesem Integrationstyp wird der Simulator zu einer separaten Applikation, die auf einem eigenen Prozess läuft. Der Code des Anwenders läuft bei seiner Ausführung komplett unabhängig vom Simulator selbst. Die Unabhängigkeit der Projekte macht die Kommunikation zwischen den beiden Programmen komplizierter, da ein neuer indirekter Weg für die Datenübertragung gefunden werden muss. Eine Stand-Alone Applikation hätte aber den Vorteil, dass die Konfiguration des Simulators nicht erst zur Laufzeit stattfinden müsste. Man könnte den Simulator also starten und konfigurieren, ohne den Code bereits geschrieben zu haben. Ein Benutzer könnte dann die Simulation starten und gegen den Simulator programmieren. Immer wenn der Anwender seinen Code ausführt, kann er direkt im Simulator sehen, ob der Code die gewünschte Wirkung hat. Der Entwickler bekommt also Echtzeit Feedback. Dieser Integrationstyp simuliert die Realität sicher am besten, da der Raspberry Pi auch eine separate Instanz ist, an welche unabhängig von der Entwicklungsumgebung Sensoren und Aktuatoren angeschlossen werden können.
 
 .Stand-Alone Integration 
-image::Standalone_Integration.png[Design Standalone]
+image::Standalone_Integration.png[width=75% Design Standalone]
 
 ==== TODO: Entscheidung dokumentieren
 
@@ -264,7 +263,7 @@ Zu Beginn des Projektes war es unser Plan, das Factory Design Pattern zu verwend
 Der Backend Code des Simulator und Pi4J wären dann in einem Projekt gekapselt und der Anwender man müsste nur im obersten Zugriffspunkt eine kleine Veränderung vornehmen, um zwischen Simulator und Pi4J zu wechseln.
 
 .Simulator Factory
-image::GpioSimulatorFactory_Idee.png[Factory Idee, 400,400]
+image::GpioSimulatorFactory_Idee.png[width=75% Factory Idee]
 
 
 Zur Umsetzung des Factory Pattern hätten wir eine Globale Factory implementieren müssen, von welcher sowohl Pi4J als auch unser Simulator erbt. Im oben abgebildeten Diagramm wird diese Factory durch die Klasse `GpioSimulatorFactory` verkörpert. Leider hat sich diese Vorgehensweise nicht bewährt, da wir die Klassen in Pi4J nicht bearbeiten können.
@@ -440,29 +439,69 @@ Bei den Code Beispielen muss ausserdem darauf geachtet werden, dass sie nicht zu
 
 == Praktischer Teil
 
-=== Software Architektur
+=== Asynchronität und Multi-Threading
 
-=== Code Beispiele
-==== GPIO
-===== Blink LED
+=== Button
 
-===== Button Click
+=== Grove Hat
 
-===== LCD System Time
+=== Grove Serial Camera
+Die Grove Serial Camera besteht aus einem Kamera Modul und einem Control Board, welches die Kommunikation zwischen der Kamera und dem Raspberry Pi über den Serial Bus ermöglicht. Die Kamera benötigt eine Spannung von 5 Volt, weshalb sie leider nicht mit unserem Grove Hat kompatibel ist. Dieser liefert nur 3.3 Volt an die Grove Adapter. Um die Kamera dennoch nutzen zu können, muss sie via Jumper Kabeln an den Serial Port des Raspberry Pi angeschlossen werden. Weitere Informationen zur Verkabelung können dem Tutorial entnommen werden.
 
-===== LCD System Time I2C
+==== Protokoll
+Die Datenübermittlung zwischen Kamera und Pi erfolgt über den Serial Bus und das OV528 Protokoll. Die einzelnen Kommandos umfassen jeweils 6 Bytes, welche zusammen als Paket übermittelt werden. Das nachfolgende Beispiel zeigt das SYNC Kommando, welches jeweils zu Beginn der Kommunikation vom Pi ausgesendet wird. Folgende Bytes werden übermittelt: AA0D00000000h.
 
-===== Motor Direction
+.SYNC Kommando
+image::Grove_Serial_Camera_SYNC_Command.png[width=75% Grove Serial Camera SYNC]
 
-===== Motor Speed Hardware PWM
+==== Verbindung mit der Kamera aufbauen
+Bevor Befehle an die Kamera gesendet werden können, muss eine Verbindung zwischen Kamera und Raspberry Pi etabliert werden. Dazu wird vom Host mehrmals ein SYNC Kommando auf den Serial Port geschrieben und auf eine Antwort von der Kamera gewartet. Durchschnittlich antwortet die Kamera nach 25 SYNC Kommandos mit einem ACK (AA0E0Dxx0000h). Auf die Empfangsbestätigung folgt das Kommando, welches die Kamera bestätigt. In diesem Fall das SYNC Kommando (AA0D00000000h). Gibt die Kamera nach 60 SYNC Befehlen noch immer keine Antwort, kann davon ausgegangen werden, dass etwas mit der Verkabelung der Kamera nicht stimmt oder der Controller der Kamera defekt ist.
 
-===== Motor Speed Software PWM
+.Verbindungsaufbau
+image::Grove_Serial_Camera_Initialisation.png[width=75% Grove Serial Camera Connection]
 
-===== Serial Camera
+In unserer Java Klasse haben wir den Verbindungsaufbau in einer eigenen Funktion realisiert, welche vom jeweiligen Konstruktor aufgerufen wird. In einer While-Schlaufe wird das SYNC Kommando solange an die Kamera gesendet, bis diese eine Antwort auf den Serial Bus geschrieben hat. Ist dies nach 60 Versuchen nicht der Fall, wird die Initialisierung mit einem Fehler abgebrochen. Hat die Kamera eine Antwort gesendet, wird diese auf Ihre Korrektheit überprüft. Die ersten sechs Bytes müssen dem ACK Kommando entsprechen (AA0E0Dxx0000h). Bei den nächsten sechs Bytes muss es sich um das SYNC Kommando handeln (AA0D00000000h). Sofern dies der Fall ist, war der Verbindungsaufbau erfolgreich. Die Kamera ist nun bereit für die Entgegennahme von weiteren Befehlen.
 
-===== Servo Motor
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialCamInit]
+----
 
-===== Stepper Motor
+==== JPEG Foto anfordern
+Nach dem erfolgreichen Verbindungsaufbau ist die Kamera bereit für das Schiessen von Bildern. Unsere Implementation stellt Bilder im JPEG Format in der Auflösung 640 x 480 zur Verfügung. Hierbei handelt es sich um die maximale Auflösung der Kamera. Theoretisch können auch Bilder in anderen Grössen und Formaten von der Kamera angefordert werden. Diese Formate werden von uns jedoch nicht unterstützt.
+
+Um ein Bild von der Kamera zu erhalten, sind mehrere einzelne Schritte, Befehle und Bestätigungen nötig. Diese sind im folgenden Diagramm ersichtlich.
+
+.Ablauf der Bildanforderung
+image::Grove_Serial_Camera_Get_Picture.png[width=75% Grove Serial Camera Get Picture]
+
+==== Bildgrösser ermitteln
+Zur Ermittlung der Bildgrösse wird die gewünschte Paketgrösse der einzelnen Pakete benötigt. Die Paketgrösse kann vom Anwender im Bereich von 16 bis 2048 Bits definiert werden. Die Default Paketgrösse ist 512 Bits.
+
+Als erster Schritt wird die zuvor definierte gewünschte Paketgrösse an die Kamera gesendet und es wird auf eine Empfangsbestätigung der Kamera gewartet.
+
+Anschliessend wird das Snapshot Kommando an die Kamera gesendet. Dieses Kommando bereitet die Kamera auf das Erzeugen eines Bildes vor. Auch hier wird wieder auf eine Empfangsbestätigung der Kamera gewartet.
+
+Zu guter Letzt wird der Befehl zur JPEG Generierung an die Kamera übermittelt. Die Kamera antwortet auf dieses Kommando mit einer Empfangsbestätigung gefolgt von der Anzahl Bytes des Bildes, welches geschossen wurde.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialCamGetPictureLength]
+----
+
+==== Bild Pakete empfangen
+Nachdem die Bildgrösse von der Kamera ermittelt wurde, kann der Host Paket für Paket von der Kamera über den Serial Bus anfordern. Wir fordern solange Pakete von der Kamera an, bis wir das letzte Paket von der Kamera erhalten haben. Das letzte Paket erkennen wir anhand der letzten zwei Bytes. Handelt es sich bei diesen um 0xFF gefolgt von 0xD9, wurde das komplette JPEG übermittelt. Bei den zwei Bytes handelt es sich nämlich um den Footer eines jeden JPEGs.
+
+Da es bei der Übermittlung von Paketen immer zu Fehlern kommen kann, stellt das OV528 Protokoll einen Kontrollmechanismus zur Verfügung, über welchen Fehler identifiziert werden können. Bei den zwei letzten Bytes eines jeden Pakets handelt es sich um eine Prüfsumme, mit welchen die übermittelten Bilddaten überprüft werden können. Die Prüfsumme muss exakt der Summe der einzelnen übermittelten Bytes entsprechen. Ist dies der Fall, fordern wir das nächste Paket von der Kamera an. Stimmt die Prüfsumme jedoch nicht mit der Summe aller Bild-Bytes überein, fordern wir das fehlerhafte Paket erneut von der Kamera an. Damit kann sichergestellt werden, dass das erhaltene Bild immer fehlerfrei ist.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialCamGetPicture]
+----
+
+=== Raspbery Pi Camera V2
+
+=== I2C Interface
 
 <<<
 

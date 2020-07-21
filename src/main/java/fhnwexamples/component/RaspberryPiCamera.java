@@ -10,6 +10,7 @@ import fhnwgpio.components.RaspberryPiCameraComponent;
 import com.hopding.jrpicam.*;
 import com.hopding.jrpicam.exceptions.*;
 import com.pi4j.util.Console;
+import fhnwgpio.components.helper.RaspiVidConfiguration;
 import uk.co.caprica.picam.*;
 import uk.co.caprica.picam.enums.Encoding;
 

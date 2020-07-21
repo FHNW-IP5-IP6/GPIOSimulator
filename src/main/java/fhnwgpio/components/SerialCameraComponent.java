@@ -153,6 +153,7 @@ public class SerialCameraComponent {
     /**
      * This method initializes the serial bus communication for the grove serial camera.
      */
+    // tag::SerialCamInit[]
     private void initializeSerialBusCommunication() {
         try {
             int tryCount = 0;
@@ -194,6 +195,7 @@ public class SerialCameraComponent {
             console.println(ex);
         }
     }
+    // end::SerialCamInit[]
 
     /**
      * Transmitting of the desired camera settings.
@@ -228,6 +230,7 @@ public class SerialCameraComponent {
      *
      * @return The length of the picture received by the serial camera.
      */
+    // tag::SerialCamGetPictureLength[]
     private int getPictureLengthFromCamera() throws IOException, InterruptedException {
         int pictureLength = 0;
 
@@ -290,6 +293,7 @@ public class SerialCameraComponent {
 
         return pictureLength;
     }
+    // end::SerialCamGetPictureLength[]
 
     /**
      * Request the picture from the camera package by package. Returns the image as a byte array.
@@ -299,6 +303,7 @@ public class SerialCameraComponent {
      * @throws IOException
      * @throws InterruptedException
      */
+    // tag::SerialCamGetPicture[]
     private byte[] getJpgBytes(int pictureLength) throws IOException, InterruptedException {
         byte[] receiveDataPackageCommand = { (byte) 0xaa, 0x0e, 0x00, 0x00, 0x00, 0x00 };
         byte[] ackPackageEndCommand = { (byte) 0xaa, 0x0e, 0x00, 0x00, (byte) 0xf0, (byte) 0xF0 };
@@ -348,6 +353,7 @@ public class SerialCameraComponent {
 
         return camStream.toByteArray();
     }
+    // end::SerialCamGetPicture[]
 
     /**
      * Saves the byte array in a file with the file name specified.

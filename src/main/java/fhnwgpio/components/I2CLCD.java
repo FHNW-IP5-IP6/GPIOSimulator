@@ -45,7 +45,7 @@ public class I2CLCD extends I2CBase {
     /**
      * displays a text on the first line of the display.
      * If it's larger than 16 characters then it will jump over to the second line.
-     * The excess characters (>32) are not shown on the display
+     * The excess characters (greater than 32) are not shown on the display
      *
      * @param text text to diplay on lcd
      */
@@ -55,7 +55,7 @@ public class I2CLCD extends I2CBase {
 
     /**
      * writes string to the lcd display on a specific line.
-     * Excess characters (>16) are not shown on the line
+     * Excess characters (greater than 16) are not shown on the line
      *
      * @param text to be displayed
      * @param line on the display for the text to appear
@@ -67,7 +67,7 @@ public class I2CLCD extends I2CBase {
     /**
      * displays the string with an additional position. There are 16 fields on one LCD1602 line.
      * The position gives the number of fields that should be empty before the text.
-     * Excess characters (>16-position) on the line will not be shown.
+     * Excess characters (greater than 16-position) on the line will not be shown.
      *
      * @param text           text to show on the lcd text.
      * @param line           line on the lcd display

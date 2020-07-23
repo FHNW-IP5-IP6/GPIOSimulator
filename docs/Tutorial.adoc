@@ -344,13 +344,13 @@ image::./fritzing/grove_serial_cam.png[width=75% Grove Serial Camera]
 |SerialCameraComponent(com.pi4j.util.Console console, int packageSize, boolean activateLogging) |Constructor of the SerialCameraComponent.
 |===
 
-.Serial Camera - Konstruktoren
+.Serial Camera - Funktionen
 [cols="1,2,2"]
 |===
 |Rückgabetyp |Funktion |Beschreibung
-| |
-| |
-| |
+|byte[] |getImageAsJpgBytes() |This method request a jpg image of the camera and returns it as a byte array.
+|java.lang.String |saveImageAsJpg(java.lang.String fileName) | Requests a jpg image from the camera and streams it to a file.
+|java.lang.String |saveImageAsJpg(java.lang.String relativePath, java.lang.String fileName) |Requests a jpg image from the camera and streams it to a file.
 |===
 
 ==== Anwendungsbeispiel

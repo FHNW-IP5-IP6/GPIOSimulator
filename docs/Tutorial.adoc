@@ -1,5 +1,4 @@
 :toc: left
-//:toc: macro
 :toc-title:
 :toclevels: 5
 :sectnums:
@@ -43,16 +42,57 @@ toc::[]
 
 <<<
 
-== TODO: Unterstützte Hardware und Software
-=== Hardware
+== Hardware 
 
-==== Raspberry Pi
+=== Raspberry Pi
 
-==== Grove Sensoren & Aktuatoren
+=== Grove Sensoren & Aktuatoren
 
-==== Grove Hat
+=== Grove Base Hat
+Grove Sensoren und Aktuatoren sind beliebt und werden oft in Projekten eingesetzt. Sie verfügen über simple Steckverbindungen, sogenannte Adapter, welche in Kombination mit dem Grove Base Hat eine sichere und fehlerfreie Verbindung mit dem Raspberry Pi garantieren.
 
-==== Breadboard
+.Grove Base Hat
+image::Grove_Base_Hat.png[500, 500, Grove Base Hat]
+
+Der Grove Base Hat stellt Adapter für PWM, Digital, Analog, UART sowie I2C zur Verfügung. Zusätzlich werden alle GPIO Pins auf den Hat projiziert. Unsere Implementation des Grove Adapters unterstützt alle diese Anschlüsse.
+
+[source,java]
+----
+include::{sourcedir}\fhnwgpio\grove\GroveAdapter.java[tags=GroveAdapter]
+----
+
+Die Sensoren und Aktuatoren können über unsere Implementation sehr einfach verwendet werden. Das untere Beispiel zeigt, wie ein Potentiometer, welcher am Grove Base Hat Adapter A0 angeschlossen ist, erzeugt und abgefragt werden kann.
+
+[source,java]
+----
+PotentiometerComponent potentiometer = new PotentiometerComponent(GroveAdapter.A0);
+potentiometer.getValue()
+----
+
+==== PWM
+Der Grove Base Hat unterstütz die Hardware PWM Pins 12 sowie 13. Beide Pins sind im selben Adapter vereinigt.
+
+==== UART
+Der UART Adapter macht den Serial Bus der Raspberry Pi für Grove Sensoren und Aktuatoren verfügbar. Er benutzt die GPIO Pins 14 und 15. An diesem Port würden wir die Grove Serial Camera anschliessen, wenn diese mit 3.3 Volt kompatibel wäre.
+
+==== Digital
+Der Grove Base Hat stellt sechs digitale Adapter zur Verfügung. Die Adapter stellen die Standard GPIO Pins des Pi dar. Die Pin Nummern entsprechen den Zahlen auf dem Board. Beispielsweise entspricht der Adapter D22 den Pins 22 und 23.
+
+==== Analog
+Der Raspberry Pi selbst besitzt nur digitale GPIO Pins. Hier stellt uns der Grove Base Hat also zusätzliche Funktionalität zur Verfügung. An die vier analogen Adapter können analoge Sensoren und Aktuatoren angeschlossen werden. Diese kommunizieren mit einem Chip, welcher sich auf der Rückseite des Hats befindet. Dieser Chip wandelt dann die analogen Daten in ein digitales Format um. Zusätzlich implementiert der Chip das I2C Interface, über welches er mit dem Pi kommunizieren kann.
+
+Der Chip hat die I2C Adresse 0x04. Die einzelnen analogen Anschlüsse haben jeweils eine eigene Device Adresse.
+
+* **A0**: 0x30
+* **A2**: 0x32
+* **A4**: 0x34
+* **A6**: 0x36
+
+==== I2C
+Die drei I2C Anschlüsse sind alle mit dem I2C Bus 1 des Raspberry Pi verbunden. Mit I2C können mehrere Devices auf einmal angesteuert werden.
+
+=== Breadboard
+
 
 === Software
 
@@ -323,6 +363,10 @@ include::{sourcedir}/fhnwexamples/component/LcdSystemTimeI2C.java[tags=LcdSystem
 === Motor Software PWM
 
 === Serial Camera
+Die Grove Serial Camera besteht aus einem Kamera Modul und einem Control Board, welches die Kommunikation zwischen der Kamera und dem Raspberry Pi über den Serial Bus ermöglicht. Die Kamera benötigt eine Spannung von 5 Volt, weshalb sie leider nicht mit unserem Grove Hat kompatibel ist. Dieser liefert nur 3.3 Volt an die Grove Adapter. Um die Kamera dennoch nutzen zu können, muss sie via Jumper Kabel an den Serial Port des Raspberry Pi angeschlossen werden. Weitere Informationen zur Verkabelung können dem Tutorial entnommen werden.
+
+.Grove Serial Camera
+image::Grove_Serial_Camera.jpg[width=75% Grove Serial Camera]
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -331,7 +375,7 @@ Für die Verkabelung wird folgende Hardware benötigt:
 * 4x Kabel
 
 .Serial Camera Verkabelung
-image::./fritzing/grove_serial_cam.png[width=75% Grove Serial Camera]
+image::./fritzing/grove_serial_cam.png[width=75% Grove Serial Camera Fritzing]
 
 ==== API
 .Serial Camera - Konstruktoren
@@ -383,6 +427,62 @@ include::{sourcedir}/fhnwexamples/component/RaspberryPiCamera.java[tags=Raspberr
 === Servo Motor
 
 === Stepper Motor
+
+== Zusatzinformationen
+
+=== Grove Serial Camera
+Die Grove Serial Camera ist eines der komplexeren Devices, welches von unserer Library unterstützt wird. Zur Kommunikation über den Serial Bus wird ein spezielles Protokoll eingesetzt. In den folgenden Unterkapiteln finden Sie weitere Informationen zu jenem Protokoll und unserer Implementation davon.
+
+==== Protokoll
+Die Datenübermittlung zwischen Kamera und Pi erfolgt über den Serial Bus und das OV528 Protokoll. Die einzelnen Kommandos umfassen jeweils 6 Bytes, welche zusammen als Paket übermittelt werden. Das nachfolgende Beispiel zeigt das SYNC Kommando, welches jeweils zu Beginn der Kommunikation vom Pi ausgesendet wird. Folgende Bytes werden übermittelt: AA0D00000000h.
+
+.SYNC Kommando
+image::Grove_Serial_Camera_SYNC_Command.png[500, 500, Grove Serial Camera SYNC]
+
+==== Verbindung mit der Kamera aufbauen
+Bevor Befehle an die Kamera gesendet werden können, muss eine Verbindung zwischen Kamera und Raspberry Pi etabliert werden. Dazu wird vom Host mehrmals ein SYNC Kommando auf den Serial Port geschrieben und auf eine Antwort von der Kamera gewartet. Durchschnittlich antwortet die Kamera nach 25 SYNC Kommandos mit einem ACK (AA0E0Dxx0000h). Auf die Empfangsbestätigung folgt das Kommando, welches die Kamera bestätigt. In diesem Fall das SYNC Kommando (AA0D00000000h). Gibt die Kamera nach 60 SYNC Befehlen noch immer keine Antwort, kann davon ausgegangen werden, dass etwas mit der Verkabelung der Kamera nicht stimmt oder der Controller der Kamera defekt ist.
+
+.Verbindungsaufbau
+image::Grove_Serial_Camera_Initialisation.png[500, 500, Grove Serial Camera Connection]
+
+In unserer Java Klasse haben wir den Verbindungsaufbau in einer eigenen Funktion realisiert, welche vom jeweiligen Konstruktor aufgerufen wird. In einer While-Schlaufe wird das SYNC Kommando solange an die Kamera gesendet, bis diese eine Antwort auf den Serial Bus geschrieben hat. Ist dies nach 60 Versuchen nicht der Fall, wird die Initialisierung mit einem Fehler abgebrochen. Hat die Kamera eine Antwort gesendet, wird diese auf Ihre Korrektheit überprüft. Die ersten sechs Bytes müssen dem ACK Kommando entsprechen (AA0E0Dxx0000h). Bei den nächsten sechs Bytes muss es sich um das SYNC Kommando handeln (AA0D00000000h). Sofern dies der Fall ist, war der Verbindungsaufbau erfolgreich. Die Kamera ist nun bereit für die Entgegennahme von weiteren Befehlen.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialCamInit]
+----
+
+==== JPEG Foto anfordern
+Nach dem erfolgreichen Verbindungsaufbau ist die Kamera bereit für das Schiessen von Bildern. Unsere Implementation stellt Bilder im JPEG Format in der Auflösung 640 x 480 zur Verfügung. Hierbei handelt es sich um die maximale Auflösung der Kamera. Theoretisch können auch Bilder in anderen Grössen und Formaten von der Kamera angefordert werden. Diese Formate werden von uns jedoch nicht unterstützt.
+
+Um ein Bild von der Kamera zu erhalten, sind mehrere einzelne Schritte, Befehle und Bestätigungen nötig. Diese sind im folgenden Diagramm ersichtlich.
+
+.Ablauf der Bildanforderung
+image::Grove_Serial_Camera_Get_Picture.png[500, 500, Grove Serial Camera Get Picture]
+
+==== Bildgrösser ermitteln
+Zur Ermittlung der Bildgrösse wird die gewünschte Paketgrösse der einzelnen Pakete benötigt. Die Paketgrösse kann vom Anwender im Bereich von 16 bis 2048 Bits definiert werden. Die Default Paketgrösse ist 512 Bits.
+
+Als erster Schritt wird die zuvor definierte gewünschte Paketgrösse an die Kamera gesendet und es wird auf eine Empfangsbestätigung der Kamera gewartet.
+
+Anschliessend wird das Snapshot Kommando an die Kamera gesendet. Dieses Kommando bereitet die Kamera auf das Erzeugen eines Bildes vor. Auch hier wird wieder auf eine Empfangsbestätigung der Kamera gewartet.
+
+Zu guter Letzt wird der Befehl zur JPEG Generierung an die Kamera übermittelt. Die Kamera antwortet auf dieses Kommando mit einer Empfangsbestätigung gefolgt von der Anzahl Bytes des Bildes, welches geschossen wurde.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialCamGetPictureLength]
+----
+
+==== Bild Pakete empfangen
+Nachdem die Bildgrösse von der Kamera ermittelt wurde, kann der Host Paket für Paket von der Kamera über den Serial Bus anfordern. Wir fordern solange Pakete von der Kamera an, bis wir das letzte Paket von der Kamera erhalten haben. Das letzte Paket erkennen wir anhand der letzten zwei Bytes. Handelt es sich bei diesen um 0xFF gefolgt von 0xD9, wurde das komplette JPEG übermittelt. Bei den zwei Bytes handelt es sich nämlich um den Footer eines jeden JPEGs.
+
+Da es bei der Übermittlung von Paketen immer zu Fehlern kommen kann, stellt das OV528 Protokoll einen Kontrollmechanismus zur Verfügung, über welchen Fehler identifiziert werden können. Bei den zwei letzten Bytes eines jeden Pakets handelt es sich um eine Prüfsumme, mit welchen die übermittelten Bilddaten überprüft werden können. Die Prüfsumme muss exakt der Summe der einzelnen übermittelten Bytes entsprechen. Ist dies der Fall, fordern wir das nächste Paket von der Kamera an. Stimmt die Prüfsumme jedoch nicht mit der Summe aller Bild-Bytes überein, fordern wir das fehlerhafte Paket erneut von der Kamera an. Damit kann sichergestellt werden, dass das erhaltene Bild immer fehlerfrei ist.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialCamGetPicture]
+----
 
 <<<
 

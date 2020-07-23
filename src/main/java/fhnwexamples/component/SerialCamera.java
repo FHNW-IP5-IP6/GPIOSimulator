@@ -15,6 +15,7 @@ public class SerialCamera extends Example {
     }
 
     @Override public void execute() throws Exception {
+        // tag::SerialCamera[]
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         Console console = new Console();
         console.promptForExit();
@@ -23,5 +24,6 @@ public class SerialCamera extends Example {
         SerialCameraComponent cam = new SerialCameraComponent(console, 1024, true);
         String fileName = cam.saveImageAsJpg("pictures", "GroveCamPic_");
         console.println("picture was taken and saved in file " + fileName);
+        // end::SerialCamera[]
     }
 }

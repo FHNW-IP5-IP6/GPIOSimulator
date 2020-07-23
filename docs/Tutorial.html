@@ -515,10 +515,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_motor_direction">4.5. Motor Direction</a></li>
 <li><a href="#_motor_hardware_pwm">4.6. Motor Hardware PWM</a></li>
 <li><a href="#_motor_software_pwm">4.7. Motor Software PWM</a></li>
-<li><a href="#_serial_camera">4.8. Serial Camera</a></li>
+<li><a href="#_serial_camera">4.8. Serial Camera</a>
+<ul class="sectlevel3">
+<li><a href="#_verkabelung_4">4.8.1. Verkabelung</a></li>
+<li><a href="#_funktionen">4.8.2. Funktionen</a></li>
+<li><a href="#_anwendungsbeispiel">4.8.3. Anwendungsbeispiel</a></li>
+</ul>
+</li>
 <li><a href="#_raspberry_pi_camera">4.9. Raspberry Pi Camera</a>
 <ul class="sectlevel3">
-<li><a href="#_verkabelung_4">4.9.1. Verkabelung</a></li>
+<li><a href="#_verkabelung_5">4.9.1. Verkabelung</a></li>
 <li><a href="#_code_beispiel_4">4.9.2. Code Beispiel</a></li>
 </ul>
 </li>
@@ -571,7 +577,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </div>
 <div class="paragraph">
-<p><strong>Datum</strong>: 2020-07-09</p>
+<p><strong>Datum</strong>: 2020-07-21</p>
 </div>
 <div style="page-break-after: always;"></div>
 <h2 id="_inhaltsverzeichnis" class="discrete">Inhaltsverzeichnis</h2>
@@ -1155,7 +1161,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <pre class="highlight"><code class="language-java" data-lang="java">    @Override public void execute() throws Exception {
 
         GpioProvider provider = new RaspiGpioProvider(
-                RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING); //like on GPIO Extension Board
+                RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING); //like on gpio Extension Board
         GpioFactory.setDefaultProvider(provider);
 
         final GpioController gpio = GpioFactory.getInstance();
@@ -1266,12 +1272,55 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 <div class="sect2">
 <h3 id="_serial_camera">4.8. Serial Camera</h3>
+<div class="sect3">
+<h4 id="_verkabelung_4">4.8.1. Verkabelung</h4>
+<div class="paragraph">
+<p>Für die Verkabelung wird folgende Hardware benötigt:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>1x Grove Serial Camera mit Grove Adaptor Kabel</p>
+</li>
+<li>
+<p>4x Kabel</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/fritzing/grove_serial_cam.png" alt="grove serial cam" width="75% Grove Serial Camera">
+</div>
+<div class="title">Figure 15. Serial Camera Verkabelung</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_funktionen">4.8.2. Funktionen</h4>
 
+</div>
+<div class="sect3">
+<h4 id="_anwendungsbeispiel">4.8.3. Anwendungsbeispiel</h4>
+<div class="paragraph">
+<p>Das unten abgebildete Code Beispiel zeigt, wie mit der Hilfe unserer SerialCameraComponent ein JPEG Foto im</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
+        Console console = new Console();
+        console.promptForExit();
+
+        console.println("taking a picture. please smile :)");
+        SerialCameraComponent cam = new SerialCameraComponent(console, 1024, true);
+        String fileName = cam.saveImageAsJpg("pictures", "GroveCamPic_");
+        console.println("picture was taken and saved in file " + fileName);</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_raspberry_pi_camera">4.9. Raspberry Pi Camera</h3>
 <div class="sect3">
-<h4 id="_verkabelung_4">4.9.1. Verkabelung</h4>
+<h4 id="_verkabelung_5">4.9.1. Verkabelung</h4>
 <div class="paragraph">
 <p>Für die Verkabelung wird folgende Hardware benötigt:</p>
 </div>
@@ -1286,7 +1335,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/raspiCam.png" alt="raspiCam" width="60% RaspiCam Wiring">
 </div>
-<div class="title">Figure 15. Raspberry Pi Camera Verkabelung</div>
+<div class="title">Figure 16. Raspberry Pi Camera Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -1301,21 +1350,32 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
         Console console = new Console();
         console.promptForExit();
         long start = System.currentTimeMillis();
-        CameraConfiguration cameraConfiguration = cameraConfiguration()
+
+        //configuration for pictures using raspistill
+        CameraConfiguration stillConfig = RaspberryPiCameraComponent.createCameraConfiguration()
                 .width(1920)
                 .height(1080)
                 .encoding(Encoding.JPEG)
                 .quality(85)
                 .rotation(180);
 
-        RaspberryPiCameraComponent raspberryPiCamera = new RaspberryPiCameraComponent(console, cameraConfiguration);
+
+        //configuration for videos using raspivid
+        RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
+                .verticalflip()
+                .previewOff()
+                .time(15000);
+
+        //initialise the camera component using the two configurations
+        RaspberryPiCameraComponent raspberryPiCamera = new RaspberryPiCameraComponent(console, stillConfig, vidConfig);
 
         console.println("Config done");
 
-        raspberryPiCamera.takeStill(cameraConfiguration, "/home/pi/Pictures/picam1.jpg", 3000);
-        raspberryPiCamera.takeStill(cameraConfiguration, "/home/pi/Pictures/picam2.jpg");
+        raspberryPiCamera.takeStill("/home/pi/Pictures/picam1.jpg", 3000);
+        raspberryPiCamera.takeStill("/home/pi/Pictures/picam2.jpg");
 
-        raspberryPiCamera.takeVid("/home/pi/Pictures/vid.h264");
+        //take video
+        raspberryPiCamera.takeVid("/home/pi/Pictures/video.h264");
 
         long diff = System.currentTimeMillis() - start;
         System.out.println("Elapsed time" + diff);
@@ -1349,7 +1409,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-07-09 18:25:29 +0200
+Last updated 2020-07-21 16:26:32 +0200
 </div>
 </div>
 </body>

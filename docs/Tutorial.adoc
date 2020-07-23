@@ -324,6 +324,43 @@ include::{sourcedir}/fhnwexamples/component/LcdSystemTimeI2C.java[tags=LcdSystem
 
 === Serial Camera
 
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Grove Serial Camera mit Grove Adaptor Kabel
+* 4x Kabel
+
+.Serial Camera Verkabelung
+image::./fritzing/grove_serial_cam.png[width=75% Grove Serial Camera]
+
+==== API
+.Serial Camera - Konstruktoren
+[cols="1,1"]
+|===
+|Konstruktor |Beschreibung
+|SerialCameraComponent(com.pi4j.util.Console console) |Constructor of the SerialCameraComponent without logging and a default package size of 512 bytes.
+|SerialCameraComponent(com.pi4j.util.Console console, boolean activateLogging) |Constructor of the SerialCameraComponent with a default package size of 512 bytes.
+|SerialCameraComponent(com.pi4j.util.Console console, int packageSize) |Constructor of the SerialCameraComponent without logging.
+|SerialCameraComponent(com.pi4j.util.Console console, int packageSize, boolean activateLogging) |Constructor of the SerialCameraComponent.
+|===
+
+.Serial Camera - Konstruktoren
+[cols="1,2,2"]
+|===
+|Rückgabetyp |Funktion |Beschreibung
+| |
+| |
+| |
+|===
+
+==== Anwendungsbeispiel
+Das unten abgebildete Code Beispiel zeigt, wie mit der Hilfe unserer SerialCameraComponent ein JPEG Foto geschossen und unter einem bestimmten Pfad abgespeichert werden kann.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/SerialCamera.java[tags=SerialCamera]
+----
+
 === Raspberry Pi Camera
 
 ==== Verkabelung

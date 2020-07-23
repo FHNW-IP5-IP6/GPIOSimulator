@@ -26,7 +26,7 @@ import static uk.co.caprica.picam.PicamNativeLibrary.installTempLibrary;
  *
  * <p>
  * The raspberry pi camera has to be enabled first in the raspberry pi configuration:
- * sudo raspi-config -> Interfacing Options -> Camera
+ * sudo raspi-config, Interfacing Options, Camera
  * <p>
  * For additional information on how to take pictures or videos from the console with the camera go to:
  * https://www.raspberrypi.org/documentation/configuration/camera.md

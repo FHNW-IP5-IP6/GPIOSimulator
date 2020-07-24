@@ -17,12 +17,10 @@ public class PotentiometerDevice extends Example {
         super(key, title);
     }
 
+    // tag::PotentiometerDevice[]
     @Override public void execute() throws Exception {
         Console console = new Console();
         console.promptForExit();
-
-        I2CBus bus = I2CFactory.getInstance(I2CBus.BUS_1);
-        I2CDevice device = bus.getDevice(4);
 
         PotentiometerComponent potentiometer = new PotentiometerComponent(GroveAdapter.A0);
         potentiometer.setRange(0, 100);
@@ -32,4 +30,5 @@ public class PotentiometerDevice extends Example {
             console.println(potentiometer.getValue());
         }
     }
+    // end::PotentiometerDevice[]
 }

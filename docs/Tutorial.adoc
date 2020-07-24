@@ -362,6 +362,45 @@ include::{sourcedir}/fhnwexamples/component/LcdSystemTimeI2C.java[tags=LcdSystem
 
 === Motor Software PWM
 
+=== Potentiometer
+Ein Potentiometer ist eine Art dynamischer Wiederstand, welcher durch das Drehen oder Verschieben eines Reglers vergrössert oder verkleinert werden kann. Der Grove Potentiometer gibt uns je nach eingestelltem Wiederstand einen Wert zwischen 0 und 1'000 zurück. Mit einem Potentiometer können wir also Werte einstellen, mit welchen wir dann einen Aktuator kontrollieren können. Zum Beispiel könnten wir mit einem Potentiometer die Helligkeit einer Leuchtdiode steuern.
+
+.Grove Potentiometer
+image::./Grove_Rotary_Angle_Sensor.jpg[width=75% Grove Rotary Angle Sensor]
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Grove Potentiometer mit Grove Adapter Kabel
+
+.Grove Potentiometer Verkabelung
+image::./fritzing/Grove_Base_Hat_Rotary_Angel_Sensor.jpg[width=75% Grove Rotary Angle Sensor Fritzing]
+
+==== API
+.Potentiometer - Konstruktoren
+[cols="1,1"]
+|===
+|Konstruktor |Beschreibung
+|PotentiometerComponent(GroveAdapter groveAdapter) |Constructor of the PotentiometerComponent with Grove adapter.
+|===
+
+.Potentiometer - Funktionen
+[cols="1,2,2"]
+|===
+|Rückgabetyp |Funktion |Beschreibung
+|int |getValue() |Get the current value from the potentiometer.
+|void |setRange(int minValue, int maxValue) |Set the value returned by getValue() to a specific range. The difference between minValue and MaxValue must be between 10 and 999.
+|===
+
+==== Anwendungsbeispiel
+Das Code Beispiel erzeugt ein neues `PotentiometerComponent`, welches am Grove Base Hat am analogen Adapter A0 anliegt. Mit der `setRange()` Funktion wird sichergestellt, dass die zurückgegebenen Werte zwischen 0 und 100 liegen. Der aktuelle Wert wird alle 500 Millisekunden geloggt.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/PotentiometerDevice.java[tags=PotentiometerDevice]
+----
+
+
 === Serial Camera
 Die Grove Serial Camera besteht aus einem Kamera Modul und einem Control Board, welches die Kommunikation zwischen der Kamera und dem Raspberry Pi über den Serial Bus ermöglicht. Die Kamera benötigt eine Spannung von 5 Volt, weshalb sie leider nicht mit unserem Grove Hat kompatibel ist. Dieser liefert nur 3.3 Volt an die Grove Adapter. Um die Kamera dennoch nutzen zu können, muss sie via Jumper Kabel an den Serial Port des Raspberry Pi angeschlossen werden. Weitere Informationen zur Verkabelung können dem Tutorial entnommen werden.
 
@@ -371,7 +410,7 @@ image::Grove_Serial_Camera.jpg[width=75% Grove Serial Camera]
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
-* 1x Grove Serial Camera mit Grove Adaptor Kabel
+* 1x Grove Serial Camera mit Grove Adapter Kabel
 * 4x Kabel
 
 .Serial Camera Verkabelung

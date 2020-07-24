@@ -12,7 +12,7 @@ import java.io.IOException;
 // TODO: Support other Potentiometers
 
 /**
- * FHNW implementation for the analog grove potentiometer.
+ * FHNW implementation for the analog Grove potentiometer.
  */
 public class PotentiometerComponent extends I2CBase {
     private int minValue = 0;
@@ -20,9 +20,9 @@ public class PotentiometerComponent extends I2CBase {
     private Adapter adapter;
 
     /**
-     * Constructor of the PotentiometerComponent with grove adapter.
+     * Constructor of the PotentiometerComponent with Grove adapter.
      *
-     * @param groveAdapter
+     * @param groveAdapter  The Grove adapter where the potentiometer ist connected.
      * @throws IOException
      * @throws I2CFactory.UnsupportedBusNumberException
      */
@@ -33,10 +33,11 @@ public class PotentiometerComponent extends I2CBase {
     }
 
     /**
-     * Allows setting the value returned into a specific range.
+     * Set the value returned by getValue() to a specific range. The difference between minValue and MaxValue must be
+     * between 10 and 999.
      *
-     * @param minValue
-     * @param maxValue
+     * @param minValue  The desired minimum value returned.
+     * @param maxValue  The desired maximum value returned.
      */
     public void setRange(int minValue, int maxValue) {
         int difference = maxValue - minValue;
@@ -52,7 +53,7 @@ public class PotentiometerComponent extends I2CBase {
     /**
      * Get the current value from the potentiometer.
      *
-     * @return
+     * @return  The current value of the potentiometer adjusted to the desired range.
      */
     public int getValue() {
         byte[] bytes = readData((byte) adapter.getDeviceAddress(), (byte) 2);
@@ -75,7 +76,7 @@ public class PotentiometerComponent extends I2CBase {
      *
      * @param low  Low byte
      * @param high High byte
-     * @return Integer value of the byte.
+     * @return  Integer value of the bytes.
      */
     private static int getIntegerFromBytes(byte low, byte high) {
         return (0xff & (byte) 0x00) << 24 | (0xff & (byte) 0x00) << 16 | (0xff & high) << 8 | (0xff & low) << 0;

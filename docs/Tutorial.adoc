@@ -260,23 +260,23 @@ Es kann gut sein, dass die Auflösung sowie die Grösse der Icons zu Beginn noch
 
 ==== Gradle
 
-== TODO: Code auf dem Pi bauen
-Es ist möglich den Code in intelliJ auf dem eigenen Rechner zu schreiben und diesen dann auf den Pi zu deployen. Da hat den wesentlichen Vorteil, dass man nicht mit der langsamen Entwicklungsumgebung des Raspberry Pi arbeiten muss und auch nicht jede kleinste Änderung in git pushen muss, nur um kleine Veränderungen in er Hardware auf dem Pi auszuprobieren.
+== Code auf dem Pi bauen
+Es ist möglich den Code in intelliJ auf dem eigenen Rechner zu schreiben und diesen dann auf den Pi zu deployen. Das hat den wesentlichen Vorteil, dass man nicht mit der langsamen Entwicklungsumgebung des Raspberry Pi arbeiten muss und auch nicht jede kleinste Änderung in git pushen muss, um es auf dem Pi mit der richtigen Hardware zu testen.
 
 === Remote Host in IntelliJ
-Um Ihren Raspberry Pi als Remote Host einzurichten in IntelliJ, müssen Sie zuerst in der Menüleiste auf _"Tools" -> "Deployment" -> "Browse Remote Host"_
+Um Ihren Raspberry Pi als Remote Host in IntelliJ einzurichten, müssen Sie zuerst in der Menüleiste die folgendenden Menüpunkte wählen:  _"Tools" -> "Deployment" -> "Browse Remote Host"_
 
 ._Remote Host Setting_
 image::./installation/RemoteHost.png[width=75% remote host setting]
 
-Jetzt escheint ein neues Menü auf der rechten Seite, wo sich auch normalerweise auch die gradle und database Einstellungen befinden. 
+Jetzt erscheint ein neues Menü auf der rechten Seite, wo sich auch normalerweise  die gradle und Datenbank Einstellungen befinden. 
 
-Klicken Sie in diesem Menü auf die 3 Punkte, um einen neuen Server zu erstellen. Der Name spielt keine Rolle, aber der Typ sollte SFTP sein. Bestätigen Sie dann ihre Eingabe.
+Klicken Sie in diesem Menü auf die 3 Punkte, um einen neuen Server zu erstellen. Der Name spielt hierbei keine Rolle, aber der Typ sollte SFTP sein. Bestätigen Sie dann ihre Eingabe.
 
 ._Remote Host Server hinzufügen_
 image::./installation/RemoteHost2.png[width=75% add remote host server]
 
-Nun können Sie die Einstellung für ihren Raspberry Pi im Deployment Fenster angeben:
+Nun können Sie die Einstellung für das Raspberry Pi im Deployment Fenster angeben:
 
 . Geben Sie zuerst die IP-Adresse des Raspberry Pis an
 
@@ -291,11 +291,17 @@ Nun können Sie die Einstellung für ihren Raspberry Pi im Deployment Fenster an
 ._Remote Host Server Einstellungen_
 image::./installation/RemoteHost3.png[width=75% remote host server settings]
 
-Jetzt können Sie jeder Zeit alle Files oder einzelne ausgewählte mit dem Menü auf der Rechten Seite auf den Raspberry Pi übertragen.
+Jetzt können Sie jeder Zeit alle Dateien oder einzelne ausgewählte Dateien mit im Remote Host Menü auf den Raspberry Pi übertragen.
+
+Auf dem Pi selbst müssen Sie dann nur noch ihr Projekt bauen und ausführen, aber für die Entwicklung geniessen Sie alle Vorzüge der IDE auf ihrem Rechner.
 
 ._Update Remote Host_
 image::./installation/RemoteHost4.png[width=75% update remote host server]
 
+=== Optional: Remote Debugging
+Es ist auch möglich den Code vom eigenen Rechner aus mit IntelliJ auf dem Raspberry Pi auszuführen und diesen auf dem eigenen Rechner zu debuggen. Diese Funktionalität kann sehr hilfreich sein, wenn man mit schwierigen Bugs zu tun hat, aber birgt auch Schwierigkeiten und funktioniert auch nicht immer ideal, deshalb wurde dieser Bereich als optional deklariert.
+
+Wenn Sie ein schweres Problem haben und sich das Debugging aber erleichtern wollen, dann ist es empfehlenswert diese Funktionalität auszuprobieren.
 
 == Beispiele
 In diesem Kapitel finden Sie für eine Vielzahl an gängigen Sensoren und Aktuatoren Code Beispiele sowie Beispiele zur Verkabelung. Für ein vollständiges Verständnis der Code Beispiele sind gewisse Vorkenntnisse von Nöten. Wir haben die Beispiele deshalb in Levels eingeteilt, an welchen Sie den Grad an nötigen Vorkenntnissen einfach erkennen können.

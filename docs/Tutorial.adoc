@@ -261,6 +261,41 @@ Es kann gut sein, dass die Auflösung sowie die Grösse der Icons zu Beginn noch
 ==== Gradle
 
 == TODO: Code auf dem Pi bauen
+Es ist möglich den Code in intelliJ auf dem eigenen Rechner zu schreiben und diesen dann auf den Pi zu deployen. Da hat den wesentlichen Vorteil, dass man nicht mit der langsamen Entwicklungsumgebung des Raspberry Pi arbeiten muss und auch nicht jede kleinste Änderung in git pushen muss, nur um kleine Veränderungen in er Hardware auf dem Pi auszuprobieren.
+
+=== Remote Host in IntelliJ
+Um Ihren Raspberry Pi als Remote Host einzurichten in IntelliJ, müssen Sie zuerst in der Menüleiste auf _"Tools" -> "Deployment" -> "Browse Remote Host"_
+
+._Remote Host Setting_
+image::./installation/RemoteHost.png[width=75% remote host setting]
+
+Jetzt escheint ein neues Menü auf der rechten Seite, wo sich auch normalerweise auch die gradle und database Einstellungen befinden. 
+
+Klicken Sie in diesem Menü auf die 3 Punkte, um einen neuen Server zu erstellen. Der Name spielt keine Rolle, aber der Typ sollte SFTP sein. Bestätigen Sie dann ihre Eingabe.
+
+._Remote Host Server hinzufügen_
+image::./installation/RemoteHost2.png[width=75% add remote host server]
+
+Nun können Sie die Einstellung für ihren Raspberry Pi im Deployment Fenster angeben:
+
+. Geben Sie zuerst die IP-Adresse des Raspberry Pis an
+
+. Hier können Sie die Connection mit dem Usernamen und dem Passwort einmal ausprobieren, bevor Sie es hinzufügen.
+
+. Nach dem Connection-Test können Sie auf das kleine Ordner Symbol klicken, um auf die Ordner Struktur des Raspberry Pis zu zugreifen. Wählen Sie hier den Ort, an dem Alle Files des Projekts hinkopiert werden sollen.
+
+. Sie können mehrere Server hinzufügen, für die einfache Verwendung in verschiedenen Netzwerken
+
+
+
+._Remote Host Server Einstellungen_
+image::./installation/RemoteHost3.png[width=75% remote host server settings]
+
+Jetzt können Sie jeder Zeit alle Files oder einzelne ausgewählte mit dem Menü auf der Rechten Seite auf den Raspberry Pi übertragen.
+
+._Update Remote Host_
+image::./installation/RemoteHost4.png[width=75% update remote host server]
+
 
 == Beispiele
 In diesem Kapitel finden Sie für eine Vielzahl an gängigen Sensoren und Aktuatoren Code Beispiele sowie Beispiele zur Verkabelung. Für ein vollständiges Verständnis der Code Beispiele sind gewisse Vorkenntnisse von Nöten. Wir haben die Beispiele deshalb in Levels eingeteilt, an welchen Sie den Grad an nötigen Vorkenntnissen einfach erkennen können.

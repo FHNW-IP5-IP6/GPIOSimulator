@@ -484,7 +484,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
-<li><a href="#_todo_code_auf_dem_pi_bauen">3. TODO: Code auf dem Pi bauen</a></li>
+<li><a href="#_code_auf_dem_pi_bauen">3. Code auf dem Pi bauen</a>
+<ul class="sectlevel2">
+<li><a href="#_remote_host_in_intellij">3.1. Remote Host in IntelliJ</a></li>
+<li><a href="#_optional_remote_debugging">3.2. Optional: Remote Debugging</a></li>
+</ul>
+</li>
 <li><a href="#_beispiele">4. Beispiele</a>
 <ul class="sectlevel2">
 <li><a href="#_blink_led">4.1. Blink LED</a>
@@ -516,31 +521,35 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_code_beispiel_3">4.4.2. Code Beispiel</a></li>
 </ul>
 </li>
-<li><a href="#_motor_direction">4.5. Motor Direction</a></li>
-<li><a href="#_motor_hardware_pwm">4.6. Motor Hardware PWM</a></li>
-<li><a href="#_motor_software_pwm">4.7. Motor Software PWM</a></li>
-<li><a href="#_potentiometer">4.8. Potentiometer</a>
+<li><a href="#_dc_motor">4.5. DC Motor</a>
 <ul class="sectlevel3">
-<li><a href="#_verkabelung_4">4.8.1. Verkabelung</a></li>
-<li><a href="#_api">4.8.2. API</a></li>
-<li><a href="#_anwendungsbeispiel">4.8.3. Anwendungsbeispiel</a></li>
+<li><a href="#_verkabelung_4">4.5.1. Verkabelung</a></li>
+<li><a href="#_api">4.5.2. API</a></li>
+<li><a href="#_anwendungsbeispiel">4.5.3. Anwendungsbeispiel</a></li>
 </ul>
 </li>
-<li><a href="#_serial_camera">4.9. Serial Camera</a>
+<li><a href="#_potentiometer">4.6. Potentiometer</a>
 <ul class="sectlevel3">
-<li><a href="#_verkabelung_5">4.9.1. Verkabelung</a></li>
-<li><a href="#_api_2">4.9.2. API</a></li>
-<li><a href="#_anwendungsbeispiel_2">4.9.3. Anwendungsbeispiel</a></li>
+<li><a href="#_verkabelung_5">4.6.1. Verkabelung</a></li>
+<li><a href="#_api_2">4.6.2. API</a></li>
+<li><a href="#_anwendungsbeispiel_2">4.6.3. Anwendungsbeispiel</a></li>
 </ul>
 </li>
-<li><a href="#_raspberry_pi_camera">4.10. Raspberry Pi Camera</a>
+<li><a href="#_serial_camera">4.7. Serial Camera</a>
 <ul class="sectlevel3">
-<li><a href="#_verkabelung_6">4.10.1. Verkabelung</a></li>
-<li><a href="#_code_beispiel_4">4.10.2. Code Beispiel</a></li>
+<li><a href="#_verkabelung_6">4.7.1. Verkabelung</a></li>
+<li><a href="#_api_3">4.7.2. API</a></li>
+<li><a href="#_anwendungsbeispiel_3">4.7.3. Anwendungsbeispiel</a></li>
 </ul>
 </li>
-<li><a href="#_servo_motor">4.11. Servo Motor</a></li>
-<li><a href="#_stepper_motor">4.12. Stepper Motor</a></li>
+<li><a href="#_raspberry_pi_camera">4.8. Raspberry Pi Camera</a>
+<ul class="sectlevel3">
+<li><a href="#_verkabelung_7">4.8.1. Verkabelung</a></li>
+<li><a href="#_code_beispiel_4">4.8.2. Code Beispiel</a></li>
+</ul>
+</li>
+<li><a href="#_servo_motor">4.9. Servo Motor</a></li>
+<li><a href="#_stepper_motor">4.10. Stepper Motor</a></li>
 </ul>
 </li>
 <li><a href="#_zusatzinformationen">5. Zusatzinformationen</a>
@@ -601,7 +610,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </div>
 <div class="paragraph">
-<p><strong>Datum</strong>: 2020-07-24</p>
+<p><strong>Datum</strong>: 2020-07-28</p>
 </div>
 <div style="page-break-after: always;"></div>
 <h2 id="_inhaltsverzeichnis" class="discrete">Inhaltsverzeichnis</h2>
@@ -1040,9 +1049,81 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_todo_code_auf_dem_pi_bauen">3. TODO: Code auf dem Pi bauen</h2>
+<h2 id="_code_auf_dem_pi_bauen">3. Code auf dem Pi bauen</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>Es ist möglich den Code in intelliJ auf dem eigenen Rechner zu schreiben und diesen dann auf den Pi zu deployen. Das hat den wesentlichen Vorteil, dass man nicht mit der langsamen Entwicklungsumgebung des Raspberry Pi arbeiten muss und auch nicht jede kleinste Änderung in git pushen muss, um es auf dem Pi mit der richtigen Hardware zu testen.</p>
+</div>
+<div class="sect2">
+<h3 id="_remote_host_in_intellij">3.1. Remote Host in IntelliJ</h3>
+<div class="paragraph">
+<p>Um Ihren Raspberry Pi als Remote Host in IntelliJ einzurichten, müssen Sie zuerst in der Menüleiste die folgendenden Menüpunkte wählen:  <em>"Tools" &#8594; "Deployment" &#8594; "Browse Remote Host"</em></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/installation/RemoteHost.png" alt="RemoteHost" width="75% remote host setting">
+</div>
+<div class="title">Figure 13. <em>Remote Host Setting</em></div>
+</div>
+<div class="paragraph">
+<p>Jetzt erscheint ein neues Menü auf der rechten Seite, wo sich auch normalerweise  die gradle und Datenbank Einstellungen befinden.</p>
+</div>
+<div class="paragraph">
+<p>Klicken Sie in diesem Menü auf die 3 Punkte, um einen neuen Server zu erstellen. Der Name spielt hierbei keine Rolle, aber der Typ sollte SFTP sein. Bestätigen Sie dann ihre Eingabe.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/installation/RemoteHost2.png" alt="RemoteHost2" width="75% add remote host server">
+</div>
+<div class="title">Figure 14. <em>Remote Host Server hinzufügen</em></div>
+</div>
+<div class="paragraph">
+<p>Nun können Sie die Einstellung für das Raspberry Pi im Deployment Fenster angeben:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Geben Sie zuerst die IP-Adresse des Raspberry Pis an</p>
+</li>
+<li>
+<p>Hier können Sie die Connection mit dem Usernamen und dem Passwort einmal ausprobieren, bevor Sie es hinzufügen.</p>
+</li>
+<li>
+<p>Nach dem Connection-Test können Sie auf das kleine Ordner Symbol klicken, um auf die Ordner Struktur des Raspberry Pis zu zugreifen. Wählen Sie hier den Ort, an dem Alle Files des Projekts hinkopiert werden sollen.</p>
+</li>
+<li>
+<p>Sie können mehrere Server hinzufügen, für die einfache Verwendung in verschiedenen Netzwerken</p>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/installation/RemoteHost3.png" alt="RemoteHost3" width="75% remote host server settings">
+</div>
+<div class="title">Figure 15. <em>Remote Host Server Einstellungen</em></div>
+</div>
+<div class="paragraph">
+<p>Jetzt können Sie jeder Zeit alle Dateien oder einzelne ausgewählte Dateien mit im Remote Host Menü auf den Raspberry Pi übertragen.</p>
+</div>
+<div class="paragraph">
+<p>Auf dem Pi selbst müssen Sie dann nur noch ihr Projekt bauen und ausführen, aber für die Entwicklung geniessen Sie alle Vorzüge der IDE auf ihrem Rechner.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/installation/RemoteHost4.png" alt="RemoteHost4" width="75% update remote host server">
+</div>
+<div class="title">Figure 16. <em>Update Remote Host</em></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_optional_remote_debugging">3.2. Optional: Remote Debugging</h3>
+<div class="paragraph">
+<p>Es ist auch möglich den Code vom eigenen Rechner aus mit IntelliJ auf dem Raspberry Pi auszuführen und diesen auf dem eigenen Rechner zu debuggen. Diese Funktionalität kann sehr hilfreich sein, wenn man mit schwierigen Bugs zu tun hat, aber birgt auch Schwierigkeiten und funktioniert auch nicht immer ideal, deshalb wurde dieser Bereich als optional deklariert.</p>
+</div>
+<div class="paragraph">
+<p>Wenn Sie ein schweres Problem haben und sich das Debugging aber erleichtern wollen, dann ist es empfehlenswert diese Funktionalität auszuprobieren.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1133,7 +1214,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/blink_led.png" alt="blink led" width="75% LED Wiring">
 </div>
-<div class="title">Figure 13. LED Verkabelung</div>
+<div class="title">Figure 17. LED Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -1233,7 +1314,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/button_click.png" alt="button click" width="75% Button Wiring">
 </div>
-<div class="title">Figure 14. Button Verkabelung</div>
+<div class="title">Figure 18. Button Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -1344,7 +1425,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/LCDI2C.png" alt="LCDI2C" width="75% I2C Wiring">
 </div>
-<div class="title">Figure 15. LCD I2C Modul Verkabelung</div>
+<div class="title">Figure 19. LCD I2C Modul Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -1383,19 +1464,165 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_motor_direction">4.5. Motor Direction</h3>
+<h3 id="_dc_motor">4.5. DC Motor</h3>
+<div class="paragraph">
+<p>Gleichstrommotoren arbeiten, wie der Name schon verrät, mit Gleichstrom. Da der Raspberry Pi Gleichstrom mit 3.3 Volt sowie 5.0 Volt zur Verfügung stellt, können die Motoren direkt an den Stromkreis des Pi angeschlossen werden. Alternativ kann auch eine stärkere, externe Spannungsquelle verwendet werden. Dabei gilt aber zu beachten, dass der Motor nicht überlastet wird.</p>
+</div>
+<div class="paragraph">
+<p>Um einen DC Motor zu kontrollieren, benötigt man einen Motor Treiber. Wir haben dazu den Chip L293D verwendet. Natürlich kann auch ein anderer Treiber verwendet werden.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Das Pinout des L293D findet ihr unter folgendem Link: <a href="https://components101.com/l293d-pinout-features-datasheet" class="bare">https://components101.com/l293d-pinout-features-datasheet</a></p>
+</li>
+<li>
+<p>Dieses Youtube Video von Gaven MacDonald zeit auf, wie ein DC Motor über GPIO Pins gesteuert werden kann. Ab der Minute 2 wird genauer auf den Treiber L293D eingegangen. <a href="https://www.youtube.com/watch?v=W7cV9_W12sM" class="bare">https://www.youtube.com/watch?v=W7cV9_W12sM</a></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/motor_and_driver.png" alt="motor and driver" width="75% DC Motor and Driver">
+</div>
+<div class="title">Figure 20. Motor und Treiber</div>
+</div>
+<div class="sect3">
+<h4 id="_verkabelung_4">4.5.1. Verkabelung</h4>
+<div class="paragraph">
+<p>Für die Verkabelung wird folgende Hardware benötigt:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>1x DC Motor</p>
+</li>
+<li>
+<p>1x L93D Treiber</p>
+</li>
+<li>
+<p>10x Kabel</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/fritzing/motor.png" alt="motor" width="75% DC Motor Fritzing">
+</div>
+<div class="title">Figure 21. DC Motor Verkabelung</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_api">4.5.2. API</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Motor - Konstruktoren</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput forwards, com.pi4j.io.gpio.GpioPinDigitalOutput backwards)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor of the MotorComponent. This constructor allows controlling the motors direction using digital output pins.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput forwards, com.pi4j.io.gpio.GpioPinPwmOutput backwards)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor of the MotorComponent. This constructor allows controlling the motors direction and speed using hardware or software PWM output pins.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Motor - Funktionen</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">moveBackwards()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Runs the motor run backwards at full speed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">moveBackwards(int power)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Runs the motor backwards at a specific speed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">moveForwards()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Runs the motor run forwards at full speed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">moveForwards(int power)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Runs the motor forwards at a specific speed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">stop()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stops the motor.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_anwendungsbeispiel">4.5.3. Anwendungsbeispiel</h4>
+<div class="paragraph">
+<p>Das Code Beispiel erzeugt ein neues <code>MotorComponent</code>. Bei der Erstellung wird jener Konstruktor benutzt, welcher PWM Pins unterstützt. Dieser erlaubt die Drosselung der Drehzahldes Motors.</p>
+</div>
+<div class="paragraph">
+<p>In einer While-Schlaufe wird die Drehzahl des vorwärts drehenden Motors schrittweise um 10% erhöht. Nachdem 100% Leistung erreicht wurde, stoppt der Motor für 5 Sekunden. Anschliessend wird die Drehrichtung des Motors umgekehrt. Der Motor dreht nun rückwärts und die Drehzahl wird wiederum schrittweise um je 10% inkrementiert.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @Override public void execute() throws Exception {
+        GpioProvider provider = new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING);
+        GpioFactory.setDefaultProvider(provider);
+        final GpioController gpio = GpioFactory.getInstance();
 
+        Console console = new Console();
+        console.promptForExit();
+
+        GpioPinPwmOutput pwmForwards = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_12);
+        GpioPinPwmOutput pwmBackwards = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_13);
+        MotorComponent pwmMotor = new MotorComponent(console, pwmForwards, pwmBackwards);
+
+        while (console.isRunning()) {
+            for (int i = 0; i &lt;= 100; i = i + 10) {
+                pwmMotor.moveForwards(i);
+                Thread.sleep(1000);
+            }
+
+            pwmMotor.stop();
+            Thread.sleep(5000);
+
+            for (int i = 0; i &lt;= 100; i = i + 10) {
+                pwmMotor.moveBackwards(i);
+                Thread.sleep(1000);
+            }
+
+            pwmMotor.stop();
+            Thread.sleep(5000);
+        }
+
+        gpio.shutdown();</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_motor_hardware_pwm">4.6. Motor Hardware PWM</h3>
-
-</div>
-<div class="sect2">
-<h3 id="_motor_software_pwm">4.7. Motor Software PWM</h3>
-
-</div>
-<div class="sect2">
-<h3 id="_potentiometer">4.8. Potentiometer</h3>
+<h3 id="_potentiometer">4.6. Potentiometer</h3>
 <div class="paragraph">
 <p>Ein Potentiometer ist eine Art dynamischer Wiederstand, welcher durch das Drehen oder Verschieben eines Reglers vergrössert oder verkleinert werden kann. Der Grove Potentiometer gibt uns je nach eingestelltem Wiederstand einen Wert zwischen 0 und 1'000 zurück. Mit einem Potentiometer können wir also Werte einstellen, mit welchen wir dann einen Aktuator kontrollieren können. Zum Beispiel könnten wir mit einem Potentiometer die Helligkeit einer Leuchtdiode steuern.</p>
 </div>
@@ -1403,10 +1630,10 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Rotary_Angle_Sensor.jpg" alt="Grove Rotary Angle Sensor" width="75% Grove Rotary Angle Sensor">
 </div>
-<div class="title">Figure 16. Grove Potentiometer</div>
+<div class="title">Figure 22. Grove Potentiometer</div>
 </div>
 <div class="sect3">
-<h4 id="_verkabelung_4">4.8.1. Verkabelung</h4>
+<h4 id="_verkabelung_5">4.6.1. Verkabelung</h4>
 <div class="paragraph">
 <p>Für die Verkabelung wird folgende Hardware benötigt:</p>
 </div>
@@ -1421,13 +1648,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/Grove_Base_Hat_Rotary_Angel_Sensor.jpg" alt="Grove Base Hat Rotary Angel Sensor" width="75% Grove Rotary Angle Sensor Fritzing">
 </div>
-<div class="title">Figure 17. Grove Potentiometer Verkabelung</div>
+<div class="title">Figure 23. Grove Potentiometer Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_api">4.8.2. API</h4>
+<h4 id="_api_2">4.6.2. API</h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Potentiometer - Konstruktoren</caption>
+<caption class="title">Table 3. Potentiometer - Konstruktoren</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1444,7 +1671,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Potentiometer - Funktionen</caption>
+<caption class="title">Table 4. Potentiometer - Funktionen</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -1470,7 +1697,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_anwendungsbeispiel">4.8.3. Anwendungsbeispiel</h4>
+<h4 id="_anwendungsbeispiel_2">4.6.3. Anwendungsbeispiel</h4>
 <div class="paragraph">
 <p>Das Code Beispiel erzeugt ein neues <code>PotentiometerComponent</code>, welches am Grove Base Hat am analogen Adapter A0 anliegt. Mit der <code>setRange()</code> Funktion wird sichergestellt, dass die zurückgegebenen Werte zwischen 0 und 100 liegen. Der aktuelle Wert wird alle 500 Millisekunden geloggt.</p>
 </div>
@@ -1493,7 +1720,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_serial_camera">4.9. Serial Camera</h3>
+<h3 id="_serial_camera">4.7. Serial Camera</h3>
 <div class="paragraph">
 <p>Die Grove Serial Camera besteht aus einem Kamera Modul und einem Control Board, welches die Kommunikation zwischen der Kamera und dem Raspberry Pi über den Serial Bus ermöglicht. Die Kamera benötigt eine Spannung von 5 Volt, weshalb sie leider nicht mit unserem Grove Hat kompatibel ist. Dieser liefert nur 3.3 Volt an die Grove Adapter. Um die Kamera dennoch nutzen zu können, muss sie via Jumper Kabel an den Serial Port des Raspberry Pi angeschlossen werden. Weitere Informationen zur Verkabelung können dem Tutorial entnommen werden.</p>
 </div>
@@ -1501,10 +1728,10 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera.jpg" alt="Grove Serial Camera" width="75% Grove Serial Camera">
 </div>
-<div class="title">Figure 18. Grove Serial Camera</div>
+<div class="title">Figure 24. Grove Serial Camera</div>
 </div>
 <div class="sect3">
-<h4 id="_verkabelung_5">4.9.1. Verkabelung</h4>
+<h4 id="_verkabelung_6">4.7.1. Verkabelung</h4>
 <div class="paragraph">
 <p>Für die Verkabelung wird folgende Hardware benötigt:</p>
 </div>
@@ -1522,13 +1749,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/grove_serial_cam.png" alt="grove serial cam" width="75% Grove Serial Camera Fritzing">
 </div>
-<div class="title">Figure 19. Serial Camera Verkabelung</div>
+<div class="title">Figure 25. Serial Camera Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_api_2">4.9.2. API</h4>
+<h4 id="_api_3">4.7.2. API</h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Serial Camera - Konstruktoren</caption>
+<caption class="title">Table 5. Serial Camera - Konstruktoren</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1557,7 +1784,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. Serial Camera - Funktionen</caption>
+<caption class="title">Table 6. Serial Camera - Funktionen</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -1588,7 +1815,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_anwendungsbeispiel_2">4.9.3. Anwendungsbeispiel</h4>
+<h4 id="_anwendungsbeispiel_3">4.7.3. Anwendungsbeispiel</h4>
 <div class="paragraph">
 <p>Das unten abgebildete Code Beispiel zeigt, wie mit der Hilfe unserer SerialCameraComponent ein JPEG Foto geschossen und unter einem bestimmten Pfad abgespeichert werden kann.</p>
 </div>
@@ -1607,9 +1834,9 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_raspberry_pi_camera">4.10. Raspberry Pi Camera</h3>
+<h3 id="_raspberry_pi_camera">4.8. Raspberry Pi Camera</h3>
 <div class="sect3">
-<h4 id="_verkabelung_6">4.10.1. Verkabelung</h4>
+<h4 id="_verkabelung_7">4.8.1. Verkabelung</h4>
 <div class="paragraph">
 <p>Für die Verkabelung wird folgende Hardware benötigt:</p>
 </div>
@@ -1624,11 +1851,11 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/raspiCam.png" alt="raspiCam" width="60% RaspiCam Wiring">
 </div>
-<div class="title">Figure 20. Raspberry Pi Camera Verkabelung</div>
+<div class="title">Figure 26. Raspberry Pi Camera Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_code_beispiel_4">4.10.2. Code Beispiel</h4>
+<h4 id="_code_beispiel_4">4.8.2. Code Beispiel</h4>
 <div class="paragraph">
 <p>In diesem Code Beispiel wird die Raspberry Pi Camera mit einer externen Library verwendet. Es werden 10 Bilder nacheinander geschossen und in den Ordner <code>/home/pi/Pictures/PiCamPics</code> gespeichert. <br>
 <strong>Vorkenntnisse: Intermediate</strong></p>
@@ -1674,11 +1901,11 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_servo_motor">4.11. Servo Motor</h3>
+<h3 id="_servo_motor">4.9. Servo Motor</h3>
 
 </div>
 <div class="sect2">
-<h3 id="_stepper_motor">4.12. Stepper Motor</h3>
+<h3 id="_stepper_motor">4.10. Stepper Motor</h3>
 
 </div>
 </div>
@@ -1700,7 +1927,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_SYNC_Command.png" alt="500" width="500" height="Grove Serial Camera SYNC">
 </div>
-<div class="title">Figure 21. SYNC Kommando</div>
+<div class="title">Figure 27. SYNC Kommando</div>
 </div>
 </div>
 <div class="sect3">
@@ -1712,7 +1939,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_Initialisation.png" alt="500" width="500" height="Grove Serial Camera Connection">
 </div>
-<div class="title">Figure 22. Verbindungsaufbau</div>
+<div class="title">Figure 28. Verbindungsaufbau</div>
 </div>
 <div class="paragraph">
 <p>In unserer Java Klasse haben wir den Verbindungsaufbau in einer eigenen Funktion realisiert, welche vom jeweiligen Konstruktor aufgerufen wird. In einer While-Schlaufe wird das SYNC Kommando solange an die Kamera gesendet, bis diese eine Antwort auf den Serial Bus geschrieben hat. Ist dies nach 60 Versuchen nicht der Fall, wird die Initialisierung mit einem Fehler abgebrochen. Hat die Kamera eine Antwort gesendet, wird diese auf Ihre Korrektheit überprüft. Die ersten sechs Bytes müssen dem ACK Kommando entsprechen (AA0E0Dxx0000h). Bei den nächsten sechs Bytes muss es sich um das SYNC Kommando handeln (AA0D00000000h). Sofern dies der Fall ist, war der Verbindungsaufbau erfolgreich. Die Kamera ist nun bereit für die Entgegennahme von weiteren Befehlen.</p>
@@ -1775,7 +2002,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_Get_Picture.png" alt="500" width="500" height="Grove Serial Camera Get Picture">
 </div>
-<div class="title">Figure 23. Ablauf der Bildanforderung</div>
+<div class="title">Figure 29. Ablauf der Bildanforderung</div>
 </div>
 </div>
 <div class="sect3">
@@ -1940,7 +2167,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-07-24 10:19:54 +0200
+Last updated 2020-07-28 11:01:25 +0200
 </div>
 </div>
 </body>

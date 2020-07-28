@@ -106,7 +106,7 @@ public class Examples {
         gpioExamples.add(new MotorSpeedHardPwm(7, "Motor Speed Hardware PWM Test"));
         gpioExamples.add(new ServoMotor(8, "Servo Motor Test"));
         gpioExamples.add(new StepperMotor(9, "Stepper Motor Test"));
-        gpioExamples.add(new KeyPad(10, "Stepper Motor Test"));
+        gpioExamples.add(new KeyPad(10, "Key Pad Test"));
         gpioExamples.add(new SerialCamera(11, "Serial Camera Test"));
     }
 

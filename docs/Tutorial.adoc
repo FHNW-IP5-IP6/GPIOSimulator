@@ -590,12 +590,14 @@ include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialC
 <<<
 
 === Raspberry Pi Camera
-Die Raspberry Pi Camera ist ein Device, welches standardmässig unterstützt wird und auch in Rasbian vier Applikationen enthält, welche man vom Terminal aus verwenden kann.
+Die Raspberry Pi Camera enthält in Rasbian vier Applikationen, welche man vom Terminal aus verwenden kann.
 
 * `raspistill` und `raspiyuv` für die Bildaufnahme
 * `raspivid` und `raspividyuv` für die Videoaufnahme
 
-`raspiyuv` und `raspividyuv` verwenden keinen Encoder, sondern senden ihr YUV (Ein Farbmodell wie RBG) direkt von der Kamera an ein File. Diese beiden Applikationen werden nicht unterstützt in der Java-Device Klasse.
+`raspiyuv` und `raspividyuv` verwenden keinen Encoder, sondern senden ihr YUV (Ein Farbmodell wie RBG) direkt von der Kamera an ein File. Diese beiden Applikationen werden nicht unterstützt von der `RaspberryPiCameraComponent`. Die Device Klasse verwendet intern nur `raspistill` und `raspivid`. 
+
+In den folgenden Unterkapiteln wird auf die Terminal Befehle für `raspistill` und `raspivid` eingegangen, falls es direkt verwendet wird. Ausserdem wird auf die Funktionalität der `RaspberryPiCameraComponent` eingegangen.
 
 ==== Terminal Befehle
 Hier sind einige Beispiele für Standardbefehle mit `raspistill`:

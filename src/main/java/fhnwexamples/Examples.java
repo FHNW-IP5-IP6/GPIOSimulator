@@ -35,26 +35,26 @@ public class Examples {
         int input = getNextScannerInt();
 
         switch (input) {
-            case 0:
-                System.exit(0);
-                break;
-            case 1:
-                //gpio Examples
-                System.out.println("CHOOSE A gpio EXAMPLE");
-                System.out.println("--------------------");
-                showCommandInformation(gpioExamples);
-                chooseExample(gpioExamples);
-                break;
-            case 2:
-                //gpio Examples using pi4j-component
-                System.out.println("CHOOSE A DEVICE EXAMPLE");
-                System.out.println("--------------------");
-                showCommandInformation(deviceExamples);
-                chooseExample(deviceExamples);
-                break;
-            default:
-                System.out.println("Did not recognize input");
-                showInitialInformation();
+        case 0:
+            System.exit(0);
+            break;
+        case 1:
+            //gpio Examples
+            System.out.println("CHOOSE A gpio EXAMPLE");
+            System.out.println("--------------------");
+            showCommandInformation(gpioExamples);
+            chooseExample(gpioExamples);
+            break;
+        case 2:
+            //gpio Examples using pi4j-component
+            System.out.println("CHOOSE A DEVICE EXAMPLE");
+            System.out.println("--------------------");
+            showCommandInformation(deviceExamples);
+            chooseExample(deviceExamples);
+            break;
+        default:
+            System.out.println("Did not recognize input");
+            showInitialInformation();
         }
     }
 
@@ -122,6 +122,7 @@ public class Examples {
         deviceExamples.add(new RaspberryPiCamera(6, "Raspberry Pi Camera example"));
         deviceExamples.add(new BuzzerDevice(7, "Buzzer example"));
         deviceExamples.add(new MotorDevice(8, "Motor example"));
+        deviceExamples.add(new StepperMotorDevice(9, "Stepper Motor example"));
     }
 
     /**

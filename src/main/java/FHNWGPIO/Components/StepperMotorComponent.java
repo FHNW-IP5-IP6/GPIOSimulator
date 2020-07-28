@@ -25,6 +25,9 @@ public class StepperMotorComponent {
     private final byte[] rev_single_step = new byte[] { 0b0001, 0b0010, 0b0100, 0b1000 };
     private final byte[] rev_double_step = new byte[] { 0b0011, 0b0110, 0b1100, 0b1001 };
 
+    private int currentPosition = 0;
+    private boolean lastDirectionForward = true;
+
     /**
      * Constructor which allows to specify all the different Parameters.
      *
@@ -165,6 +168,11 @@ public class StepperMotorComponent {
      * @throws InterruptedException Exception might be thrown because of Thread.sleep().
      */
     private void step(int steps, boolean stepForwards) throws InterruptedException {
+        if (stepForwards != lastDirectionForward) {
+            shiftCurrentPosition();
+            lastDirectionForward = stepForwards;
+        }
+
         for (int i = 0; i < steps; i++) {
             byte element = getElement(i, stepForwards);
             digitalOut1.setState((element >> 0 & 0b0001) == 1 ? PinState.HIGH : PinState.LOW);
@@ -173,6 +181,8 @@ public class StepperMotorComponent {
             digitalOut4.setState((element >> 3 & 0b0001) == 1 ? PinState.HIGH : PinState.LOW);
             Thread.sleep(stepDelay);
         }
+
+        setCurrentPosition(steps);
     }
 
     /**
@@ -194,21 +204,59 @@ public class StepperMotorComponent {
      * @return The correlating element of the array according to the stepper motor mode.
      */
     private byte getElement(int stepNumber, boolean forwards) {
+        int elementPosition = stepNumber + currentPosition;
         switch (mode) {
         case HALF_STEP:
             return forwards ?
-                    half_step[stepNumber % half_step.length] :
-                    rev_half_step[stepNumber % rev_half_step.length];
+                    half_step[Math.floorMod(elementPosition, half_step.length)] :
+                    rev_half_step[Math.floorMod(elementPosition, rev_half_step.length)];
         case SINGLE_STEP:
             return forwards ?
-                    single_step[stepNumber % single_step.length] :
-                    rev_single_step[stepNumber % rev_single_step.length];
+                    single_step[Math.floorMod(elementPosition, single_step.length)] :
+                    rev_single_step[Math.floorMod(elementPosition, rev_single_step.length)];
         case DOUBLE_STEP:
             return forwards ?
-                    double_step[stepNumber % double_step.length] :
-                    rev_double_step[stepNumber % rev_double_step.length];
+                    double_step[Math.floorMod(elementPosition, double_step.length)] :
+                    rev_double_step[Math.floorMod(elementPosition, rev_double_step.length)];
         default:
             throw new IllegalArgumentException("StepperMotorMode is invalid.");
+        }
+    }
+
+    /**
+     * Calculates the current position in the array of the current stepper motor mode.
+     *
+     * @param steps The number of steps made.
+     */
+    private void setCurrentPosition(int steps) {
+        switch (mode) {
+        case HALF_STEP:
+            currentPosition = steps % half_step.length;
+            break;
+        case SINGLE_STEP:
+            currentPosition = steps % single_step.length;
+            break;
+        case DOUBLE_STEP:
+            currentPosition = steps % double_step.length;
+            break;
+        }
+    }
+
+    /**
+     * This method needs to be called whenever the direction of the motor is changed since the position must be
+     * recalculated on direction change.
+     */
+    private void shiftCurrentPosition() {
+        switch (mode) {
+        case HALF_STEP:
+            currentPosition = Math.floorDiv(currentPosition + half_step.length, half_step.length);
+            break;
+        case SINGLE_STEP:
+            currentPosition = Math.floorDiv(currentPosition + single_step.length, single_step.length);
+            break;
+        case DOUBLE_STEP:
+            currentPosition = Math.floorDiv(currentPosition + double_step.length, double_step.length);
+            break;
         }
     }
 }

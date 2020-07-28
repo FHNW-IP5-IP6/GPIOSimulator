@@ -33,7 +33,6 @@ public class StepperMotorDevice extends Example {
 
         console.println("Make 4096 steps forwards with half step mode");
         stepperMotor.setMode(StepperMotorMode.HALF_STEP);
-        stepperMotor.setStepDelay(1000);
         stepperMotor.stepForwards(4096);
         stepperMotor.stop();
         Thread.sleep(500);
@@ -53,6 +52,7 @@ public class StepperMotorDevice extends Example {
         stepperMotor.stop();
 
         Thread.sleep(5000);
+
         console.println("Make 2048 steps forwards with double step mode");
         stepperMotor.setMode(StepperMotorMode.DOUBLE_STEP);
         stepperMotor.stepForwards(2048);

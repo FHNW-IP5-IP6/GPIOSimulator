@@ -41,7 +41,7 @@ public class MotorComponent {
 
     /**
      * Constructor of the MotorComponent. This constructor allows controlling the motors direction and speed using
-     * hardware or software PWM output pins.
+     * hardware or software pwm output pins.
      *
      * @param console   Pi4J Console
      * @param forwards  PWM pin used to move the motor forwards
@@ -146,7 +146,7 @@ public class MotorComponent {
      * Checks if the provided pin is a valid hardware or software PWM pin.
      *
      * @param pin The pin which should be checked
-     * @return True if the pin is a hardware PWM pin
+     * @return True if the pin is a hardware
      */
     private boolean isHardwarePwmPin(Pin pin) {
         return pin.getAddress() == 12 || pin.getAddress() == 13;

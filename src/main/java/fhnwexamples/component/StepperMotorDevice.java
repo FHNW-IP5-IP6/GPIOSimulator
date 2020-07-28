@@ -31,12 +31,13 @@ public class StepperMotorDevice extends Example {
         GpioPinDigitalOutput out4 = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_22);
         StepperMotorComponent stepperMotor = new StepperMotorComponent(console, out1, out2, out3, out4);
 
-        console.println("Make 2048 steps forwards with half step mode");
+        console.println("Make 4096 steps forwards with half step mode");
         stepperMotor.setMode(StepperMotorMode.HALF_STEP);
+        stepperMotor.setStepDelay(1000);
         stepperMotor.stepForwards(4096);
         stepperMotor.stop();
         Thread.sleep(500);
-        console.println("Make 2048 steps backwards with half step mode");
+        console.println("Make 4096 steps backwards with half step mode");
         stepperMotor.stepBackwards(4096);
         stepperMotor.stop();
 

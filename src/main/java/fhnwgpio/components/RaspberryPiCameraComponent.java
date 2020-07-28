@@ -120,7 +120,9 @@ public class RaspberryPiCameraComponent {
      * @throws IOException
      * @throws InterruptedException
      */
+
     public void takeVid(String outputPath) throws IOException, InterruptedException {
+        // tag::RasPiCamTakeVid[]
         if (!isRaspiVidAvailable) {
             throw new ExceptionInInitializerError("RaspiVid has to be initialised with the Configuration for taking videos");
         }
@@ -140,5 +142,6 @@ public class RaspberryPiCameraComponent {
         } catch (IOException | InterruptedException ieo) {
             console.println("Error while taking video: " + ieo.getMessage());
         }
+        // end::RasPiCamTakeVid[]
     }
 }

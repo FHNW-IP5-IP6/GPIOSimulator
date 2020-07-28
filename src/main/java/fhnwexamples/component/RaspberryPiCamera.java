@@ -19,7 +19,7 @@ import static uk.co.caprica.picam.PicamNativeLibrary.installTempLibrary;
 
 /**
  * This is an example of the raspberry pi camera using our own component.
- *
+ * <p>
  * There are also examples that use that use the two libraries for raspistill directly
  * https://github.com/caprica/picam
  * https://github.com/Hopding/JRPiCam
@@ -38,13 +38,12 @@ public class RaspberryPiCamera extends Example {
     }
 
     @Override
-    // tag::RaspberryPiCamera[]
     public void execute() throws Exception {
+        // tag::RaspberryPiCamera[]
         Console console = new Console();
         console.promptForExit();
-        long start = System.currentTimeMillis();
 
-        //configuration for pictures using raspistill
+        //configuration for pictures using raspistill with builder object
         CameraConfiguration stillConfig = RaspberryPiCameraComponent.createCameraConfiguration()
                 .width(1920)
                 .height(1080)
@@ -53,7 +52,7 @@ public class RaspberryPiCamera extends Example {
                 .rotation(180);
 
 
-        //configuration for videos using raspivid
+        //configuration for videos using raspivid with builder object
         RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
                 .verticalflip()
                 .previewOff()
@@ -70,14 +69,14 @@ public class RaspberryPiCamera extends Example {
         //take video
         raspberryPiCamera.takeVid("/home/pi/Pictures/video.h264");
 
-        long diff = System.currentTimeMillis() - start;
-        System.out.println("Elapsed time" + diff);
+        System.out.println("End of example");
+        // end::RaspberryPiCamera[]
     }
-    // end::RaspberryPiCamera[]
 
 
     /**
      * Compares the two Raspberry Pi Camera Libraries in terms of speed
+     *
      * @param console
      * @throws FailedToRunRaspistillException
      * @throws IOException
@@ -98,8 +97,9 @@ public class RaspberryPiCamera extends Example {
         System.out.println("Elapsed Time: " + diff);
     }
 
-    //taking 10 pictures using RpiCamera Library
+    // taking 10 pictures using RpiCamera Library
     private static void takeRPiCameraPics(Console console) throws FailedToRunRaspistillException {
+        // tag::RPiCamera[]
         // Create a Camera that saves images to the Pi's Pictures directory.
         RPiCamera piCamera = new RPiCamera("/home/pi/Pictures");
         piCamera.setWidth(1920).setHeight(1080)
@@ -117,10 +117,12 @@ public class RaspberryPiCamera extends Example {
         } catch (Exception e) {
             console.println(e.getStackTrace());
         }
+        // end::RPiCamera[]
     }
 
     //taking 10 pictures using the PiCam library directly
     private static void takePiCamPics(Console console) throws NativeLibraryException, IOException {
+        // tag::PiCam[]
         // Extract the bundled picam native library to a temporary file and load it
         installTempLibrary();
 
@@ -135,7 +137,6 @@ public class RaspberryPiCamera extends Example {
         //select default home directory for pictures
         String path = "/home/pi/Pictures/PiCamPics";
         Files.createDirectories(Paths.get(path));
-
         console.println("tries to take 10 pictures to the directory" + path);
 
         //takes picture to the added jpg file
@@ -152,6 +153,7 @@ public class RaspberryPiCamera extends Example {
         } catch (CameraException | CaptureFailedException e) {
             console.println(e.getMessage());
         }
+        // tag::PiCam[]
     }
 
     //takes video directly using a java process

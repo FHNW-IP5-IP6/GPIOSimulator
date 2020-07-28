@@ -486,6 +486,29 @@ include::{sourcedir}/fhnwexamples/component/SerialCamera.java[tags=SerialCamera]
 ----
 
 === Raspberry Pi Camera
+Die Raspberry Pi Camera ist die Camera Komponente, welche standardmässig vom Pi unterstützt wird. Es ist eine kleine 8MP Kamera, die über ein Flachbandkabel direkt an den Pi angeschlossen werden kann. Man kann 3280 x 2464 Pixel für Bilder verwenden und 1080p mit 30fps/ 720p mit 60fps/ 640x480p mit 90fps für Videos.
+
+.Raspberry Pi Camera
+image::./RaspberryPi_Camera.jpg[width=70% RaspiCam]
+
+Für die Verwendung muss sie aber zunächst im OS aktiviert werden. Unter den Interfacing Options, von raspi-config können Sie es problemlos aktivieren. 
+
+.Raspberry Pi Camera aktivieren
+image::./RaspberryPi_Camera_Activation.jpg[width=60% activate RaspiCam]
+
+Rasbian OS enthält auch Applikationen, welche sie nutzen können, um die Camera in der Console zu testen.
+
+Starten Sie ihr Terminal und geben sie folgenden Befehl ein:
+
+[source,java]
+----
+raspistill -o /home/pi/Pictures/image.jpg
+----
+
+Jetzt sollten Sie ein Bild im Standardverzeichnis für Bilder finden können.
+
+Für mehr Informationen über die Befehle können Sie den Zusatzinformationsteil für die Raspberry Pi Camera anschauen -> 
+<<Terminal Befehle>>
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -565,6 +588,94 @@ include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialC
 ----
 
 <<<
+
+=== Raspberry Pi Camera
+Die Raspberry Pi Camera ist ein Device, welches standardmässig unterstützt wird und auch in Rasbian vier Applikationen enthält, welche man vom Terminal aus verwenden kann.
+
+* `raspistill` und `raspiyuv` für die Bildaufnahme
+* `raspivid` und `raspividyuv` für die Videoaufnahme
+
+`raspiyuv` und `raspividyuv` verwenden keinen Encoder, sondern senden ihr YUV (Ein Farbmodell wie RBG) direkt von der Kamera an ein File. Diese beiden Applikationen werden nicht unterstützt in der Java-Device Klasse.
+
+==== Terminal Befehle
+Hier sind einige Beispiele für Standardbefehle mit `raspistill`:
+
+* Bildaufnahme (default) + 
+`raspistill -o image.jpg`
+
+* Aufnahme in anderen Formaten z. B: jpg, bmp, gif und png + 
+`raspistill –e png -o image.png`
+
+* Zeitverzögerte Aufnahme mit -t _<Millisekunden>_ + 
+`raspistill  -t 2000 -o image.jpg`
+
+* Aufnahme in einer anderen Auflösung + 
+`raspistill  -w 640 -h 480 -o image.jpg`
+
+* Aufnahme in einer niedrigeren Qualität (In Prozent)
+`raspistill -q 50 -o image.jpg`
+
+Hier sind einige Beispiele für Standardbefehle mit `raspivid`:
+
+* 15 Sekunden Video mit default Einstellungen (1080p, also 1920 x 1080 und 30 fps) + 
+`raspivid  -t 15000 -o video.h264`
+
+* 15 Sekunden Video in 720p (1280 x 720) + 
+`raspivid -t 15000 -w 1280 -h 720 -o video.h264`
+
+* 15 Sekunden Video mit 10 Frames/Sekunde
+`raspivid -t 10000 -f 10 -o video.h264`
+
+* 15-Sekunden-Video mit 3 MBits/s +
+`raspivid -t 15000 -b 3000000 -o video.h264`
+
+Für mehr Informationen können Sie die Befehle in der offiziellen Dokumentation anschauen: + 
+https://www.raspberrypi.org/documentation/raspbian/applications/camera.md[Raspberry Pi Camera - Terminal Befehle]
+
+==== Java Library für Bildaufnahme
+Es gibt zwei prominente java Libraries, welche für die Bildaufnahme verwendet werden können.
+
+* https://github.com/Hopding/JRPiCam[JRPiCam]: Verwendet eine Builder-Klasse, um die Befehle für `raspistill` aufzubauen und führt diese dann im Hintergrund mit einem Java Process aus. Es ist im Prinzip ein Wrapper für die native Applikation `raspistill`.
+* https://github.com/caprica/picam[PiCam] `raspistill` benutzt eine native MMAL library für die Kamera, welche von picam direkt verwendet wird. Das macht picam wesentlich schneller als JRPiCam, da es kein externes Programm verwendet.
+
+Für die Device-Klasse, welche wir zur Verfügung stellen, wird PiCam verwendet, da die hohe Geschwindigkeit ein immenser Vorteil ist. Falls aber Studierende die JRPiCam-Library verwenden möchten, dann werden sie auch hierfür ein Bespiel unter den RaspberryPi Camera Beispielen finden.
+
+==== Bildaufnahme
+Für die Bildaufnahme mit der `RaspberrPiCameraComponent` muss man sich zuerst ein `CameraConfiguration`-Objekt erstellen, welches praktisch den Befehl wiederspiegelt, welchen man im Terminal manuell eingeben kann.
+
+[source, java]
+----
+//Create Configuration object with builder approach
+CameraConfiguration config = cameraConfiguration()
+    .width(1920)
+    .height(1080)
+    .encoding(Encoding.JPEG)
+    .quality(85)
+    .rotation(180);
+----
+
+Wenn man dann dieses Objekt der `RaspberrPiCameraComponent` im Konstruktor übergibt, dann kann man mit der Methode `takeStill` Bilder aufnehmen, wie im wenn man die PiCam-Library direkt verwendet.
+
+==== Videoaufnahme
+Für die Videoaufnahme gibt es eine Builder-Klasse, welche vom Syntax und der Verwendung her ähnlich aufgebaut ist, wie die `CameraConfiguration` Klasse von PiCam.
+
+So wie mit der `CameraConfiguration` von der PiCam ein `raspistill` Befehl aufgebaut wird, wird mit der `RaspiVidConfiguration` dann ein `raspivid` Befehl aufgebaut.
+
+[source, java]
+----
+//configuration for videos using raspivid with builder object
+RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
+    .verticalflip()
+    .previewOff()
+    .time(15000);
+----
+
+Wenn das Objekt dann der `RaspberryPiCameraComponent` übergeben wird im Konstruktor, dann wird mit der Methode `takevid` ein Video aufgenommen. Dabei wird der Befehl der Konfigurationsklasse extrahiert und als Java Process ausgeführt.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/RaspberryPiCameraComponent.java[tags=RasPiCamTakeVid]
+----
 
 :sectnums!:
 == TODO: Schluss

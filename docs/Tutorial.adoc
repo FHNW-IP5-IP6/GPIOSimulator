@@ -397,11 +397,57 @@ In diesem Code Beispiel wird der Titel des Projekts in der ersten Zeile angezeig
 include::{sourcedir}/fhnwexamples/component/LcdSystemTimeI2C.java[tags=LcdSystemTimeI2C]
 ----
 
-=== Motor Direction
+=== DC Motor
+Gleichstrommotoren arbeiten, wie der Name schon verrät, mit Gleichstrom. Da der Raspberry Pi Gleichstrom mit 3.3 Volt sowie 5.0 Volt zur Verfügung stellt, können die Motoren direkt an den Stromkreis des Pi angeschlossen werden. Alternativ kann auch eine stärkere, externe Spannungsquelle verwendet werden. Dabei gilt aber zu beachten, dass der Motor nicht überlastet wird.
 
-=== Motor Hardware PWM
+Um einen DC Motor zu kontrollieren, benötigt man einen Motor Treiber. Wir haben dazu den Chip L293D verwendet. Natürlich kann auch ein anderer Treiber verwendet werden.
 
-=== Motor Software PWM
+* Das Pinout des L293D findet ihr unter folgendem Link: https://components101.com/l293d-pinout-features-datasheet
+* Dieses Youtube Video von Gaven MacDonald zeit auf, wie ein DC Motor über GPIO Pins gesteuert werden kann. Ab der Minute 2 wird genauer auf den Treiber L293D eingegangen. https://www.youtube.com/watch?v=W7cV9_W12sM
+
+.Motor und Treiber
+image::./motor_and_driver.png[width=75% DC Motor and Driver]
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x DC Motor
+* 1x L93D Treiber
+* 10x Kabel
+
+.DC Motor Verkabelung
+image::./fritzing/motor.png[width=75% DC Motor Fritzing]
+
+==== API
+.Motor - Konstruktoren
+[cols="1,1"]
+|===
+|Konstruktor |Beschreibung
+|MotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput forwards, com.pi4j.io.gpio.GpioPinDigitalOutput backwards) | Constructor of the MotorComponent. This constructor allows controlling the motors direction using digital output pins.
+|MotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput forwards, com.pi4j.io.gpio.GpioPinPwmOutput backwards) | Constructor of the MotorComponent. This constructor allows controlling the motors direction and speed using hardware or software PWM output pins.
+|===
+
+.Motor - Funktionen
+[cols="1,2,2"]
+|===
+|Rückgabetyp |Funktion |Beschreibung
+|void |moveBackwards() | Runs the motor run backwards at full speed.
+|void |moveBackwards(int power) |Runs the motor backwards at a specific speed.
+|void |moveForwards() |Runs the motor run forwards at full speed.
+|void |moveForwards(int power) |Runs the motor forwards at a specific speed.
+|void |stop() |Stops the motor.
+|===
+
+==== Anwendungsbeispiel
+Das Code Beispiel erzeugt ein neues `MotorComponent`. Bei der Erstellung wird jener Konstruktor benutzt, welcher PWM Pins unterstützt. Dieser erlaubt die Drosselung der Drehzahldes Motors.
+
+In einer While-Schlaufe wird die Drehzahl des vorwärts drehenden Motors schrittweise um 10% erhöht. Nachdem 100% Leistung erreicht wurde, stoppt der Motor für 5 Sekunden. Anschliessend wird die Drehrichtung des Motors umgekehrt. Der Motor dreht nun rückwärts und die Drehzahl wird wiederum schrittweise um je 10% inkrementiert.
+
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/MotorDevice.java[tags=MotorDevice]
+----
 
 === Potentiometer
 Ein Potentiometer ist eine Art dynamischer Wiederstand, welcher durch das Drehen oder Verschieben eines Reglers vergrössert oder verkleinert werden kann. Der Grove Potentiometer gibt uns je nach eingestelltem Wiederstand einen Wert zwischen 0 und 1'000 zurück. Mit einem Potentiometer können wir also Werte einstellen, mit welchen wir dann einen Aktuator kontrollieren können. Zum Beispiel könnten wir mit einem Potentiometer die Helligkeit einer Leuchtdiode steuern.

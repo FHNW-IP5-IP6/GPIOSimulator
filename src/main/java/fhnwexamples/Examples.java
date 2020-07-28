@@ -121,6 +121,7 @@ public class Examples {
         deviceExamples.add(new PotentiometerDevice(5, "Potentiometer example"));
         deviceExamples.add(new RaspberryPiCamera(6, "Raspberry Pi Camera example"));
         deviceExamples.add(new BuzzerDevice(7, "Buzzer example"));
+        deviceExamples.add(new MotorDevice(8, "Motor example"));
     }
 
     /**

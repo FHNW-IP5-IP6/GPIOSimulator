@@ -570,7 +570,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_potentiometer_2">5.2. Potentiometer</a></li>
-<li><a href="#_dc_motor_2">5.3. DC Motor</a></li>
+<li><a href="#_dc_motor_2">5.3. DC Motor</a>
+<ul class="sectlevel3">
+<li><a href="#_motor_treiber_l293d">5.3.1. Motor Treiber L293D</a></li>
+<li><a href="#_drehrichtung_wechseln">5.3.2. Drehrichtung wechseln</a></li>
+<li><a href="#_geschwindigkeit_anpassen">5.3.3. Geschwindigkeit anpassen</a></li>
+</ul>
+</li>
 <li><a href="#_stepper_motor_2">5.4. Stepper Motor</a></li>
 <li><a href="#_raspberry_pi_camera_2">5.5. Raspberry Pi Camera</a>
 <ul class="sectlevel3">
@@ -1491,7 +1497,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Das Pinout des L293D findet ihr unter folgendem Link: <a href="https://components101.com/l293d-pinout-features-datasheet" class="bare">https://components101.com/l293d-pinout-features-datasheet</a></p>
+<p>Das Pinout des L293D findet ihr unter folgendem Link oder in diesem Dokument unter Zusatzinformationen.: <a href="https://components101.com/l293d-pinout-features-datasheet" class="bare">https://components101.com/l293d-pinout-features-datasheet</a></p>
 </li>
 <li>
 <p>Dieses Youtube Video von Gaven MacDonald zeit auf, wie ein DC Motor über GPIO Pins gesteuert werden kann. Ab der Minute 2 wird genauer auf den Treiber L293D eingegangen. <a href="https://www.youtube.com/watch?v=W7cV9_W12sM" class="bare">https://www.youtube.com/watch?v=W7cV9_W12sM</a></p>
@@ -2120,7 +2126,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="sect3">
 <h4 id="_anwendungsbeispiel_4">4.10.3. Anwendungsbeispiel</h4>
 <div class="paragraph">
-<p>Das unten abgebildete Beispiel zeigt die Verwendung der verschiedenen Stepper Motor Modi. Das Beispiel verwendet den Konstruktor mit den meisten Default Values. Die Step Delay beträgt also 2 Millisekunden und der Modus wird initial auf <code>StepperMotorMode.SINGLE_STEP</code> gesetzt. Nach der Initialisierung wird der Motor in den verschiedenen Modi vorwärts und zurück gedreht. Vor dem Wechsel in einen anderen Modus wird fünf Sekunden gewartet.</p>
+<p>Das unten abgebildete Beispiel zeigt die Verwendung der verschiedenen Stepper Motor Modi. Das Beispiel verwendet den Konstruktor mit den meisten Default Values. Die Step Delay beträgt also 2 Millisekunden und der Modus wird initial auf <code>StepperMotorMode.SINGLE_STEP</code> gesetzt. Nach der Initialisierung wird der Motor in den verschiedenen Modi vorwärts und zurück gedreht. Vor jedem Wechsel in einen anderen Modus wird fünf Sekunden gewartet.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2422,7 +2428,231 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 <div class="sect2">
 <h3 id="_dc_motor_2">5.3. DC Motor</h3>
+<div class="paragraph">
+<p>Gleichstrommotoren können mittels dem ihnen zur Verfügung gestellten Strom in ihrer Drehrichtung und Drehzahl reguliert werden. Diese Eigenschaft haben wir uns zu Nutzen gemacht, um unsere Component Klasse zu implementieren.</p>
+</div>
+<div class="sect3">
+<h4 id="_motor_treiber_l293d">5.3.1. Motor Treiber L293D</h4>
+<div class="paragraph">
+<p>Der Chip erlaubt uns das Anpassen der Drehrichtung von Gleichstrommotoren mit einer Spannungsaufnahme von bis zu 36 Volt. Jede Seite des Chips erlaubt die Kontrolle eines Motors. Mit einem einzelnen L293D können also gleich zwei Motoren individuell angesteuert werden. Die folgende Abbildung zeigt das Pinout des Chips gefolgt von einer Beschreibung der einzelnen Pins.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="https://components101.com/l293d-pinout-features-datasheet"><img src="./assets/images/L293D_Pinout.png" alt="L293D Pinout" width="75% L293D Pinout"></a>
+</div>
+<div class="title">Figure 34. Pinout L293D</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 10. Beschreibung Pinout</caption>
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 28.5714%;">
+<col style="width: 57.1429%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pin Nummer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pin Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enable 1, 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aktiviert Input 1 und 2 wenn 5V Spannung anliegt.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Input 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kontrolliert Output 1. Muss mit einem Controller verbunden werden.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Output 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wird mit dem Motor 1 verbunden.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ground</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ground</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Output 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wird mit dem Motor 1 verbunden.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Input 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kontrolliert Output 2. Muss mit einem Controller verbunden werden.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vcc 2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stromlieferant für den Motor / die Motoren. Positiver Pol der Stromquelle.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enable 3. 4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aktiviert Input 3 und 4 wenn 5V Spannung anliegt.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Input 3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kontrolliert Output 3. Muss mit einem Controller verbunden werden.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Output 3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wird mit dem Motor 1 verbunden.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ground</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ground</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Output 4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wird mit dem Motor 1 verbunden.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Input 4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kontrolliert Output 4. Muss mit einem Controller verbunden werden.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vcc 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Spannungsquelle für die Logik des Chips. Hier müssen 5V angelegt werden.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_drehrichtung_wechseln">5.3.2. Drehrichtung wechseln</h4>
+<div class="paragraph">
+<p>Wie bereits erwähnt, kann die Drehrichtung des Gleichstrommotors mittels Umkehrung der Polarität der Spannungsquelle gewechselt werden. Dies ist mittels des Motor Treibers L293D sehr einfach möglich. Die Polarität der Output Pins können wir mittels des Setzens der Input Pins beeinflussen. Die untere Tabelle zeigt, wie wir die verschiedenen Drehrichtungen umgesetzt haben. In unserem Beispiel verwenden wir die linke Seite des Chips. Enable 1, 2 ist also aktive, Enable 3, 4 ist inaktiv.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 11. Beschreibung Pinout</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Input 1</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Input 2</strong></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Low</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Motor dreht sich im Uhrzeigersinn.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Low</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Motor dreht sich im Gegenuhrzeigersinn.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Low</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Low</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Motor stoppt.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Das nachfolgenden Code Beispiele zeigt die <code>moveForwards()</code> sowie die <code>stop()</code> Funktion unserer Motor Component. Dabei wird unterschieden, ob der Motor zusätzlich über PWM gesteuert wird oder nicht. Dazu aber mehr im nächsten Unterkapitel.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    public void moveForwards() {
+        if (isPwm) {
+            moveForwards(100);
+        } else {
+            backwards.low();    //Input 2
+            forwards.high();    //Input 1
+            console.println("motor is moving forwards with maximum power");
+        }
+    }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    public void stop() {
+        if (isPwm) {
+            pwmForwards.setPwm(0);
+            pwmBackwards.setPwm(0);
+        } else {
+            forwards.low();     //Input 1
+            backwards.low();    //Input 2
+        }
+        console.println("motor stopped");
+    }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_geschwindigkeit_anpassen">5.3.3. Geschwindigkeit anpassen</h4>
+<div class="paragraph">
+<p>Bei der Steuerung der Geschwindigkeit kann uns der Motor Treiber Chip nicht unterstützen. Dennoch kann die Geschwindigkeit des Motors manipuliert werden. Dies geschieht generell durch die Anpassung der am Motor anliegenden Spannung. Das Werkzeug unserer Wahl ist deshalb die <strong>P</strong>ulse <strong>W</strong>idth <strong>M</strong>odulation Funktion des Raspberry Pi.</p>
+</div>
+<div class="paragraph">
+<p><strong>PWM</strong> lässt es zu, Pins gemäss einem gewissen Rhythmus zwischen High und Low wechseln zu lassen. Beispielsweise können wir einen Pin in einer Frequenz von 50 Hertz zwischen On und Off wechseln lassen. Zusätzlich können wir pro Puls bestimmen, wie lange der Pin High ist, bevor er zu Low wechselt. Dies nennen wir den Duty Cycle. Über den Duty Cycle steuern wir die am Motor anliegende Spannung und somit die Geschwindigkeit des Motors. Ein Duty Cycle von 0% entspricht dem Stillstand des Motors. 25% Duty Cycle entspricht einer Drehgeschwindigkeit von 25%. 100% Duty Cycle entspricht der vollen Leistung des Motors.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="https://www.elektronik-kompendium.de/sites/kom/0401111.htm"><img src="./assets/images/pwm.png" alt="pwm" width="75% L293D Pinout"></a>
+</div>
+<div class="title">Figure 35. PWM als Grafik</div>
+</div>
+<div class="paragraph">
+<p>In unserer Component Klasse steuern wir den Duty Cycle über die GPIO Klasse von Wiring Pi. Der gewünschte Duty Cycle wird über die <code>setPWM()</code> Funktion festgelegt. Die <code>rangeAdjustment</code> Variable wird benötigt, da Wiring Pi zwischen Software und Hardware PWM Pins unterscheidet.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Software:</strong> Duty Cycle zwischen 0 und 100</p>
+</li>
+<li>
+<p><strong>Hardware:</strong> Duty Cycle zwischen 0 und 1024</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Der Raspberry Pi stellt 2 Hardware PWM Pins zur Verfügung. Dabei handelt es sich um die BCM Pins 12 und 13. Werden diese Pins an den Konstruktor übergeben, wird die Hardware PWM Funktionalität des Pi verwendet.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    public void moveForwards(int power) throws UnsupportedOperationException, IllegalArgumentException {
+        if (!isPwm) {
+            throw new UnsupportedOperationException(
+                    "void moveForwards(int power) can only be used with hardware pwm pin. please use void moveForwards() instead.");
+        }
 
+        if (power &lt; 0 || power &gt; 100) {
+            throw new IllegalArgumentException("power must be between 0 and 100 percent");
+        }
+
+        pwmBackwards.setPwm(0);
+        pwmForwards.setPwm((int) (power * rangeAdjustment));
+        console.println("motor is moving forwards at " + power + "%");
+    }</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_stepper_motor_2">5.4. Stepper Motor</h3>
@@ -2610,7 +2840,7 @@ RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-07-31 11:17:01 +0200
+Last updated 2020-07-31 14:24:29 +0200
 </div>
 </div>
 </body>

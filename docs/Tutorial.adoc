@@ -402,7 +402,7 @@ Gleichstrommotoren arbeiten, wie der Name schon verrät, mit Gleichstrom. Da der
 
 Um einen DC Motor zu kontrollieren, benötigt man einen Motor Treiber. Wir haben dazu den Chip L293D verwendet. Natürlich kann auch ein anderer Treiber verwendet werden.
 
-* Das Pinout des L293D findet ihr unter folgendem Link: https://components101.com/l293d-pinout-features-datasheet
+* Das Pinout des L293D findet ihr unter folgendem Link oder in diesem Dokument unter Zusatzinformationen.: https://components101.com/l293d-pinout-features-datasheet
 * Dieses Youtube Video von Gaven MacDonald zeit auf, wie ein DC Motor über GPIO Pins gesteuert werden kann. Ab der Minute 2 wird genauer auf den Treiber L293D eingegangen. https://www.youtube.com/watch?v=W7cV9_W12sM
 
 .Motor und Treiber
@@ -571,7 +571,6 @@ In diesem Code Beispiel wird die Raspberry Pi Camera mit einer externen Library 
 include::{sourcedir}/fhnwexamples/component/RaspberryPiCamera.java[tags=RaspberryPiCamera]
 ----
 
-
 === Servo Motor
 
 === Stepper Motor
@@ -694,12 +693,86 @@ include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialC
 === Potentiometer
 
 === DC Motor
+Gleichstrommotoren können mittels dem ihnen zur Verfügung gestellten Strom in ihrer Drehrichtung und Drehzahl reguliert werden. Diese Eigenschaft haben wir uns zu Nutzen gemacht, um unsere Component Klasse zu implementieren.
+
+==== Motor Treiber L293D
+Der Chip erlaubt uns das Anpassen der Drehrichtung von Gleichstrommotoren mit einer Spannungsaufnahme von bis zu 36 Volt. Jede Seite des Chips erlaubt die Kontrolle eines Motors. Mit einem einzelnen L293D können also gleich zwei Motoren individuell angesteuert werden. Die folgende Abbildung zeigt das Pinout des Chips gefolgt von einer Beschreibung der einzelnen Pins.
+
+.Pinout L293D
+[link=https://components101.com/l293d-pinout-features-datasheet]
+image::L293D_Pinout.png[width=75% L293D Pinout]
+
+.Beschreibung Pinout
+[cols="1,2,4"]
+|===
+|Pin Nummer |Pin Name |Beschreibung
+|1 |Enable 1, 2 |Aktiviert Input 1 und 2 wenn 5V Spannung anliegt.
+|2 |Input 1 |Kontrolliert Output 1. Muss mit einem Controller verbunden werden.
+|3 |Output 1 |Wird mit dem Motor 1 verbunden.
+|4 |Ground |-
+|5 |Ground |-
+|6 |Output 2 |Wird mit dem Motor 1 verbunden.
+|7 |Input 2 |Kontrolliert Output 2. Muss mit einem Controller verbunden werden.
+|8 |Vcc 2) |Stromlieferant für den Motor / die Motoren. Positiver Pol der Stromquelle.
+|9 |Enable 3. 4 |Aktiviert Input 3 und 4 wenn 5V Spannung anliegt.
+|10 |Input 3 |Kontrolliert Output 3. Muss mit einem Controller verbunden werden.
+|11 |Output 3 |Wird mit dem Motor 1 verbunden.
+|12 |Ground |-
+|13 |Ground |-
+|14 |Output 4 |Wird mit dem Motor 1 verbunden.
+|15 |Input 4 |Kontrolliert Output 4. Muss mit einem Controller verbunden werden.
+|16 |Vcc 1 |Spannungsquelle für die Logik des Chips. Hier müssen 5V angelegt werden.
+|===
+
+==== Drehrichtung wechseln
+Wie bereits erwähnt, kann die Drehrichtung des Gleichstrommotors mittels Umkehrung der Polarität der Spannungsquelle gewechselt werden. Dies ist mittels des Motor Treibers L293D sehr einfach möglich. Die Polarität der Output Pins können wir mittels des Setzens der Input Pins beeinflussen. Die untere Tabelle zeigt, wie wir die verschiedenen Drehrichtungen umgesetzt haben. In unserem Beispiel verwenden wir die linke Seite des Chips. Enable 1, 2 ist also aktive, Enable 3, 4 ist inaktiv.
+
+.Beschreibung Pinout
+[cols="1,1,1"]
+|===
+|*Input 1* |*Input 2* |
+|High |Low |Motor dreht sich im Uhrzeigersinn.
+|Low |High |Motor dreht sich im Gegenuhrzeigersinn.
+|Low |Low |Motor stoppt.
+|===
+
+Das nachfolgenden Code Beispiele zeigt die `moveForwards()` sowie die `stop()` Funktion unserer Motor Component. Dabei wird unterschieden, ob der Motor zusätzlich über PWM gesteuert wird oder nicht. Dazu aber mehr im nächsten Unterkapitel.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/MotorComponent.java[tags=MotorComponentMoveForwards]
+----
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/MotorComponent.java[tags=MotorComponentStop]
+----
+
+==== Geschwindigkeit anpassen
+Bei der Steuerung der Geschwindigkeit kann uns der Motor Treiber Chip nicht unterstützen. Dennoch kann die Geschwindigkeit des Motors manipuliert werden. Dies geschieht generell durch die Anpassung der am Motor anliegenden Spannung. Das Werkzeug unserer Wahl ist deshalb die **P**ulse **W**idth **M**odulation Funktion des Raspberry Pi.
+
+*PWM* lässt es zu, Pins gemäss einem gewissen Rhythmus zwischen High und Low wechseln zu lassen. Beispielsweise können wir einen Pin in einer Frequenz von 50 Hertz zwischen On und Off wechseln lassen. Zusätzlich können wir pro Puls bestimmen, wie lange der Pin High ist, bevor er zu Low wechselt. Dies nennen wir den Duty Cycle. Über den Duty Cycle steuern wir die am Motor anliegende Spannung und somit die Geschwindigkeit des Motors. Ein Duty Cycle von 0% entspricht dem Stillstand des Motors. 25% Duty Cycle entspricht einer Drehgeschwindigkeit von 25%. 100% Duty Cycle entspricht der vollen Leistung des Motors.
+
+.PWM als Grafik
+[link=https://www.elektronik-kompendium.de/sites/kom/0401111.htm]
+image::pwm.png[width=75% L293D Pinout]
+
+In unserer Component Klasse steuern wir den Duty Cycle über die GPIO Klasse von Wiring Pi. Der gewünschte Duty Cycle wird über die `setPWM()` Funktion festgelegt. Die `rangeAdjustment` Variable wird benötigt, da Wiring Pi zwischen Software und Hardware PWM Pins unterscheidet.
+
+* **Software:** Duty Cycle zwischen 0 und 100
+* **Hardware:** Duty Cycle zwischen 0 und 1024
+
+Der Raspberry Pi stellt 2 Hardware PWM Pins zur Verfügung. Dabei handelt es sich um die BCM Pins 12 und 13. Werden diese Pins an den Konstruktor übergeben, wird die Hardware PWM Funktionalität des Pi verwendet.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/MotorComponent.java[tags=MotorComponentMoveForwardsPwm]
+----
 
 === Stepper Motor
 https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping
 
 <<<
-
 
 === Raspberry Pi Camera
 Die Raspberry Pi Camera enthält in Rasbian vier Applikationen, welche man vom Terminal aus verwenden kann.

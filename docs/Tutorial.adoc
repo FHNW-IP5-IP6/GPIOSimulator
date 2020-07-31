@@ -377,7 +377,7 @@ include::{sourcedir}/fhnwexamples/gpio/ButtonClick.java[tags=ButtonClick]
 include::{sourcedir}/fhnwexamples/component/ButtonClickDevice.java[tags=ButtonClickDevice]
 ----
 
-=== LCD
+=== LCD TODO?
 === LCD I2C
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -691,6 +691,31 @@ include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialC
 ----
 
 === Potentiometer
+Das Grove Potentiometer wird über einen der analogen Ports an den Grove Base Hat angeschlossen. Der Grove Base Hat stellt die gelesenen oder zu schreibenden Werte über den I2C Bus dem Raspberry Pi zur Verfügung.
+
+==== Konstruktor
+Die `PotentiometerComponent` Klasse erweitert die von uns implementierte `I2CBase` Basisklasse. Im Konstruktor wird die I2C Adresse des analogen Potentiometers zusammen mit der zu verwendenden Bus Nummer an die Basisklasse weitergeleitet. Da der Raspberry Pi nur einen I2C Bus besitzt, wird immer dieser Bus übergeben.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/PotentiometerComponent.java[tags=PotentiometerComponentConstructor]
+----
+
+==== Wertebereich setzen
+Der Grove Potentiometer liefert uns über den I2C Bus je nach eingestellter Position einen Wert zwischen 0 und 1000. Mittels der `setRange()` Funktion kann der Rückgabewert eingeschränkt werden. Erlaubt sind nur positive Integer dessen Differenz mindestens 10 beträgt und nicht grösser als 999 ist.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/PotentiometerComponent.java[tags=PotentiometerComponentSetRange]
+----
+
+==== Value lesen
+Der aktuelle Value des Potentiometers kann über die `getValue()` Funktion gelesen werden. Dazu verwenden wird die `readData()` Funktion unserer Basisklasse. Wir erwarten zwei Bytes auf dem Bus, welche über eine Hilfsfunktion in ein Integer Wert konvertiert werden. Der gelesenen Integer wird gemäss dem eingestellten Range zurückgegeben.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/PotentiometerComponent.java[tags=PotentiometerComponentGetValue]
+----
 
 === DC Motor
 Gleichstrommotoren können mittels dem ihnen zur Verfügung gestellten Strom in ihrer Drehrichtung und Drehzahl reguliert werden. Diese Eigenschaft haben wir uns zu Nutzen gemacht, um unsere Component Klasse zu implementieren.

@@ -514,7 +514,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
-<li><a href="#_lcd">4.3. LCD</a></li>
+<li><a href="#_lcd_todo">4.3. LCD TODO?</a></li>
 <li><a href="#_lcd_i2c">4.4. LCD I2C</a>
 <ul class="sectlevel3">
 <li><a href="#_verkabelung_3">4.4.1. Verkabelung</a></li>
@@ -569,7 +569,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_bild_pakete_empfangen">5.1.5. Bild Pakete empfangen</a></li>
 </ul>
 </li>
-<li><a href="#_potentiometer_2">5.2. Potentiometer</a></li>
+<li><a href="#_potentiometer_2">5.2. Potentiometer</a>
+<ul class="sectlevel3">
+<li><a href="#_konstruktor">5.2.1. Konstruktor</a></li>
+<li><a href="#_wertebereich_setzen">5.2.2. Wertebereich setzen</a></li>
+<li><a href="#_value_lesen">5.2.3. Value lesen</a></li>
+</ul>
+</li>
 <li><a href="#_dc_motor_2">5.3. DC Motor</a>
 <ul class="sectlevel3">
 <li><a href="#_motor_treiber_l293d">5.3.1. Motor Treiber L293D</a></li>
@@ -1424,7 +1430,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_lcd">4.3. LCD</h3>
+<h3 id="_lcd_todo">4.3. LCD TODO?</h3>
 
 </div>
 <div class="sect2">
@@ -2424,7 +2430,73 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 <div class="sect2">
 <h3 id="_potentiometer_2">5.2. Potentiometer</h3>
+<div class="paragraph">
+<p>Das Grove Potentiometer wird über einen der analogen Ports an den Grove Base Hat angeschlossen. Der Grove Base Hat stellt die gelesenen oder zu schreibenden Werte über den I2C Bus dem Raspberry Pi zur Verfügung.</p>
+</div>
+<div class="sect3">
+<h4 id="_konstruktor">5.2.1. Konstruktor</h4>
+<div class="paragraph">
+<p>Die <code>PotentiometerComponent</code> Klasse erweitert die von uns implementierte <code>I2CBase</code> Basisklasse. Im Konstruktor wird die I2C Adresse des analogen Potentiometers zusammen mit der zu verwendenden Bus Nummer an die Basisklasse weitergeleitet. Da der Raspberry Pi nur einen I2C Bus besitzt, wird immer dieser Bus übergeben.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    public PotentiometerComponent(GroveAdapter groveAdapter)
+            throws IOException, I2CFactory.UnsupportedBusNumberException {
+        super(groveAdapter.getAdapter().getAnalogI2CAddress(), I2CBus.BUS_1);
+        this.adapter = groveAdapter.getAdapter();
+    }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_wertebereich_setzen">5.2.2. Wertebereich setzen</h4>
+<div class="paragraph">
+<p>Der Grove Potentiometer liefert uns über den I2C Bus je nach eingestellter Position einen Wert zwischen 0 und 1000. Mittels der <code>setRange()</code> Funktion kann der Rückgabewert eingeschränkt werden. Erlaubt sind nur positive Integer dessen Differenz mindestens 10 beträgt und nicht grösser als 999 ist.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    public void setRange(int minValue, int maxValue) throws IllegalArgumentException {
+        if (minValue &lt; 0 || maxValue &lt; 0) {
+            throw new IllegalArgumentException("minValue and maxValue must be greater than 0");
+        }
 
+        int difference = maxValue - minValue;
+        if (difference &lt; 10 || difference &gt; 999) {
+            throw new IllegalArgumentException(
+                    "the difference between min and max value needs to be between 10 and 999");
+        }
+
+        this.minValue = minValue;
+        this.maxValue = maxValue;
+    }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_value_lesen">5.2.3. Value lesen</h4>
+<div class="paragraph">
+<p>Der aktuelle Value des Potentiometers kann über die <code>getValue()</code> Funktion gelesen werden. Dazu verwenden wird die <code>readData()</code> Funktion unserer Basis Klasse. Wir erwarten zwei Bytes auf dem Bus, welche über eine Hilfsfunktion in ein Integer Wert konvertiert werden. Der gelesenen Integer wird gemäss dem eingestellten Range zurückgegeben.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    public int getValue() {
+        byte[] bytes = readData((byte) adapter.getDeviceAddress(), (byte) 2);
+        int readValue = getIntegerFromBytes(bytes[0], bytes[1]);
+        if (minValue == 0 &amp;&amp; maxValue == 999) {
+            return readValue;
+        } else {
+            int difference = maxValue - minValue;
+            if (readValue == 0) {
+                return minValue;
+            } else {
+                double reducedValue = ((double) readValue / 1000) * difference;
+                return (int) Math.round(minValue + reducedValue);
+            }
+        }
+    }</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_dc_motor_2">5.3. DC Motor</h3>
@@ -2840,7 +2912,7 @@ RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-07-31 14:24:29 +0200
+Last updated 2020-07-31 15:44:49 +0200
 </div>
 </div>
 </body>

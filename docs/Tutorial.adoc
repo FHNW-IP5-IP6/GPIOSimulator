@@ -487,7 +487,6 @@ Das Code Beispiel erzeugt ein neues `PotentiometerComponent`, welches am Grove B
 include::{sourcedir}/fhnwexamples/component/PotentiometerDevice.java[tags=PotentiometerDevice]
 ----
 
-
 === Serial Camera
 Die Grove Serial Camera besteht aus einem Kamera Modul und einem Control Board, welches die Kommunikation zwischen der Kamera und dem Raspberry Pi über den Serial Bus ermöglicht. Die Kamera benötigt eine Spannung von 5 Volt, weshalb sie leider nicht mit unserem Grove Hat kompatibel ist. Dieser liefert nur 3.3 Volt an die Grove Adapter. Um die Kamera dennoch nutzen zu können, muss sie via Jumper Kabel an den Serial Port des Raspberry Pi angeschlossen werden. Weitere Informationen zur Verkabelung können dem Tutorial entnommen werden.
 
@@ -576,6 +575,65 @@ include::{sourcedir}/fhnwexamples/component/RaspberryPiCamera.java[tags=Raspberr
 === Servo Motor
 
 === Stepper Motor
+Der Stepper Motor oder Schrittmotor rotiert die in seiner Mitte liegende Welle in Schritten. Die Welle eines Schrittmotors dreht sich im Vergleich zu jener eines Gleichstrommotors sehr langsam. Dafür kann der Schrittmotor sehr genau gesteuert werden. Je nach eingestelltem Modus variiert die Anzahl der Schritte, welche für eine gesamte Drehung benötigt werden. Der Modus beeinflusst auch die Kraft, welcher der Motor hat und hat Zusammenhang mit dem resultierenden Energieverbrauch des Motors.
+
+In der unten abgebildeten Tabelle beziehen wir uns auf den weit verbreiteten Schrittmotor 28BYJ-48. Eine Drehung des Zylinders innerhalb des Motors resultiert in einer Drehung der Welle um 11.25°. Für eine Komplette Drehung werden also 360° / 11.25° = 32 Schritte benötigt. Ein Getriebe innerhalb des Motors reduziert einen einzelnen Schritt in weitere 64 Steps. Unter Verwendung des Full oder Dual Stepping bedeutet ein einzelner Step also eine Drehung um 360° / (32 * 64) = 0.17578125°. Bei Half Stepping verdoppelt sich die Anzahl der möglichen Schritte, was eine Drehgenauigkeit von 0.087890625° zulässt.
+
+.Stepper Motor Modi
+[cols="1,2,1,1,1"]
+|===
+|*Typ* |*Enum Attribut* | *Schritte pro 360°* |*Energie* | *Kraft*
+|Half Stepping |StepperMotorMode.HALF_STEP |4096 | ca. 1.5x | 90% bis 100%
+|Single Stepping |StepperMotorMode.SINGLE_STEP |2048 |1x | 100%
+|Dual Stepping |StepperMotorMode.DOUBLE_STEP |2048 |2x | 130% bis 140%
+|===
+
+Auf YouTube findet ihr ein sehr informatives Video von Gaven MacDonald über die Funktionsweise eines Stepper Motors. https://www.youtube.com/watch?v=Dc16mKFA7Fo
+
+.Stepper Motor Verkabelung 
+image::./stepper_motor_and_driver.png[width=75% RaspiCam Wiring]
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Steper Motor
+* 1x ULN2003APG Stepper Treiber
+* 8x Kabel
+
+.Stepper Motor Verkabelung 
+image::./fritzing/stepper_motor.png[width=75% RaspiCam Wiring]
+
+==== API
+.Stepper Motor - Konstruktoren
+[cols="1,1"]
+|===
+|Konstruktor |Beschreibung
+|StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4) |Constructor which uses the default value of 2 milliseconds for the step delay and the default stepper motor mode 'SINGLE_STEP'.
+|StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay) |Constructor which uses the default value 'SINGLE_STEP' for the stepper motor mode.
+|StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay, StepperMotorMode mode) |Constructor which allows to specify all the different Parameters.
+|StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, StepperMotorMode mode) |Constructor which uses the default value of 2 milliseconds for the step delay.
+|===
+
+.Stepper Motor - Funktionen
+[cols="1,2,2"]
+|===
+|Rückgabetyp |Funktion |Beschreibung
+|StepperMotorMode |getMode() |
+|int |getStepDelay() |Getter of the step delay value.
+|void |	setMode(StepperMotorMode mode) |Setter of the stepper motor mode value.
+|void |setStepDelay(int stepDelay) |Setter of the step delay value.
+|void |stepBackwards(int steps) |Step the stepper motor backwards using the currently set mode for a specific amount of steps.
+|void |stepForwards(int steps) |Step the stepper motor forwards using the currently set mode for a specific amount of steps.
+|void |stop() |This methods stops the motor and clears the magnetic field.
+|===
+
+==== Anwendungsbeispiel
+Das unten abgebildete Beispiel zeigt die Verwendung der verschiedenen Stepper Motor Modi. Das Beispiel verwendet den Konstruktor mit den meisten Default Values. Die Step Delay beträgt also 2 Millisekunden und der Modus wird initial auf `StepperMotorMode.SINGLE_STEP` gesetzt. Nach der Initialisierung wird der Motor in den verschiedenen Modi vorwärts und zurück gedreht. Vor jedem Wechsel in einen anderen Modus wird fünf Sekunden gewartet.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/StepperMotorDevice.java[tags=StepperMotorDevice]
+----
 
 == Zusatzinformationen
 
@@ -633,7 +691,15 @@ Da es bei der Übermittlung von Paketen immer zu Fehlern kommen kann, stellt das
 include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialCamGetPicture]
 ----
 
+=== Potentiometer
+
+=== DC Motor
+
+=== Stepper Motor
+https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping
+
 <<<
+
 
 === Raspberry Pi Camera
 Die Raspberry Pi Camera enthält in Rasbian vier Applikationen, welche man vom Terminal aus verwenden kann.

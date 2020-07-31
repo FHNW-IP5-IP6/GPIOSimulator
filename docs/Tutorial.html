@@ -549,7 +549,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_servo_motor">4.9. Servo Motor</a></li>
-<li><a href="#_stepper_motor">4.10. Stepper Motor</a></li>
+<li><a href="#_stepper_motor">4.10. Stepper Motor</a>
+<ul class="sectlevel3">
+<li><a href="#_verkabelung_8">4.10.1. Verkabelung</a></li>
+<li><a href="#_api_4">4.10.2. API</a></li>
+<li><a href="#_anwendungsbeispiel_4">4.10.3. Anwendungsbeispiel</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_zusatzinformationen">5. Zusatzinformationen</a>
@@ -561,6 +567,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_jpeg_foto_anfordern">5.1.3. JPEG Foto anfordern</a></li>
 <li><a href="#_bildgrösser_ermitteln">5.1.4. Bildgrösser ermitteln</a></li>
 <li><a href="#_bild_pakete_empfangen">5.1.5. Bild Pakete empfangen</a></li>
+</ul>
+</li>
+<li><a href="#_potentiometer_2">5.2. Potentiometer</a></li>
+<li><a href="#_dc_motor_2">5.3. DC Motor</a></li>
+<li><a href="#_stepper_motor_2">5.4. Stepper Motor</a></li>
+<li><a href="#_raspberry_pi_camera_2">5.5. Raspberry Pi Camera</a>
+<ul class="sectlevel3">
+<li><a href="#_terminal_befehle">5.5.1. Terminal Befehle</a></li>
+<li><a href="#_java_library_für_bildaufnahme">5.5.2. Java Library für Bildaufnahme</a></li>
+<li><a href="#_bildaufnahme">5.5.3. Bildaufnahme</a></li>
+<li><a href="#_videoaufnahme">5.5.4. Videoaufnahme</a></li>
 </ul>
 </li>
 </ul>
@@ -610,7 +627,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </div>
 <div class="paragraph">
-<p><strong>Datum</strong>: 2020-07-28</p>
+<p><strong>Datum</strong>: 2020-07-31</p>
 </div>
 <div style="page-break-after: always;"></div>
 <h2 id="_inhaltsverzeichnis" class="discrete">Inhaltsverzeichnis</h2>
@@ -1835,6 +1852,42 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 <div class="sect2">
 <h3 id="_raspberry_pi_camera">4.8. Raspberry Pi Camera</h3>
+<div class="paragraph">
+<p>Die Raspberry Pi Camera ist die Camera Komponente, welche standardmässig vom Pi unterstützt wird. Es ist eine kleine 8MP Kamera, die über ein Flachbandkabel direkt an den Pi angeschlossen werden kann. Man kann 3280 x 2464 Pixel für Bilder verwenden und 1080p mit 30fps/ 720p mit 60fps/ 640x480p mit 90fps für Videos.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/RaspberryPi_Camera.jpg" alt="RaspberryPi Camera" width="70% RaspiCam">
+</div>
+<div class="title">Figure 26. Raspberry Pi Camera</div>
+</div>
+<div class="paragraph">
+<p>Für die Verwendung muss sie aber zunächst im OS aktiviert werden. Unter den Interfacing Options, von raspi-config können Sie es problemlos aktivieren.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/RaspberryPi_Camera_Activation.jpg" alt="RaspberryPi Camera Activation" width="60% activate RaspiCam">
+</div>
+<div class="title">Figure 27. Raspberry Pi Camera aktivieren</div>
+</div>
+<div class="paragraph">
+<p>Rasbian OS enthält auch Applikationen, welche sie nutzen können, um die Camera in der Console zu testen.</p>
+</div>
+<div class="paragraph">
+<p>Starten Sie ihr Terminal und geben sie folgenden Befehl ein:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">raspistill -o /home/pi/Pictures/image.jpg</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Jetzt sollten Sie ein Bild im Standardverzeichnis für Bilder finden können.</p>
+</div>
+<div class="paragraph">
+<p>Für mehr Informationen über die Befehle können Sie den Zusatzinformationsteil für die Raspberry Pi Camera anschauen &#8594;
+<a href="#_terminal_befehle">Terminal Befehle</a></p>
+</div>
 <div class="sect3">
 <h4 id="_verkabelung_7">4.8.1. Verkabelung</h4>
 <div class="paragraph">
@@ -1851,7 +1904,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/raspiCam.png" alt="raspiCam" width="60% RaspiCam Wiring">
 </div>
-<div class="title">Figure 26. Raspberry Pi Camera Verkabelung</div>
+<div class="title">Figure 28. Raspberry Pi Camera Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -1862,12 +1915,10 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">    public void execute() throws Exception {
-        Console console = new Console();
+<pre class="highlight"><code class="language-java" data-lang="java">        Console console = new Console();
         console.promptForExit();
-        long start = System.currentTimeMillis();
 
-        //configuration for pictures using raspistill
+        //configuration for pictures using raspistill with builder object
         CameraConfiguration stillConfig = RaspberryPiCameraComponent.createCameraConfiguration()
                 .width(1920)
                 .height(1080)
@@ -1876,7 +1927,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
                 .rotation(180);
 
 
-        //configuration for videos using raspivid
+        //configuration for videos using raspivid with builder object
         RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
                 .verticalflip()
                 .previewOff()
@@ -1893,9 +1944,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
         //take video
         raspberryPiCamera.takeVid("/home/pi/Pictures/video.h264");
 
-        long diff = System.currentTimeMillis() - start;
-        System.out.println("Elapsed time" + diff);
-    }</code></pre>
+        System.out.println("End of example");</code></pre>
 </div>
 </div>
 </div>
@@ -1906,7 +1955,225 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 <div class="sect2">
 <h3 id="_stepper_motor">4.10. Stepper Motor</h3>
+<div class="paragraph">
+<p>Der Stepper Motor oder Schrittmotor rotiert die in seiner Mitte liegende Welle in Schritten. Die Welle eines Schrittmotors dreht sich im Vergleich zu jener eines Gleichstrommotors sehr langsam. Dafür kann der Schrittmotor sehr genau gesteuert werden. Je nach eingestelltem Modus variiert die Anzahl der Schritte, welche für eine gesamte Drehung benötigt werden. Der Modus beeinflusst auch die Kraft, welcher der Motor hat und hat Zusammenhang mit dem resultierenden Energieverbrauch des Motors.</p>
+</div>
+<div class="paragraph">
+<p>In der unten abgebildeten Tabelle beziehen wir uns auf den weit verbreiteten Schrittmotor 28BYJ-48. Eine Drehung des Zylinders innerhalb des Motors resultiert in einer Drehung der Welle um 11.25°. Für eine Komplette Drehung werden also 360° / 11.25° = 32 Schritte benötigt. Ein Getriebe innerhalb des Motors reduziert einen einzelnen Schritt in weitere 64 Steps. Unter Verwendung des Full oder Dual Stepping bedeutet ein einzelner Step also eine Drehung um 360° / (32 * 64) = 0.17578125°. Bei Half Stepping verdoppelt sich die Anzahl der möglichen Schritte, was eine Drehgenauigkeit von 0.087890625° zulässt.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. Stepper Motor Modi</caption>
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 33.3333%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6669%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Typ</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Enum Attribut</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Schritte pro 360°</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Energie</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Kraft</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Half Stepping</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorMode.HALF_STEP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4096</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ca. 1.5x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">90% bis 100%</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Single Stepping</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorMode.SINGLE_STEP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2048</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100%</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dual Stepping</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorMode.DOUBLE_STEP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2048</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">130% bis 140%</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Auf YouTube findet ihr ein sehr informatives Video von Gaven MacDonald über die Funktionsweise eines Stepper Motors. <a href="https://www.youtube.com/watch?v=Dc16mKFA7Fo" class="bare">https://www.youtube.com/watch?v=Dc16mKFA7Fo</a></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/stepper_motor_and_driver.png" alt="stepper motor and driver" width="75% RaspiCam Wiring">
+</div>
+<div class="title">Figure 29. Stepper Motor Verkabelung</div>
+</div>
+<div class="sect3">
+<h4 id="_verkabelung_8">4.10.1. Verkabelung</h4>
+<div class="paragraph">
+<p>Für die Verkabelung wird folgende Hardware benötigt:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>1x Steper Motor</p>
+</li>
+<li>
+<p>1x ULN2003APG Stepper Treiber</p>
+</li>
+<li>
+<p>8x Kabel</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/fritzing/stepper_motor.png" alt="stepper motor" width="75% RaspiCam Wiring">
+</div>
+<div class="title">Figure 30. Stepper Motor Verkabelung</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_api_4">4.10.2. API</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. Stepper Motor - Konstruktoren</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor which uses the default value of 2 milliseconds for the step delay and the default stepper motor mode 'SINGLE_STEP'.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor which uses the default value 'SINGLE_STEP' for the stepper motor mode.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay, StepperMotorMode mode)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor which allows to specify all the different Parameters.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, StepperMotorMode mode)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor which uses the default value of 2 milliseconds for the step delay.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 9. Stepper Motor - Funktionen</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorMode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getMode()</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getStepDelay()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Getter of the step delay value.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">setMode(StepperMotorMode mode)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Setter of the stepper motor mode value.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">setStepDelay(int stepDelay)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Setter of the step delay value.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">stepBackwards(int steps)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Step the stepper motor backwards using the currently set mode for a specific amount of steps.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">stepForwards(int steps)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Step the stepper motor forwards using the currently set mode for a specific amount of steps.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">stop()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This methods stops the motor and clears the magnetic field.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_anwendungsbeispiel_4">4.10.3. Anwendungsbeispiel</h4>
+<div class="paragraph">
+<p>Das unten abgebildete Beispiel zeigt die Verwendung der verschiedenen Stepper Motor Modi. Das Beispiel verwendet den Konstruktor mit den meisten Default Values. Die Step Delay beträgt also 2 Millisekunden und der Modus wird initial auf <code>StepperMotorMode.SINGLE_STEP</code> gesetzt. Nach der Initialisierung wird der Motor in den verschiedenen Modi vorwärts und zurück gedreht. Vor dem Wechsel in einen anderen Modus wird fünf Sekunden gewartet.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @Override public void execute() throws Exception {
+        GpioProvider provider = new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING);
+        GpioFactory.setDefaultProvider(provider);
+        final GpioController gpio = GpioFactory.getInstance();
 
+        Console console = new Console();
+
+        GpioPinDigitalOutput out1 = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_17);
+        GpioPinDigitalOutput out2 = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_18);
+        GpioPinDigitalOutput out3 = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_27);
+        GpioPinDigitalOutput out4 = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_22);
+        StepperMotorComponent stepperMotor = new StepperMotorComponent(console, out1, out2, out3, out4);
+
+        console.println("Make 4096 steps forwards with half step mode");
+        stepperMotor.setMode(StepperMotorMode.HALF_STEP);
+        stepperMotor.stepForwards(4096);
+        stepperMotor.stop();
+        Thread.sleep(500);
+        console.println("Make 4096 steps backwards with half step mode");
+        stepperMotor.stepBackwards(4096);
+        stepperMotor.stop();
+
+        Thread.sleep(5000);
+
+        console.println("Make 2048 steps forwards with single step mode");
+        stepperMotor.setMode(StepperMotorMode.SINGLE_STEP);
+        stepperMotor.stepForwards(2048);
+        stepperMotor.stop();
+        Thread.sleep(500);
+        console.println("Make 2048 steps backwards with single step mode");
+        stepperMotor.stepBackwards(2048);
+        stepperMotor.stop();
+
+        Thread.sleep(5000);
+
+        console.println("Make 2048 steps forwards with double step mode");
+        stepperMotor.setMode(StepperMotorMode.DOUBLE_STEP);
+        stepperMotor.stepForwards(2048);
+        stepperMotor.stop();
+        Thread.sleep(500);
+        console.println("Make 2048 steps backwards with double step mode");
+        stepperMotor.stepBackwards(2048);
+        stepperMotor.stop();
+
+        gpio.shutdown();
+        console.promptForExit();
+    }</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1927,7 +2194,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_SYNC_Command.png" alt="500" width="500" height="Grove Serial Camera SYNC">
 </div>
-<div class="title">Figure 27. SYNC Kommando</div>
+<div class="title">Figure 31. SYNC Kommando</div>
 </div>
 </div>
 <div class="sect3">
@@ -1939,7 +2206,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_Initialisation.png" alt="500" width="500" height="Grove Serial Camera Connection">
 </div>
-<div class="title">Figure 28. Verbindungsaufbau</div>
+<div class="title">Figure 32. Verbindungsaufbau</div>
 </div>
 <div class="paragraph">
 <p>In unserer Java Klasse haben wir den Verbindungsaufbau in einer eigenen Funktion realisiert, welche vom jeweiligen Konstruktor aufgerufen wird. In einer While-Schlaufe wird das SYNC Kommando solange an die Kamera gesendet, bis diese eine Antwort auf den Serial Bus geschrieben hat. Ist dies nach 60 Versuchen nicht der Fall, wird die Initialisierung mit einem Fehler abgebrochen. Hat die Kamera eine Antwort gesendet, wird diese auf Ihre Korrektheit überprüft. Die ersten sechs Bytes müssen dem ACK Kommando entsprechen (AA0E0Dxx0000h). Bei den nächsten sechs Bytes muss es sich um das SYNC Kommando handeln (AA0D00000000h). Sofern dies der Fall ist, war der Verbindungsaufbau erfolgreich. Die Kamera ist nun bereit für die Entgegennahme von weiteren Befehlen.</p>
@@ -2002,7 +2269,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_Get_Picture.png" alt="500" width="500" height="Grove Serial Camera Get Picture">
 </div>
-<div class="title">Figure 29. Ablauf der Bildanforderung</div>
+<div class="title">Figure 33. Ablauf der Bildanforderung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2147,7 +2414,183 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
     }</code></pre>
 </div>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_potentiometer_2">5.2. Potentiometer</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_dc_motor_2">5.3. DC Motor</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_stepper_motor_2">5.4. Stepper Motor</h3>
+<div class="paragraph">
+<p><a href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping" class="bare">https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping</a></p>
+</div>
 <div style="page-break-after: always;"></div>
+</div>
+<div class="sect2">
+<h3 id="_raspberry_pi_camera_2">5.5. Raspberry Pi Camera</h3>
+<div class="paragraph">
+<p>Die Raspberry Pi Camera enthält in Rasbian vier Applikationen, welche man vom Terminal aus verwenden kann.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>raspistill</code> und <code>raspiyuv</code> für die Bildaufnahme</p>
+</li>
+<li>
+<p><code>raspivid</code> und <code>raspividyuv</code> für die Videoaufnahme</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>raspiyuv</code> und <code>raspividyuv</code> verwenden keinen Encoder, sondern senden ihr YUV (Ein Farbmodell wie RBG) direkt von der Kamera an ein File. Diese beiden Applikationen werden nicht unterstützt von der <code>RaspberryPiCameraComponent</code>. Die Device Klasse verwendet intern nur <code>raspistill</code> und <code>raspivid</code>.</p>
+</div>
+<div class="paragraph">
+<p>In den folgenden Unterkapiteln wird auf die Terminal Befehle für <code>raspistill</code> und <code>raspivid</code> eingegangen, falls es direkt verwendet wird. Ausserdem wird auf die Funktionalität der <code>RaspberryPiCameraComponent</code> eingegangen.</p>
+</div>
+<div class="sect3">
+<h4 id="_terminal_befehle">5.5.1. Terminal Befehle</h4>
+<div class="paragraph">
+<p>Hier sind einige Beispiele für Standardbefehle mit <code>raspistill</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Bildaufnahme (default)<br>
+<code>raspistill -o image.jpg</code></p>
+</li>
+<li>
+<p>Aufnahme in anderen Formaten z. B: jpg, bmp, gif und png<br>
+<code>raspistill –e png -o image.png</code></p>
+</li>
+<li>
+<p>Zeitverzögerte Aufnahme mit -t <em>&lt;Millisekunden&gt;</em><br>
+<code>raspistill  -t 2000 -o image.jpg</code></p>
+</li>
+<li>
+<p>Aufnahme in einer anderen Auflösung<br>
+<code>raspistill  -w 640 -h 480 -o image.jpg</code></p>
+</li>
+<li>
+<p>Aufnahme in einer niedrigeren Qualität (In Prozent)
+<code>raspistill -q 50 -o image.jpg</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Hier sind einige Beispiele für Standardbefehle mit <code>raspivid</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>15 Sekunden Video mit default Einstellungen (1080p, also 1920 x 1080 und 30 fps)<br>
+<code>raspivid  -t 15000 -o video.h264</code></p>
+</li>
+<li>
+<p>15 Sekunden Video in 720p (1280 x 720)<br>
+<code>raspivid -t 15000 -w 1280 -h 720 -o video.h264</code></p>
+</li>
+<li>
+<p>15 Sekunden Video mit 10 Frames/Sekunde
+<code>raspivid -t 10000 -f 10 -o video.h264</code></p>
+</li>
+<li>
+<p>15-Sekunden-Video mit 3 MBits/s<br>
+<code>raspivid -t 15000 -b 3000000 -o video.h264</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Für mehr Informationen können Sie die Befehle in der offiziellen Dokumentation anschauen:<br>
+<a href="https://www.raspberrypi.org/documentation/raspbian/applications/camera.md">Raspberry Pi Camera - Terminal Befehle</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_java_library_für_bildaufnahme">5.5.2. Java Library für Bildaufnahme</h4>
+<div class="paragraph">
+<p>Es gibt zwei prominente java Libraries, welche für die Bildaufnahme verwendet werden können.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/Hopding/JRPiCam">JRPiCam</a>: Verwendet eine Builder-Klasse, um die Befehle für <code>raspistill</code> aufzubauen und führt diese dann im Hintergrund mit einem Java Process aus. Es ist im Prinzip ein Wrapper für die native Applikation <code>raspistill</code>.</p>
+</li>
+<li>
+<p><a href="https://github.com/caprica/picam">PiCam</a> <code>raspistill</code> benutzt eine native MMAL library für die Kamera, welche von picam direkt verwendet wird. Das macht picam wesentlich schneller als JRPiCam, da es kein externes Programm verwendet.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Für die Device-Klasse, welche wir zur Verfügung stellen, wird PiCam verwendet, da die hohe Geschwindigkeit ein immenser Vorteil ist. Falls aber Studierende die JRPiCam-Library verwenden möchten, dann werden sie auch hierfür ein Bespiel unter den RaspberryPi Camera Beispielen finden.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_bildaufnahme">5.5.3. Bildaufnahme</h4>
+<div class="paragraph">
+<p>Für die Bildaufnahme mit der <code>RaspberrPiCameraComponent</code> muss man sich zuerst ein <code>CameraConfiguration</code>-Objekt erstellen, welches praktisch den Befehl wiederspiegelt, welchen man im Terminal manuell eingeben kann.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">//Create Configuration object with builder approach
+CameraConfiguration config = cameraConfiguration()
+    .width(1920)
+    .height(1080)
+    .encoding(Encoding.JPEG)
+    .quality(85)
+    .rotation(180);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Wenn man dann dieses Objekt der <code>RaspberrPiCameraComponent</code> im Konstruktor übergibt, dann kann man mit der Methode <code>takeStill</code> Bilder aufnehmen, wie im wenn man die PiCam-Library direkt verwendet.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_videoaufnahme">5.5.4. Videoaufnahme</h4>
+<div class="paragraph">
+<p>Für die Videoaufnahme gibt es eine Builder-Klasse, welche vom Syntax und der Verwendung her ähnlich aufgebaut ist, wie die <code>CameraConfiguration</code> Klasse von PiCam.</p>
+</div>
+<div class="paragraph">
+<p>So wie mit der <code>CameraConfiguration</code> von der PiCam ein <code>raspistill</code> Befehl aufgebaut wird, wird mit der <code>RaspiVidConfiguration</code> dann ein <code>raspivid</code> Befehl aufgebaut.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">//configuration for videos using raspivid with builder object
+RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
+    .verticalflip()
+    .previewOff()
+    .time(15000);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Wenn das Objekt dann der <code>RaspberryPiCameraComponent</code> übergeben wird im Konstruktor, dann wird mit der Methode <code>takevid</code> ein Video aufgenommen. Dabei wird der Befehl der Konfigurationsklasse extrahiert und als Java Process ausgeführt.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        if (!isRaspiVidAvailable) {
+            throw new ExceptionInInitializerError("RaspiVid has to be initialised with the Configuration for taking videos");
+        }
+        try {
+            raspiVidConfiguration.output(outputPath);
+            String command = raspiVidConfiguration.toString();
+
+            //This will just run in the background and save the video in a file
+            Process p = Runtime.getRuntime().exec(command);
+            p.waitFor();
+            Thread.sleep(raspiVidConfiguration.getTime());
+
+            p.destroy();
+            if (p.isAlive())
+                p.destroyForcibly();
+
+        } catch (IOException | InterruptedException ieo) {
+            console.println("Error while taking video: " + ieo.getMessage());
+        }</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2167,7 +2610,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-07-28 11:01:25 +0200
+Last updated 2020-07-31 11:17:01 +0200
 </div>
 </div>
 </body>

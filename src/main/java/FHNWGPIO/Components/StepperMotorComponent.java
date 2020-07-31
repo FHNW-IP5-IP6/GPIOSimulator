@@ -99,7 +99,7 @@ public class StepperMotorComponent {
      * Setter of the step delay value.
      *
      * @param stepDelay The step delay in milliseconds to be set.
-     * @throws IllegalArgumentException Exception is thrown when a value < 2 is provided.
+     * @throws IllegalArgumentException Exception is thrown when a value smaller than 2 is provided.
      */
     public void setStepDelay(int stepDelay) throws IllegalArgumentException {
         if (stepDelay < 2) {
@@ -150,7 +150,7 @@ public class StepperMotorComponent {
     }
 
     /**
-     * Step the stepper motor forwards using the currently set mode for a specific amount of steps.
+     * Step the stepper motor backwards using the currently set mode for a specific amount of steps.
      *
      * @param steps Number of steps the motor should move.
      * @throws InterruptedException Exception might be thrown because of Thread.sleep().

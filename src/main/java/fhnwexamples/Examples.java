@@ -17,7 +17,6 @@ public class Examples {
     public static void main(String[] args) throws Exception {
         initializeGpioExamples();
         initializeDeviceExamples();
-
         showInitialInformation();
 
         System.out.println("Press any Button to close the application");
@@ -122,6 +121,7 @@ public class Examples {
         deviceExamples.add(new RaspberryPiCamera(6, "Raspberry Pi Camera example"));
         deviceExamples.add(new BuzzerDevice(7, "Buzzer example"));
         deviceExamples.add(new MotorDevice(8, "Motor example"));
+        deviceExamples.add(new RFIDReader(9, "RFID Reader example"));
     }
 
     /**

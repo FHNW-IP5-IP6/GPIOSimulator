@@ -41,7 +41,7 @@ public class MotorComponent {
 
     /**
      * Constructor of the MotorComponent. This constructor allows controlling the motors direction and speed using
-     * hardware or software PWM output pins.
+     * hardware or software pwm output pins.
      *
      * @param console   Pi4J Console
      * @param forwards  PWM pin used to move the motor forwards
@@ -61,15 +61,17 @@ public class MotorComponent {
     /**
      * Runs the motor run forwards at full speed.
      */
+    // tag::MotorComponentMoveForwards[]
     public void moveForwards() {
         if (isPwm) {
             moveForwards(100);
         } else {
-            backwards.low();
-            forwards.high();
+            backwards.low();    //Input 2
+            forwards.high();    //Input 1
             console.println("motor is moving forwards with maximum power");
         }
     }
+    // end::MotorComponentMoveForwards[]
 
     /**
      * Runs the motor forwards at a specific speed.
@@ -78,6 +80,7 @@ public class MotorComponent {
      * @throws UnsupportedOperationException Exception is thrown when method is called using digital pins.
      * @throws IllegalArgumentException      Exception is thrown when the power value is not in the range from 0 to 100.
      */
+    // tag::MotorComponentMoveForwardsPwm[]
     public void moveForwards(int power) throws UnsupportedOperationException, IllegalArgumentException {
         if (!isPwm) {
             throw new UnsupportedOperationException(
@@ -92,6 +95,7 @@ public class MotorComponent {
         pwmForwards.setPwm((int) (power * rangeAdjustment));
         console.println("motor is moving forwards at " + power + "%");
     }
+    // end::MotorComponentMoveForwardsPwm[]
 
     /**
      * Runs the motor run backwards at full speed.
@@ -100,8 +104,8 @@ public class MotorComponent {
         if (isPwm) {
             moveBackwards(100);
         } else {
-            forwards.low();
-            backwards.high();
+            forwards.low();     //Input 1
+            backwards.high();   //Input 2
             console.println("motor is moving backwards with maximum power");
         }
     }
@@ -131,22 +135,24 @@ public class MotorComponent {
     /**
      * Stops the motor.
      */
+    // tag::MotorComponentStop[]
     public void stop() {
         if (isPwm) {
             pwmForwards.setPwm(0);
             pwmBackwards.setPwm(0);
         } else {
-            forwards.low();
-            backwards.low();
+            forwards.low();     //Input 1
+            backwards.low();    //Input 2
         }
         console.println("motor stopped");
     }
+    // end::MotorComponentStop[]
 
     /**
      * Checks if the provided pin is a valid hardware or software PWM pin.
      *
      * @param pin The pin which should be checked
-     * @return True if the pin is a hardware PWM pin
+     * @return True if the pin is a hardware
      */
     private boolean isHardwarePwmPin(Pin pin) {
         return pin.getAddress() == 12 || pin.getAddress() == 13;

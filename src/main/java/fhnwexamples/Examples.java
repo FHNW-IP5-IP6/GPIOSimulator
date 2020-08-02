@@ -34,26 +34,26 @@ public class Examples {
         int input = getNextScannerInt();
 
         switch (input) {
-            case 0:
-                System.exit(0);
-                break;
-            case 1:
-                //gpio Examples
-                System.out.println("CHOOSE A gpio EXAMPLE");
-                System.out.println("--------------------");
-                showCommandInformation(gpioExamples);
-                chooseExample(gpioExamples);
-                break;
-            case 2:
-                //gpio Examples using pi4j-component
-                System.out.println("CHOOSE A DEVICE EXAMPLE");
-                System.out.println("--------------------");
-                showCommandInformation(deviceExamples);
-                chooseExample(deviceExamples);
-                break;
-            default:
-                System.out.println("Did not recognize input");
-                showInitialInformation();
+        case 0:
+            System.exit(0);
+            break;
+        case 1:
+            //gpio Examples
+            System.out.println("CHOOSE A gpio EXAMPLE");
+            System.out.println("--------------------");
+            showCommandInformation(gpioExamples);
+            chooseExample(gpioExamples);
+            break;
+        case 2:
+            //gpio Examples using pi4j-component
+            System.out.println("CHOOSE A DEVICE EXAMPLE");
+            System.out.println("--------------------");
+            showCommandInformation(deviceExamples);
+            chooseExample(deviceExamples);
+            break;
+        default:
+            System.out.println("Did not recognize input");
+            showInitialInformation();
         }
     }
 
@@ -105,7 +105,7 @@ public class Examples {
         gpioExamples.add(new MotorSpeedHardPwm(7, "Motor Speed Hardware PWM Test"));
         gpioExamples.add(new ServoMotor(8, "Servo Motor Test"));
         gpioExamples.add(new StepperMotor(9, "Stepper Motor Test"));
-        gpioExamples.add(new KeyPad(10, "Stepper Motor Test"));
+        gpioExamples.add(new KeyPad(10, "Key Pad Test"));
         gpioExamples.add(new SerialCamera(11, "Serial Camera Test"));
     }
 
@@ -121,7 +121,8 @@ public class Examples {
         deviceExamples.add(new RaspberryPiCamera(6, "Raspberry Pi Camera example"));
         deviceExamples.add(new BuzzerDevice(7, "Buzzer example"));
         deviceExamples.add(new MotorDevice(8, "Motor example"));
-        deviceExamples.add(new RFIDReader(9, "RFID Reader example"));
+        deviceExamples.add(new StepperMotorDevice(9, "Stepper Motor example"));
+        deviceExamples.add(new RFIDReader(10, "RFID Reader example"));
     }
 
     /**

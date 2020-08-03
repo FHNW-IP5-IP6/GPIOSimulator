@@ -563,12 +563,38 @@ Für die Verkabelung wird folgende Hardware benötigt:
 .Raspberry Pi Camera Verkabelung 
 image::./fritzing/raspiCam.png[width=60% RaspiCam Wiring]
 
-==== Code Beispiel
+==== API
+TODO
+
+==== Anwendungsbeispiel
 In diesem Code Beispiel wird die Raspberry Pi Camera mit einer externen Library verwendet. Es werden 10 Bilder nacheinander geschossen und in den Ordner `/home/pi/Pictures/PiCamPics` gespeichert.  +
 *Vorkenntnisse: Intermediate*
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/component/RaspberryPiCamera.java[tags=RaspberryPiCamera]
+----
+
+=== Grove RFID Reader
+Der Grove RFID Reader ist ein 125KHz Grove Modul, welches uem4100 RFID Karteninformationen seriell lesen kann. Die maximale Distanz zum Lesen beträgt 700mm. Die RFID Reader benötigt eine Spannung von 5 Volt, weshalb es nicht mit dem Grove Hat kompatibel ist, welcher nur 3.3 Volt liefert. Es ist jedoch möglich es mit Kabeln direkt an den Pi zu verbinden.
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Grove RFID Reader mit Grove Adapter Kabel
+* 4x Kabel
+
+.Serial Camera Verkabelung
+image::./fritzing/grove_rfid_reader.png[width=75% Grove RFID Reader Fritzing]
+
+==== API
+TODO
+
+==== Anwendungsbeispiel
+In diesem Code Beispiel wird der Grove RFID Reader getestet. Das serielle Gerät wird initialisiert und ein Listener wird hinzugefügt, der die `dataReceived()` Methode des `SerialDataEventListener` überschreibt. Diese Methode wird immer ausgeführt, wenn der RFID Reader Daten erhält durch einen RFID Tag.   +
+*Vorkenntnisse: Intermediate*
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/RFIDReader.java[tags=RFIDReader]
 ----
 
 === Servo Motor

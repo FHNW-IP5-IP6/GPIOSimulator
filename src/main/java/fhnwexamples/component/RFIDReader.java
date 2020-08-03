@@ -26,13 +26,16 @@ public class RFIDReader extends Example {
         // tag::RFIDReader[]
         RFIDReaderComponent rfidReaderComponent = new RFIDReaderComponent(console);
         // create and register the serial data listener
-        rfidReaderComponent.addListener(event -> {
-            // print out the data received to the console
-            try {
-                console.println("[HEX DATA]   " + event.getHexByteString());
-                console.println("[ASCII DATA] " + event.getAsciiString());
-            } catch (IOException e) {
-                e.printStackTrace();
+        rfidReaderComponent.addListener(new SerialDataEventListener() {
+            @Override
+            public void dataReceived(SerialDataEvent event) {
+                // print out the data received to the console
+                try {
+                    console.println("[HEX DATA]   " + event.getHexByteString());
+                    console.println("[ASCII DATA] " + event.getAsciiString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         // end::RFIDReader[]

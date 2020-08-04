@@ -817,14 +817,14 @@ Bei der Steuerung der Geschwindigkeit kann uns der Motor Treiber Chip nicht unte
 
 .PWM als Grafik
 [link=https://www.elektronik-kompendium.de/sites/kom/0401111.htm]
-image::pwm.png[width=75% L293D Pinout]
+image::pwm.png[width=75% PWM as a Graph]
 
 In unserer Component Klasse steuern wir den Duty Cycle über die GPIO Klasse von Wiring Pi. Der gewünschte Duty Cycle wird über die `setPWM()` Funktion festgelegt. Die `rangeAdjustment` Variable wird benötigt, da Wiring Pi zwischen Software und Hardware PWM Pins unterscheidet.
 
 * **Software:** Duty Cycle zwischen 0 und 100
 * **Hardware:** Duty Cycle zwischen 0 und 1024
 
-Der Raspberry Pi stellt 2 Hardware PWM Pins zur Verfügung. Dabei handelt es sich um die BCM Pins 12 und 13. Werden diese Pins an den Konstruktor übergeben, wird die Hardware PWM Funktionalität des Pi verwendet.
+Der Raspberry Pi stellt zwei Hardware PWM Pins zur Verfügung. Dabei handelt es sich um die BCM Pins 12 und 13. Werden diese Pins an den Konstruktor übergeben, wird die Hardware PWM Funktionalität des Pi verwendet.
 
 [source,java]
 ----
@@ -832,7 +832,122 @@ include::{sourcedir}/fhnwgpio/components/MotorComponent.java[tags=MotorComponent
 ----
 
 === Stepper Motor
-https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping
+Schrittmotoren bestehen aus mehreren Spulen, welche um die in ihrer Mitte liegenden Welle angeordnet sind. Die Welle wird von einem Zylinder umschlossen, welcher abwechselnd mit positiven und negativen Polen versehen ist. Sobald durch eine Spule Strom fliesst, erzeugt diese ein Magnetfeld, nach welchem sich die Pole im Zylinder der Welle ausrichten. Somit kann die Welle gedreht werden.
+
+.Stepper Motor unter Single Stepping
+[link=https://commons.wikimedia.org/w/index.php?curid=10011776]
+image::StepperMotor.gif[width=75% Single Stepping Stepper Motor]
+
+Bei den meisten Schrittmotoren kommt zusätzlich zur Welle noch ein Getriebe zum Einsatz, welches durch seine Übersetzung den Drehwinkel pro Schritt weiter verkleinert. Beim weit verbreiteten Stepper Motor 28BYJ-48 ist zum Beispiel ein 1/64 Getriebe verbaut. Jeder Schritt der Welle resultiert bei diesem Motor um eine um 64 verkleinerte Drehung.
+
+Mit der von uns zur Verfügung gestellten Component Klasse können vier Phasen Schrittmotoren gesteuert werden. Das jeweilige Getriebe hat keinen Einfluss auf die Funktionalität unserer Bibliothek.
+
+==== Single Stepping
+Beim Single Stepping wird jeweils nur eine Spule im Gehäuse des Motors unter Strom gesetzt. Die Welle des Motors richtet sich also immer genau nach der momentan aktiven Spule aus.
+
+.Single Stepping
+[link=https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping]
+image::single_stepping.jpg[width=75% Single Stepping]
+
+Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.
+
+.Single Stepping
+[cols="1,1,1,1,1"]
+|===
+||*Step 1* |*Step 2* |*Step 3* |*Step 4*
+|*Magnet 1* |1 |0 |0 |0
+|*Magnet 2* |0 | 1|0 |0
+|*Magnet 3* |0 |0 |1 |0
+|*Magnet 4* |0 |0 |0 |1
+|===
+
+Implementation des Modus als Byte Array in unserer Component Klasse:
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentSingleStepping]
+----
+
+==== Double Stepping
+Unter Verwendung des Double Stepping werden immer zwei Spulen simultan unter Strom gesetzt. Dies führt dazu, dass sich die Welle gemäss dem entstehenden Magnetfeld zwischen den zwei Spulen ausrichtet. Die sich überschneidenden Magnetfelder sind stärker als ein einzelnes Magnetfeld, weshalb der Schrittmotor unter diesem Modus mit grösserer Kraft arbeitet. Da allerdings zwei Spulen gleichzeitig mit Strom beliefert werden müssen, verdoppelt sich der Stromverbrauch im Vergleich zum Single Stepping.
+
+.Double Stepping
+[link=https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping]
+image::double_stepping.jpg[width=75% Double Stepping]
+
+Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.
+
+.Double Stepping
+[cols="1,1,1,1,1"]
+|===
+||*Step 1* |*Step 2* |*Step 3* |*Step 4*
+|*Magnet 1* |1 |0 |0 |1
+|*Magnet 2* |1 |1 |0 |0
+|*Magnet 3* |0 |1 |1 |0
+|*Magnet 4* |0 |0 |1 |1
+|===
+
+Implementation des Modus als Byte Array in unserer Component Klasse:
+
+----
+include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentDoubleStepping]
+----
+
+==== Half Stepping
+Im Gegensatz zu den anderen Modi agiert Half Stepping in acht Schritten. Somit kann die Position des Motors genauer bestimmt werden als in den anderen Modi. Half Stepping kombiniert Single Stepping und Dual Stepping. Dies führt dazu, dass der Motor nicht immer gleich viel Kraft hat. Bei jedem zweiten Schritt ist jeweils nur eine Spule aktiv.
+
+.Half Stepping
+[link=https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping]
+image::half_stepping.jpg[width=75% Half Stepping]
+
+Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.
+
+.Half Stepping
+[cols="1,1,1,1,1,1,1,1,1"]
+|===
+||*Step 1* |*Step 2* |*Step 3* |*Step 4* |*Step 5* |*Step 6* |*Step 7* |*Step 8*
+|*Magnet 1* |1 |1 |0 |0 |0 |0 |0 |1
+|*Magnet 2* |0 |1 |1 |1 |0 |0 |0 |0
+|*Magnet 3* |0 |0 |0 |1 |1 |1 |0 |0
+|*Magnet 4* |0 |0 |0 |0 |0 |1 |1 |1
+|===
+
+Implementation des Modus als Byte Array in unserer Component Klasse:
+
+----
+include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentHalfStepping]
+----
+
+==== Motor drehen
+Die schrittweise Drehung des Motors haben wir in einem for-Loop implementier. Die Variable `element` enthält die zu einstellende Position des aktuell auszuführenden Schritts. Dies könnte zum Beispiel der Wert `0b0100` sein. Dieser entspricht dem 2. Step im Single Stepping.
+
+In einem nächsten Schritt müssen die einzelnen Pins gemäss dem aktuellen `element` gesetzt werden. Dazu nutzen wir den Bitweise Operator und verschieben die Bits gemäss dem aktuellen Pin. Durch die Addition von `0b0001` eliminieren wir alle überflüssigen Einsen. Nun können wir prüfen, ob das Byte dem Wert `1` entspricht. Ist dies der Fall, setzen wir den Pin auf `HIGH`.
+
+Zu guter Letzt setzen wir noch die lokale Variabel `currentPosition`. Diese ist für Richtungsänderungen und das saubere Laufen des Motors relevant.
+
+----
+include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentStep]
+----
+
+Die `getElement()` Funktion gibt das aktuelle Element im Array des aktuellen Modus zurück. Dabei wir auch die aktuelle Drehrichtung des Motors berücksichtigt. Die Variabel `currentPosition` enthält die Position im Array, welcher der Motor vor dem nächsten Drehbefehl hatte. So stellen wir sicher, dass der Motor zwischen zwei einzelnen Befehlen niemals ruckelt (einzelne Steps überspringt).
+
+----
+include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentGetElement]
+----
+
+==== Drehrichtung ändern
+In der lokalen Variable `currentPosition` speichern wir die aktuelle Position des Motors im Array des aktuellen Modi. Beim Drehen des Motors müssen wir die Variable neu berechnen, da wir beim Ändern der Drehrichtung einen seperaten Array verwenden. Dieser entspricht dem gespiegelten original Array des jeweiligen Modus.
+
+----
+include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentHalfStepping]
+include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentRevHalfStepping]
+----
+
+Die neue Position entspricht der Länge des Array des aktuellen Modus reduziert um 1 minus der aktuellen Position im Array.
+
+----
+include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentShiftPosition]
+----
 
 <<<
 

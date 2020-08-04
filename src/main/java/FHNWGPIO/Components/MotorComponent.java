@@ -155,6 +155,6 @@ public class MotorComponent {
      * @return True if the pin is a hardware
      */
     private boolean isHardwarePwmPin(Pin pin) {
-        return pin.getAddress() == 12 || pin.getAddress() == 13;
+        return pin.getAddress() == 12 || pin.getAddress() == 13 || pin.getAddress() == 18 || pin.getAddress() == 19;
     }
 }

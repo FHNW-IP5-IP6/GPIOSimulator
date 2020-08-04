@@ -266,15 +266,9 @@ Es ist möglich den Code in intelliJ auf dem eigenen Rechner zu schreiben und di
 === Remote Host in IntelliJ
 Um Ihren Raspberry Pi als Remote Host in IntelliJ einzurichten, müssen Sie zuerst in der Menüleiste die folgendenden Menüpunkte wählen:  _"Tools" -> "Deployment" -> "Browse Remote Host"_
 
-._Remote Host Setting_
-image::./installation/RemoteHost.png[width=75% remote host setting]
-
 Jetzt erscheint ein neues Menü auf der rechten Seite, wo sich auch normalerweise  die gradle und Datenbank Einstellungen befinden. 
 
 Klicken Sie in diesem Menü auf die 3 Punkte, um einen neuen Server zu erstellen. Der Name spielt hierbei keine Rolle, aber der Typ sollte SFTP sein. Bestätigen Sie dann ihre Eingabe.
-
-._Remote Host Server hinzufügen_
-image::./installation/RemoteHost2.png[width=75% add remote host server]
 
 Nun können Sie die Einstellung für das Raspberry Pi im Deployment Fenster angeben:
 
@@ -285,7 +279,6 @@ Nun können Sie die Einstellung für das Raspberry Pi im Deployment Fenster ange
 . Nach dem Connection-Test können Sie auf das kleine Ordner Symbol klicken, um auf die Ordner Struktur des Raspberry Pis zu zugreifen. Wählen Sie hier den Ort, an dem Alle Files des Projekts hinkopiert werden sollen.
 
 . Sie können mehrere Server hinzufügen, für die einfache Verwendung in verschiedenen Netzwerken
-
 
 
 ._Remote Host Server Einstellungen_
@@ -302,6 +295,21 @@ image::./installation/RemoteHost4.png[width=75% update remote host server]
 Es ist auch möglich den Code vom eigenen Rechner aus mit IntelliJ auf dem Raspberry Pi auszuführen und diesen auf dem eigenen Rechner zu debuggen. Diese Funktionalität kann sehr hilfreich sein, wenn man mit schwierigen Bugs zu tun hat, aber birgt auch Schwierigkeiten und funktioniert auch nicht immer ideal, deshalb wurde dieser Bereich als optional deklariert.
 
 Wenn Sie ein schweres Problem haben und sich das Debugging aber erleichtern wollen, dann ist es empfehlenswert diese Funktionalität auszuprobieren.
+
+*Setup*
+
+. Downloaden Sie das folgende Plugin von Jetbrains:  + 
+https://plugins.jetbrains.com/plugin/7738-embedded-linux-jvm-debugger-raspberry-pi-beaglebone-black-intel-galileo-ii-and-several-other-iot-devices-[Embedded Linux JVM Debugger]
+
+
+. Fügen Sie eine Run/ Debug Configuration hinzu vom Typ Embedded Linux JVM, wie im Bild weiter unten ersichtlich. Ersetzten Sie einfach die IP-Addresse und die Projektinformationen mit denen von Ihnen. + 
+
+
+._Embedded JVM Configuration_
+image::./installation/RemoteDebugging.png[width=75% Remote Debuggging Configuration]
+
+Für  weitere Informationen zum Remote Debugging mit IntelliJ auf dem Raspberry Pi können Sie den folgenden Artikel studieren: + 
+https://medium.com/@menchukanton/setup-intellij-idea-for-remote-debugging-java-code-on-a-raspberry-pi-6e9df09dfb95[Remote debugging java code on a Raspberry Pi]
 
 == Beispiele
 In diesem Kapitel finden Sie für eine Vielzahl an gängigen Sensoren und Aktuatoren Code Beispiele sowie Beispiele zur Verkabelung. Für ein vollständiges Verständnis der Code Beispiele sind gewisse Vorkenntnisse von Nöten. Wir haben die Beispiele deshalb in Levels eingeteilt, an welchen Sie den Grad an nötigen Vorkenntnissen einfach erkennen können.
@@ -377,7 +385,7 @@ include::{sourcedir}/fhnwexamples/gpio/ButtonClick.java[tags=ButtonClick]
 include::{sourcedir}/fhnwexamples/component/ButtonClickDevice.java[tags=ButtonClickDevice]
 ----
 
-=== LCD TODO?
+
 === LCD I2C
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -388,7 +396,10 @@ Für die Verkabelung wird folgende Hardware benötigt:
 .LCD I2C Modul Verkabelung 
 image::./fritzing/LCDI2C.png[width=75% I2C Wiring]
 
-==== Code Beispiel
+==== API
+TODO
+
+==== Anwendungsbeispiel
 
 In diesem Code Beispiel wird der Titel des Projekts in der ersten Zeile angezeigt und die Uhrzeit in der Zweiten. Die Uhrzeit wird im Sekundentakt aktualisiert. +
 *Vorkenntnisse: Basic*
@@ -563,12 +574,38 @@ Für die Verkabelung wird folgende Hardware benötigt:
 .Raspberry Pi Camera Verkabelung 
 image::./fritzing/raspiCam.png[width=60% RaspiCam Wiring]
 
-==== Code Beispiel
-In diesem Code Beispiel wird die Raspberry Pi Camera mit einer externen Library verwendet. Es werden 10 Bilder nacheinander geschossen und in den Ordner `/home/pi/Pictures/PiCamPics` gespeichert.  +
+==== API
+TODO
+
+==== Anwendungsbeispiel
+In diesem Code Beispiel wird die Raspberry Pi Camera mit der `RaspberryPiCameraComponent` verwendet, um zwei Bilder und ein Video aufzunehmen in den Ordner `/home/pi/Pictures/`.  +
 *Vorkenntnisse: Intermediate*
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/component/RaspberryPiCamera.java[tags=RaspberryPiCamera]
+----
+
+=== Grove RFID Reader
+Der Grove RFID Reader ist ein 125KHz RFID Reader, welches uem4100 RFID Karteninformationen seriell lesen kann. Die maximale Distanz zum Lesen beträgt 70mm. Die RFID Reader benötigt eine Spannung von 5 Volt, weshalb es nicht mit dem Grove Hat kompatibel ist, da dieser nur 3.3 Volt liefert. Es ist jedoch möglich es mit Kabeln direkt an den Pi zu verbinden, wie bei der Grove Serial Camera.
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Grove RFID Reader mit Grove Adapter Kabel
+* 4x Kabel
+
+.Serial Camera Verkabelung
+image::./fritzing/grove_rfid_reader.png[width=75% Grove RFID Reader Fritzing]
+
+==== API
+TODO
+
+==== Anwendungsbeispiel
+In diesem Code Beispiel wird der Grove RFID Reader getestet. Das serielle Gerät wird initialisiert und ein Listener wird hinzugefügt, der die `dataReceived()` Methode des `SerialDataEventListener` überschreibt. Diese Methode wird immer ausgeführt, wenn der RFID Reader Daten durch einen RFID Tag erhält. +
+*Vorkenntnisse: Intermediate*
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/RFIDReader.java[tags=RFIDReader]
 ----
 
 === Servo Motor

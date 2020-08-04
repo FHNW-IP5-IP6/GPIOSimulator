@@ -38,9 +38,11 @@ public class ServoMotorComponent {
         this.pulseMin = pulseMin;
         this.pulseMax = pulseMax;
         this.maxDegrees = maxDegrees;
+        // tag::ServoMotorComponentSetPWMFrequency[]
         Gpio.pwmSetMode(Gpio.PWM_MODE_MS);
         Gpio.pwmSetClock(192);
         Gpio.pwmSetRange(2000);
+        // end::ServoMotorComponentSetPWMFrequency[]
     }
 
     /**
@@ -67,9 +69,12 @@ public class ServoMotorComponent {
     }
 
     /**
+     * Sets the servo position to a specific pulse high time in microseconds
+     *
      * @param pulse The desired pulse length in microseconds
      * @throws IllegalArgumentException Thrown when a value smaller than pulseMin or bigger than pulse max is provided
      */
+    // tag::ServoMotorComponentSetPosition[]
     public void setPosition(int pulse) throws IllegalArgumentException {
         if (pulse < pulseMin || pulse > pulseMax) {
             throw new IllegalArgumentException("please provide a value in the range pulseMin to pulseMax");
@@ -78,11 +83,15 @@ public class ServoMotorComponent {
         setPwm(pulse);
         console.println("set the position to pulse " + pulse);
     }
+    // end::ServoMotorComponentSetPosition[]
 
     /**
+     * Sets the servo position to a desired angle in degrees
+     *
      * @param degree The desired rotation in degrees
      * @throws IllegalArgumentException Thrown when a value smaller than 0 or bigger than maxDegrees is provided
      */
+    // tag::ServoMotorComponentSetPositionDegrees[]
     public void setPositionDegrees(int degree) throws IllegalArgumentException {
         if (degree < 0 || degree > maxDegrees) {
             throw new IllegalArgumentException("please provide a vlaue in the range 0 to maxDegrees");
@@ -93,6 +102,7 @@ public class ServoMotorComponent {
         setPwm(pulse);
         console.println("set the position to degrees " + degree + " which is a pulse of " + pulse);
     }
+    // end::ServoMotorComponentSetPositionDegrees[]
 
     /**
      * Sets the servo to its maximal position
@@ -118,9 +128,16 @@ public class ServoMotorComponent {
         console.println("set servo to minimal position");
     }
 
+    /**
+     * Sets the PWM value of the pin
+     *
+     * @param pwm The desired PWM value
+     */
+    // tag::ServoMotorComponentSetPWM[]
     private void setPwm(int pwm) {
         pin.setPwm(Math.round(pwm / 10));
     }
+    // end::ServoMotorComponentSetPWM[]
 
     /**
      * Checks if the provided pin is a valid hardware or software PWM pin.

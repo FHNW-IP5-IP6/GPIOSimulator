@@ -17,6 +17,7 @@ public class ServoMotorDevice extends Example {
         super(key, title);
     }
 
+    // tag::ServoMotorDevice[]
     @Override public void execute() throws Exception {
         GpioProvider provider = new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING);
         GpioFactory.setDefaultProvider(provider);
@@ -42,4 +43,5 @@ public class ServoMotorDevice extends Example {
             }
         }
     }
+    // end::ServoMotorDevice[]
 }

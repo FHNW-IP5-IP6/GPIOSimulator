@@ -609,6 +609,47 @@ include::{sourcedir}/fhnwexamples/component/RFIDReader.java[tags=RFIDReader]
 ----
 
 === Servo Motor
+Mittels Servo Motoren können spezifische Winkelpositionen eingestellt und gehalten werden. Positionen können dabei zügig gewechselt werden. Die meisten Servo Motoren erlauben Winkel zwischen 0 und 180 Grad. Der einzustellende Winkel wird dabei über PWM gesteuert. Genauer gesagt über dessen Pulslänge.
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Tower Pro Micro Servo 9g SG90
+* 3x Kabel
+
+.Servo Motor Verkabelung
+image::./fritzing/servo_motor.png[width=75% Servo Motor Fritzing]
+
+==== API
+.Servo Motor - Konstruktoren
+[cols="1,1"]
+|===
+|Konstruktor |Beschreibung
+|ServoMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pin) |Constructor with default value for pulseMin = 500, pulseMax = 2400 and maxDegrees = 180.
+|ServoMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pin, int pulseMin, int pulseMax) |Constructor with default value for maxDegrees of 180 degrees.
+|ServoMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pin, int pulseMin, int pulseMax, int maxDegrees) |Constructor with all possible values.
+|===
+
+.Servo Motor - Funktionen
+[cols="1,2,2"]
+|===
+|Rückgabetyp |Funktion |Beschreibung
+|void |setCenter() |Sets the servo to its center position
+|void |setMax() |Sets the servo to its maximal position
+|void |setMin() |Sets the servo to its minimal position
+|void |setPosition(int pulse) |Sets the servo position to a specific pulse high time in microseconds
+|void |setPositionDegrees(int degree) |Sets the servo position to a desired angle in degrees
+|===
+
+==== Anwendungsbeispiel
+Das unten abgebildete Beispiel zeigt die Verwendung unserer ServoMotorComponent. Es benutzt den Konstruktor mit den meisten Standardwerten. Dieser eignet sich für die meisten 180° Mini und Micro Servos.
+
+In einem while-Loop wird der Motor zuerst auf die kleinstmögliche Position gesetzt. Anschliessend setzen wir die Position des Motors auf dessen Mitte und im Anschluss auf die maximale Position. Zwischen den einzelnen Positionswechsel macht das Programm jeweils eine Sekunde Pause. Nun wird der Motor auf seine Ausgangsposition zurückgesetzt und Grad für Grad bis zum Maximum von 180° gedreht.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/ServoMotorDevice.java[tags=ServoMotorDevice]
+----
 
 === Stepper Motor
 Der Stepper Motor oder Schrittmotor rotiert die in seiner Mitte liegende Welle in Schritten. Die Welle eines Schrittmotors dreht sich im Vergleich zu jener eines Gleichstrommotors sehr langsam. Dafür kann der Schrittmotor sehr genau gesteuert werden. Je nach eingestelltem Modus variiert die Anzahl der Schritte, welche für eine gesamte Drehung benötigt werden. Der Modus beeinflusst auch die Kraft, welcher der Motor hat und hat Zusammenhang mit dem resultierenden Energieverbrauch des Motors.
@@ -829,6 +870,53 @@ Der Raspberry Pi stellt zwei Hardware PWM Pins zur Verfügung. Dabei handelt es 
 [source,java]
 ----
 include::{sourcedir}/fhnwgpio/components/MotorComponent.java[tags=MotorComponentMoveForwardsPwm]
+----
+
+=== Servo Motor
+Mit Servo Motoren lassen sich Winkel präzise einstellen und halten. Gängige Servo Motoren erlauben das Einstellen von Winkeln zwischen 0 und 180 Grad. Der Wechsel zwischen einzelnen Positionen erfolgt sehr zügig. Gesteuert wird die Position der Welle über ein PWM Signal. Unsere Klasse unterstützt dabei die Hardware PWM Pins des Raspberry Pi. Software PWM Signale unterstützen wir bewusst nicht. Diese sind meist zu ungenau und sind deshalb nicht für die Steuerung von Servo Motoren geeignet.
+
+==== Steuerung über PWM
+Die Mehrheit aller Servo Motoren benötigt für dessen Steuerung einen 50 Hertz PWM Puls, was einem Zyklus alle 20 Millisekunden entspricht. Mittels WiringPi können wir die gewünschte Frequenz ziemlich einfach einstellen.
+
+Der Raspberry Pi Prozessor liefert uns eine Basis-Frequenz von 19.2 MHZ. Diese müssen wir nun auf 50 Hertz reduzierten. Dies erreichen wir über die folgenden Einstellungen.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPWMFrequency]
+----
+
+Durch die getätigten Einstellungen errechnet der Pi die PWM Frequenz 19.2 MHZ / 192 / 2000 = 50 HZ. Mit dieser Frequenz können wir nun weiterarbeiten.
+
+Servo Motoren lassen sich nun über die sogenannte Pulslänge steuern. Die Pulslänge enspricht der HIGH Time eines einzelnen Pulses. Die meisten Mini und Micro Servo Motoren können über Pulslängen von 500 Mikro Sekunden bis 2400 Mikro Sekunden positioniert werden. Die genauen Werte können jedoch im Data Sheet des jeweiligen Servos gefunden werden. Kleinere Pulslängen entsprechen dabei kleineren Winkeln. Die Position verhält sich immer linear zur Pulslänge.
+
+.Beispiele Pulslänge
+[cols="1,1"]
+|===
+|*Winkel in Grad* |*Pulslänge in Mikro Sekunden*
+|0 | 500
+|45 |975
+|90 |1450
+|135 |1925
+|180 |2400
+|===
+
+Leider können wir die Pulslänge nicht direkt in Mikro Sekunden an den Hardware PWM Pin weitergeben. Wir müssen die Value zuerst um den Faktor 10 reduzieren. WiringPi erlaubt nämlich nur das Setzen von Werten in einer Range von 0 bis 1024.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPosition]
+----
+
+----
+include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPWM]
+----
+
+==== Winkel setzen
+Unsere Hilfsklasse untersützt das Setzen von gewünschen Servo Motor Positionen via gewünschtem Zielwinkel. Mit der Funktion `setPositionDegrees()` können Winkel auf einen Grad genau gesetzt werden, sofern der verwendete Servo dies ebenfalls unterstützt. Unterstützt der verwendete Servo dies nicht, können wir den Winkel nicht garantieren.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPositionDegrees]
 ----
 
 === Stepper Motor

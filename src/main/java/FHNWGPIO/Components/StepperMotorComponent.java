@@ -18,12 +18,20 @@ public class StepperMotorComponent {
     private int stepDelay;
     private StepperMotorMode mode;
 
-    private final byte[] half_step = new byte[] { 0b1001, 0b1000, 0b1100, 0b0100, 0b0110, 0b0010, 0b0011, 0b0001 };
+    // tag::StepperMotorComponentHalfStepping[]
+    private final byte[] half_step = new byte[] { 0b1000, 0b1100, 0b0100, 0b0110, 0b0010, 0b0011, 0b0001, 0b1001 };
+    // end::StepperMotorComponentHalfStepping[]
+    // tag::StepperMotorComponentSingleStepping[]
     private final byte[] single_step = new byte[] { 0b1000, 0b0100, 0b0010, 0b0001 };
-    private final byte[] double_step = new byte[] { 0b1001, 0b1100, 0b0110, 0b0011 };
-    private final byte[] rev_half_step = new byte[] { 0b0001, 0b0011, 0b0010, 0b0110, 0b0100, 0b1100, 0b1000, 0b1001 };
+    // end::StepperMotorComponentSingleStepping[]
+    // tag::StepperMotorComponentDoubleStepping[]
+    private final byte[] double_step = new byte[] { 0b1100, 0b0110, 0b0011, 0b1001 };
+    // end::StepperMotorComponentDoubleStepping[]
+    // tag::StepperMotorComponentRevHalfStepping[]
+    private final byte[] rev_half_step = new byte[] { 0b1001, 0b0001, 0b0011, 0b0010, 0b0110, 0b0100, 0b1100, 0b1000 };
+    // end::StepperMotorComponentRevHalfStepping[]
     private final byte[] rev_single_step = new byte[] { 0b0001, 0b0010, 0b0100, 0b1000 };
-    private final byte[] rev_double_step = new byte[] { 0b0011, 0b0110, 0b1100, 0b1001 };
+    private final byte[] rev_double_step = new byte[] { 0b1001, 0b0011, 0b0110, 0b1100 };
 
     private int currentPosition = 0;
     private boolean lastDirectionForward = true;
@@ -167,6 +175,7 @@ public class StepperMotorComponent {
      * @param stepForwards The moving direction.
      * @throws InterruptedException Exception might be thrown because of Thread.sleep().
      */
+    // tag::StepperMotorComponentStep[]
     private void step(int steps, boolean stepForwards) throws InterruptedException {
         if (stepForwards != lastDirectionForward) {
             shiftCurrentPosition();
@@ -184,6 +193,7 @@ public class StepperMotorComponent {
 
         setCurrentPosition(steps);
     }
+    // end::StepperMotorComponentStep[]
 
     /**
      * This methods stops the motor and clears the magnetic field.
@@ -203,6 +213,7 @@ public class StepperMotorComponent {
      * @param forwards   The moving direction.
      * @return The correlating element of the array according to the stepper motor mode.
      */
+    // tag::StepperMotorComponentGetElement[]
     private byte getElement(int stepNumber, boolean forwards) {
         int elementPosition = stepNumber + currentPosition;
         switch (mode) {
@@ -222,6 +233,7 @@ public class StepperMotorComponent {
             throw new IllegalArgumentException("StepperMotorMode is invalid.");
         }
     }
+    // end::StepperMotorComponentGetElement[]
 
     /**
      * Calculates the current position in the array of the current stepper motor mode.
@@ -246,17 +258,19 @@ public class StepperMotorComponent {
      * This method needs to be called whenever the direction of the motor is changed since the position must be
      * recalculated on direction change.
      */
+    // tag::StepperMotorComponentShiftPosition[]
     private void shiftCurrentPosition() {
         switch (mode) {
         case HALF_STEP:
-            currentPosition = Math.floorDiv(currentPosition + half_step.length, half_step.length);
+            currentPosition = half_step.length - 1 - currentPosition;
             break;
         case SINGLE_STEP:
-            currentPosition = Math.floorDiv(currentPosition + single_step.length, single_step.length);
+            currentPosition = single_step.length - 1 - currentPosition;
             break;
         case DOUBLE_STEP:
-            currentPosition = Math.floorDiv(currentPosition + double_step.length, double_step.length);
+            currentPosition = double_step.length - 1 - currentPosition;
             break;
         }
     }
+    // end::StepperMotorComponentShiftPosition[]
 }

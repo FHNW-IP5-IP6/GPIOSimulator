@@ -583,7 +583,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_geschwindigkeit_anpassen">5.3.3. Geschwindigkeit anpassen</a></li>
 </ul>
 </li>
-<li><a href="#_stepper_motor_2">5.4. Stepper Motor</a></li>
+<li><a href="#_stepper_motor_2">5.4. Stepper Motor</a>
+<ul class="sectlevel3">
+<li><a href="#_single_stepping">5.4.1. Single Stepping</a></li>
+<li><a href="#_double_stepping">5.4.2. Double Stepping</a></li>
+<li><a href="#_half_stepping">5.4.3. Half Stepping</a></li>
+<li><a href="#_motor_drehen">5.4.4. Motor drehen</a></li>
+<li><a href="#_drehrichtung_ändern">5.4.5. Drehrichtung ändern</a></li>
+</ul>
+</li>
 <li><a href="#_raspberry_pi_camera_2">5.5. Raspberry Pi Camera</a>
 <ul class="sectlevel3">
 <li><a href="#_terminal_befehle">5.5.1. Terminal Befehle</a></li>
@@ -639,7 +647,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </div>
 <div class="paragraph">
-<p><strong>Datum</strong>: 2020-07-31</p>
+<p><strong>Datum</strong>: 2020-08-04</p>
 </div>
 <div style="page-break-after: always;"></div>
 <h2 id="_inhaltsverzeichnis" class="discrete">Inhaltsverzeichnis</h2>
@@ -2461,9 +2469,9 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
         }
 
         int difference = maxValue - minValue;
-        if (difference &lt; 10 || difference &gt; 999) {
+        if (difference &lt; 10 || difference &gt; 1000) {
             throw new IllegalArgumentException(
-                    "the difference between min and max value needs to be between 10 and 999");
+                    "the difference between min and max value needs to be between 10 and 1000");
         }
 
         this.minValue = minValue;
@@ -2475,14 +2483,14 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="sect3">
 <h4 id="_value_lesen">5.2.3. Value lesen</h4>
 <div class="paragraph">
-<p>Der aktuelle Value des Potentiometers kann über die <code>getValue()</code> Funktion gelesen werden. Dazu verwenden wird die <code>readData()</code> Funktion unserer Basis Klasse. Wir erwarten zwei Bytes auf dem Bus, welche über eine Hilfsfunktion in ein Integer Wert konvertiert werden. Der gelesenen Integer wird gemäss dem eingestellten Range zurückgegeben.</p>
+<p>Der aktuelle Value des Potentiometers kann über die <code>getValue()</code> Funktion gelesen werden. Dazu verwenden wird die <code>readData()</code> Funktion unserer Basisklasse. Wir erwarten zwei Bytes auf dem Bus, welche über eine Hilfsfunktion in ein Integer Wert konvertiert werden. Der gelesenen Integer wird gemäss dem eingestellten Range zurückgegeben.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">    public int getValue() {
         byte[] bytes = readData((byte) adapter.getDeviceAddress(), (byte) 2);
         int readValue = getIntegerFromBytes(bytes[0], bytes[1]);
-        if (minValue == 0 &amp;&amp; maxValue == 999) {
+        if (minValue == 0 &amp;&amp; maxValue == 1000) {
             return readValue;
         } else {
             int difference = maxValue - minValue;
@@ -2686,7 +2694,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<a class="image" href="https://www.elektronik-kompendium.de/sites/kom/0401111.htm"><img src="./assets/images/pwm.png" alt="pwm" width="75% L293D Pinout"></a>
+<a class="image" href="https://www.elektronik-kompendium.de/sites/kom/0401111.htm"><img src="./assets/images/pwm.png" alt="pwm" width="75% PWM as a Graph"></a>
 </div>
 <div class="title">Figure 35. PWM als Grafik</div>
 </div>
@@ -2704,7 +2712,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Der Raspberry Pi stellt 2 Hardware PWM Pins zur Verfügung. Dabei handelt es sich um die BCM Pins 12 und 13. Werden diese Pins an den Konstruktor übergeben, wird die Hardware PWM Funktionalität des Pi verwendet.</p>
+<p>Der Raspberry Pi stellt zwei Hardware PWM Pins zur Verfügung. Dabei handelt es sich um die BCM Pins 12 und 13. Werden diese Pins an den Konstruktor übergeben, wird die Hardware PWM Funktionalität des Pi verwendet.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2729,9 +2737,346 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="sect2">
 <h3 id="_stepper_motor_2">5.4. Stepper Motor</h3>
 <div class="paragraph">
-<p><a href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping" class="bare">https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping</a></p>
+<p>Schrittmotoren bestehen aus mehreren Spulen, welche um die in ihrer Mitte liegenden Welle angeordnet sind. Die Welle wird von einem Zylinder umschlossen, welcher abwechselnd mit positiven und negativen Polen versehen ist. Sobald durch eine Spule Strom fliesst, erzeugt diese ein Magnetfeld, nach welchem sich die Pole im Zylinder der Welle ausrichten. Somit kann die Welle gedreht werden.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="https://commons.wikimedia.org/w/index.php?curid=10011776"><img src="./assets/images/StepperMotor.gif" alt="StepperMotor" width="75% Single Stepping Stepper Motor"></a>
+</div>
+<div class="title">Figure 36. Stepper Motor unter Single Stepping</div>
+</div>
+<div class="paragraph">
+<p>Bei den meisten Schrittmotoren kommt zusätzlich zur Welle noch ein Getriebe zum Einsatz, welches durch seine Übersetzung den Drehwinkel pro Schritt weiter verkleinert. Beim weit verbreiteten Stepper Motor 28BYJ-48 ist zum Beispiel ein 1/64 Getriebe verbaut. Jeder Schritt der Welle resultiert bei diesem Motor um eine um 64 verkleinerte Drehung.</p>
+</div>
+<div class="paragraph">
+<p>Mit der von uns zur Verfügung gestellten Component Klasse können vier Phasen Schrittmotoren gesteuert werden. Das jeweilige Getriebe hat keinen Einfluss auf die Funktionalität unserer Bibliothek.</p>
+</div>
+<div class="sect3">
+<h4 id="_single_stepping">5.4.1. Single Stepping</h4>
+<div class="paragraph">
+<p>Beim Single Stepping wird jeweils nur eine Spule im Gehäuse des Motors unter Strom gesetzt. Die Welle des Motors richtet sich also immer genau nach der momentan aktiven Spule aus.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping"><img src="./assets/images/single_stepping.jpg" alt="single stepping" width="75% Single Stepping"></a>
+</div>
+<div class="title">Figure 37. Single Stepping</div>
+</div>
+<div class="paragraph">
+<p>Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 12. Single Stepping</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Step 1</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Step 2</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Step 3</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Step 4</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Magnet 1</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Magnet 2</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Magnet 3</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Magnet 4</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Implementation des Modus als Byte Array in unserer Component Klasse:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    private final byte[] single_step = new byte[] { 0b1000, 0b0100, 0b0010, 0b0001 };</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_double_stepping">5.4.2. Double Stepping</h4>
+<div class="paragraph">
+<p>Unter Verwendung des Double Stepping werden immer zwei Spulen simultan unter Strom gesetzt. Dies führt dazu, dass sich die Welle gemäss dem entstehenden Magnetfeld zwischen den zwei Spulen ausrichtet. Die sich überschneidenden Magnetfelder sind stärker als ein einzelnes Magnetfeld, weshalb der Schrittmotor unter diesem Modus mit grösserer Kraft arbeitet. Da allerdings zwei Spulen gleichzeitig mit Strom beliefert werden müssen, verdoppelt sich der Stromverbrauch im Vergleich zum Single Stepping.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping"><img src="./assets/images/double_stepping.jpg" alt="double stepping" width="75% Double Stepping"></a>
+</div>
+<div class="title">Figure 38. Double Stepping</div>
+</div>
+<div class="paragraph">
+<p>Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 13. Double Stepping</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Step 1</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Step 2</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Step 3</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Step 4</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Magnet 1</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Magnet 2</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Magnet 3</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Magnet 4</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Implementation des Modus als Byte Array in unserer Component Klasse:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>    private final byte[] double_step = new byte[] { 0b1100, 0b0110, 0b0011, 0b1001 };</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_half_stepping">5.4.3. Half Stepping</h4>
+<div class="paragraph">
+<p>Im Gegensatz zu den anderen Modi agiert Half Stepping in acht Schritten. Somit kann die Position des Motors genauer bestimmt werden als in den anderen Modi. Half Stepping kombiniert Single Stepping und Dual Stepping. Dies führt dazu, dass der Motor nicht immer gleich viel Kraft hat. Bei jedem zweiten Schritt ist jeweils nur eine Spule aktiv.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping"><img src="./assets/images/half_stepping.jpg" alt="half stepping" width="75% Half Stepping"></a>
+</div>
+<div class="title">Figure 39. Half Stepping</div>
+</div>
+<div class="paragraph">
+<p>Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 14. Half Stepping</caption>
+<colgroup>
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1112%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Step 1</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Step 2</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Step 3</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Step 4</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Step 5</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Step 6</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Step 7</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Step 8</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Magnet 1</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Magnet 2</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Magnet 3</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Magnet 4</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Implementation des Modus als Byte Array in unserer Component Klasse:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>    private final byte[] half_step = new byte[] { 0b1000, 0b1100, 0b0100, 0b0110, 0b0010, 0b0011, 0b0001, 0b1001 };</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_motor_drehen">5.4.4. Motor drehen</h4>
+<div class="paragraph">
+<p>Die schrittweise Drehung des Motors haben wir in einem for-Loop implementier. Die Variable <code>element</code> enthält die zu einstellende Position des aktuell auszuführenden Schritts. Dies könnte zum Beispiel der Wert <code>0b0100</code> sein. Dieser entspricht dem 2. Step im Single Stepping.</p>
+</div>
+<div class="paragraph">
+<p>In einem nächsten Schritt müssen die einzelnen Pins gemäss dem aktuellen <code>element</code> gesetzt werden. Dazu nutzen wir den Bitweise Operator und verschieben die Bits gemäss dem aktuellen Pin. Durch die Addition von <code>0b0001</code> eliminieren wir alle überflüssigen Einsen. Nun können wir prüfen, ob das Byte dem Wert <code>1</code> entspricht. Ist dies der Fall, setzen wir den Pin auf <code>HIGH</code>.</p>
+</div>
+<div class="paragraph">
+<p>Zu guter Letzt setzen wir noch die lokale Variabel <code>currentPosition</code>. Diese ist für Richtungsänderungen und das saubere Laufen des Motors relevant.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>    private void step(int steps, boolean stepForwards) throws InterruptedException {
+        if (stepForwards != lastDirectionForward) {
+            shiftCurrentPosition();
+            lastDirectionForward = stepForwards;
+        }
+
+        for (int i = 0; i &lt; steps; i++) {
+            byte element = getElement(i, stepForwards);
+            digitalOut1.setState((element &gt;&gt; 0 &amp; 0b0001) == 1 ? PinState.HIGH : PinState.LOW);
+            digitalOut2.setState((element &gt;&gt; 1 &amp; 0b0001) == 1 ? PinState.HIGH : PinState.LOW);
+            digitalOut3.setState((element &gt;&gt; 2 &amp; 0b0001) == 1 ? PinState.HIGH : PinState.LOW);
+            digitalOut4.setState((element &gt;&gt; 3 &amp; 0b0001) == 1 ? PinState.HIGH : PinState.LOW);
+            Thread.sleep(stepDelay);
+        }
+
+        setCurrentPosition(steps);
+    }</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Die <code>getElement()</code> Funktion gibt das aktuelle Element im Array des aktuellen Modus zurück. Dabei wir auch die aktuelle Drehrichtung des Motors berücksichtigt. Die Variabel <code>currentPosition</code> enthält die Position im Array, welcher der Motor vor dem nächsten Drehbefehl hatte. So stellen wir sicher, dass der Motor zwischen zwei einzelnen Befehlen niemals ruckelt (einzelne Steps überspringt).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>    private byte getElement(int stepNumber, boolean forwards) {
+        int elementPosition = stepNumber + currentPosition;
+        switch (mode) {
+        case HALF_STEP:
+            return forwards ?
+                    half_step[Math.floorMod(elementPosition, half_step.length)] :
+                    rev_half_step[Math.floorMod(elementPosition, rev_half_step.length)];
+        case SINGLE_STEP:
+            return forwards ?
+                    single_step[Math.floorMod(elementPosition, single_step.length)] :
+                    rev_single_step[Math.floorMod(elementPosition, rev_single_step.length)];
+        case DOUBLE_STEP:
+            return forwards ?
+                    double_step[Math.floorMod(elementPosition, double_step.length)] :
+                    rev_double_step[Math.floorMod(elementPosition, rev_double_step.length)];
+        default:
+            throw new IllegalArgumentException("StepperMotorMode is invalid.");
+        }
+    }</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_drehrichtung_ändern">5.4.5. Drehrichtung ändern</h4>
+<div class="paragraph">
+<p>In der lokalen Variable <code>currentPosition</code> speichern wir die aktuelle Position des Motors im Array des aktuellen Modi. Beim Drehen des Motors müssen wir die Variable neu berechnen, da wir beim Ändern der Drehrichtung einen seperaten Array verwenden. Dieser entspricht dem gespiegelten original Array des jeweiligen Modus.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>    private final byte[] half_step = new byte[] { 0b1000, 0b1100, 0b0100, 0b0110, 0b0010, 0b0011, 0b0001, 0b1001 };
+    private final byte[] rev_half_step = new byte[] { 0b1001, 0b0001, 0b0011, 0b0010, 0b0110, 0b0100, 0b1100, 0b1000 };</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Die neue Position entspricht der Länge des Array des aktuellen Modus reduziert um 1 minus der aktuellen Position im Array.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>    private void shiftCurrentPosition() {
+        switch (mode) {
+        case HALF_STEP:
+            currentPosition = half_step.length - 1 - currentPosition;
+            break;
+        case SINGLE_STEP:
+            currentPosition = single_step.length - 1 - currentPosition;
+            break;
+        case DOUBLE_STEP:
+            currentPosition = double_step.length - 1 - currentPosition;
+            break;
+        }
+    }</pre>
+</div>
 </div>
 <div style="page-break-after: always;"></div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_raspberry_pi_camera_2">5.5. Raspberry Pi Camera</h3>
@@ -2912,7 +3257,7 @@ RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-07-31 15:44:49 +0200
+Last updated 2020-08-04 11:07:52 +0200
 </div>
 </div>
 </body>

@@ -123,6 +123,7 @@ public class Examples {
         deviceExamples.add(new MotorDevice(8, "Motor example"));
         deviceExamples.add(new StepperMotorDevice(9, "Stepper Motor example"));
         deviceExamples.add(new RFIDReader(10, "RFID Reader example"));
+        deviceExamples.add(new ServoMotorDevice(11, "Servo Motor example"));
     }
 
     /**

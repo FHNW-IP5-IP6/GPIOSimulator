@@ -127,6 +127,7 @@ public class Examples {
         deviceExamples.add(new LEDStripDriver(12, "LED Strip Driver example"));
         deviceExamples.add(new UltraSonicRanger(13, "Ultra Sonic Ranger example"));
         deviceExamples.add(new LedDevice(14, "Led example"));
+        deviceExamples.add(new ButtonDevice(15, "Button example"));
     }
 
     /**

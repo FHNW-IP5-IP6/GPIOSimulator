@@ -369,33 +369,25 @@ Die blinkende LED ist das "Hello World"-Äquivalent der GPIO Programmierung. Uns
 include::{sourcedir}/fhnwexamples/component/LedDevice.java[tags=LedDevice]
 ----
 
-=== Button Click
+=== TODO: Button
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
 * 4x Kabel
 * 1x Button
-* 1x 220Ω Wiederstand
+* 1x 1kΩ Wiederstand
+* 1x 10kΩ Wiederstand
 
 .Button Verkabelung 
 image::./fritzing/button_click.png[width=75% Button Wiring]
 
 ==== Code Beispiel
-In diesem Beispiel wird jeder Klick auf dem Button in der Konsole angezeigt.
 
-===== GPIO Beispiel
-*Vorkenntnisse: Basic*
+==== Anwendungsbeispiel
 [source,java]
 ----
-include::{sourcedir}/fhnwexamples/gpio/ButtonClick.java[tags=ButtonClick]
-----
-
-===== Device Beispiel
-*Vorkenntnisse: Intermediate*
-[source,java]
-----
-include::{sourcedir}/fhnwexamples/component/ButtonClickDevice.java[tags=ButtonClickDevice]
+include::{sourcedir}/fhnwexamples/component/ButtonDevice.java[tags=ButtonDevice]
 ----
 
 === TODO: Buzzer

@@ -94,11 +94,11 @@ Die drei I2C Anschlüsse sind alle mit dem I2C Bus 1 des Raspberry Pi verbunden.
 === Breadboard
 
 
-=== Software
+== Software
 
-==== Pi4J
+=== Pi4J
 
-==== Java
+=== Java
 
 == Setup des RaspberryPi
 Bevor Sie mit der Implementation ihres ersten Raspberry Pi Projekts starten können, muss der Mini-Computer aufgesetzt werden. Im Gegensatz zu den verschiedenen im Handel erhältichen Micro Controllern, wie Beispielsweise der Arduino Uno, benötigt der Pi ein Betriebssystem. Wir verwenden das auf Linux basierende System Raspbian, eine speziell für den Raspberry Pi modifiziertes Derbian.
@@ -329,9 +329,10 @@ In diesem Kapitel finden Sie für eine Vielzahl an gängigen Sensoren und Aktuat
     ** Strukturierung von Applikationen.
     ** Daten-Persistenz (File-Handling, Serialisierung).
 
-=== Blink LED
-==== Verkabelung
+=== LED
+Leuchtdioden emmitieren Licht, sofern Strom duch sie fliesst. Wie bei allen Dioden lassen LEDs nur eine Flussrichtiung zu. Mit unserer LedComponent lässt sich der Status der LED kontrollieren. Über PWM kann zusätzlich die Helligkeit der LED eingestellt werden. 
 
+==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
 * 2x Kabel
@@ -341,23 +342,35 @@ Für die Verkabelung wird folgende Hardware benötigt:
 .LED Verkabelung 
 image::./fritzing/blink_led.png[width=75% LED Wiring]
 
-==== Code Beispiel
-Die blinkende LED ist das "Hello World"-Äquivalent der GPIO Programmierung. Mit dem nachfolgenden Code lassen wir eine LED im Abstand von einer Sekunde blinken.
+==== API
+.LED - Konstruktoren
+[cols="1,1"]
+|===
+|Konstruktor |Beschreibung
+|LedComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput pin) |Constructor for directly controlling digital LEDs without PWM.
+|LedComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pwmPin) |Constructor for controlling LEDs connected to pins with hard- or software PWM. This constructor allows controlling the brightness of the LED.
+|LedComponent(com.pi4j.util.Console console, GroveAdapter adapter) |Constructor for controlling Grove LEDs.
+|===
 
-===== GPIO Beispiel
-*Vorkenntnisse: Basic*
+.LED - Funktionen
+[cols="1,2,2"]
+|===
+|Rückgabetyp |Funktion |Beschreibung
+|void |setBrightness(int brightness) |Set the brightness of a LED through PWM. Method may only be used if a PWM pin is provided.
+|void |turnOff() |Turns the LED off. If a PWM pin was provided in the constructor, the brightness is set to 0%.
+|void |turnOn() |Turns the LED on. If a PWM pin was provided in the constructor, the brightness is set to 100%.
+|===
+
+==== Anwendungsbeispiel
+Die blinkende LED ist das "Hello World"-Äquivalent der GPIO Programmierung. Unser Beispiel lässt eine LED 2x blinken. Anschliessend wird die Helligkeit der LED schrittweise von 0% auf 100% inkrementiert. Nach dem Erreichen der maximalen Helligkeit dekrementieren die Lichtstärke wieder auf 0%. Das Dimmen der LED ist durch Pulse Width Modulation möglich. Diese Funktionalität wird durch die Übergabe eines `GpioPinPwmOutput` Pin an den Konstruktor der LedComponent ermöglicht.
+
 [source,java]
 ----
-include::{sourcedir}/fhnwexamples/gpio/BlinkLed.java[tags=BlinkLed]
-----
-===== Device Beispiel
-*Vorkenntnisse: Advanced*
-[source,java]
-----
-include::{sourcedir}/fhnwexamples/component/BlinkLedDevice.java[tags=BlinkLedDevice]
+include::{sourcedir}/fhnwexamples/component/LedDevice.java[tags=LedDevice]
 ----
 
 === Button Click
+
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
@@ -385,6 +398,10 @@ include::{sourcedir}/fhnwexamples/gpio/ButtonClick.java[tags=ButtonClick]
 include::{sourcedir}/fhnwexamples/component/ButtonClickDevice.java[tags=ButtonClickDevice]
 ----
 
+=== TODO: Buzzer
+==== Verkabelung
+==== API
+==== Anwendungsbeispiel
 
 === LCD I2C
 ==== Verkabelung
@@ -660,7 +677,7 @@ In der unten abgebildeten Tabelle beziehen wir uns auf den weit verbreiteten Sch
 [cols="1,2,1,1,1"]
 |===
 |*Typ* |*Enum Attribut* | *Schritte pro 360°* |*Energie* | *Kraft*
-|Half Stepping |StepperMotorMode.HALF_STEP |4096 | ca. 1.5x | 90% bis 100%
+|Half Stepping |StepperMotorMode.HALF_STEP |4096 | ca. 1.5x | 110% bis 120%
 |Single Stepping |StepperMotorMode.SINGLE_STEP |2048 |1x | 100%
 |Dual Stepping |StepperMotorMode.DOUBLE_STEP |2048 |2x | 130% bis 140%
 |===
@@ -712,7 +729,56 @@ Das unten abgebildete Beispiel zeigt die Verwendung der verschiedenen Stepper Mo
 include::{sourcedir}/fhnwexamples/component/StepperMotorDevice.java[tags=StepperMotorDevice]
 ----
 
+== Beispielprojekt
+* Button
+* Buzzer
+* LCD Display
+* LED (LED Streifen)
+* Raspberry Pi (Grove Camera)
+* Motor als Countdown
+* ev Ranger für Distanz
+
+
 == Zusatzinformationen
+
+=== LED
+Die LED ist wohl für die meisten GPIO Programmiererinnen und Programmierer die erste Komponente, welche an den Controller angeschlossen wird. Die blinkende LED ist quasi das "Hello World" der Hardware Programmierung. Auch wir haben die LED als erste Komponente an unseren Raspberry Pi angeschlossen.
+
+Die von uns implementierte Component-Klasse unterstützt die Statusänderung von LEDs, welche entweder direkt an die GPIO Pins der Raspberry Pi angeschlossen wurden, sowie auch jene, welche über den Grove Base Hat via dessen digitalen Adapter verbunden wurden. Wird dem Konstruktor ein ` GpioPinPwmOutput` Pin übergeben, lässt sich zusätzlich die Helligkeit der LED steuern.
+
+==== Status modifizieren
+Alle Konstruktoren erlauben das Setzen des Status einer LED. Mit den Funktionen `turnLedOn()` sowie `turnLedOff()` kann kontrolliert werden, ob die LED leuchtet oder nicht.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/LedComponent.java[tags=LedComponentTurnLedOn]
+----
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/LedComponent.java[tags=LedComponentTurnLedOff]
+----
+
+==== Helligkeit via PWM setzen
+Die Helligkeit der LED kann nur dann eingestellt werden, wenn der Pin, an welchen die LED angeschossen ist, ein PWM Signal sendet. Die Präzision des PWM Signals ist bei LEDs zweitrangig, weshalb auch Software PWM Signale erlaubt sind.
+
+Im entsprechenden Konstruktor setzen wir die gewünschte PWM Frequenz auf 50 Hertz.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/LedComponent.java[tags=LedComponentPwmPin]
+----
+
+Wir der oben gezeigte Konstruktor genutzt, kann die LED über PWM gedimmt werden. Dazu steht dem Anwender die Funktion `setBrightness()` zur Verfügung. Die gewünschte Helligkeit muss als Prozentzahl übermittelt werden. Erlaubt sind nur Werte im Range 0 bis 100.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/LedComponent.java[tags=LedComponentSetBrightness]
+----
+
+=== TODO: Button
+
+=== TODO: Buzzer
 
 === Grove Serial Camera
 Die Grove Serial Camera ist eines der komplexeren Devices, welches von unserer Library unterstützt wird. Zur Kommunikation über den Serial Bus wird ein spezielles Protokoll eingesetzt. In den folgenden Unterkapiteln finden Sie weitere Informationen zu jenem Protokoll und unserer Implementation davon.
@@ -819,10 +885,10 @@ image::L293D_Pinout.png[width=75% L293D Pinout]
 |8 |Vcc 2) |Stromlieferant für den Motor / die Motoren. Positiver Pol der Stromquelle.
 |9 |Enable 3. 4 |Aktiviert Input 3 und 4 wenn 5V Spannung anliegt.
 |10 |Input 3 |Kontrolliert Output 3. Muss mit einem Controller verbunden werden.
-|11 |Output 3 |Wird mit dem Motor 1 verbunden.
+|11 |Output 3 |Wird mit dem Motor 2 verbunden.
 |12 |Ground |-
 |13 |Ground |-
-|14 |Output 4 |Wird mit dem Motor 1 verbunden.
+|14 |Output 4 |Wird mit dem Motor 2 verbunden.
 |15 |Input 4 |Kontrolliert Output 4. Muss mit einem Controller verbunden werden.
 |16 |Vcc 1 |Spannungsquelle für die Logik des Chips. Hier müssen 5V angelegt werden.
 |===

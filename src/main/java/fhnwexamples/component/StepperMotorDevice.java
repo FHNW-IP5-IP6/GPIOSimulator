@@ -7,7 +7,7 @@ import fhnwgpio.components.StepperMotorComponent;
 import fhnwgpio.components.helper.StepperMotorMode;
 
 /**
- * Example for the StepperMotorComponent Usage. This example initializes a new StepperMotorComponent object by using
+ * Example for the StepperMotorComponent usage. This example initializes a new StepperMotorComponent object by using
  * the constructor with the most default values. The initial stepper motor mode is set to the default value
  * 'SINGLE_STEP' and the step delay is set to the default value of 2 milliseconds. The stepper motor makes one full
  * turn forwards followed by one full turn backwards in every mode.  After each mode there is a 5 second pause.

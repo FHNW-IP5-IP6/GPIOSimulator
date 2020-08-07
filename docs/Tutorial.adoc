@@ -332,6 +332,10 @@ In diesem Kapitel finden Sie für eine Vielzahl an gängigen Sensoren und Aktuat
 === LED
 Leuchtdioden emmitieren Licht, sofern Strom duch sie fliesst. Wie bei allen Dioden lassen LEDs nur eine Flussrichtiung zu. Mit unserer LedComponent lässt sich der Status der LED kontrollieren. Über PWM kann zusätzlich die Helligkeit der LED eingestellt werden. 
 
+.LED
+[link=https://upload.wikimedia.org/wikipedia/commons/9/9e/Verschiedene_LEDs.jpg]
+image::led.jpg[width=75% LED]
+
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
@@ -369,7 +373,14 @@ Die blinkende LED ist das "Hello World"-Äquivalent der GPIO Programmierung. Uns
 include::{sourcedir}/fhnwexamples/component/LedDevice.java[tags=LedDevice]
 ----
 
-=== TODO: Button
+=== Button
+Buttons sind simple Sensoren. Der Sensor kann zwei Zustände haben. Entweder lässt er Strom fliessen oder er unterbricht die Leitung. Richtig verkabelt kann der jeweilige Wert an einem digitalen Pin des Raspberry Pi gelesen werden.
+
+Unsere Component-Klasse unterstützt sowohl Grove Buttons als auch Standard Buttons. Andere einfache digitale Sensoren mit zwei zuständen werden ebenfalls unterstützt wie Beispielsweise Grove Touch Sensoren.
+
+.Button
+[link=https://cdn.antratek.nl/media/product/03c/mini-push-button-switch-com-00097-1b3.jpg]
+image::push_button.png[width=75% Push Button]
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -382,9 +393,29 @@ Für die Verkabelung wird folgende Hardware benötigt:
 .Button Verkabelung 
 image::./fritzing/button_click.png[width=75% Button Wiring]
 
-==== Code Beispiel
+==== API
+.Button - Konstruktoren
+[cols="1,1"]
+|===
+|Konstruktor |Beschreibung
+|ButtonComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalInput pin) |Constructor for GPIO pins without value reversion.
+|ButtonComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalInput pin, boolean reverse) |Constructor for GPIO pins.
+|ButtonComponent(com.pi4j.util.Console console, GroveAdapter adapter) |Constructor for digital grove devices without value reversion.
+|ButtonComponent(com.pi4j.util.Console console, GroveAdapter adapter, boolean reverse) |Constructor for digital grove devices.
+|===
+
+.Button - Funktionen
+[cols="1,2,2"]
+|===
+|Rückgabetyp |Funktion |Beschreibung
+|boolean |isPressed() |Returns if the button is pressed.
+|boolean |isReleased() |Returns if the button is released.
+|void |	setReverse(boolean reverse) |This function allows the user to change the buttons behaviour.
+|===
 
 ==== Anwendungsbeispiel
+Das folgende Code Beispiel loggt den Zustand des Buttons bei jedem Zustandswechsel. Zwischen den einzelnen Messungen wird jeweils eine Pause von 10 Millisekunden eingelegt. Dies hat zwei Gründe. Einerseits gönnen wir dem Prozessor des Raspberry Pi etwas Pausenzeit, andererseits eliminieren wir Messfehler, welche durch die Vibration des betätigenden Fingers ausgelöst werden.
+
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/component/ButtonDevice.java[tags=ButtonDevice]
@@ -768,8 +799,44 @@ Wir der oben gezeigte Konstruktor genutzt, kann die LED über PWM gedimmt werden
 include::{sourcedir}/fhnwgpio/components/LedComponent.java[tags=LedComponentSetBrightness]
 ----
 
-=== TODO: Button
+=== Button
+Buttons gehören zu den Input Devices. Ein Button kann zwei Zustände annehmen. Entweder ist er gedrückt oder nicht gedrückt. Je nach Button Typ leitet er im gedrückten oder offenen Zustand Strom. Diesen Strom können wir an einem digitalen Input Pin des Raspberry Pi messen.
 
+Um sogenannte Floating Pins zu vermeiden, müssen Buttons mit einem Pulldown-Wiederstand an einen Input angeschlossen werden. Grove Buttons und Grove Touch Sensoren haben einen solchen Pulldown-Wiederstand bereits integriert.
+
+==== Pulldown-Wiederstand im Schaltbild
+Damit wir einen Button als Input Device verwenden können, müssen wir einen Pulldown-Wiederstand in unserer elektrischen Schaltung realisieren. Ein solcher Wiederstand garantiert uns immer einen sicheren Wert, welcher an unserem digitalen GPIO Input Pin anliegt.
+
+.Schaltbild Pulldown-Wiederstand
+[link=https://www.elektronik-kompendium.de/sites/raspberry-pi/2006051.htm]
+image::pulldown.gif[width=75% Pulldown Ressistor]
+
+Wie man im Schaltbild erkennen kann, liest der GPIO Pin bei offenem Schalter eine Spannung von 0V des Ground Pins. Bei geschlossenem Schalter liegt die volle Spannung von 3.3V am GPIO Pin an. Der Input Pin besitzt also immer einen fixen Zustand. Entweder ist er High oder Low.
+
+Würden wir +VCC direkt mit dem GPIO Pin verbinden und einen Schalter dazwischen positionieren, so würde bei geschlossenem Schalter 3.3V Spannung am GPIO Input Pin anliegen. Der Pin wäre High. Ist der Schalter jedoch offen, liegt kein klar definierter Wert am Pin an. Der Wert kann zwischen 0V und 3.3V variieren. Ein Pin in diesem Zustand wird als "Floating" bezeichnet.
+
+In unserem Beispiel verwenden wir einen Pulldown-Wiederstand von 10k Ohm. Zusätzlich schützen wir den Input Pin mit einem 1k Ohm Wiederstand, welcher in der oberen Grafik fehlt. Dieser 1k Ohm Wiederstand soll den Pin vor Programmierfehler schützen. Würde der GPIO Pin versehentlich als Output Pin im Programmcode deklariert werden, könnte dieser ohne den schützenden Wiederstand beschädigt werden.
+
+==== Pulldown-Wiederstand des Raspberry Pi
+Der Raspberry Pi besitzt einen internen Pulldown-Wiederstand, welcher via Software aktiviert werden kann. Dieser funktioniert prinzipiell gleich wie der von uns beschriebene Pulldown-Wiederstand im Schaltbild. Wir raten allerdings von der Verwendung des internen Pulldown-Wiederstandes ab. Diesen zu aktivieren kann schnell vergessen gehen. Im schlimmsten Fall führt dies dann zu einer Beschädigung des entsprechenden GPIO Pins.
+
+Mittels Pi4J kann ein digitaler Input Pin mit aktivem Pulldown-Wiederstand mittels folgender Code Zeile erzeugt werden:
+
+[source,java]
+----
+GpioPinDigitalInput pin = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_03, PinPullResistance.PULL_DOWN);
+----
+
+==== Zustand lesen
+Das Lesen des Inputs ist sehr simpel. Pi4J stellt uns Hierfür die Funktionen `isHigh()` sowie `isLow()` direkt auf dem `GpioPinDigitalInput` zur Verfügung. Mittels Inline If invertieren wir den Rückgabewert, sofern es sich um einen Button handelt, welcher im geschlossenen Zustand nicht gedrückt ist.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/ButtonComponent.java[tags=ButtonComponentIsPressed]
+----
+----
+include::{sourcedir}/fhnwgpio/components/ButtonComponent.java[tags=ButtonComponentIsReleased]
+----
 === TODO: Buzzer
 
 === Grove Serial Camera

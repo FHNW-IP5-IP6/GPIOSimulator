@@ -77,16 +77,20 @@ public class ButtonComponent {
      *
      * @return True if the button is pressed.
      */
+    // tag::ButtonComponentIsPressed[]
     public boolean isPressed() {
         return reverse ? !pin.isHigh() : pin.isHigh();
     }
+    // end::ButtonComponentIsPressed[]
 
     /**
      * Returns if the button is released.
      *
      * @return True if the button is released
      */
+    // tag::ButtonComponentIsReleased[]
     public boolean isReleased() {
         return reverse ? !pin.isLow() : pin.isLow();
     }
+    // end::ButtonComponentIsReleased[]
 }

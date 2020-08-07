@@ -124,7 +124,7 @@ public class Examples {
         deviceExamples.add(new StepperMotorDevice(9, "Stepper Motor example"));
         deviceExamples.add(new RFIDReader(10, "RFID Reader example"));
         deviceExamples.add(new ServoMotorDevice(11, "Servo Motor example"));
-        deviceExamples.add(new LEDStripDriver(12, "LED Strip Driver example"));
+        deviceExamples.add(new LedStripDriverDevice(12, "LED Strip Driver example"));
         deviceExamples.add(new UltraSonicRanger(13, "Ultra Sonic Ranger example"));
         deviceExamples.add(new LedDevice(14, "Led example"));
         deviceExamples.add(new ButtonDevice(15, "Button example"));

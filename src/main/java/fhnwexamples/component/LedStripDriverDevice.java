@@ -3,11 +3,11 @@ package fhnwexamples.component;
 import com.pi4j.io.gpio.*;
 import com.pi4j.util.Console;
 import fhnwexamples.Example;
-import fhnwgpio.components.LEDStripDriverComponent;
+import fhnwgpio.components.LedStripDriverComponent;
 import fhnwgpio.grove.GroveAdapter;
 
-public class LEDStripDriver extends Example {
-    public LEDStripDriver(int key, String title) {
+public class LedStripDriverDevice extends Example {
+    public LedStripDriverDevice(int key, String title) {
         super(key, title);
     }
 
@@ -24,7 +24,7 @@ public class LEDStripDriver extends Example {
             //Single LED-Strip Example:
             //This is a direct translation of the library written for Arduino, but we were not yet able to test it,
             // because we do not have 12 volt charger to run the LED Strip Driver
-            LEDStripDriverComponent ledStrip = new LEDStripDriverComponent(GroveAdapter.D16);
+            LedStripDriverComponent ledStrip = new LedStripDriverComponent(GroveAdapter.D16);
 
             ledStrip.begin();
             ledStrip.setColor(255, 0, 0);

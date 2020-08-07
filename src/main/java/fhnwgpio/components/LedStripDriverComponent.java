@@ -10,7 +10,7 @@ import fhnwgpio.grove.GroveAdapter;
 /**
  * FHNW implementation of the Grove Strip Driver.
  */
-public class LEDStripDriverComponent {
+public class LedStripDriverComponent {
     private Adapter adapter;
     private int dataPin, clkPin;
 
@@ -18,7 +18,7 @@ public class LEDStripDriverComponent {
      * Standard constructor of the LED Strip Driver that needs the Grove Adapter
      * @param groveAdapter Contains Information where the device is connected
      */
-    public LEDStripDriverComponent(GroveAdapter groveAdapter) {
+    public LedStripDriverComponent(GroveAdapter groveAdapter) {
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         this.adapter = groveAdapter.getAdapter();
         dataPin =   adapter.getLowerPin().getAddress();

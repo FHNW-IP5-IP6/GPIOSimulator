@@ -22,7 +22,7 @@ public class ButtonDevice extends Example {
         Console console = new Console();
 
         GpioPinDigitalInput pin = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_17);
-        ButtonComponent button = new ButtonComponent(pin);
+        ButtonComponent button = new ButtonComponent(console, pin);
 
         boolean lastStatePressed = false;
 

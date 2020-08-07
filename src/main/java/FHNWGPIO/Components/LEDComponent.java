@@ -68,6 +68,8 @@ public class LedComponent {
         } else {
             pin.high();
         }
+
+        console.println("LED on");
     }
     // end::LedComponentTurnLedOn[]
 
@@ -81,6 +83,8 @@ public class LedComponent {
         } else {
             pin.high();
         }
+
+        console.println("LED off");
     }
     // end::LedComponentTurnLedOff[]
 
@@ -103,6 +107,7 @@ public class LedComponent {
         }
 
         pwmPin.setPwm(brightness);
+        console.println("LED set to " + brightness + "% brightness");
     }
     // end::LedComponentSetBrightness[]
 }

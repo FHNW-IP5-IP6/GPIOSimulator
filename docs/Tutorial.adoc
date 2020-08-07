@@ -478,8 +478,7 @@ Für die Verkabelung wird folgende Hardware benötigt:
 .LCD I2C Modul Verkabelung 
 image::./fritzing/LCDI2C.png[width=75% I2C Wiring]
 
-==== API
-TODO
+==== TODO: API
 
 ==== Anwendungsbeispiel
 In diesem Code Beispiel wird der Titel des Projekts in der ersten Zeile angezeigt und die Uhrzeit in der Zweiten. Die Uhrzeit wird im Sekundentakt aktualisiert. +
@@ -487,6 +486,66 @@ In diesem Code Beispiel wird der Titel des Projekts in der ersten Zeile angezeig
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/component/LcdSystemTimeI2C.java[tags=LcdSystemTimeI2C]
+----
+
+=== Potentiometer
+Ein Potentiometer ist eine Art dynamischer Wiederstand, welcher durch das Drehen oder Verschieben eines Reglers vergrössert oder verkleinert werden kann. Der Grove Potentiometer gibt uns je nach eingestelltem Wiederstand einen Wert zwischen 0 und 1'000 zurück. Mit einem Potentiometer können wir also Werte einstellen, mit welchen wir dann einen Aktuator kontrollieren können. Zum Beispiel könnten wir mit einem Potentiometer die Helligkeit einer Leuchtdiode steuern.
+
+.Grove Potentiometer
+image::./Grove_Rotary_Angle_Sensor.jpg[width=75% Grove Rotary Angle Sensor]
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Grove Potentiometer mit Grove Adapter Kabel
+
+.Grove Potentiometer Verkabelung
+image::./fritzing/Grove_Base_Hat_Rotary_Angel_Sensor.jpg[width=75% Grove Rotary Angle Sensor Fritzing]
+
+==== API
+.Potentiometer - Konstruktoren
+[cols="1,1"]
+|===
+|Konstruktor |Beschreibung
+|PotentiometerComponent(GroveAdapter groveAdapter) |Constructor of the PotentiometerComponent with Grove adapter.
+|===
+
+.Potentiometer - Funktionen
+[cols="1,2,2"]
+|===
+|Rückgabetyp |Funktion |Beschreibung
+|int |getValue() |Get the current value from the potentiometer.
+|void |setRange(int minValue, int maxValue) |Set the value returned by getValue() to a specific range. The difference between minValue and MaxValue must be between 10 and 999.
+|===
+
+==== Anwendungsbeispiel
+Das Code Beispiel erzeugt ein neues `PotentiometerComponent`, welches am Grove Base Hat am analogen Adapter A0 anliegt. Mit der `setRange()` Funktion wird sichergestellt, dass die zurückgegebenen Werte zwischen 0 und 100 liegen. Der aktuelle Wert wird alle 500 Millisekunden geloggt.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/PotentiometerDevice.java[tags=PotentiometerDevice]
+----
+
+=== Grove RFID Reader
+Der Grove RFID Reader ist ein 125KHz RFID Reader, welches uem4100 RFID Karteninformationen seriell lesen kann. Die maximale Distanz zum Lesen beträgt 70mm. Die RFID Reader benötigt eine Spannung von 5 Volt, weshalb es nicht mit dem Grove Hat kompatibel ist, da dieser nur 3.3 Volt liefert. Es ist jedoch möglich es mit Kabeln direkt an den Pi zu verbinden, wie bei der Grove Serial Camera.
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Grove RFID Reader mit Grove Adapter Kabel
+* 4x Kabel
+
+.Serial Camera Verkabelung
+image::./fritzing/grove_rfid_reader.png[width=75% Grove RFID Reader Fritzing]
+
+==== TODO: API
+
+==== Anwendungsbeispiel
+In diesem Code Beispiel wird der Grove RFID Reader getestet. Das serielle Gerät wird initialisiert und ein Listener wird hinzugefügt, der die `dataReceived()` Methode des `SerialDataEventListener` überschreibt. Diese Methode wird immer ausgeführt, wenn der RFID Reader Daten durch einen RFID Tag erhält. +
+*Vorkenntnisse: Intermediate*
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/RFIDReader.java[tags=RFIDReader]
 ----
 
 === DC Motor
@@ -535,51 +594,116 @@ Das Code Beispiel erzeugt ein neues `MotorComponent`. Bei der Erstellung wird je
 
 In einer While-Schlaufe wird die Drehzahl des vorwärts drehenden Motors schrittweise um 10% erhöht. Nachdem 100% Leistung erreicht wurde, stoppt der Motor für 5 Sekunden. Anschliessend wird die Drehrichtung des Motors umgekehrt. Der Motor dreht nun rückwärts und die Drehzahl wird wiederum schrittweise um je 10% inkrementiert.
 
-
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/component/MotorDevice.java[tags=MotorDevice]
 ----
 
-=== Potentiometer
-Ein Potentiometer ist eine Art dynamischer Wiederstand, welcher durch das Drehen oder Verschieben eines Reglers vergrössert oder verkleinert werden kann. Der Grove Potentiometer gibt uns je nach eingestelltem Wiederstand einen Wert zwischen 0 und 1'000 zurück. Mit einem Potentiometer können wir also Werte einstellen, mit welchen wir dann einen Aktuator kontrollieren können. Zum Beispiel könnten wir mit einem Potentiometer die Helligkeit einer Leuchtdiode steuern.
+=== Stepper Motor
+Der Stepper Motor oder Schrittmotor rotiert die in seiner Mitte liegende Welle in Schritten. Die Welle eines Schrittmotors dreht sich im Vergleich zu jener eines Gleichstrommotors sehr langsam. Dafür kann der Schrittmotor sehr genau gesteuert werden. Je nach eingestelltem Modus variiert die Anzahl der Schritte, welche für eine gesamte Drehung benötigt werden. Der Modus beeinflusst auch die Kraft, welcher der Motor hat und hat Zusammenhang mit dem resultierenden Energieverbrauch des Motors.
 
-.Grove Potentiometer
-image::./Grove_Rotary_Angle_Sensor.jpg[width=75% Grove Rotary Angle Sensor]
+In der unten abgebildeten Tabelle beziehen wir uns auf den weit verbreiteten Schrittmotor 28BYJ-48. Eine Drehung des Zylinders innerhalb des Motors resultiert in einer Drehung der Welle um 11.25°. Für eine Komplette Drehung werden also 360° / 11.25° = 32 Schritte benötigt. Ein Getriebe innerhalb des Motors reduziert einen einzelnen Schritt in weitere 64 Steps. Unter Verwendung des Full oder Dual Stepping bedeutet ein einzelner Step also eine Drehung um 360° / (32 * 64) = 0.17578125°. Bei Half Stepping verdoppelt sich die Anzahl der möglichen Schritte, was eine Drehgenauigkeit von 0.087890625° zulässt.
+
+.Stepper Motor Modi
+[cols="1,2,1,1,1"]
+|===
+|*Typ* |*Enum Attribut* | *Schritte pro 360°* |*Energie* | *Kraft*
+|Half Stepping |StepperMotorMode.HALF_STEP |4096 | ca. 1.5x | 110% bis 120%
+|Single Stepping |StepperMotorMode.SINGLE_STEP |2048 |1x | 100%
+|Dual Stepping |StepperMotorMode.DOUBLE_STEP |2048 |2x | 130% bis 140%
+|===
+
+Auf YouTube findet ihr ein sehr informatives Video von Gaven MacDonald über die Funktionsweise eines Stepper Motors. https://www.youtube.com/watch?v=Dc16mKFA7Fo
+
+.Stepper Motor Verkabelung 
+image::./stepper_motor_and_driver.png[width=75% RaspiCam Wiring]
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
-* 1x Grove Potentiometer mit Grove Adapter Kabel
+* 1x Steper Motor
+* 1x ULN2003APG Stepper Treiber
+* 8x Kabel
 
-.Grove Potentiometer Verkabelung
-image::./fritzing/Grove_Base_Hat_Rotary_Angel_Sensor.jpg[width=75% Grove Rotary Angle Sensor Fritzing]
+.Stepper Motor Verkabelung 
+image::./fritzing/stepper_motor.png[width=75% RaspiCam Wiring]
 
 ==== API
-.Potentiometer - Konstruktoren
+.Stepper Motor - Konstruktoren
 [cols="1,1"]
 |===
 |Konstruktor |Beschreibung
-|PotentiometerComponent(GroveAdapter groveAdapter) |Constructor of the PotentiometerComponent with Grove adapter.
+|StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4) |Constructor which uses the default value of 2 milliseconds for the step delay and the default stepper motor mode 'SINGLE_STEP'.
+|StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay) |Constructor which uses the default value 'SINGLE_STEP' for the stepper motor mode.
+|StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay, StepperMotorMode mode) |Constructor which allows to specify all the different Parameters.
+|StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, StepperMotorMode mode) |Constructor which uses the default value of 2 milliseconds for the step delay.
 |===
 
-.Potentiometer - Funktionen
+.Stepper Motor - Funktionen
 [cols="1,2,2"]
 |===
 |Rückgabetyp |Funktion |Beschreibung
-|int |getValue() |Get the current value from the potentiometer.
-|void |setRange(int minValue, int maxValue) |Set the value returned by getValue() to a specific range. The difference between minValue and MaxValue must be between 10 and 999.
+|StepperMotorMode |getMode() |
+|int |getStepDelay() |Getter of the step delay value.
+|void |	setMode(StepperMotorMode mode) |Setter of the stepper motor mode value.
+|void |setStepDelay(int stepDelay) |Setter of the step delay value.
+|void |stepBackwards(int steps) |Step the stepper motor backwards using the currently set mode for a specific amount of steps.
+|void |stepForwards(int steps) |Step the stepper motor forwards using the currently set mode for a specific amount of steps.
+|void |stop() |This methods stops the motor and clears the magnetic field.
 |===
 
 ==== Anwendungsbeispiel
-Das Code Beispiel erzeugt ein neues `PotentiometerComponent`, welches am Grove Base Hat am analogen Adapter A0 anliegt. Mit der `setRange()` Funktion wird sichergestellt, dass die zurückgegebenen Werte zwischen 0 und 100 liegen. Der aktuelle Wert wird alle 500 Millisekunden geloggt.
+Das unten abgebildete Beispiel zeigt die Verwendung der verschiedenen Stepper Motor Modi. Das Beispiel verwendet den Konstruktor mit den meisten Default Values. Die Step Delay beträgt also 2 Millisekunden und der Modus wird initial auf `StepperMotorMode.SINGLE_STEP` gesetzt. Nach der Initialisierung wird der Motor in den verschiedenen Modi vorwärts und zurück gedreht. Vor jedem Wechsel in einen anderen Modus wird fünf Sekunden gewartet.
 
 [source,java]
 ----
-include::{sourcedir}/fhnwexamples/component/PotentiometerDevice.java[tags=PotentiometerDevice]
+include::{sourcedir}/fhnwexamples/component/StepperMotorDevice.java[tags=StepperMotorDevice]
 ----
 
-=== Serial Camera
+=== Servo Motor
+Mittels Servo Motoren können spezifische Winkelpositionen eingestellt und gehalten werden. Positionen können dabei zügig gewechselt werden. Die meisten Servo Motoren erlauben Winkel zwischen 0 und 180 Grad. Der einzustellende Winkel wird dabei über PWM gesteuert. Genauer gesagt über dessen Pulslänge.
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Tower Pro Micro Servo 9g SG90
+* 3x Kabel
+
+.Servo Motor Verkabelung
+image::./fritzing/servo_motor.png[width=75% Servo Motor Fritzing]
+
+==== API
+.Servo Motor - Konstruktoren
+[cols="1,1"]
+|===
+|Konstruktor |Beschreibung
+|ServoMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pin) |Constructor with default value for pulseMin = 500, pulseMax = 2400 and maxDegrees = 180.
+|ServoMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pin, int pulseMin, int pulseMax) |Constructor with default value for maxDegrees of 180 degrees.
+|ServoMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pin, int pulseMin, int pulseMax, int maxDegrees) |Constructor with all possible values.
+|===
+
+.Servo Motor - Funktionen
+[cols="1,2,2"]
+|===
+|Rückgabetyp |Funktion |Beschreibung
+|void |setCenter() |Sets the servo to its center position
+|void |setMax() |Sets the servo to its maximal position
+|void |setMin() |Sets the servo to its minimal position
+|void |setPosition(int pulse) |Sets the servo position to a specific pulse high time in microseconds
+|void |setPositionDegrees(int degree) |Sets the servo position to a desired angle in degrees
+|===
+
+==== Anwendungsbeispiel
+Das unten abgebildete Beispiel zeigt die Verwendung unserer ServoMotorComponent. Es benutzt den Konstruktor mit den meisten Standardwerten. Dieser eignet sich für die meisten 180° Mini und Micro Servos.
+
+In einem while-Loop wird der Motor zuerst auf die kleinstmögliche Position gesetzt. Anschliessend setzen wir die Position des Motors auf dessen Mitte und im Anschluss auf die maximale Position. Zwischen den einzelnen Positionswechsel macht das Programm jeweils eine Sekunde Pause. Nun wird der Motor auf seine Ausgangsposition zurückgesetzt und Grad für Grad bis zum Maximum von 180° gedreht.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/ServoMotorDevice.java[tags=ServoMotorDevice]
+----
+
+=== Grove Serial Camera
 Die Grove Serial Camera besteht aus einem Kamera Modul und einem Control Board, welches die Kommunikation zwischen der Kamera und dem Raspberry Pi über den Serial Bus ermöglicht. Die Kamera benötigt eine Spannung von 5 Volt, weshalb sie leider nicht mit unserem Grove Hat kompatibel ist. Dieser liefert nur 3.3 Volt an die Grove Adapter. Um die Kamera dennoch nutzen zu können, muss sie via Jumper Kabel an den Serial Port des Raspberry Pi angeschlossen werden. Weitere Informationen zur Verkabelung können dem Tutorial entnommen werden.
 
 .Grove Serial Camera
@@ -664,133 +788,6 @@ In diesem Code Beispiel wird die Raspberry Pi Camera mit der `RaspberryPiCameraC
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/component/RaspberryPiCamera.java[tags=RaspberryPiCamera]
-----
-
-=== Grove RFID Reader
-Der Grove RFID Reader ist ein 125KHz RFID Reader, welches uem4100 RFID Karteninformationen seriell lesen kann. Die maximale Distanz zum Lesen beträgt 70mm. Die RFID Reader benötigt eine Spannung von 5 Volt, weshalb es nicht mit dem Grove Hat kompatibel ist, da dieser nur 3.3 Volt liefert. Es ist jedoch möglich es mit Kabeln direkt an den Pi zu verbinden, wie bei der Grove Serial Camera.
-
-==== Verkabelung
-Für die Verkabelung wird folgende Hardware benötigt:
-
-* 1x Grove RFID Reader mit Grove Adapter Kabel
-* 4x Kabel
-
-.Serial Camera Verkabelung
-image::./fritzing/grove_rfid_reader.png[width=75% Grove RFID Reader Fritzing]
-
-==== API
-TODO
-
-==== Anwendungsbeispiel
-In diesem Code Beispiel wird der Grove RFID Reader getestet. Das serielle Gerät wird initialisiert und ein Listener wird hinzugefügt, der die `dataReceived()` Methode des `SerialDataEventListener` überschreibt. Diese Methode wird immer ausgeführt, wenn der RFID Reader Daten durch einen RFID Tag erhält. +
-*Vorkenntnisse: Intermediate*
-[source,java]
-----
-include::{sourcedir}/fhnwexamples/component/RFIDReader.java[tags=RFIDReader]
-----
-
-=== Servo Motor
-Mittels Servo Motoren können spezifische Winkelpositionen eingestellt und gehalten werden. Positionen können dabei zügig gewechselt werden. Die meisten Servo Motoren erlauben Winkel zwischen 0 und 180 Grad. Der einzustellende Winkel wird dabei über PWM gesteuert. Genauer gesagt über dessen Pulslänge.
-
-==== Verkabelung
-Für die Verkabelung wird folgende Hardware benötigt:
-
-* 1x Tower Pro Micro Servo 9g SG90
-* 3x Kabel
-
-.Servo Motor Verkabelung
-image::./fritzing/servo_motor.png[width=75% Servo Motor Fritzing]
-
-==== API
-.Servo Motor - Konstruktoren
-[cols="1,1"]
-|===
-|Konstruktor |Beschreibung
-|ServoMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pin) |Constructor with default value for pulseMin = 500, pulseMax = 2400 and maxDegrees = 180.
-|ServoMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pin, int pulseMin, int pulseMax) |Constructor with default value for maxDegrees of 180 degrees.
-|ServoMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pin, int pulseMin, int pulseMax, int maxDegrees) |Constructor with all possible values.
-|===
-
-.Servo Motor - Funktionen
-[cols="1,2,2"]
-|===
-|Rückgabetyp |Funktion |Beschreibung
-|void |setCenter() |Sets the servo to its center position
-|void |setMax() |Sets the servo to its maximal position
-|void |setMin() |Sets the servo to its minimal position
-|void |setPosition(int pulse) |Sets the servo position to a specific pulse high time in microseconds
-|void |setPositionDegrees(int degree) |Sets the servo position to a desired angle in degrees
-|===
-
-==== Anwendungsbeispiel
-Das unten abgebildete Beispiel zeigt die Verwendung unserer ServoMotorComponent. Es benutzt den Konstruktor mit den meisten Standardwerten. Dieser eignet sich für die meisten 180° Mini und Micro Servos.
-
-In einem while-Loop wird der Motor zuerst auf die kleinstmögliche Position gesetzt. Anschliessend setzen wir die Position des Motors auf dessen Mitte und im Anschluss auf die maximale Position. Zwischen den einzelnen Positionswechsel macht das Programm jeweils eine Sekunde Pause. Nun wird der Motor auf seine Ausgangsposition zurückgesetzt und Grad für Grad bis zum Maximum von 180° gedreht.
-
-[source,java]
-----
-include::{sourcedir}/fhnwexamples/component/ServoMotorDevice.java[tags=ServoMotorDevice]
-----
-
-=== Stepper Motor
-Der Stepper Motor oder Schrittmotor rotiert die in seiner Mitte liegende Welle in Schritten. Die Welle eines Schrittmotors dreht sich im Vergleich zu jener eines Gleichstrommotors sehr langsam. Dafür kann der Schrittmotor sehr genau gesteuert werden. Je nach eingestelltem Modus variiert die Anzahl der Schritte, welche für eine gesamte Drehung benötigt werden. Der Modus beeinflusst auch die Kraft, welcher der Motor hat und hat Zusammenhang mit dem resultierenden Energieverbrauch des Motors.
-
-In der unten abgebildeten Tabelle beziehen wir uns auf den weit verbreiteten Schrittmotor 28BYJ-48. Eine Drehung des Zylinders innerhalb des Motors resultiert in einer Drehung der Welle um 11.25°. Für eine Komplette Drehung werden also 360° / 11.25° = 32 Schritte benötigt. Ein Getriebe innerhalb des Motors reduziert einen einzelnen Schritt in weitere 64 Steps. Unter Verwendung des Full oder Dual Stepping bedeutet ein einzelner Step also eine Drehung um 360° / (32 * 64) = 0.17578125°. Bei Half Stepping verdoppelt sich die Anzahl der möglichen Schritte, was eine Drehgenauigkeit von 0.087890625° zulässt.
-
-.Stepper Motor Modi
-[cols="1,2,1,1,1"]
-|===
-|*Typ* |*Enum Attribut* | *Schritte pro 360°* |*Energie* | *Kraft*
-|Half Stepping |StepperMotorMode.HALF_STEP |4096 | ca. 1.5x | 110% bis 120%
-|Single Stepping |StepperMotorMode.SINGLE_STEP |2048 |1x | 100%
-|Dual Stepping |StepperMotorMode.DOUBLE_STEP |2048 |2x | 130% bis 140%
-|===
-
-Auf YouTube findet ihr ein sehr informatives Video von Gaven MacDonald über die Funktionsweise eines Stepper Motors. https://www.youtube.com/watch?v=Dc16mKFA7Fo
-
-.Stepper Motor Verkabelung 
-image::./stepper_motor_and_driver.png[width=75% RaspiCam Wiring]
-
-==== Verkabelung
-Für die Verkabelung wird folgende Hardware benötigt:
-
-* 1x Steper Motor
-* 1x ULN2003APG Stepper Treiber
-* 8x Kabel
-
-.Stepper Motor Verkabelung 
-image::./fritzing/stepper_motor.png[width=75% RaspiCam Wiring]
-
-==== API
-.Stepper Motor - Konstruktoren
-[cols="1,1"]
-|===
-|Konstruktor |Beschreibung
-|StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4) |Constructor which uses the default value of 2 milliseconds for the step delay and the default stepper motor mode 'SINGLE_STEP'.
-|StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay) |Constructor which uses the default value 'SINGLE_STEP' for the stepper motor mode.
-|StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay, StepperMotorMode mode) |Constructor which allows to specify all the different Parameters.
-|StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, StepperMotorMode mode) |Constructor which uses the default value of 2 milliseconds for the step delay.
-|===
-
-.Stepper Motor - Funktionen
-[cols="1,2,2"]
-|===
-|Rückgabetyp |Funktion |Beschreibung
-|StepperMotorMode |getMode() |
-|int |getStepDelay() |Getter of the step delay value.
-|void |	setMode(StepperMotorMode mode) |Setter of the stepper motor mode value.
-|void |setStepDelay(int stepDelay) |Setter of the step delay value.
-|void |stepBackwards(int steps) |Step the stepper motor backwards using the currently set mode for a specific amount of steps.
-|void |stepForwards(int steps) |Step the stepper motor forwards using the currently set mode for a specific amount of steps.
-|void |stop() |This methods stops the motor and clears the magnetic field.
-|===
-
-==== Anwendungsbeispiel
-Das unten abgebildete Beispiel zeigt die Verwendung der verschiedenen Stepper Motor Modi. Das Beispiel verwendet den Konstruktor mit den meisten Default Values. Die Step Delay beträgt also 2 Millisekunden und der Modus wird initial auf `StepperMotorMode.SINGLE_STEP` gesetzt. Nach der Initialisierung wird der Motor in den verschiedenen Modi vorwärts und zurück gedreht. Vor jedem Wechsel in einen anderen Modus wird fünf Sekunden gewartet.
-
-[source,java]
-----
-include::{sourcedir}/fhnwexamples/component/StepperMotorDevice.java[tags=StepperMotorDevice]
 ----
 
 == Beispielprojekt
@@ -878,6 +875,7 @@ include::{sourcedir}/fhnwgpio/components/ButtonComponent.java[tags=ButtonCompone
 ----
 include::{sourcedir}/fhnwgpio/components/ButtonComponent.java[tags=ButtonComponentIsReleased]
 ----
+
 === Buzzer
 Damit ein Buzzer einen Ton abspielt, muss ein bestimmtes PWM Signal anliegen. Das Signal versetzt eine Platte im Inneren des Buzzers in Schwingungen. Die daraus entstehenden Schallwellen generieren den Ton, welchen wir hören können.
 
@@ -903,59 +901,7 @@ Ein Ton besteht aus einer Frequenz, welche über eine bestimmte Dauer wiedergege
 include::{sourcedir}/fhnwgpio/components/BuzzerComponent.java[tags=BuzzerComponentPlayTone]
 ----
 
-=== Grove Serial Camera
-Die Grove Serial Camera ist eines der komplexeren Devices, welches von unserer Library unterstützt wird. Zur Kommunikation über den Serial Bus wird ein spezielles Protokoll eingesetzt. In den folgenden Unterkapiteln finden Sie weitere Informationen zu jenem Protokoll und unserer Implementation davon.
-
-==== Protokoll
-Die Datenübermittlung zwischen Kamera und Pi erfolgt über den Serial Bus und das OV528 Protokoll. Die einzelnen Kommandos umfassen jeweils 6 Bytes, welche zusammen als Paket übermittelt werden. Das nachfolgende Beispiel zeigt das SYNC Kommando, welches jeweils zu Beginn der Kommunikation vom Pi ausgesendet wird. Folgende Bytes werden übermittelt: AA0D00000000h.
-
-.SYNC Kommando
-image::Grove_Serial_Camera_SYNC_Command.png[500, 500, Grove Serial Camera SYNC]
-
-==== Verbindung mit der Kamera aufbauen
-Bevor Befehle an die Kamera gesendet werden können, muss eine Verbindung zwischen Kamera und Raspberry Pi etabliert werden. Dazu wird vom Host mehrmals ein SYNC Kommando auf den Serial Port geschrieben und auf eine Antwort von der Kamera gewartet. Durchschnittlich antwortet die Kamera nach 25 SYNC Kommandos mit einem ACK (AA0E0Dxx0000h). Auf die Empfangsbestätigung folgt das Kommando, welches die Kamera bestätigt. In diesem Fall das SYNC Kommando (AA0D00000000h). Gibt die Kamera nach 60 SYNC Befehlen noch immer keine Antwort, kann davon ausgegangen werden, dass etwas mit der Verkabelung der Kamera nicht stimmt oder der Controller der Kamera defekt ist.
-
-.Verbindungsaufbau
-image::Grove_Serial_Camera_Initialisation.png[500, 500, Grove Serial Camera Connection]
-
-In unserer Java Klasse haben wir den Verbindungsaufbau in einer eigenen Funktion realisiert, welche vom jeweiligen Konstruktor aufgerufen wird. In einer While-Schlaufe wird das SYNC Kommando solange an die Kamera gesendet, bis diese eine Antwort auf den Serial Bus geschrieben hat. Ist dies nach 60 Versuchen nicht der Fall, wird die Initialisierung mit einem Fehler abgebrochen. Hat die Kamera eine Antwort gesendet, wird diese auf Ihre Korrektheit überprüft. Die ersten sechs Bytes müssen dem ACK Kommando entsprechen (AA0E0Dxx0000h). Bei den nächsten sechs Bytes muss es sich um das SYNC Kommando handeln (AA0D00000000h). Sofern dies der Fall ist, war der Verbindungsaufbau erfolgreich. Die Kamera ist nun bereit für die Entgegennahme von weiteren Befehlen.
-
-[source,java]
-----
-include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialCamInit]
-----
-
-==== JPEG Foto anfordern
-Nach dem erfolgreichen Verbindungsaufbau ist die Kamera bereit für das Schiessen von Bildern. Unsere Implementation stellt Bilder im JPEG Format in der Auflösung 640 x 480 zur Verfügung. Hierbei handelt es sich um die maximale Auflösung der Kamera. Theoretisch können auch Bilder in anderen Grössen und Formaten von der Kamera angefordert werden. Diese Formate werden von uns jedoch nicht unterstützt.
-
-Um ein Bild von der Kamera zu erhalten, sind mehrere einzelne Schritte, Befehle und Bestätigungen nötig. Diese sind im folgenden Diagramm ersichtlich.
-
-.Ablauf der Bildanforderung
-image::Grove_Serial_Camera_Get_Picture.png[500, 500, Grove Serial Camera Get Picture]
-
-==== Bildgrösser ermitteln
-Zur Ermittlung der Bildgrösse wird die gewünschte Paketgrösse der einzelnen Pakete benötigt. Die Paketgrösse kann vom Anwender im Bereich von 16 bis 2048 Bits definiert werden. Die Default Paketgrösse ist 512 Bits.
-
-Als erster Schritt wird die zuvor definierte gewünschte Paketgrösse an die Kamera gesendet und es wird auf eine Empfangsbestätigung der Kamera gewartet.
-
-Anschliessend wird das Snapshot Kommando an die Kamera gesendet. Dieses Kommando bereitet die Kamera auf das Erzeugen eines Bildes vor. Auch hier wird wieder auf eine Empfangsbestätigung der Kamera gewartet.
-
-Zu guter Letzt wird der Befehl zur JPEG Generierung an die Kamera übermittelt. Die Kamera antwortet auf dieses Kommando mit einer Empfangsbestätigung gefolgt von der Anzahl Bytes des Bildes, welches geschossen wurde.
-
-[source,java]
-----
-include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialCamGetPictureLength]
-----
-
-==== Bild Pakete empfangen
-Nachdem die Bildgrösse von der Kamera ermittelt wurde, kann der Host Paket für Paket von der Kamera über den Serial Bus anfordern. Wir fordern solange Pakete von der Kamera an, bis wir das letzte Paket von der Kamera erhalten haben. Das letzte Paket erkennen wir anhand der letzten zwei Bytes. Handelt es sich bei diesen um 0xFF gefolgt von 0xD9, wurde das komplette JPEG übermittelt. Bei den zwei Bytes handelt es sich nämlich um den Footer eines jeden JPEGs.
-
-Da es bei der Übermittlung von Paketen immer zu Fehlern kommen kann, stellt das OV528 Protokoll einen Kontrollmechanismus zur Verfügung, über welchen Fehler identifiziert werden können. Bei den zwei letzten Bytes eines jeden Pakets handelt es sich um eine Prüfsumme, mit welchen die übermittelten Bilddaten überprüft werden können. Die Prüfsumme muss exakt der Summe der einzelnen übermittelten Bytes entsprechen. Ist dies der Fall, fordern wir das nächste Paket von der Kamera an. Stimmt die Prüfsumme jedoch nicht mit der Summe aller Bild-Bytes überein, fordern wir das fehlerhafte Paket erneut von der Kamera an. Damit kann sichergestellt werden, dass das erhaltene Bild immer fehlerfrei ist.
-
-[source,java]
-----
-include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialCamGetPicture]
-----
+=== TODO: LCD I2C
 
 === Potentiometer
 Das Grove Potentiometer wird über einen der analogen Ports an den Grove Base Hat angeschlossen. Der Grove Base Hat stellt die gelesenen oder zu schreibenden Werte über den I2C Bus dem Raspberry Pi zur Verfügung.
@@ -983,6 +929,8 @@ Der aktuelle Value des Potentiometers kann über die `getValue()` Funktion geles
 ----
 include::{sourcedir}/fhnwgpio/components/PotentiometerComponent.java[tags=PotentiometerComponentGetValue]
 ----
+
+=== TODO: Grove RFID Reader
 
 === DC Motor
 Gleichstrommotoren können mittels dem ihnen zur Verfügung gestellten Strom in ihrer Drehrichtung und Drehzahl reguliert werden. Diese Eigenschaft haben wir uns zu Nutzen gemacht, um unsere Component Klasse zu implementieren.
@@ -1061,53 +1009,6 @@ Der Raspberry Pi stellt zwei Hardware PWM Pins zur Verfügung. Dabei handelt es 
 include::{sourcedir}/fhnwgpio/components/MotorComponent.java[tags=MotorComponentMoveForwardsPwm]
 ----
 
-=== Servo Motor
-Mit Servo Motoren lassen sich Winkel präzise einstellen und halten. Gängige Servo Motoren erlauben das Einstellen von Winkeln zwischen 0 und 180 Grad. Der Wechsel zwischen einzelnen Positionen erfolgt sehr zügig. Gesteuert wird die Position der Welle über ein PWM Signal. Unsere Klasse unterstützt dabei die Hardware PWM Pins des Raspberry Pi. Software PWM Signale unterstützen wir bewusst nicht. Diese sind meist zu ungenau und sind deshalb nicht für die Steuerung von Servo Motoren geeignet.
-
-==== Steuerung über PWM
-Die Mehrheit aller Servo Motoren benötigt für dessen Steuerung einen 50 Hertz PWM Puls, was einem Zyklus alle 20 Millisekunden entspricht. Mittels WiringPi können wir die gewünschte Frequenz ziemlich einfach einstellen.
-
-Der Raspberry Pi Prozessor liefert uns eine Basis-Frequenz von 19.2 MHZ. Diese müssen wir nun auf 50 Hertz reduzierten. Dies erreichen wir über die folgenden Einstellungen.
-
-[source,java]
-----
-include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPWMFrequency]
-----
-
-Durch die getätigten Einstellungen errechnet der Pi die PWM Frequenz 19.2 MHZ / 192 / 2000 = 50 HZ. Mit dieser Frequenz können wir nun weiterarbeiten.
-
-Servo Motoren lassen sich nun über die sogenannte Pulslänge steuern. Die Pulslänge enspricht der HIGH Time eines einzelnen Pulses. Die meisten Mini und Micro Servo Motoren können über Pulslängen von 500 Mikro Sekunden bis 2400 Mikro Sekunden positioniert werden. Die genauen Werte können jedoch im Data Sheet des jeweiligen Servos gefunden werden. Kleinere Pulslängen entsprechen dabei kleineren Winkeln. Die Position verhält sich immer linear zur Pulslänge.
-
-.Beispiele Pulslänge
-[cols="1,1"]
-|===
-|*Winkel in Grad* |*Pulslänge in Mikro Sekunden*
-|0 | 500
-|45 |975
-|90 |1450
-|135 |1925
-|180 |2400
-|===
-
-Leider können wir die Pulslänge nicht direkt in Mikro Sekunden an den Hardware PWM Pin weitergeben. Wir müssen die Value zuerst um den Faktor 10 reduzieren. WiringPi erlaubt nämlich nur das Setzen von Werten in einer Range von 0 bis 1024.
-
-[source,java]
-----
-include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPosition]
-----
-
-----
-include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPWM]
-----
-
-==== Winkel setzen
-Unsere Hilfsklasse untersützt das Setzen von gewünschen Servo Motor Positionen via gewünschtem Zielwinkel. Mit der Funktion `setPositionDegrees()` können Winkel auf einen Grad genau gesetzt werden, sofern der verwendete Servo dies ebenfalls unterstützt. Unterstützt der verwendete Servo dies nicht, können wir den Winkel nicht garantieren.
-
-[source,java]
-----
-include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPositionDegrees]
-----
-
 === Stepper Motor
 Schrittmotoren bestehen aus mehreren Spulen, welche um die in ihrer Mitte liegenden Welle angeordnet sind. Die Welle wird von einem Zylinder umschlossen, welcher abwechselnd mit positiven und negativen Polen versehen ist. Sobald durch eine Spule Strom fliesst, erzeugt diese ein Magnetfeld, nach welchem sich die Pole im Zylinder der Welle ausrichten. Somit kann die Welle gedreht werden.
 
@@ -1166,6 +1067,7 @@ Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müsse
 
 Implementation des Modus als Byte Array in unserer Component Klasse:
 
+[source,java]
 ----
 include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentDoubleStepping]
 ----
@@ -1191,6 +1093,7 @@ Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müsse
 
 Implementation des Modus als Byte Array in unserer Component Klasse:
 
+[source,java]
 ----
 include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentHalfStepping]
 ----
@@ -1202,12 +1105,14 @@ In einem nächsten Schritt müssen die einzelnen Pins gemäss dem aktuellen `ele
 
 Zu guter Letzt setzen wir noch die lokale Variabel `currentPosition`. Diese ist für Richtungsänderungen und das saubere Laufen des Motors relevant.
 
+[source,java]
 ----
 include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentStep]
 ----
 
 Die `getElement()` Funktion gibt das aktuelle Element im Array des aktuellen Modus zurück. Dabei wir auch die aktuelle Drehrichtung des Motors berücksichtigt. Die Variabel `currentPosition` enthält die Position im Array, welcher der Motor vor dem nächsten Drehbefehl hatte. So stellen wir sicher, dass der Motor zwischen zwei einzelnen Befehlen niemals ruckelt (einzelne Steps überspringt).
 
+[source,java]
 ----
 include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentGetElement]
 ----
@@ -1215,6 +1120,7 @@ include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=Stepper
 ==== Drehrichtung ändern
 In der lokalen Variable `currentPosition` speichern wir die aktuelle Position des Motors im Array des aktuellen Modi. Beim Drehen des Motors müssen wir die Variable neu berechnen, da wir beim Ändern der Drehrichtung einen seperaten Array verwenden. Dieser entspricht dem gespiegelten original Array des jeweiligen Modus.
 
+[source,java]
 ----
 include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentHalfStepping]
 include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentRevHalfStepping]
@@ -1222,11 +1128,112 @@ include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=Stepper
 
 Die neue Position entspricht der Länge des Array des aktuellen Modus reduziert um 1 minus der aktuellen Position im Array.
 
+[source,java]
 ----
 include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentShiftPosition]
 ----
 
-<<<
+=== Servo Motor
+Mit Servo Motoren lassen sich Winkel präzise einstellen und halten. Gängige Servo Motoren erlauben das Einstellen von Winkeln zwischen 0 und 180 Grad. Der Wechsel zwischen einzelnen Positionen erfolgt sehr zügig. Gesteuert wird die Position der Welle über ein PWM Signal. Unsere Klasse unterstützt dabei die Hardware PWM Pins des Raspberry Pi. Software PWM Signale unterstützen wir bewusst nicht. Diese sind meist zu ungenau und sind deshalb nicht für die Steuerung von Servo Motoren geeignet.
+
+==== Steuerung über PWM
+Die Mehrheit aller Servo Motoren benötigt für dessen Steuerung einen 50 Hertz PWM Puls, was einem Zyklus alle 20 Millisekunden entspricht. Mittels WiringPi können wir die gewünschte Frequenz ziemlich einfach einstellen.
+
+Der Raspberry Pi Prozessor liefert uns eine Basis-Frequenz von 19.2 MHZ. Diese müssen wir nun auf 50 Hertz reduzierten. Dies erreichen wir über die folgenden Einstellungen.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPWMFrequency]
+----
+
+Durch die getätigten Einstellungen errechnet der Pi die PWM Frequenz 19.2 MHZ / 192 / 2000 = 50 HZ. Mit dieser Frequenz können wir nun weiterarbeiten.
+
+Servo Motoren lassen sich nun über die sogenannte Pulslänge steuern. Die Pulslänge enspricht der HIGH Time eines einzelnen Pulses. Die meisten Mini und Micro Servo Motoren können über Pulslängen von 500 Mikro Sekunden bis 2400 Mikro Sekunden positioniert werden. Die genauen Werte können jedoch im Data Sheet des jeweiligen Servos gefunden werden. Kleinere Pulslängen entsprechen dabei kleineren Winkeln. Die Position verhält sich immer linear zur Pulslänge.
+
+.Beispiele Pulslänge
+[cols="1,1"]
+|===
+|*Winkel in Grad* |*Pulslänge in Mikro Sekunden*
+|0 | 500
+|45 |975
+|90 |1450
+|135 |1925
+|180 |2400
+|===
+
+Leider können wir die Pulslänge nicht direkt in Mikro Sekunden an den Hardware PWM Pin weitergeben. Wir müssen die Value zuerst um den Faktor 10 reduzieren. WiringPi erlaubt nämlich nur das Setzen von Werten in einer Range von 0 bis 1024.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPosition]
+----
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPWM]
+----
+
+==== Winkel setzen
+Unsere Hilfsklasse untersützt das Setzen von gewünschen Servo Motor Positionen via gewünschtem Zielwinkel. Mit der Funktion `setPositionDegrees()` können Winkel auf einen Grad genau gesetzt werden, sofern der verwendete Servo dies ebenfalls unterstützt. Unterstützt der verwendete Servo dies nicht, können wir den Winkel nicht garantieren.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPositionDegrees]
+----
+
+=== Grove Serial Camera
+Die Grove Serial Camera ist eines der komplexeren Devices, welches von unserer Library unterstützt wird. Zur Kommunikation über den Serial Bus wird ein spezielles Protokoll eingesetzt. In den folgenden Unterkapiteln finden Sie weitere Informationen zu jenem Protokoll und unserer Implementation davon.
+
+==== Protokoll
+Die Datenübermittlung zwischen Kamera und Pi erfolgt über den Serial Bus und das OV528 Protokoll. Die einzelnen Kommandos umfassen jeweils 6 Bytes, welche zusammen als Paket übermittelt werden. Das nachfolgende Beispiel zeigt das SYNC Kommando, welches jeweils zu Beginn der Kommunikation vom Pi ausgesendet wird. Folgende Bytes werden übermittelt: AA0D00000000h.
+
+.SYNC Kommando
+image::Grove_Serial_Camera_SYNC_Command.png[500, 500, Grove Serial Camera SYNC]
+
+==== Verbindung mit der Kamera aufbauen
+Bevor Befehle an die Kamera gesendet werden können, muss eine Verbindung zwischen Kamera und Raspberry Pi etabliert werden. Dazu wird vom Host mehrmals ein SYNC Kommando auf den Serial Port geschrieben und auf eine Antwort von der Kamera gewartet. Durchschnittlich antwortet die Kamera nach 25 SYNC Kommandos mit einem ACK (AA0E0Dxx0000h). Auf die Empfangsbestätigung folgt das Kommando, welches die Kamera bestätigt. In diesem Fall das SYNC Kommando (AA0D00000000h). Gibt die Kamera nach 60 SYNC Befehlen noch immer keine Antwort, kann davon ausgegangen werden, dass etwas mit der Verkabelung der Kamera nicht stimmt oder der Controller der Kamera defekt ist.
+
+.Verbindungsaufbau
+image::Grove_Serial_Camera_Initialisation.png[500, 500, Grove Serial Camera Connection]
+
+In unserer Java Klasse haben wir den Verbindungsaufbau in einer eigenen Funktion realisiert, welche vom jeweiligen Konstruktor aufgerufen wird. In einer While-Schlaufe wird das SYNC Kommando solange an die Kamera gesendet, bis diese eine Antwort auf den Serial Bus geschrieben hat. Ist dies nach 60 Versuchen nicht der Fall, wird die Initialisierung mit einem Fehler abgebrochen. Hat die Kamera eine Antwort gesendet, wird diese auf Ihre Korrektheit überprüft. Die ersten sechs Bytes müssen dem ACK Kommando entsprechen (AA0E0Dxx0000h). Bei den nächsten sechs Bytes muss es sich um das SYNC Kommando handeln (AA0D00000000h). Sofern dies der Fall ist, war der Verbindungsaufbau erfolgreich. Die Kamera ist nun bereit für die Entgegennahme von weiteren Befehlen.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialCamInit]
+----
+
+==== JPEG Foto anfordern
+Nach dem erfolgreichen Verbindungsaufbau ist die Kamera bereit für das Schiessen von Bildern. Unsere Implementation stellt Bilder im JPEG Format in der Auflösung 640 x 480 zur Verfügung. Hierbei handelt es sich um die maximale Auflösung der Kamera. Theoretisch können auch Bilder in anderen Grössen und Formaten von der Kamera angefordert werden. Diese Formate werden von uns jedoch nicht unterstützt.
+
+Um ein Bild von der Kamera zu erhalten, sind mehrere einzelne Schritte, Befehle und Bestätigungen nötig. Diese sind im folgenden Diagramm ersichtlich.
+
+.Ablauf der Bildanforderung
+image::Grove_Serial_Camera_Get_Picture.png[500, 500, Grove Serial Camera Get Picture]
+
+==== Bildgrösser ermitteln
+Zur Ermittlung der Bildgrösse wird die gewünschte Paketgrösse der einzelnen Pakete benötigt. Die Paketgrösse kann vom Anwender im Bereich von 16 bis 2048 Bits definiert werden. Die Default Paketgrösse ist 512 Bits.
+
+Als erster Schritt wird die zuvor definierte gewünschte Paketgrösse an die Kamera gesendet und es wird auf eine Empfangsbestätigung der Kamera gewartet.
+
+Anschliessend wird das Snapshot Kommando an die Kamera gesendet. Dieses Kommando bereitet die Kamera auf das Erzeugen eines Bildes vor. Auch hier wird wieder auf eine Empfangsbestätigung der Kamera gewartet.
+
+Zu guter Letzt wird der Befehl zur JPEG Generierung an die Kamera übermittelt. Die Kamera antwortet auf dieses Kommando mit einer Empfangsbestätigung gefolgt von der Anzahl Bytes des Bildes, welches geschossen wurde.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialCamGetPictureLength]
+----
+
+==== Bild Pakete empfangen
+Nachdem die Bildgrösse von der Kamera ermittelt wurde, kann der Host Paket für Paket von der Kamera über den Serial Bus anfordern. Wir fordern solange Pakete von der Kamera an, bis wir das letzte Paket von der Kamera erhalten haben. Das letzte Paket erkennen wir anhand der letzten zwei Bytes. Handelt es sich bei diesen um 0xFF gefolgt von 0xD9, wurde das komplette JPEG übermittelt. Bei den zwei Bytes handelt es sich nämlich um den Footer eines jeden JPEGs.
+
+Da es bei der Übermittlung von Paketen immer zu Fehlern kommen kann, stellt das OV528 Protokoll einen Kontrollmechanismus zur Verfügung, über welchen Fehler identifiziert werden können. Bei den zwei letzten Bytes eines jeden Pakets handelt es sich um eine Prüfsumme, mit welchen die übermittelten Bilddaten überprüft werden können. Die Prüfsumme muss exakt der Summe der einzelnen übermittelten Bytes entsprechen. Ist dies der Fall, fordern wir das nächste Paket von der Kamera an. Stimmt die Prüfsumme jedoch nicht mit der Summe aller Bild-Bytes überein, fordern wir das fehlerhafte Paket erneut von der Kamera an. Damit kann sichergestellt werden, dass das erhaltene Bild immer fehlerfrei ist.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialCamGetPicture]
+----
 
 === Raspberry Pi Camera
 Die Raspberry Pi Camera enthält in Rasbian vier Applikationen, welche man vom Terminal aus verwenden kann.
@@ -1321,5 +1328,4 @@ include::{sourcedir}/fhnwgpio/components/RaspberryPiCameraComponent.java[tags=Ra
 :sectnums!:
 == TODO: Schluss
 
-<<<
 == TODO: Literaturverzeichnis

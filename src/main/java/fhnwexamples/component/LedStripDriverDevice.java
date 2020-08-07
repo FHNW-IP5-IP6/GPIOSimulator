@@ -6,44 +6,45 @@ import fhnwexamples.Example;
 import fhnwgpio.components.LedStripDriverComponent;
 import fhnwgpio.grove.GroveAdapter;
 
+/**
+ * Example for LedStripDriverComponent usage. This example changes the led strips colour from red to green to blue
+ * in a while loop. Every colour stays for one second. This example only Works with the Grove LED Strip Driver.
+ * Driver: https://www.seeedstudio.com/Grove-LED-Strip-Driver.html
+ */
 public class LedStripDriverDevice extends Example {
     public LedStripDriverDevice(int key, String title) {
         super(key, title);
     }
 
-    @Override
-    public void execute() {
+    // tag::LEDStripDriverDevice[]
+    @Override public void execute() {
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
 
         Console console = new Console();
         console.promptForExit();
 
+        LedStripDriverComponent ledStrip = new LedStripDriverComponent(GroveAdapter.D16);
+
         try {
+            while (console.isRunning()) {
+                ledStrip.start();
+                ledStrip.setColor(255, 0, 0);
+                ledStrip.stop();
+                Thread.sleep(1000);
 
-            // tag::LEDStripDriver[]
-            //Single LED-Strip Example:
-            //This is a direct translation of the library written for Arduino, but we were not yet able to test it,
-            // because we do not have 12 volt charger to run the LED Strip Driver
-            LedStripDriverComponent ledStrip = new LedStripDriverComponent(GroveAdapter.D16);
+                ledStrip.start();
+                ledStrip.setColor(0, 255, 0);
+                ledStrip.stop();
+                Thread.sleep(1000);
 
-            ledStrip.begin();
-            ledStrip.setColor(255, 0, 0);
-            ledStrip.end();
-            Thread.sleep(1000);
-
-            ledStrip.begin();
-            ledStrip.setColor(0, 255, 0);
-            ledStrip.end();
-            Thread.sleep(1000);
-
-            ledStrip.begin();
-            ledStrip.setColor(0, 0, 255);
-            ledStrip.end();
-            Thread.sleep(1000);
-            // end::LEDStripDriver[]
-
-        }catch (Exception e){
+                ledStrip.start();
+                ledStrip.setColor(0, 0, 255);
+                ledStrip.stop();
+                Thread.sleep(1000);
+            }
+        } catch (Exception e) {
             console.println(e.getMessage());
         }
+        // end::LEDStripDriverDevice[]
     }
 }

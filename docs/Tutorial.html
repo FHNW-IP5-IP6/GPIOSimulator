@@ -506,7 +506,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_anwendungsbeispiel_2">5.2.3. Anwendungsbeispiel</a></li>
 </ul>
 </li>
-<li><a href="#_todo_buzzer">5.3. TODO: Buzzer</a>
+<li><a href="#_buzzer">5.3. Buzzer</a>
 <ul class="sectlevel3">
 <li><a href="#_verkabelung_3">5.3.1. Verkabelung</a></li>
 <li><a href="#_api_3">5.3.2. API</a></li>
@@ -587,7 +587,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_zustand_lesen">7.2.3. Zustand lesen</a></li>
 </ul>
 </li>
-<li><a href="#_todo_buzzer_2">7.3. TODO: Buzzer</a></li>
+<li><a href="#_buzzer_2">7.3. Buzzer</a>
+<ul class="sectlevel3">
+<li><a href="#_clock_divider_berechnen">7.3.1. Clock Divider berechnen</a></li>
+<li><a href="#_ton_abspielen">7.3.2. Ton abspielen</a></li>
+</ul>
+</li>
 <li><a href="#_grove_serial_camera">7.4. Grove Serial Camera</a>
 <ul class="sectlevel3">
 <li><a href="#_protokoll">7.4.1. Protokoll</a></li>
@@ -1457,7 +1462,65 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 <div class="sect3">
 <h4 id="_api_2">5.2.2. API</h4>
-
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Button - Konstruktoren</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ButtonComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalInput pin)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for GPIO pins without value reversion.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ButtonComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalInput pin, boolean reverse)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for GPIO pins.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ButtonComponent(com.pi4j.util.Console console, GroveAdapter adapter)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for digital grove devices without value reversion.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ButtonComponent(com.pi4j.util.Console console, GroveAdapter adapter, boolean reverse)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for digital grove devices.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Button - Funktionen</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">isPressed()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns if the button is pressed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">isReleased()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns if the button is released.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">setReverse(boolean reverse)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This function allows the user to change the buttons behaviour.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_anwendungsbeispiel_2">5.2.3. Anwendungsbeispiel</h4>
@@ -1473,7 +1536,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
         Console console = new Console();
 
         GpioPinDigitalInput pin = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_17);
-        ButtonComponent button = new ButtonComponent(pin);
+        ButtonComponent button = new ButtonComponent(console, pin);
 
         boolean lastStatePressed = false;
 
@@ -1497,18 +1560,143 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_todo_buzzer">5.3. TODO: Buzzer</h3>
+<h3 id="_buzzer">5.3. Buzzer</h3>
+<div class="paragraph">
+<p>Ein Buzzer ist eine Art primitiver Speaker. Er wandelt ein elektrisches Signal in einen Ton um. Je nach Frequenz des Signals ändert sich der Ton, welche wiedergegeben wird.</p>
+</div>
+<div class="paragraph">
+<p>Die Hilfsklasse <code>Notes</code> stellt eine Vielzahl von Tönen über mehrere Oktaven zur Verfügung. Jedes Enum Attribut verfügt über einen Integer, welcher der Frequenz des Tons entspricht.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/buzzer.jpg" alt="buzzer" width="30% Buzzer">
+</div>
+<div class="title">Figure 20. Buzzer</div>
+</div>
 <div class="sect3">
 <h4 id="_verkabelung_3">5.3.1. Verkabelung</h4>
-
+<div class="paragraph">
+<p>Für die Verkabelung wird folgende Hardware benötigt:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>2x Kabel</p>
+</li>
+<li>
+<p>1x Buzzer</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/fritzing/buzzer.png" alt="buzzer" width="50% Buzzer Fritzing">
+</div>
+<div class="title">Figure 21. Buzzer Verkabelung</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_api_3">5.3.2. API</h4>
-
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Buzzer - Konstruktoren</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BuzzerComponent(com.pi4j.io.gpio.GpioPinPwmOutput pin)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for GPIO buzzer usage</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BuzzerComponent(GroveAdapter groveAdapter)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for Grove buzzer usage</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. Buzzer - Funktionen</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">playTone(int frequency)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Plays a tone with a specific frequency</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">playTone(int frequency, int duration)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Plays a tone at a frequency for a specified duration in milliseconds</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">stop()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pauses forever</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">stop(int duration)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pauses for a specified amount of milliseconds</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_anwendungsbeispiel_3">5.3.3. Anwendungsbeispiel</h4>
+<div class="paragraph">
+<p>Unser Code Beispiel spielt den Imperial March komponiert von John Williams auf dem Buzzer. Der Buzzer wird am GPIO PWM Pin 12 angeschlossen. Im Array <code>notes</code> sind die zu spielenden Noten abgespeichert. Das Array <code>beats</code> speichert die Anzahl der Beats, über welche der Ton an der aktuellen stelle gespielt werden soll. In der Variable <code>tempo</code> wird gespeichert, wie lange ein Beat geht. Im unserem Fall 103 Millisekunden.</p>
+</div>
+<div class="paragraph">
+<p>In einer for-Schleife wird nun durch die einzelnen <code>notes</code> iteriert. Jeder Ton wird entsprechend seiner Anzahl Beats abgespielt.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @Override public void execute() throws Exception {
+        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
+        final GpioController gpio = GpioFactory.getInstance();
 
+        Console console = new Console();
+        console.promptForExit();
+
+        GpioPinPwmOutput pwm = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_12);
+        BuzzerComponent buzzer = new BuzzerComponent(pwm);
+
+        Note notes[] = { Note.G4, Note.G4, Note.G4, Note.DS4, Note.AS4, Note.G4, Note.DS4, Note.AS4, Note.G4, Note.D5,
+                Note.D5, Note.D5, Note.DS5, Note.AS4, Note.FS4, Note.DS4, Note.AS4, Note.G4, Note.G5, Note.G4, Note.G4,
+                Note.G5, Note.FS5, Note.F5, Note.E5, Note.DS5, Note.E5, Note.PAUSE, Note.G4, Note.PAUSE, Note.CS5,
+                Note.C5, Note.B4, Note.AS4, Note.A4, Note.AS4, Note.PAUSE, Note.DS4, Note.PAUSE, Note.FS4, Note.DS4,
+                Note.AS4, Note.G4, Note.DS4, Note.AS4, Note.G4 };
+        int beats[] = { 8, 8, 8, 6, 2, 8, 6, 2, 16, 8, 8, 8, 6, 2, 8, 6, 2, 16, 8, 6, 2, 8, 6, 2, 2, 2, 2, 6, 2, 2, 8,
+                6, 2, 2, 2, 2, 6, 2, 2, 9, 6, 2, 8, 6, 2, 16 };
+        int tempo = 103;
+
+        while (console.isRunning()) {
+            for (int i = 0; i &lt; notes.length; i++) {
+                buzzer.playTone(notes[i].getFrequency(), tempo * beats[i]);
+            }
+
+            buzzer.stop();
+            Thread.sleep(3000);
+
+        }
+
+        buzzer.stop();
+    }</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1532,7 +1720,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/LCDI2C.png" alt="LCDI2C" width="75% I2C Wiring">
 </div>
-<div class="title">Figure 20. LCD I2C Modul Verkabelung</div>
+<div class="title">Figure 22. LCD I2C Modul Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -1598,7 +1786,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/motor_and_driver.png" alt="motor and driver" width="75% DC Motor and Driver">
 </div>
-<div class="title">Figure 21. Motor und Treiber</div>
+<div class="title">Figure 23. Motor und Treiber</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung_5">5.5.1. Verkabelung</h4>
@@ -1622,13 +1810,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/motor.png" alt="motor" width="75% DC Motor Fritzing">
 </div>
-<div class="title">Figure 22. DC Motor Verkabelung</div>
+<div class="title">Figure 24. DC Motor Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_api_5">5.5.2. API</h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Motor - Konstruktoren</caption>
+<caption class="title">Table 7. Motor - Konstruktoren</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1649,7 +1837,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. Motor - Funktionen</caption>
+<caption class="title">Table 8. Motor - Funktionen</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -1743,7 +1931,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Rotary_Angle_Sensor.jpg" alt="Grove Rotary Angle Sensor" width="75% Grove Rotary Angle Sensor">
 </div>
-<div class="title">Figure 23. Grove Potentiometer</div>
+<div class="title">Figure 25. Grove Potentiometer</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung_6">5.6.1. Verkabelung</h4>
@@ -1761,13 +1949,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/Grove_Base_Hat_Rotary_Angel_Sensor.jpg" alt="Grove Base Hat Rotary Angel Sensor" width="75% Grove Rotary Angle Sensor Fritzing">
 </div>
-<div class="title">Figure 24. Grove Potentiometer Verkabelung</div>
+<div class="title">Figure 26. Grove Potentiometer Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_api_6">5.6.2. API</h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Potentiometer - Konstruktoren</caption>
+<caption class="title">Table 9. Potentiometer - Konstruktoren</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1784,7 +1972,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. Potentiometer - Funktionen</caption>
+<caption class="title">Table 10. Potentiometer - Funktionen</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -1841,7 +2029,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera.jpg" alt="Grove Serial Camera" width="75% Grove Serial Camera">
 </div>
-<div class="title">Figure 25. Grove Serial Camera</div>
+<div class="title">Figure 27. Grove Serial Camera</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung_7">5.7.1. Verkabelung</h4>
@@ -1862,13 +2050,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/grove_serial_cam.png" alt="grove serial cam" width="75% Grove Serial Camera Fritzing">
 </div>
-<div class="title">Figure 26. Serial Camera Verkabelung</div>
+<div class="title">Figure 28. Serial Camera Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_api_7">5.7.2. API</h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. Serial Camera - Konstruktoren</caption>
+<caption class="title">Table 11. Serial Camera - Konstruktoren</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1897,7 +2085,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. Serial Camera - Funktionen</caption>
+<caption class="title">Table 12. Serial Camera - Funktionen</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -1955,7 +2143,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/RaspberryPi_Camera.jpg" alt="RaspberryPi Camera" width="70% RaspiCam">
 </div>
-<div class="title">Figure 27. Raspberry Pi Camera</div>
+<div class="title">Figure 29. Raspberry Pi Camera</div>
 </div>
 <div class="paragraph">
 <p>Für die Verwendung muss sie aber zunächst im OS aktiviert werden. Unter den Interfacing Options, von raspi-config können Sie es problemlos aktivieren.</p>
@@ -1964,7 +2152,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/RaspberryPi_Camera_Activation.jpg" alt="RaspberryPi Camera Activation" width="60% activate RaspiCam">
 </div>
-<div class="title">Figure 28. Raspberry Pi Camera aktivieren</div>
+<div class="title">Figure 30. Raspberry Pi Camera aktivieren</div>
 </div>
 <div class="paragraph">
 <p>Rasbian OS enthält auch Applikationen, welche sie nutzen können, um die Camera in der Console zu testen.</p>
@@ -2000,7 +2188,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/raspiCam.png" alt="raspiCam" width="60% RaspiCam Wiring">
 </div>
-<div class="title">Figure 29. Raspberry Pi Camera Verkabelung</div>
+<div class="title">Figure 31. Raspberry Pi Camera Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2075,7 +2263,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/grove_rfid_reader.png" alt="grove rfid reader" width="75% Grove RFID Reader Fritzing">
 </div>
-<div class="title">Figure 30. Serial Camera Verkabelung</div>
+<div class="title">Figure 32. Serial Camera Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2134,13 +2322,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/servo_motor.png" alt="servo motor" width="75% Servo Motor Fritzing">
 </div>
-<div class="title">Figure 31. Servo Motor Verkabelung</div>
+<div class="title">Figure 33. Servo Motor Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_api_10">5.10.2. API</h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. Servo Motor - Konstruktoren</caption>
+<caption class="title">Table 13. Servo Motor - Konstruktoren</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2165,7 +2353,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. Servo Motor - Funktionen</caption>
+<caption class="title">Table 14. Servo Motor - Funktionen</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -2253,7 +2441,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <p>In der unten abgebildeten Tabelle beziehen wir uns auf den weit verbreiteten Schrittmotor 28BYJ-48. Eine Drehung des Zylinders innerhalb des Motors resultiert in einer Drehung der Welle um 11.25°. Für eine Komplette Drehung werden also 360° / 11.25° = 32 Schritte benötigt. Ein Getriebe innerhalb des Motors reduziert einen einzelnen Schritt in weitere 64 Steps. Unter Verwendung des Full oder Dual Stepping bedeutet ein einzelner Step also eine Drehung um 360° / (32 * 64) = 0.17578125°. Bei Half Stepping verdoppelt sich die Anzahl der möglichen Schritte, was eine Drehgenauigkeit von 0.087890625° zulässt.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. Stepper Motor Modi</caption>
+<caption class="title">Table 15. Stepper Motor Modi</caption>
 <colgroup>
 <col style="width: 16.6666%;">
 <col style="width: 33.3333%;">
@@ -2299,7 +2487,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/stepper_motor_and_driver.png" alt="stepper motor and driver" width="75% RaspiCam Wiring">
 </div>
-<div class="title">Figure 32. Stepper Motor Verkabelung</div>
+<div class="title">Figure 34. Stepper Motor Verkabelung</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung_11">5.11.1. Verkabelung</h4>
@@ -2323,13 +2511,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/stepper_motor.png" alt="stepper motor" width="75% RaspiCam Wiring">
 </div>
-<div class="title">Figure 33. Stepper Motor Verkabelung</div>
+<div class="title">Figure 35. Stepper Motor Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_api_11">5.11.2. API</h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. Stepper Motor - Konstruktoren</caption>
+<caption class="title">Table 16. Stepper Motor - Konstruktoren</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2358,7 +2546,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 13. Stepper Motor - Funktionen</caption>
+<caption class="title">Table 17. Stepper Motor - Funktionen</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -2522,6 +2710,8 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
         } else {
             pin.high();
         }
+
+        console.println("LED on");
     }</code></pre>
 </div>
 </div>
@@ -2533,6 +2723,8 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
         } else {
             pin.high();
         }
+
+        console.println("LED off");
     }</code></pre>
 </div>
 </div>
@@ -2575,6 +2767,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
         }
 
         pwmPin.setPwm(brightness);
+        console.println("LED set to " + brightness + "% brightness");
     }</code></pre>
 </div>
 </div>
@@ -2597,7 +2790,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://www.elektronik-kompendium.de/sites/raspberry-pi/2006051.htm"><img src="./assets/images/pulldown.gif" alt="pulldown" width="75% Pulldown Ressistor"></a>
 </div>
-<div class="title">Figure 34. Schaltbild Pulldown-Wiederstand</div>
+<div class="title">Figure 36. Schaltbild Pulldown-Wiederstand</div>
 </div>
 <div class="paragraph">
 <p>Wie man im Schaltbild erkennen kann, liest der GPIO Pin bei offenem Schalter eine Spannung von 0V des Ground Pins. Bei geschlossenem Schalter liegt die volle Spannung von 3.3V am GPIO Pin an. Der Input Pin besitzt also immer einen fixen Zustand. Entweder ist er High oder Low.</p>
@@ -2645,8 +2838,53 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_todo_buzzer_2">7.3. TODO: Buzzer</h3>
-
+<h3 id="_buzzer_2">7.3. Buzzer</h3>
+<div class="paragraph">
+<p>Damit ein Buzzer einen Ton abspielt, muss ein bestimmtes PWM Signal anliegen. Das Signal versetzt eine Platte im Inneren des Buzzers in Schwingungen. Die daraus entstehenden Schallwellen generieren den Ton, welchen wir hören können.</p>
+</div>
+<div class="paragraph">
+<p>Für das Abspielen von Tönen ist eine Exakte Frequenz sehr wichtig. Aus diesem Grund unterstützt unsere Component Klasse nur Hardware PWM Pins des Raspberry Pi.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="https://www.islproducts.com/design-notes/piezo-buzzers-vs-magnetic-buzzers/"><img src="./assets/images/buzzer_construction.jpg" alt="buzzer construction" width="75% Buzzer Construction"></a>
+</div>
+<div class="title">Figure 37. Buzzer Aufbau</div>
+</div>
+<div class="sect3">
+<h4 id="_clock_divider_berechnen">7.3.1. Clock Divider berechnen</h4>
+<div class="paragraph">
+<p>Damit ein bestimmter Ton abgespielt werden kann, muss sichergestellt werden, dass der PWM Pin, an welchem der Buzzer angeschlossen ist, ein Signal in der richtigen Frequenz liefert. Um dies zu realisieren, müssen wir herausfinden, um welchen Dividenden wir die Basisfrequenz von 19.2MHz des Raspberry Pi reduzieren müssen. Dazu teilen wir die Basisfrequenz durch die Tonfrequenz und den <code>dutyCycle</code>. Der Duty Cycle bestimmt, wie lange das Signal High geschaltet ist. Wir verwenden den Wert 512, was einer High Time von exakt 50% entspricht.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    private int calculateClock(int frequency) {
+        double divider = (double) piFrequency / frequency;
+        return (int) divider / dutyCycle;
+    }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ton_abspielen">7.3.2. Ton abspielen</h4>
+<div class="paragraph">
+<p>Ein Ton besteht aus einer Frequenz, welche über eine bestimmte Dauer wiedergegeben wird. Damit wir einen Ton abspielen können, müssen wir den errechneten Clock Divider via WiringPi setzen und auf dem PWM Pin schreiben. Danach wird das Programm pausiert, bis die gewünschte Tondauer erreicht wurde.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    public void playTone(int frequency, int duration) throws InterruptedException {
+        if (frequency != 0) {
+            int clock = calculateClock(frequency);
+            Gpio.pwmSetClock(clock);
+            Gpio.pwmWrite(pin.getAddress(), clock);
+            Thread.sleep(duration);
+        } else {
+            stop(duration);
+        }
+    }</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_grove_serial_camera">7.4. Grove Serial Camera</h3>
@@ -2662,7 +2900,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_SYNC_Command.png" alt="500" width="500" height="Grove Serial Camera SYNC">
 </div>
-<div class="title">Figure 35. SYNC Kommando</div>
+<div class="title">Figure 38. SYNC Kommando</div>
 </div>
 </div>
 <div class="sect3">
@@ -2674,7 +2912,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_Initialisation.png" alt="500" width="500" height="Grove Serial Camera Connection">
 </div>
-<div class="title">Figure 36. Verbindungsaufbau</div>
+<div class="title">Figure 39. Verbindungsaufbau</div>
 </div>
 <div class="paragraph">
 <p>In unserer Java Klasse haben wir den Verbindungsaufbau in einer eigenen Funktion realisiert, welche vom jeweiligen Konstruktor aufgerufen wird. In einer While-Schlaufe wird das SYNC Kommando solange an die Kamera gesendet, bis diese eine Antwort auf den Serial Bus geschrieben hat. Ist dies nach 60 Versuchen nicht der Fall, wird die Initialisierung mit einem Fehler abgebrochen. Hat die Kamera eine Antwort gesendet, wird diese auf Ihre Korrektheit überprüft. Die ersten sechs Bytes müssen dem ACK Kommando entsprechen (AA0E0Dxx0000h). Bei den nächsten sechs Bytes muss es sich um das SYNC Kommando handeln (AA0D00000000h). Sofern dies der Fall ist, war der Verbindungsaufbau erfolgreich. Die Kamera ist nun bereit für die Entgegennahme von weiteren Befehlen.</p>
@@ -2737,7 +2975,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_Get_Picture.png" alt="500" width="500" height="Grove Serial Camera Get Picture">
 </div>
-<div class="title">Figure 37. Ablauf der Bildanforderung</div>
+<div class="title">Figure 40. Ablauf der Bildanforderung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2968,10 +3206,10 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://components101.com/l293d-pinout-features-datasheet"><img src="./assets/images/L293D_Pinout.png" alt="L293D Pinout" width="75% L293D Pinout"></a>
 </div>
-<div class="title">Figure 38. Pinout L293D</div>
+<div class="title">Figure 41. Pinout L293D</div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 14. Beschreibung Pinout</caption>
+<caption class="title">Table 18. Beschreibung Pinout</caption>
 <colgroup>
 <col style="width: 14.2857%;">
 <col style="width: 28.5714%;">
@@ -3072,7 +3310,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <p>Wie bereits erwähnt, kann die Drehrichtung des Gleichstrommotors mittels Umkehrung der Polarität der Spannungsquelle gewechselt werden. Dies ist mittels des Motor Treibers L293D sehr einfach möglich. Die Polarität der Output Pins können wir mittels des Setzens der Input Pins beeinflussen. Die untere Tabelle zeigt, wie wir die verschiedenen Drehrichtungen umgesetzt haben. In unserem Beispiel verwenden wir die linke Seite des Chips. Enable 1, 2 ist also aktive, Enable 3, 4 ist inaktiv.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 15. Beschreibung Pinout</caption>
+<caption class="title">Table 19. Beschreibung Pinout</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -3144,7 +3382,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://www.elektronik-kompendium.de/sites/kom/0401111.htm"><img src="./assets/images/pwm.png" alt="pwm" width="75% PWM as a Graph"></a>
 </div>
-<div class="title">Figure 39. PWM als Grafik</div>
+<div class="title">Figure 42. PWM als Grafik</div>
 </div>
 <div class="paragraph">
 <p>In unserer Component Klasse steuern wir den Duty Cycle über die GPIO Klasse von Wiring Pi. Der gewünschte Duty Cycle wird über die <code>setPWM()</code> Funktion festgelegt. Die <code>rangeAdjustment</code> Variable wird benötigt, da Wiring Pi zwischen Software und Hardware PWM Pins unterscheidet.</p>
@@ -3209,7 +3447,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <p>Servo Motoren lassen sich nun über die sogenannte Pulslänge steuern. Die Pulslänge enspricht der HIGH Time eines einzelnen Pulses. Die meisten Mini und Micro Servo Motoren können über Pulslängen von 500 Mikro Sekunden bis 2400 Mikro Sekunden positioniert werden. Die genauen Werte können jedoch im Data Sheet des jeweiligen Servos gefunden werden. Kleinere Pulslängen entsprechen dabei kleineren Winkeln. Die Position verhält sich immer linear zur Pulslänge.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 16. Beispiele Pulslänge</caption>
+<caption class="title">Table 20. Beispiele Pulslänge</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3294,7 +3532,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://commons.wikimedia.org/w/index.php?curid=10011776"><img src="./assets/images/StepperMotor.gif" alt="StepperMotor" width="75% Single Stepping Stepper Motor"></a>
 </div>
-<div class="title">Figure 40. Stepper Motor unter Single Stepping</div>
+<div class="title">Figure 43. Stepper Motor unter Single Stepping</div>
 </div>
 <div class="paragraph">
 <p>Bei den meisten Schrittmotoren kommt zusätzlich zur Welle noch ein Getriebe zum Einsatz, welches durch seine Übersetzung den Drehwinkel pro Schritt weiter verkleinert. Beim weit verbreiteten Stepper Motor 28BYJ-48 ist zum Beispiel ein 1/64 Getriebe verbaut. Jeder Schritt der Welle resultiert bei diesem Motor um eine um 64 verkleinerte Drehung.</p>
@@ -3311,13 +3549,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping"><img src="./assets/images/single_stepping.jpg" alt="single stepping" width="75% Single Stepping"></a>
 </div>
-<div class="title">Figure 41. Single Stepping</div>
+<div class="title">Figure 44. Single Stepping</div>
 </div>
 <div class="paragraph">
 <p>Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 17. Single Stepping</caption>
+<caption class="title">Table 21. Single Stepping</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -3381,13 +3619,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping"><img src="./assets/images/double_stepping.jpg" alt="double stepping" width="75% Double Stepping"></a>
 </div>
-<div class="title">Figure 42. Double Stepping</div>
+<div class="title">Figure 45. Double Stepping</div>
 </div>
 <div class="paragraph">
 <p>Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 18. Double Stepping</caption>
+<caption class="title">Table 22. Double Stepping</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -3451,13 +3689,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping"><img src="./assets/images/half_stepping.jpg" alt="half stepping" width="75% Half Stepping"></a>
 </div>
-<div class="title">Figure 43. Half Stepping</div>
+<div class="title">Figure 46. Half Stepping</div>
 </div>
 <div class="paragraph">
 <p>Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 19. Half Stepping</caption>
+<caption class="title">Table 23. Half Stepping</caption>
 <colgroup>
 <col style="width: 11.1111%;">
 <col style="width: 11.1111%;">
@@ -3808,7 +4046,7 @@ RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-07 09:29:11 +0200
+Last updated 2020-08-07 17:43:33 +0200
 </div>
 </div>
 </body>

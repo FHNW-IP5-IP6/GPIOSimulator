@@ -421,10 +421,52 @@ Das folgende Code Beispiel loggt den Zustand des Buttons bei jedem Zustandswechs
 include::{sourcedir}/fhnwexamples/component/ButtonDevice.java[tags=ButtonDevice]
 ----
 
-=== TODO: Buzzer
+=== Buzzer
+Ein Buzzer ist eine Art primitiver Speaker. Er wandelt ein elektrisches Signal in einen Ton um. Je nach Frequenz des Signals ändert sich der Ton, welche wiedergegeben wird.
+
+Die Hilfsklasse `Notes` stellt eine Vielzahl von Tönen über mehrere Oktaven zur Verfügung. Jedes Enum Attribut verfügt über einen Integer, welcher der Frequenz des Tons entspricht.
+
+.Buzzer
+image::./buzzer.jpg[width=30% Buzzer]
+
 ==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 2x Kabel
+* 1x Buzzer
+
+.Buzzer Verkabelung 
+image::./fritzing/buzzer.png[width=50% Buzzer Fritzing]
+
 ==== API
+.Buzzer - Konstruktoren
+[cols="1,1"]
+|===
+|Konstruktor |Beschreibung
+|BuzzerComponent(com.pi4j.io.gpio.GpioPinPwmOutput pin) |Constructor for GPIO buzzer usage
+|BuzzerComponent(GroveAdapter groveAdapter) |Constructor for Grove buzzer usage
+|===
+
+.Buzzer - Funktionen
+[cols="1,2,2"]
+|===
+|Rückgabetyp |Funktion |Beschreibung
+|void |playTone(int frequency) |Plays a tone with a specific frequency
+|void |playTone(int frequency, int duration) |Plays a tone at a frequency for a specified duration in milliseconds
+|void |stop() |Pauses forever
+|void |stop(int duration) |Pauses for a specified amount of milliseconds
+|===
+
+
 ==== Anwendungsbeispiel
+Unser Code Beispiel spielt den Imperial March komponiert von John Williams auf dem Buzzer. Der Buzzer wird am GPIO PWM Pin 12 angeschlossen. Im Array `notes` sind die zu spielenden Noten abgespeichert. Das Array `beats` speichert die Anzahl der Beats, über welche der Ton an der aktuellen stelle gespielt werden soll. In der Variable `tempo` wird gespeichert, wie lange ein Beat geht. Im unserem Fall 103 Millisekunden.
+
+In einer for-Schleife wird nun durch die einzelnen `notes` iteriert. Jeder Ton wird entsprechend seiner Anzahl Beats abgespielt.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/BuzzerDevice.java[tags=BuzzerDevice]
+----
 
 === LCD I2C
 ==== Verkabelung
@@ -440,7 +482,6 @@ image::./fritzing/LCDI2C.png[width=75% I2C Wiring]
 TODO
 
 ==== Anwendungsbeispiel
-
 In diesem Code Beispiel wird der Titel des Projekts in der ersten Zeile angezeigt und die Uhrzeit in der Zweiten. Die Uhrzeit wird im Sekundentakt aktualisiert. +
 *Vorkenntnisse: Basic*
 [source,java]
@@ -837,7 +878,30 @@ include::{sourcedir}/fhnwgpio/components/ButtonComponent.java[tags=ButtonCompone
 ----
 include::{sourcedir}/fhnwgpio/components/ButtonComponent.java[tags=ButtonComponentIsReleased]
 ----
-=== TODO: Buzzer
+=== Buzzer
+Damit ein Buzzer einen Ton abspielt, muss ein bestimmtes PWM Signal anliegen. Das Signal versetzt eine Platte im Inneren des Buzzers in Schwingungen. Die daraus entstehenden Schallwellen generieren den Ton, welchen wir hören können.
+
+Für das Abspielen von Tönen ist eine Exakte Frequenz sehr wichtig. Aus diesem Grund unterstützt unsere Component Klasse nur Hardware PWM Pins des Raspberry Pi.
+
+.Buzzer Aufbau
+[link=https://www.islproducts.com/design-notes/piezo-buzzers-vs-magnetic-buzzers/]
+image::buzzer_construction.jpg[width=75% Buzzer Construction]
+
+==== Clock Divider berechnen
+Damit ein bestimmter Ton abgespielt werden kann, muss sichergestellt werden, dass der PWM Pin, an welchem der Buzzer angeschlossen ist, ein Signal in der richtigen Frequenz liefert. Um dies zu realisieren, müssen wir herausfinden, um welchen Dividenden wir die Basisfrequenz von 19.2MHz des Raspberry Pi reduzieren müssen. Dazu teilen wir die Basisfrequenz durch die Tonfrequenz und den `dutyCycle`. Der Duty Cycle bestimmt, wie lange das Signal High geschaltet ist. Wir verwenden den Wert 512, was einer High Time von exakt 50% entspricht.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/BuzzerComponent.java[tags=BuzzerComponentCalculateClock]
+----
+
+==== Ton abspielen
+Ein Ton besteht aus einer Frequenz, welche über eine bestimmte Dauer wiedergegeben wird. Damit wir einen Ton abspielen können, müssen wir den errechneten Clock Divider via WiringPi setzen und auf dem PWM Pin schreiben. Danach wird das Programm pausiert, bis die gewünschte Tondauer erreicht wurde.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/BuzzerComponent.java[tags=BuzzerComponentPlayTone]
+----
 
 === Grove Serial Camera
 Die Grove Serial Camera ist eines der komplexeren Devices, welches von unserer Library unterstützt wird. Zur Kommunikation über den Serial Bus wird ein spezielles Protokoll eingesetzt. In den folgenden Unterkapiteln finden Sie weitere Informationen zu jenem Protokoll und unserer Implementation davon.

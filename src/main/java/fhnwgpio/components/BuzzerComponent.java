@@ -1,6 +1,7 @@
 package fhnwgpio.components;
 
-import fhnwgpio.grove.Adapter;
+import fhnwgpio.components.helper.PwmHelper;
+import fhnwgpio.grove.AdapterType;
 import fhnwgpio.grove.GroveAdapter;
 import com.pi4j.io.gpio.*;
 import com.pi4j.wiringpi.Gpio;
@@ -10,20 +11,48 @@ import com.pi4j.wiringpi.Gpio;
  * https://www.seeedstudio.com/Grove-Buzzer.html
  */
 public class BuzzerComponent {
-    private Adapter adapter;
+    private Pin pin;
     private int piFrequency = 19200000;
     private int dutyCycle = 512;
 
     /**
-     * Constructor of the BuzzerComponent.
+     * Private master constructor. All public constructors call this constructor.
      *
-     * @param groveAdapter
+     * @param pin GPIO PWM pin
      */
-    public BuzzerComponent(GroveAdapter groveAdapter) {
-        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
-        this.adapter = groveAdapter.getAdapter();
-        Gpio.pinMode(adapter.getUpperPin().getAddress(), Gpio.PWM_OUTPUT);
+    private BuzzerComponent(Pin pin) {
+        this.pin = pin;
+        Gpio.pinMode(this.pin.getAddress(), Gpio.PWM_OUTPUT);
         Gpio.pwmSetMode(Gpio.PWM_MODE_MS);
+        Gpio.pwmSetRange(dutyCycle);
+    }
+
+    /**
+     * Constructor for GPIO buzzer usage
+     *
+     * @param pin Pi4J GPIO PWM output pin
+     * @throws IllegalArgumentException Thrown if the provided pin is a non hardware pwm pin
+     */
+    public BuzzerComponent(GpioPinPwmOutput pin) throws IllegalArgumentException {
+        this(pin.getPin());
+
+        if (!PwmHelper.isHardwarePwmPin(pin.getPin())) {
+            throw new IllegalArgumentException("please provide a valid pwm pin");
+        }
+    }
+
+    /**
+     * Constructor for Grove buzzer usage
+     *
+     * @param groveAdapter The PWM Grove adapter
+     * @throws IllegalArgumentException Thrown if the provided grove adapter is not the PWM adapter
+     */
+    public BuzzerComponent(GroveAdapter groveAdapter) throws IllegalArgumentException {
+        this(groveAdapter.getAdapter().getUpperPin());
+
+        if (groveAdapter.getAdapter().getAdapterType() != AdapterType.PWM) {
+            throw new IllegalArgumentException("please provide a grove pwm pin");
+        }
     }
 
     /**
@@ -31,42 +60,46 @@ public class BuzzerComponent {
      *
      * @param frequency in hz
      * @param duration  in ms
-     * @throws InterruptedException
+     * @throws InterruptedException Might be thrown because of Thread.sleep() usage
      */
+    // tag::BuzzerComponentPlayTone[]
     public void playTone(int frequency, int duration) throws InterruptedException {
-        int clock = calculateClock(frequency);
-        Gpio.pwmSetClock(clock);
-        Gpio.pwmSetRange(dutyCycle);
-        Gpio.pwmWrite(adapter.getUpperPin().getAddress(), clock);
-        Thread.sleep(duration);
-        stop();
+        if (frequency != 0) {
+            int clock = calculateClock(frequency);
+            Gpio.pwmSetClock(clock);
+            Gpio.pwmWrite(pin.getAddress(), clock);
+            Thread.sleep(duration);
+        } else {
+            stop(duration);
+        }
     }
+    // end::BuzzerComponentPlayTone[]
 
     /**
      * Plays a tone with a specific frequency.
      *
      * @param frequency in hz
-     * @throws InterruptedException
+     * @throws InterruptedException Might be thrown because of Thread.sleep() usage
      */
     public void playTone(int frequency) throws InterruptedException {
-        playTone(frequency, -1);
+        playTone(frequency, 0);
     }
 
     /**
-     * Pauses for e specified amount of milliseconds.
+     * Pauses for a specified amount of milliseconds.
      *
-     * @param duration
-     * @throws InterruptedException
+     * @param duration Desired pause length in ms
+     * @throws InterruptedException Might be thrown because of Thread.sleep() usage
      */
     public void stop(int duration) throws InterruptedException {
-        Gpio.pwmWrite(adapter.getUpperPin().getAddress(), 0);
+        Gpio.pwmWrite(pin.getAddress(), 0);
         Thread.sleep(duration);
     }
 
     /**
      * Pauses forever.
      *
-     * @throws InterruptedException
+     * @throws InterruptedException Might be thrown because of Thread.sleep() usage
      */
     public void stop() throws InterruptedException {
         stop(0);
@@ -75,11 +108,13 @@ public class BuzzerComponent {
     /**
      * Calculates the PWM clock divider.
      *
-     * @param frequency
-     * @return
+     * @param frequency Desired frequency
+     * @return The calculated clock divider
      */
+    // tag::BuzzerComponentCalculateClock[]
     private int calculateClock(int frequency) {
         double divider = (double) piFrequency / frequency;
         return (int) divider / dutyCycle;
     }
+    // end::BuzzerComponentCalculateClock[]
 }

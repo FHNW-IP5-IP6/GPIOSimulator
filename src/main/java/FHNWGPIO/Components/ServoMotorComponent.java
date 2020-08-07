@@ -4,6 +4,7 @@ import com.pi4j.io.gpio.GpioPinPwmOutput;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.util.Console;
 import com.pi4j.wiringpi.Gpio;
+import fhnwgpio.components.helper.PwmHelper;
 
 /**
  * FHNW implementation for controlling servo motors. This class allows its user to control a wide range of 50 hertz
@@ -29,7 +30,7 @@ public class ServoMotorComponent {
      */
     public ServoMotorComponent(Console console, GpioPinPwmOutput pin, int pulseMin, int pulseMax, int maxDegrees)
             throws IllegalArgumentException {
-        if (!isHardwarePwmPin(pin.getPin())) {
+        if (!PwmHelper.isHardwarePwmPin(pin.getPin())) {
             throw new IllegalArgumentException("please use one of the Pis hardware PWM pins");
         }
 
@@ -138,14 +139,4 @@ public class ServoMotorComponent {
         pin.setPwm(Math.round(pwm / 10));
     }
     // end::ServoMotorComponentSetPWM[]
-
-    /**
-     * Checks if the provided pin is a valid hardware or software PWM pin.
-     *
-     * @param pin The pin which should be checked
-     * @return True if the pin is a hardware
-     */
-    private boolean isHardwarePwmPin(Pin pin) {
-        return pin.getAddress() == 12 || pin.getAddress() == 13 || pin.getAddress() == 18 || pin.getAddress() == 19;
-    }
 }

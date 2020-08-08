@@ -535,7 +535,7 @@ Für die Verkabelung wird folgende Hardware benötigt:
 * 1x Grove RFID Reader mit Grove Adapter Kabel
 * 4x Kabel
 
-.Serial Camera Verkabelung
+.Grove RFID Reader Verkabelung
 image::./fritzing/grove_rfid_reader.png[width=75% Grove RFID Reader Fritzing]
 
 ==== TODO: API
@@ -546,6 +546,49 @@ In diesem Code Beispiel wird der Grove RFID Reader getestet. Das serielle Gerät
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/component/RFIDReader.java[tags=RFIDReader]
+----
+
+=== Ultrasonic Ranger
+Der Grove Ultrasonic Ranger ist ein Grove Modul, welches an eines der digitalen Adapter des Grove Hats angeschlossen werden kann. Der Ultrasonic Ranger misst die Distanz zwischen dem Sensor und einem Ziel indem die Zeit zwischen der Emission und der Rezeption einer Ultraschallwelle gemessen wird.
+
+*Formel zur Distanzmessung: 0.5 * T * C* +
+
+* T ist die Zeit zwischen Emission und Rezeption der Ultraschallwelle (Davon die Hälfte, da nur der einfache Weg verwendet wird)
+
+* C ist die Ultraschallwellengeschwindigkeit
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Grove Ultrasonic Ranger
+* 1x Grove Adapter Kabel
+* 1x Grove Hat
+
+.Ultrasonic Ranger Verkabelung 
+image::./Grove_Ultrasonic_Ranger.jpg[width=75% RaspiCam Wiring]
+
+==== API
+.Ultrasonic Ranger - Konstruktoren
+[cols="1,1"]
+|===
+|Konstruktor |Beschreibung
+|UltraSonicRangerComponent​(GroveAdapter groveAdapter) |Standard Constructor for the Ultra Sonic Ranger that only needs grove hat connection information
+
+|===
+
+.Ultrasonic Ranger - Funktionen
+[cols="1,2,2"]
+|===
+|Rückgabetyp |Funktion |Beschreibung
+|long |measureInCentimeter() |Measures the distance between the device and an object in cm
+|long |measureInInches() |Measures the distance between the device and an object in inches
+|===
+
+==== Anwendungsbeispiel
+In diesem Beispiel wird der Grove Ultrasonic Ranger an den D5 Adapter des Grove Hats angeschlossen und es wird sekündlich die Distanz gemessen zwischen dem Device und einem Ziel.
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/UltraSonicRanger.java[tags=UltraSonicRanger]
 ----
 
 === DC Motor

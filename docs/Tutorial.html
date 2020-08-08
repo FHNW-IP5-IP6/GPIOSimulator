@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>TODO Einleitung</title>
+<title>Einleitung</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -441,7 +441,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle"></div>
 <ul class="sectlevel1">
-<li><a href="#_todo_einleitung">TODO Einleitung</a></li>
+<li><a href="#_einleitung">Einleitung</a></li>
 <li><a href="#_hardware">1. Hardware</a>
 <ul class="sectlevel2">
 <li><a href="#_raspberry_pi">1.1. Raspberry Pi</a></li>
@@ -516,57 +516,64 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_lcd_i2c">5.4. LCD I2C</a>
 <ul class="sectlevel3">
 <li><a href="#_verkabelung_4">5.4.1. Verkabelung</a></li>
-<li><a href="#_todo_api">5.4.2. TODO: API</a></li>
+<li><a href="#_api_4">5.4.2. API</a></li>
 <li><a href="#_anwendungsbeispiel_4">5.4.3. Anwendungsbeispiel</a></li>
 </ul>
 </li>
 <li><a href="#_potentiometer">5.5. Potentiometer</a>
 <ul class="sectlevel3">
 <li><a href="#_verkabelung_5">5.5.1. Verkabelung</a></li>
-<li><a href="#_api_4">5.5.2. API</a></li>
+<li><a href="#_api_5">5.5.2. API</a></li>
 <li><a href="#_anwendungsbeispiel_5">5.5.3. Anwendungsbeispiel</a></li>
 </ul>
 </li>
 <li><a href="#_grove_rfid_reader">5.6. Grove RFID Reader</a>
 <ul class="sectlevel3">
 <li><a href="#_verkabelung_6">5.6.1. Verkabelung</a></li>
-<li><a href="#_todo_api_2">5.6.2. TODO: API</a></li>
+<li><a href="#_api_6">5.6.2. API</a></li>
 <li><a href="#_anwendungsbeispiel_6">5.6.3. Anwendungsbeispiel</a></li>
 </ul>
 </li>
-<li><a href="#_dc_motor">5.7. DC Motor</a>
+<li><a href="#_ultrasonic_ranger">5.7. Ultrasonic Ranger</a>
 <ul class="sectlevel3">
 <li><a href="#_verkabelung_7">5.7.1. Verkabelung</a></li>
-<li><a href="#_api_5">5.7.2. API</a></li>
+<li><a href="#_api_7">5.7.2. API</a></li>
 <li><a href="#_anwendungsbeispiel_7">5.7.3. Anwendungsbeispiel</a></li>
 </ul>
 </li>
-<li><a href="#_stepper_motor">5.8. Stepper Motor</a>
+<li><a href="#_dc_motor">5.8. DC Motor</a>
 <ul class="sectlevel3">
 <li><a href="#_verkabelung_8">5.8.1. Verkabelung</a></li>
-<li><a href="#_api_6">5.8.2. API</a></li>
+<li><a href="#_api_8">5.8.2. API</a></li>
 <li><a href="#_anwendungsbeispiel_8">5.8.3. Anwendungsbeispiel</a></li>
 </ul>
 </li>
-<li><a href="#_servo_motor">5.9. Servo Motor</a>
+<li><a href="#_stepper_motor">5.9. Stepper Motor</a>
 <ul class="sectlevel3">
 <li><a href="#_verkabelung_9">5.9.1. Verkabelung</a></li>
-<li><a href="#_api_7">5.9.2. API</a></li>
+<li><a href="#_api_9">5.9.2. API</a></li>
 <li><a href="#_anwendungsbeispiel_9">5.9.3. Anwendungsbeispiel</a></li>
 </ul>
 </li>
-<li><a href="#_grove_serial_camera">5.10. Grove Serial Camera</a>
+<li><a href="#_servo_motor">5.10. Servo Motor</a>
 <ul class="sectlevel3">
 <li><a href="#_verkabelung_10">5.10.1. Verkabelung</a></li>
-<li><a href="#_api_8">5.10.2. API</a></li>
+<li><a href="#_api_10">5.10.2. API</a></li>
 <li><a href="#_anwendungsbeispiel_10">5.10.3. Anwendungsbeispiel</a></li>
 </ul>
 </li>
-<li><a href="#_raspberry_pi_camera">5.11. Raspberry Pi Camera</a>
+<li><a href="#_grove_serial_camera">5.11. Grove Serial Camera</a>
 <ul class="sectlevel3">
 <li><a href="#_verkabelung_11">5.11.1. Verkabelung</a></li>
-<li><a href="#_api_9">5.11.2. API</a></li>
+<li><a href="#_api_11">5.11.2. API</a></li>
 <li><a href="#_anwendungsbeispiel_11">5.11.3. Anwendungsbeispiel</a></li>
+</ul>
+</li>
+<li><a href="#_raspberry_pi_camera">5.12. Raspberry Pi Camera</a>
+<ul class="sectlevel3">
+<li><a href="#_verkabelung_12">5.12.1. Verkabelung</a></li>
+<li><a href="#_api_12">5.12.2. API</a></li>
+<li><a href="#_anwendungsbeispiel_12">5.12.3. Anwendungsbeispiel</a></li>
 </ul>
 </li>
 </ul>
@@ -593,52 +600,70 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_ton_abspielen">7.3.2. Ton abspielen</a></li>
 </ul>
 </li>
-<li><a href="#_todo_lcd_i2c">7.4. TODO: LCD I2C</a></li>
-<li><a href="#_potentiometer_2">7.5. Potentiometer</a>
+<li><a href="#_lcd_i2c_2">7.4. LCD I2C</a>
 <ul class="sectlevel3">
-<li><a href="#_konstruktor">7.5.1. Konstruktor</a></li>
-<li><a href="#_wertebereich_setzen">7.5.2. Wertebereich setzen</a></li>
-<li><a href="#_value_lesen">7.5.3. Value lesen</a></li>
+<li><a href="#_befehle_für_den_lcd1602">7.4.1. Befehle für den LCD1602</a></li>
+<li><a href="#_initialisierung">7.4.2. Initialisierung</a></li>
+<li><a href="#_text_auf_dem_display_anzeigen">7.4.3. Text auf dem Display anzeigen</a></li>
+<li><a href="#_spezielle_anzeigefunktionen">7.4.4. Spezielle Anzeigefunktionen</a></li>
 </ul>
 </li>
-<li><a href="#_todo_grove_rfid_reader">7.6. TODO: Grove RFID Reader</a></li>
-<li><a href="#_dc_motor_2">7.7. DC Motor</a>
+<li><a href="#_grove_rfid_reader_2">7.5. Grove RFID Reader</a>
 <ul class="sectlevel3">
-<li><a href="#_motor_treiber_l293d">7.7.1. Motor Treiber L293D</a></li>
-<li><a href="#_drehrichtung_wechseln">7.7.2. Drehrichtung wechseln</a></li>
-<li><a href="#_geschwindigkeit_anpassen">7.7.3. Geschwindigkeit anpassen</a></li>
+<li><a href="#_kompatibilität_mit_rfid_tag">7.5.1. Kompatibilität mit RFID Tag</a></li>
+<li><a href="#_rfid_tag_daten_ausgeben">7.5.2. RFID Tag Daten ausgeben</a></li>
 </ul>
 </li>
-<li><a href="#_stepper_motor_2">7.8. Stepper Motor</a>
+<li><a href="#_grove_ultrasonic_ranger">7.6. Grove Ultrasonic Ranger</a>
 <ul class="sectlevel3">
-<li><a href="#_single_stepping">7.8.1. Single Stepping</a></li>
-<li><a href="#_double_stepping">7.8.2. Double Stepping</a></li>
-<li><a href="#_half_stepping">7.8.3. Half Stepping</a></li>
-<li><a href="#_motor_drehen">7.8.4. Motor drehen</a></li>
-<li><a href="#_drehrichtung_ändern">7.8.5. Drehrichtung ändern</a></li>
+<li><a href="#_trigger_signal">7.6.1. Trigger Signal</a></li>
+<li><a href="#_echo_messen">7.6.2. Echo messen</a></li>
 </ul>
 </li>
-<li><a href="#_servo_motor_2">7.9. Servo Motor</a>
+<li><a href="#_potentiometer_2">7.7. Potentiometer</a>
 <ul class="sectlevel3">
-<li><a href="#_steuerung_über_pwm">7.9.1. Steuerung über PWM</a></li>
-<li><a href="#_winkel_setzen">7.9.2. Winkel setzen</a></li>
+<li><a href="#_konstruktor">7.7.1. Konstruktor</a></li>
+<li><a href="#_wertebereich_setzen">7.7.2. Wertebereich setzen</a></li>
+<li><a href="#_value_lesen">7.7.3. Value lesen</a></li>
 </ul>
 </li>
-<li><a href="#_grove_serial_camera_2">7.10. Grove Serial Camera</a>
+<li><a href="#_dc_motor_2">7.8. DC Motor</a>
 <ul class="sectlevel3">
-<li><a href="#_protokoll">7.10.1. Protokoll</a></li>
-<li><a href="#_verbindung_mit_der_kamera_aufbauen">7.10.2. Verbindung mit der Kamera aufbauen</a></li>
-<li><a href="#_jpeg_foto_anfordern">7.10.3. JPEG Foto anfordern</a></li>
-<li><a href="#_bildgrösser_ermitteln">7.10.4. Bildgrösser ermitteln</a></li>
-<li><a href="#_bild_pakete_empfangen">7.10.5. Bild Pakete empfangen</a></li>
+<li><a href="#_motor_treiber_l293d">7.8.1. Motor Treiber L293D</a></li>
+<li><a href="#_drehrichtung_wechseln">7.8.2. Drehrichtung wechseln</a></li>
+<li><a href="#_geschwindigkeit_anpassen">7.8.3. Geschwindigkeit anpassen</a></li>
 </ul>
 </li>
-<li><a href="#_raspberry_pi_camera_2">7.11. Raspberry Pi Camera</a>
+<li><a href="#_stepper_motor_2">7.9. Stepper Motor</a>
 <ul class="sectlevel3">
-<li><a href="#_terminal_befehle">7.11.1. Terminal Befehle</a></li>
-<li><a href="#_java_library_für_bildaufnahme">7.11.2. Java Library für Bildaufnahme</a></li>
-<li><a href="#_bildaufnahme">7.11.3. Bildaufnahme</a></li>
-<li><a href="#_videoaufnahme">7.11.4. Videoaufnahme</a></li>
+<li><a href="#_single_stepping">7.9.1. Single Stepping</a></li>
+<li><a href="#_double_stepping">7.9.2. Double Stepping</a></li>
+<li><a href="#_half_stepping">7.9.3. Half Stepping</a></li>
+<li><a href="#_motor_drehen">7.9.4. Motor drehen</a></li>
+<li><a href="#_drehrichtung_ändern">7.9.5. Drehrichtung ändern</a></li>
+</ul>
+</li>
+<li><a href="#_servo_motor_2">7.10. Servo Motor</a>
+<ul class="sectlevel3">
+<li><a href="#_steuerung_über_pwm">7.10.1. Steuerung über PWM</a></li>
+<li><a href="#_winkel_setzen">7.10.2. Winkel setzen</a></li>
+</ul>
+</li>
+<li><a href="#_grove_serial_camera_2">7.11. Grove Serial Camera</a>
+<ul class="sectlevel3">
+<li><a href="#_protokoll">7.11.1. Protokoll</a></li>
+<li><a href="#_verbindung_mit_der_kamera_aufbauen">7.11.2. Verbindung mit der Kamera aufbauen</a></li>
+<li><a href="#_jpeg_foto_anfordern">7.11.3. JPEG Foto anfordern</a></li>
+<li><a href="#_bildgrösser_ermitteln">7.11.4. Bildgrösser ermitteln</a></li>
+<li><a href="#_bild_pakete_empfangen">7.11.5. Bild Pakete empfangen</a></li>
+</ul>
+</li>
+<li><a href="#_raspberry_pi_camera_2">7.12. Raspberry Pi Camera</a>
+<ul class="sectlevel3">
+<li><a href="#_terminal_befehle">7.12.1. Terminal Befehle</a></li>
+<li><a href="#_java_library_für_bildaufnahme">7.12.2. Java Library für Bildaufnahme</a></li>
+<li><a href="#_bildaufnahme">7.12.3. Bildaufnahme</a></li>
+<li><a href="#_videoaufnahme">7.12.4. Videoaufnahme</a></li>
 </ul>
 </li>
 </ul>
@@ -688,15 +713,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </div>
 <div class="paragraph">
-<p><strong>Datum</strong>: 2020-08-07</p>
+<p><strong>Datum</strong>: 2020-08-08</p>
 </div>
 <div style="page-break-after: always;"></div>
-<h2 id="_inhaltsverzeichnis" class="discrete">Inhaltsverzeichnis</h2>
 <!-- toc disabled -->
 <div style="page-break-after: always;"></div>
 <div class="sect1">
-<h2 id="_todo_einleitung">TODO Einleitung</h2>
+<h2 id="_einleitung">Einleitung</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Dieses Tutorial soll den Studierenden der FHNW eine Hilfestellung bieten für die IoT Projekte in IP1/2. Es wird gezeigt, wie der Raspberry Pi grundlegend funktioniert und wie es mit anderen Geräten interagieren kann. Das Ziel dieses Tutorials ist es, dass die Entwicklung und die Arbeit an der Software der Projekte in den Vordergrund rückt und der elektrotechnische Teil erleichtert wird. Im Fokus bei der Entwicklung steht Java mit der Pi4J-Library, welche für Java IoT-Projekte auf dem Raspberry Pi genutzt wird.</p>
+</div>
+<div class="paragraph">
+<p>Der Hauptteil des Tutorials befasst sich mit verschiedenen Sensoren und Aktoren, welche an den Raspberry Pi angeschlossen werden können, welche zur erleichterten Verwendung hauseigene Komponenten-Klassen in Java bekommen haben. Diese Komponenten-Klassen können als Library in den IoT Projekten verwendet werden.</p>
+</div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -1726,8 +1756,88 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_todo_api">5.4.2. TODO: API</h4>
-
+<h4 id="_api_4">5.4.2. API</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. I2C LCD - Konstruktoren</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I2CLCD​(int address, int busNumber)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Standard Constructor that needs address and the busnumber to initialise</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I2CLCD​(com.pi4j.io.i2c.I2CDevice device)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor that needs I2C information in the pi4j I2CDevice object</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. I2C LCD - Funktionen</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">init()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sends initialisation commands to display</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">clearText()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">clears the lcd text</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">displayText​(String text)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">displays a text on the first line of the display.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">displayText​(String text, int line)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">writes string to the lcd display on a specific line.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">displayText​(String text, int line, int pos, boolean jumpToNextLine)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">displays the string with an additional position.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">displayScrollText​(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">shows text on display and scrolls it with a delay</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">displayBounceText​(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">displays the text and scrolls to the sides, but bounces back.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">writeCharacter​(byte charvalue)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">write a character to lcd</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">setBacklightState​(boolean state)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">define backlight on / off(lcd.backlight(1) off = lcd.backlight(0)</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_anwendungsbeispiel_4">5.4.3. Anwendungsbeispiel</h4>
@@ -1795,9 +1905,9 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_api_4">5.5.2. API</h4>
+<h4 id="_api_5">5.5.2. API</h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. Potentiometer - Konstruktoren</caption>
+<caption class="title">Table 9. Potentiometer - Konstruktoren</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1814,7 +1924,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. Potentiometer - Funktionen</caption>
+<caption class="title">Table 10. Potentiometer - Funktionen</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -1886,12 +1996,48 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/grove_rfid_reader.png" alt="grove rfid reader" width="75% Grove RFID Reader Fritzing">
 </div>
-<div class="title">Figure 25. Serial Camera Verkabelung</div>
+<div class="title">Figure 25. Grove RFID Reader Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_todo_api_2">5.6.2. TODO: API</h4>
-
+<h4 id="_api_6">5.6.2. API</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 11. RFID Reader - Konstruktoren</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RFIDReaderComponent​(com.pi4j.util.Console console)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor of the RFID Reader</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 12. RFID - Funktionen</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">addListener​(com.pi4j.io.serial.SerialDataEventListener&#8230;&#8203; listener)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adds Listeners for when the device receives data</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_anwendungsbeispiel_6">5.6.3. Anwendungsbeispiel</h4>
@@ -1920,7 +2066,114 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_dc_motor">5.7. DC Motor</h3>
+<h3 id="_ultrasonic_ranger">5.7. Ultrasonic Ranger</h3>
+<div class="paragraph">
+<p>Der Grove Ultrasonic Ranger ist ein Grove Modul, welches an eines der digitalen Adapter des Grove Hats angeschlossen werden kann. Der Ultrasonic Ranger misst die Distanz zwischen dem Sensor und einem Ziel indem die Zeit zwischen der Emission und der Rezeption einer Ultraschallwelle gemessen wird. Es kann Distanzen von bis zu 2m lesen.</p>
+</div>
+<div class="paragraph">
+<p><strong>Formel zur Distanzmessung: 0.5 * T * C</strong><br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>T ist die Zeit zwischen Emission und Rezeption der Ultraschallwelle (Davon die Hälfte, da nur der einfache Weg verwendet wird)</p>
+</li>
+<li>
+<p>C ist die Ultraschallwellengeschwindigkeit</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_verkabelung_7">5.7.1. Verkabelung</h4>
+<div class="paragraph">
+<p>Für die Verkabelung wird folgende Hardware benötigt:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>1x Grove Ultrasonic Ranger</p>
+</li>
+<li>
+<p>1x Grove Adapter Kabel</p>
+</li>
+<li>
+<p>1x Grove Hat</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/Grove_Ultrasonic_Ranger.jpg" alt="Grove Ultrasonic Ranger" width="75% RaspiCam Wiring">
+</div>
+<div class="title">Figure 26. Ultrasonic Ranger Verkabelung</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_api_7">5.7.2. API</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 13. Ultrasonic Ranger - Konstruktoren</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UltraSonicRangerComponent​(GroveAdapter groveAdapter)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Standard Constructor for the Ultra Sonic Ranger that only needs grove hat connection information</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 14. Ultrasonic Ranger - Funktionen</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">measureInCentimeter()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Measures the distance between the device and an object in cm</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">measureInInches()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Measures the distance between the device and an object in inches</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_anwendungsbeispiel_7">5.7.3. Anwendungsbeispiel</h4>
+<div class="paragraph">
+<p>In diesem Beispiel wird der Grove Ultrasonic Ranger an den D5 Adapter des Grove Hats angeschlossen und es wird sekündlich die Distanz gemessen zwischen dem Device und einem Ziel.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">            UltraSonicRangerComponent ultraSonicRangerComponent = new UltraSonicRangerComponent(GroveAdapter.D5);
+
+            //Shows the measured distance every second
+            while (true) {
+                long distance = ultraSonicRangerComponent.measureInCentimeter();
+                console.println(distance);
+                Thread.sleep(1000);
+            }</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dc_motor">5.8. DC Motor</h3>
 <div class="paragraph">
 <p>Gleichstrommotoren arbeiten, wie der Name schon verrät, mit Gleichstrom. Da der Raspberry Pi Gleichstrom mit 3.3 Volt sowie 5.0 Volt zur Verfügung stellt, können die Motoren direkt an den Stromkreis des Pi angeschlossen werden. Alternativ kann auch eine stärkere, externe Spannungsquelle verwendet werden. Dabei gilt aber zu beachten, dass der Motor nicht überlastet wird.</p>
 </div>
@@ -1941,10 +2194,10 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/motor_and_driver.png" alt="motor and driver" width="75% DC Motor and Driver">
 </div>
-<div class="title">Figure 26. Motor und Treiber</div>
+<div class="title">Figure 27. Motor und Treiber</div>
 </div>
 <div class="sect3">
-<h4 id="_verkabelung_7">5.7.1. Verkabelung</h4>
+<h4 id="_verkabelung_8">5.8.1. Verkabelung</h4>
 <div class="paragraph">
 <p>Für die Verkabelung wird folgende Hardware benötigt:</p>
 </div>
@@ -1965,13 +2218,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/motor.png" alt="motor" width="75% DC Motor Fritzing">
 </div>
-<div class="title">Figure 27. DC Motor Verkabelung</div>
+<div class="title">Figure 28. DC Motor Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_api_5">5.7.2. API</h4>
+<h4 id="_api_8">5.8.2. API</h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. Motor - Konstruktoren</caption>
+<caption class="title">Table 15. Motor - Konstruktoren</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1992,7 +2245,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. Motor - Funktionen</caption>
+<caption class="title">Table 16. Motor - Funktionen</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -2033,7 +2286,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_anwendungsbeispiel_7">5.7.3. Anwendungsbeispiel</h4>
+<h4 id="_anwendungsbeispiel_8">5.8.3. Anwendungsbeispiel</h4>
 <div class="paragraph">
 <p>Das Code Beispiel erzeugt ein neues <code>MotorComponent</code>. Bei der Erstellung wird jener Konstruktor benutzt, welcher PWM Pins unterstützt. Dieser erlaubt die Drosselung der Drehzahldes Motors.</p>
 </div>
@@ -2078,7 +2331,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_stepper_motor">5.8. Stepper Motor</h3>
+<h3 id="_stepper_motor">5.9. Stepper Motor</h3>
 <div class="paragraph">
 <p>Der Stepper Motor oder Schrittmotor rotiert die in seiner Mitte liegende Welle in Schritten. Die Welle eines Schrittmotors dreht sich im Vergleich zu jener eines Gleichstrommotors sehr langsam. Dafür kann der Schrittmotor sehr genau gesteuert werden. Je nach eingestelltem Modus variiert die Anzahl der Schritte, welche für eine gesamte Drehung benötigt werden. Der Modus beeinflusst auch die Kraft, welcher der Motor hat und hat Zusammenhang mit dem resultierenden Energieverbrauch des Motors.</p>
 </div>
@@ -2086,7 +2339,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <p>In der unten abgebildeten Tabelle beziehen wir uns auf den weit verbreiteten Schrittmotor 28BYJ-48. Eine Drehung des Zylinders innerhalb des Motors resultiert in einer Drehung der Welle um 11.25°. Für eine Komplette Drehung werden also 360° / 11.25° = 32 Schritte benötigt. Ein Getriebe innerhalb des Motors reduziert einen einzelnen Schritt in weitere 64 Steps. Unter Verwendung des Full oder Dual Stepping bedeutet ein einzelner Step also eine Drehung um 360° / (32 * 64) = 0.17578125°. Bei Half Stepping verdoppelt sich die Anzahl der möglichen Schritte, was eine Drehgenauigkeit von 0.087890625° zulässt.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. Stepper Motor Modi</caption>
+<caption class="title">Table 17. Stepper Motor Modi</caption>
 <colgroup>
 <col style="width: 16.6666%;">
 <col style="width: 33.3333%;">
@@ -2132,10 +2385,10 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/stepper_motor_and_driver.png" alt="stepper motor and driver" width="75% RaspiCam Wiring">
 </div>
-<div class="title">Figure 28. Stepper Motor Verkabelung</div>
+<div class="title">Figure 29. Stepper Motor Verkabelung</div>
 </div>
 <div class="sect3">
-<h4 id="_verkabelung_8">5.8.1. Verkabelung</h4>
+<h4 id="_verkabelung_9">5.9.1. Verkabelung</h4>
 <div class="paragraph">
 <p>Für die Verkabelung wird folgende Hardware benötigt:</p>
 </div>
@@ -2156,13 +2409,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/stepper_motor.png" alt="stepper motor" width="75% RaspiCam Wiring">
 </div>
-<div class="title">Figure 29. Stepper Motor Verkabelung</div>
+<div class="title">Figure 30. Stepper Motor Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_api_6">5.8.2. API</h4>
+<h4 id="_api_9">5.9.2. API</h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. Stepper Motor - Konstruktoren</caption>
+<caption class="title">Table 18. Stepper Motor - Konstruktoren</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2191,7 +2444,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 13. Stepper Motor - Funktionen</caption>
+<caption class="title">Table 19. Stepper Motor - Funktionen</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -2242,7 +2495,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_anwendungsbeispiel_8">5.8.3. Anwendungsbeispiel</h4>
+<h4 id="_anwendungsbeispiel_9">5.9.3. Anwendungsbeispiel</h4>
 <div class="paragraph">
 <p>Das unten abgebildete Beispiel zeigt die Verwendung der verschiedenen Stepper Motor Modi. Das Beispiel verwendet den Konstruktor mit den meisten Default Values. Die Step Delay beträgt also 2 Millisekunden und der Modus wird initial auf <code>StepperMotorMode.SINGLE_STEP</code> gesetzt. Nach der Initialisierung wird der Motor in den verschiedenen Modi vorwärts und zurück gedreht. Vor jedem Wechsel in einen anderen Modus wird fünf Sekunden gewartet.</p>
 </div>
@@ -2300,12 +2553,12 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_servo_motor">5.9. Servo Motor</h3>
+<h3 id="_servo_motor">5.10. Servo Motor</h3>
 <div class="paragraph">
 <p>Mittels Servo Motoren können spezifische Winkelpositionen eingestellt und gehalten werden. Positionen können dabei zügig gewechselt werden. Die meisten Servo Motoren erlauben Winkel zwischen 0 und 180 Grad. Der einzustellende Winkel wird dabei über PWM gesteuert. Genauer gesagt über dessen Pulslänge.</p>
 </div>
 <div class="sect3">
-<h4 id="_verkabelung_9">5.9.1. Verkabelung</h4>
+<h4 id="_verkabelung_10">5.10.1. Verkabelung</h4>
 <div class="paragraph">
 <p>Für die Verkabelung wird folgende Hardware benötigt:</p>
 </div>
@@ -2323,13 +2576,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/servo_motor.png" alt="servo motor" width="75% Servo Motor Fritzing">
 </div>
-<div class="title">Figure 30. Servo Motor Verkabelung</div>
+<div class="title">Figure 31. Servo Motor Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_api_7">5.9.2. API</h4>
+<h4 id="_api_10">5.10.2. API</h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 14. Servo Motor - Konstruktoren</caption>
+<caption class="title">Table 20. Servo Motor - Konstruktoren</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2354,7 +2607,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 15. Servo Motor - Funktionen</caption>
+<caption class="title">Table 21. Servo Motor - Funktionen</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -2395,7 +2648,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_anwendungsbeispiel_9">5.9.3. Anwendungsbeispiel</h4>
+<h4 id="_anwendungsbeispiel_10">5.10.3. Anwendungsbeispiel</h4>
 <div class="paragraph">
 <p>Das unten abgebildete Beispiel zeigt die Verwendung unserer ServoMotorComponent. Es benutzt den Konstruktor mit den meisten Standardwerten. Dieser eignet sich für die meisten 180° Mini und Micro Servos.</p>
 </div>
@@ -2434,7 +2687,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_grove_serial_camera">5.10. Grove Serial Camera</h3>
+<h3 id="_grove_serial_camera">5.11. Grove Serial Camera</h3>
 <div class="paragraph">
 <p>Die Grove Serial Camera besteht aus einem Kamera Modul und einem Control Board, welches die Kommunikation zwischen der Kamera und dem Raspberry Pi über den Serial Bus ermöglicht. Die Kamera benötigt eine Spannung von 5 Volt, weshalb sie leider nicht mit unserem Grove Hat kompatibel ist. Dieser liefert nur 3.3 Volt an die Grove Adapter. Um die Kamera dennoch nutzen zu können, muss sie via Jumper Kabel an den Serial Port des Raspberry Pi angeschlossen werden. Weitere Informationen zur Verkabelung können dem Tutorial entnommen werden.</p>
 </div>
@@ -2442,10 +2695,10 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera.jpg" alt="Grove Serial Camera" width="75% Grove Serial Camera">
 </div>
-<div class="title">Figure 31. Grove Serial Camera</div>
+<div class="title">Figure 32. Grove Serial Camera</div>
 </div>
 <div class="sect3">
-<h4 id="_verkabelung_10">5.10.1. Verkabelung</h4>
+<h4 id="_verkabelung_11">5.11.1. Verkabelung</h4>
 <div class="paragraph">
 <p>Für die Verkabelung wird folgende Hardware benötigt:</p>
 </div>
@@ -2463,13 +2716,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/grove_serial_cam.png" alt="grove serial cam" width="75% Grove Serial Camera Fritzing">
 </div>
-<div class="title">Figure 32. Serial Camera Verkabelung</div>
+<div class="title">Figure 33. Serial Camera Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_api_8">5.10.2. API</h4>
+<h4 id="_api_11">5.11.2. API</h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 16. Serial Camera - Konstruktoren</caption>
+<caption class="title">Table 22. Serial Camera - Konstruktoren</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2498,7 +2751,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 17. Serial Camera - Funktionen</caption>
+<caption class="title">Table 23. Serial Camera - Funktionen</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -2529,7 +2782,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_anwendungsbeispiel_10">5.10.3. Anwendungsbeispiel</h4>
+<h4 id="_anwendungsbeispiel_11">5.11.3. Anwendungsbeispiel</h4>
 <div class="paragraph">
 <p>Das unten abgebildete Code Beispiel zeigt, wie mit der Hilfe unserer SerialCameraComponent ein JPEG Foto geschossen und unter einem bestimmten Pfad abgespeichert werden kann.</p>
 </div>
@@ -2548,7 +2801,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_raspberry_pi_camera">5.11. Raspberry Pi Camera</h3>
+<h3 id="_raspberry_pi_camera">5.12. Raspberry Pi Camera</h3>
 <div class="paragraph">
 <p>Die Raspberry Pi Camera ist die Camera Komponente, welche standardmässig vom Pi unterstützt wird. Es ist eine kleine 8MP Kamera, die über ein Flachbandkabel direkt an den Pi angeschlossen werden kann. Man kann 3280 x 2464 Pixel für Bilder verwenden und 1080p mit 30fps/ 720p mit 60fps/ 640x480p mit 90fps für Videos.</p>
 </div>
@@ -2556,7 +2809,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/RaspberryPi_Camera.jpg" alt="RaspberryPi Camera" width="70% RaspiCam">
 </div>
-<div class="title">Figure 33. Raspberry Pi Camera</div>
+<div class="title">Figure 34. Raspberry Pi Camera</div>
 </div>
 <div class="paragraph">
 <p>Für die Verwendung muss sie aber zunächst im OS aktiviert werden. Unter den Interfacing Options, von raspi-config können Sie es problemlos aktivieren.</p>
@@ -2565,7 +2818,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/RaspberryPi_Camera_Activation.jpg" alt="RaspberryPi Camera Activation" width="60% activate RaspiCam">
 </div>
-<div class="title">Figure 34. Raspberry Pi Camera aktivieren</div>
+<div class="title">Figure 35. Raspberry Pi Camera aktivieren</div>
 </div>
 <div class="paragraph">
 <p>Rasbian OS enthält auch Applikationen, welche sie nutzen können, um die Camera in der Console zu testen.</p>
@@ -2586,7 +2839,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <a href="#_terminal_befehle">Terminal Befehle</a></p>
 </div>
 <div class="sect3">
-<h4 id="_verkabelung_11">5.11.1. Verkabelung</h4>
+<h4 id="_verkabelung_12">5.12.1. Verkabelung</h4>
 <div class="paragraph">
 <p>Für die Verkabelung wird folgende Hardware benötigt:</p>
 </div>
@@ -2601,17 +2854,79 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/raspiCam.png" alt="raspiCam" width="60% RaspiCam Wiring">
 </div>
-<div class="title">Figure 35. Raspberry Pi Camera Verkabelung</div>
+<div class="title">Figure 36. Raspberry Pi Camera Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_api_9">5.11.2. API</h4>
-<div class="paragraph">
-<p>TODO</p>
-</div>
+<h4 id="_api_12">5.12.2. API</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 24. Raspberry Pi Camera - Konstruktoren</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RaspberryPiCameraComponent​(com.pi4j.util.Console console, uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for only using the picture functionality</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RaspberryPiCameraComponent​(com.pi4j.util.Console console, fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for only using the video functionality</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RaspberryPiCameraComponent​(com.pi4j.util.Console console, uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration, fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for using the picture and video functionality</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 25. Raspberry Pi Camera - Funktionen</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">takeStill()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">takes picture and saves it to the default Pictures folder</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">takeStill​(String outputPath)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Takes picture and saves it to the specified outputPath</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">takeStill​(String outputPath, int delay)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Takes a picture using the picam library and saves it to the specified output after a delay</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">takeVid​(java.lang.String outputPath)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Takes a video with the configuration and saves it to the output path</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CameraConfiguration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">createCameraConfiguration()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The picam library has a private constructor and therefore needs this method</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
-<h4 id="_anwendungsbeispiel_11">5.11.3. Anwendungsbeispiel</h4>
+<h4 id="_anwendungsbeispiel_12">5.12.3. Anwendungsbeispiel</h4>
 <div class="paragraph">
 <p>In diesem Code Beispiel wird die Raspberry Pi Camera mit der <code>RaspberryPiCameraComponent</code> verwendet, um zwei Bilder und ein Video aufzunehmen in den Ordner <code>/home/pi/Pictures/</code>. <br>
 <strong>Vorkenntnisse: Intermediate</strong></p>
@@ -2788,7 +3103,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://www.elektronik-kompendium.de/sites/raspberry-pi/2006051.htm"><img src="./assets/images/pulldown.gif" alt="pulldown" width="75% Pulldown Ressistor"></a>
 </div>
-<div class="title">Figure 36. Schaltbild Pulldown-Wiederstand</div>
+<div class="title">Figure 37. Schaltbild Pulldown-Wiederstand</div>
 </div>
 <div class="paragraph">
 <p>Wie man im Schaltbild erkennen kann, liest der GPIO Pin bei offenem Schalter eine Spannung von 0V des Ground Pins. Bei geschlossenem Schalter liegt die volle Spannung von 3.3V am GPIO Pin an. Der Input Pin besitzt also immer einen fixen Zustand. Entweder ist er High oder Low.</p>
@@ -2847,7 +3162,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://www.islproducts.com/design-notes/piezo-buzzers-vs-magnetic-buzzers/"><img src="./assets/images/buzzer_construction.jpg" alt="buzzer construction" width="75% Buzzer Construction"></a>
 </div>
-<div class="title">Figure 37. Buzzer Aufbau</div>
+<div class="title">Figure 38. Buzzer Aufbau</div>
 </div>
 <div class="sect3">
 <h4 id="_clock_divider_berechnen">7.3.1. Clock Divider berechnen</h4>
@@ -2885,16 +3200,323 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_todo_lcd_i2c">7.4. TODO: LCD I2C</h3>
+<h3 id="_lcd_i2c_2">7.4. LCD I2C</h3>
+<div class="paragraph">
+<p>Das LCD Modul besteht aus dem LCD1602 I2C und dem PCF8574 I2C extender Mikrochip auf dem Rücken des LCDs. Der I2C Extender vereinfacht die Verkabelung und das Senden von Daten an das LCD-Display, da man ohne I2C Extender 8 GPIO Pins belegen müsste.</p>
+</div>
+<div class="sect3">
+<h4 id="_befehle_für_den_lcd1602">7.4.1. Befehle für den LCD1602</h4>
+<div class="paragraph">
+<p>Das LCD1602 besitzt den folgenden Befehlssatz:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    private final byte LCD_CLEARDISPLAY = (byte) 0x01;
+    private final byte LCD_RETURNHOME = (byte) 0x02;
+    private final byte LCD_ENTRYMODESET = (byte) 0x04;
+    private final byte LCD_DISPLAYCONTROL = (byte) 0x08;
+    private final byte LCD_CURSORSHIFT = (byte) 0x10;
+    private final byte LCD_FUNCTIONSET = (byte) 0x20;
+    private final byte LCD_SETCGRAMADDR = (byte) 0x40;
+    private final byte LCD_SETDDRAMADDR = (byte) 0x80;
 
+    // flags for display entry mode
+    private final byte LCD_ENTRYRIGHT = (byte) 0x00;
+    private final byte LCD_ENTRYLEFT = (byte) 0x02;
+    private final byte LCD_ENTRYSHIFTINCREMENT = (byte) 0x01;
+    private final byte LCD_ENTRYSHIFTDECREMENT = (byte) 0x00;
+
+    // flags for display on/off control
+    private final byte LCD_DISPLAYON = (byte) 0x04;
+    private final byte LCD_DISPLAYOFF = (byte) 0x00;
+    private final byte LCD_CURSORON = (byte) 0x02;
+    private final byte LCD_CURSOROFF = (byte) 0x00;
+    private final byte LCD_BLINKON = (byte) 0x01;
+    private final byte LCD_BLINKOFF = (byte) 0x00;
+
+    // flags for display/cursor shift
+    private final byte LCD_DISPLAYMOVE = (byte) 0x08;
+    private final byte LCD_CURSORMOVE = (byte) 0x00;
+    private final byte LCD_MOVERIGHT = (byte) 0x04;
+    private final byte LCD_MOVELEFT = (byte) 0x00;
+
+    // flags for function set
+    private final byte LCD_8BITMODE = (byte) 0x10;
+    private final byte LCD_4BITMODE = (byte) 0x00;
+    private final byte LCD_2LINE = (byte) 0x08;
+    private final byte LCD_1LINE = (byte) 0x00;
+    private final byte LCD_5x10DOTS = (byte) 0x04;
+    private final byte LCD_5x8DOTS = (byte) 0x00;
+
+    // flags for backlight control
+    private final byte LCD_BACKLIGHT = (byte) 0x08;
+    private final byte LCD_NOBACKLIGHT = (byte) 0x00;
+
+    private final byte En = (byte) 0b00000100; // Enable bit
+    private final byte Rw = (byte) 0b00000010; // Read/Write bit
+    private final byte Rs = (byte) 0b00000001; // Register select bit</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_initialisierung">7.4.2. Initialisierung</h4>
+<div class="paragraph">
+<p>Das LCD Display wird im nach dem Protokoll folgendermassen initialisiert:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="https://www.waveshare.com/datasheet/LCD_en_PDF/LCD1602.pdf"><img src="./assets/images/LCD_Init.PNG" alt="LCD Init" width="75% LCD Init"></a>
+</div>
+<div class="title">Figure 39. LCD1602 Init</div>
+</div>
+<div class="paragraph">
+<p>Die Initialisierung wurde in java folgendermassen realisiert:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    public void init() {
+        try {
+            writeCommand((byte) 0x03);
+            writeCommand((byte) 0x03);
+            writeCommand((byte) 0x03);
+            writeCommand((byte) 0x02);
+
+            writeCommand((byte) (LCD_FUNCTIONSET | LCD_2LINE | LCD_5x8DOTS | LCD_4BITMODE));
+            writeCommand((byte) (LCD_DISPLAYCONTROL | LCD_DISPLAYON));
+            writeCommand(LCD_CLEARDISPLAY);
+            writeCommand((byte) (LCD_ENTRYMODESET | LCD_ENTRYLEFT));
+            Thread.sleep(0, 200000);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_text_auf_dem_display_anzeigen">7.4.3. Text auf dem Display anzeigen</h4>
+<div class="paragraph">
+<p>Sobald das LCD-Display initialisiert wurde, kann es jedes Zeichen auf der Zeichentabelle anzeigen. Das Display hat zwei Zeilen mit Platz für je 16 Zeichen, welche einzeln dem LCD zugeschickt werden müssen. Die einzelnen Zeichen werden in 8 Bit dargestellt, da aber das Gerät im 4-Bit Modus arbeitet, werden zuerst die 4-Bit auf der linken Seite der Zeichentabelle gesendet und danach die 4-Bit die oben zusehen sind in der Zeichentabelle.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="https://www.waveshare.com/datasheet/LCD_en_PDF/LCD1602.pdf"><img src="./assets/images/LCD_Characters.PNG" alt="LCD Characters" width="75% LCD Character Table"></a>
+</div>
+<div class="title">Figure 40. LCD1602 Zeichentabelle</div>
+</div>
+<div class="paragraph">
+<p>Wenn dem <code>I2CLCDComponent</code> ein ganzer String übergeben wird, dann werden alle Zeichen des Strings einzeln dem LCD geschickt und jeweils in zwei Nibbles (4-Bits) eingeteilt und gesendet.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    public void displayText(String text, int line, int pos, boolean jumpToNextLine) {
+        if (text.length() &gt; 32 - pos)
+            text = text.substring(0, 31 - pos);
+
+        String firstLine = text, secondLine = text;
+
+        byte posNew;
+
+        //lcd only has 2 lines, so I assume the first one if the second one wasn't selected explicitly
+        if (line != 2) {
+            posNew = (byte) pos;
+            if (text.length() &gt; COLUMNS - pos) {
+                firstLine = text.substring(0, 15 - pos);
+                secondLine = text.substring(COLUMNS - pos, text.length() - 1);
+            }
+            displayLine(firstLine, posNew);
+            if (jumpToNextLine) displayLine(secondLine, posNew + 0x40);
+        } else {
+            posNew = (byte) (0x40 + pos);
+            displayLine(secondLine, posNew);
+        }
+    }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_spezielle_anzeigefunktionen">7.4.4. Spezielle Anzeigefunktionen</h4>
+<div class="paragraph">
+<p>Das <code>I2CLCDComponent</code> hat zusätzlich zur normalen Anzeige noch 2 weitere Funktionen für besondere Anzeigemöglichkeiten:</p>
+</div>
+<div class="paragraph">
+<p><strong>Scroll Text</strong><br>
+Ein Scroll Text ist ein Text, welcher von der Länge her die 32 Zeichen auf dem LCD übersteigt, deshalb werden zuerst einfach die ersten 32 Zeichen auf dem Display angezeigt. Mit einer Verzögerung, die man selber angeben kann, verschwinden dann langsam die ersten Zeichen und die darauffolgenden Zeichen werden angezeigt, was dann aussieht wie ein seitliches Scrollen.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    public void displayScrollText(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) throws InterruptedException {
+        String paddedtext = getEmptyLine() + text;
+
+        for (int i = 0; i &lt; paddedtext.length(); i++) {
+            displayText(paddedtext.substring(i), line, 0, jumpToNextLine);
+            Thread.sleep(delay);
+            if (jumpToNextLine)
+                clearText();
+            else
+                clearLine(line);
+
+            if (i == paddedtext.length() - 1 &amp;&amp; startAgain)
+                displayScrollText(text, line, delay, jumpToNextLine, startAgain);
+        }
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Bounce Text</strong><br>
+Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit geschenkt wird mittels eines kleinen Effekts. Ein kurzer Text bewegt sich mit einer Verzögerung von der einen Seite zur anderen, als würde der Text von der einen Seite zur Anderen springen.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    public void displayBounceText(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) throws InterruptedException {
+        if (text.length() &gt;= COLUMNS - 1) { // Bounce doesn't make sense for a large text
+            displayText(text, line);
+        }
+        //shifts the whole text to the right end
+        for (int i = 0; i &lt; COLUMNS - text.length(); i++) {
+            if (i + text.length() &lt;= COLUMNS) {
+                displayText(text, line, i, jumpToNextLine);
+                Thread.sleep(delay);
+                if (jumpToNextLine)
+                    clearText();
+                else
+                    clearLine(line);
+            }
+        }
+        //shifts the whole text to the left end
+        for (int i = COLUMNS - text.length(); i &gt; 0; i--) {
+            displayText(text, line, i, jumpToNextLine);
+            Thread.sleep(delay);
+            if (jumpToNextLine)
+                clearText();
+            else
+                clearLine(line);
+        }
+        if (startAgain) displayBounceText(text, line, delay, jumpToNextLine, startAgain);
+    }</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_potentiometer_2">7.5. Potentiometer</h3>
+<h3 id="_grove_rfid_reader_2">7.5. Grove RFID Reader</h3>
+<div class="paragraph">
+<p>Dieses Grove-125kHz RFID-Lesegerät ist ein Modul zum Lesen von em4100 RFID-Karteninformationen mit dem Ausgabeformaten Uart. Es hat eine Empfindlichkeit mit maximal 7cm Erfassungsabstand.</p>
+</div>
+<div class="paragraph">
+<p>Der Grove RFID Reader erzeugt ein elektromagnetisches Wechselfeld , dem der RFID-Tag ausgesetzt wird. Die Hochfrequenzenergie versorgt den Chip im RFID-Tag mit Strom und der RFID-Tag kann dann die Daten auf dem Tag an den RFID Reader übertragen.</p>
+</div>
+<div class="sect3">
+<h4 id="_kompatibilität_mit_rfid_tag">7.5.1. Kompatibilität mit RFID Tag</h4>
+<div class="paragraph">
+<p>Nicht jeder RFID-Tag ist mit dem Grove RFID Reader kompatibel. Die Daten auf dem Tag müssen dem Standart em4100 entsprechen, damit sie gelesen werden können. Em4100 legt fest, dass sich auf dem Tag 64 Bit Readonly Memory in folgendem Format befinden:
+.em4100 Aufbau</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="http://www.priority1design.com.au/em4100_protocol.html"><img src="./assets/images/RFID_em4100.PNG" alt="RFID em4100" width="75% RFID em4100"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>Ausserdem muss der Tag im selben Langwellen-Bereich von 125kHZ arbeiten können.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_rfid_tag_daten_ausgeben">7.5.2. RFID Tag Daten ausgeben</h4>
+<div class="paragraph">
+<p>Um die Daten aus dem Tag auszulesen kann man einfach den <code>SerialDataEventListener</code> von Pi4J dem <code>RFIDReaderComponent</code> übergeben. Wenn die 64 Bits an Daten beim Reader ankommen, dann werden sie davon angenommen.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">rfidReaderComponent.addListener(event -&gt; {
+    // print out the data received to the console
+    try {
+        console.println("[HEX DATA]   " + event.getHexByteString());
+        console.println("[ASCII DATA] " + event.getAsciiString());
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+});</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_grove_ultrasonic_ranger">7.6. Grove Ultrasonic Ranger</h3>
+<div class="paragraph">
+<p>Dieser Grove Ultrasonic Ranger ist ein berührungsloses Distanzmessmodul, das bei 40KHz arbeitet. Wenn wir ein Impuls-Triggersignal durch den Signal-Pin liefern, gibt der Grove Ultrasonic Ranger 8 Zyklen mit 40kHz Zykluspegel aus und erkennt das Echo.</p>
+</div>
+<div class="paragraph">
+<p>Abstand = Echosignal hohe Zeit * Schallgeschwindigkeit (340M/S) / 2.</p>
+</div>
+<div class="paragraph">
+<p>Das Triggersignal und das Echosignal des Grove Ultrasonic Ranger teilen sich denselben Pin.</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_signal">7.6.1. Trigger Signal</h4>
+<div class="paragraph">
+<p>Das Trigger Signal welches eine Ultraschallwelle mit dem Ranger abfeuert muss zunächst den Pinmodus auf Output stellen, danach wird der Pin abwechselnd mit einem in der Spezifikation definierten Abstand auf LOW, HIGH und dann wieder LOW gesetzt.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        Gpio.pinMode(pin, Gpio.OUTPUT);
+        Gpio.digitalWrite(pin, false);
+        Thread.sleep(0, 2000);
+        Gpio.digitalWrite(pin, true);
+        Thread.sleep(0, 10000);
+        Gpio.digitalWrite(pin, false);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_echo_messen">7.6.2. Echo messen</h4>
+<div class="paragraph">
+<p>Um das Echo der abgefeuerten Schallwelle zu messen, muss zunächst der Pinmodus auf Input gewechselt werden. Dann muss zunächst abgewartet werden bis der Pin LOW (Emission der Schallwelle) ist und danach bis er HIGH (Rezeption der Schallwelle) ist.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        int count = 0;
+        int TIMEOUT = 1000000; //just a large number to avoid an endless loop when there is a device problem
+
+        //wait for the pulse to start (ultra sonic wave sent)
+        while (count &lt; TIMEOUT &amp;&amp; Gpio.digitalRead(pin) == 0)
+            count++;
+
+        if (count &gt;= TIMEOUT) return 0;
+        long t1 = microTime();
+
+        count = 0;
+        //wait for the pulse to end (ultra sonic wave received)
+        while (count &lt; TIMEOUT &amp;&amp; Gpio.digitalRead(pin) == 1)
+            count++;
+        if (count &gt;= TIMEOUT) return 0;
+        long t2 = microTime();
+
+        return t2 - t1; //return the time difference between emission and reception of the ultra sonic wave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Wenn die gemessene Zeit zwischen Emission und Rezeption durch 2 geteilt wird, dann erhält man nur die Zeit bis zum Erreichen des Objektes. Um die Distanz in einer anderen Einheit darzustellen, muss man es zusätzlich durch folgende Konstanten teilen:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Für cm: <code>29</code></p>
+</li>
+<li>
+<p>Für inches: <code>74</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_potentiometer_2">7.7. Potentiometer</h3>
 <div class="paragraph">
 <p>Das Grove Potentiometer wird über einen der analogen Ports an den Grove Base Hat angeschlossen. Der Grove Base Hat stellt die gelesenen oder zu schreibenden Werte über den I2C Bus dem Raspberry Pi zur Verfügung.</p>
 </div>
 <div class="sect3">
-<h4 id="_konstruktor">7.5.1. Konstruktor</h4>
+<h4 id="_konstruktor">7.7.1. Konstruktor</h4>
 <div class="paragraph">
 <p>Die <code>PotentiometerComponent</code> Klasse erweitert die von uns implementierte <code>I2CBase</code> Basisklasse. Im Konstruktor wird die I2C Adresse des analogen Potentiometers zusammen mit der zu verwendenden Bus Nummer an die Basisklasse weitergeleitet. Da der Raspberry Pi nur einen I2C Bus besitzt, wird immer dieser Bus übergeben.</p>
 </div>
@@ -2909,7 +3531,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_wertebereich_setzen">7.5.2. Wertebereich setzen</h4>
+<h4 id="_wertebereich_setzen">7.7.2. Wertebereich setzen</h4>
 <div class="paragraph">
 <p>Der Grove Potentiometer liefert uns über den I2C Bus je nach eingestellter Position einen Wert zwischen 0 und 1000. Mittels der <code>setRange()</code> Funktion kann der Rückgabewert eingeschränkt werden. Erlaubt sind nur positive Integer dessen Differenz mindestens 10 beträgt und nicht grösser als 999 ist.</p>
 </div>
@@ -2933,7 +3555,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_value_lesen">7.5.3. Value lesen</h4>
+<h4 id="_value_lesen">7.7.3. Value lesen</h4>
 <div class="paragraph">
 <p>Der aktuelle Value des Potentiometers kann über die <code>getValue()</code> Funktion gelesen werden. Dazu verwenden wird die <code>readData()</code> Funktion unserer Basisklasse. Wir erwarten zwei Bytes auf dem Bus, welche über eine Hilfsfunktion in ein Integer Wert konvertiert werden. Der gelesenen Integer wird gemäss dem eingestellten Range zurückgegeben.</p>
 </div>
@@ -2959,16 +3581,12 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_todo_grove_rfid_reader">7.6. TODO: Grove RFID Reader</h3>
-
-</div>
-<div class="sect2">
-<h3 id="_dc_motor_2">7.7. DC Motor</h3>
+<h3 id="_dc_motor_2">7.8. DC Motor</h3>
 <div class="paragraph">
 <p>Gleichstrommotoren können mittels dem ihnen zur Verfügung gestellten Strom in ihrer Drehrichtung und Drehzahl reguliert werden. Diese Eigenschaft haben wir uns zu Nutzen gemacht, um unsere Component Klasse zu implementieren.</p>
 </div>
 <div class="sect3">
-<h4 id="_motor_treiber_l293d">7.7.1. Motor Treiber L293D</h4>
+<h4 id="_motor_treiber_l293d">7.8.1. Motor Treiber L293D</h4>
 <div class="paragraph">
 <p>Der Chip erlaubt uns das Anpassen der Drehrichtung von Gleichstrommotoren mit einer Spannungsaufnahme von bis zu 36 Volt. Jede Seite des Chips erlaubt die Kontrolle eines Motors. Mit einem einzelnen L293D können also gleich zwei Motoren individuell angesteuert werden. Die folgende Abbildung zeigt das Pinout des Chips gefolgt von einer Beschreibung der einzelnen Pins.</p>
 </div>
@@ -2976,10 +3594,10 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://components101.com/l293d-pinout-features-datasheet"><img src="./assets/images/L293D_Pinout.png" alt="L293D Pinout" width="75% L293D Pinout"></a>
 </div>
-<div class="title">Figure 38. Pinout L293D</div>
+<div class="title">Figure 41. Pinout L293D</div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 18. Beschreibung Pinout</caption>
+<caption class="title">Table 26. Beschreibung Pinout</caption>
 <colgroup>
 <col style="width: 14.2857%;">
 <col style="width: 28.5714%;">
@@ -3075,12 +3693,12 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_drehrichtung_wechseln">7.7.2. Drehrichtung wechseln</h4>
+<h4 id="_drehrichtung_wechseln">7.8.2. Drehrichtung wechseln</h4>
 <div class="paragraph">
 <p>Wie bereits erwähnt, kann die Drehrichtung des Gleichstrommotors mittels Umkehrung der Polarität der Spannungsquelle gewechselt werden. Dies ist mittels des Motor Treibers L293D sehr einfach möglich. Die Polarität der Output Pins können wir mittels des Setzens der Input Pins beeinflussen. Die untere Tabelle zeigt, wie wir die verschiedenen Drehrichtungen umgesetzt haben. In unserem Beispiel verwenden wir die linke Seite des Chips. Enable 1, 2 ist also aktive, Enable 3, 4 ist inaktiv.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 19. Beschreibung Pinout</caption>
+<caption class="title">Table 27. Beschreibung Pinout</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -3141,7 +3759,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_geschwindigkeit_anpassen">7.7.3. Geschwindigkeit anpassen</h4>
+<h4 id="_geschwindigkeit_anpassen">7.8.3. Geschwindigkeit anpassen</h4>
 <div class="paragraph">
 <p>Bei der Steuerung der Geschwindigkeit kann uns der Motor Treiber Chip nicht unterstützen. Dennoch kann die Geschwindigkeit des Motors manipuliert werden. Dies geschieht generell durch die Anpassung der am Motor anliegenden Spannung. Das Werkzeug unserer Wahl ist deshalb die <strong>P</strong>ulse <strong>W</strong>idth <strong>M</strong>odulation Funktion des Raspberry Pi.</p>
 </div>
@@ -3152,7 +3770,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://www.elektronik-kompendium.de/sites/kom/0401111.htm"><img src="./assets/images/pwm.png" alt="pwm" width="75% PWM as a Graph"></a>
 </div>
-<div class="title">Figure 39. PWM als Grafik</div>
+<div class="title">Figure 42. PWM als Grafik</div>
 </div>
 <div class="paragraph">
 <p>In unserer Component Klasse steuern wir den Duty Cycle über die GPIO Klasse von Wiring Pi. Der gewünschte Duty Cycle wird über die <code>setPWM()</code> Funktion festgelegt. Die <code>rangeAdjustment</code> Variable wird benötigt, da Wiring Pi zwischen Software und Hardware PWM Pins unterscheidet.</p>
@@ -3191,7 +3809,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_stepper_motor_2">7.8. Stepper Motor</h3>
+<h3 id="_stepper_motor_2">7.9. Stepper Motor</h3>
 <div class="paragraph">
 <p>Schrittmotoren bestehen aus mehreren Spulen, welche um die in ihrer Mitte liegenden Welle angeordnet sind. Die Welle wird von einem Zylinder umschlossen, welcher abwechselnd mit positiven und negativen Polen versehen ist. Sobald durch eine Spule Strom fliesst, erzeugt diese ein Magnetfeld, nach welchem sich die Pole im Zylinder der Welle ausrichten. Somit kann die Welle gedreht werden.</p>
 </div>
@@ -3199,7 +3817,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://commons.wikimedia.org/w/index.php?curid=10011776"><img src="./assets/images/StepperMotor.gif" alt="StepperMotor" width="75% Single Stepping Stepper Motor"></a>
 </div>
-<div class="title">Figure 40. Stepper Motor unter Single Stepping</div>
+<div class="title">Figure 43. Stepper Motor unter Single Stepping</div>
 </div>
 <div class="paragraph">
 <p>Bei den meisten Schrittmotoren kommt zusätzlich zur Welle noch ein Getriebe zum Einsatz, welches durch seine Übersetzung den Drehwinkel pro Schritt weiter verkleinert. Beim weit verbreiteten Stepper Motor 28BYJ-48 ist zum Beispiel ein 1/64 Getriebe verbaut. Jeder Schritt der Welle resultiert bei diesem Motor um eine um 64 verkleinerte Drehung.</p>
@@ -3208,7 +3826,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <p>Mit der von uns zur Verfügung gestellten Component Klasse können vier Phasen Schrittmotoren gesteuert werden. Das jeweilige Getriebe hat keinen Einfluss auf die Funktionalität unserer Bibliothek.</p>
 </div>
 <div class="sect3">
-<h4 id="_single_stepping">7.8.1. Single Stepping</h4>
+<h4 id="_single_stepping">7.9.1. Single Stepping</h4>
 <div class="paragraph">
 <p>Beim Single Stepping wird jeweils nur eine Spule im Gehäuse des Motors unter Strom gesetzt. Die Welle des Motors richtet sich also immer genau nach der momentan aktiven Spule aus.</p>
 </div>
@@ -3216,13 +3834,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping"><img src="./assets/images/single_stepping.jpg" alt="single stepping" width="75% Single Stepping"></a>
 </div>
-<div class="title">Figure 41. Single Stepping</div>
+<div class="title">Figure 44. Single Stepping</div>
 </div>
 <div class="paragraph">
 <p>Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 20. Single Stepping</caption>
+<caption class="title">Table 28. Single Stepping</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -3278,7 +3896,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_double_stepping">7.8.2. Double Stepping</h4>
+<h4 id="_double_stepping">7.9.2. Double Stepping</h4>
 <div class="paragraph">
 <p>Unter Verwendung des Double Stepping werden immer zwei Spulen simultan unter Strom gesetzt. Dies führt dazu, dass sich die Welle gemäss dem entstehenden Magnetfeld zwischen den zwei Spulen ausrichtet. Die sich überschneidenden Magnetfelder sind stärker als ein einzelnes Magnetfeld, weshalb der Schrittmotor unter diesem Modus mit grösserer Kraft arbeitet. Da allerdings zwei Spulen gleichzeitig mit Strom beliefert werden müssen, verdoppelt sich der Stromverbrauch im Vergleich zum Single Stepping.</p>
 </div>
@@ -3286,13 +3904,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping"><img src="./assets/images/double_stepping.jpg" alt="double stepping" width="75% Double Stepping"></a>
 </div>
-<div class="title">Figure 42. Double Stepping</div>
+<div class="title">Figure 45. Double Stepping</div>
 </div>
 <div class="paragraph">
 <p>Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 21. Double Stepping</caption>
+<caption class="title">Table 29. Double Stepping</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -3348,7 +3966,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_half_stepping">7.8.3. Half Stepping</h4>
+<h4 id="_half_stepping">7.9.3. Half Stepping</h4>
 <div class="paragraph">
 <p>Im Gegensatz zu den anderen Modi agiert Half Stepping in acht Schritten. Somit kann die Position des Motors genauer bestimmt werden als in den anderen Modi. Half Stepping kombiniert Single Stepping und Dual Stepping. Dies führt dazu, dass der Motor nicht immer gleich viel Kraft hat. Bei jedem zweiten Schritt ist jeweils nur eine Spule aktiv.</p>
 </div>
@@ -3356,13 +3974,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping"><img src="./assets/images/half_stepping.jpg" alt="half stepping" width="75% Half Stepping"></a>
 </div>
-<div class="title">Figure 43. Half Stepping</div>
+<div class="title">Figure 46. Half Stepping</div>
 </div>
 <div class="paragraph">
 <p>Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 22. Half Stepping</caption>
+<caption class="title">Table 30. Half Stepping</caption>
 <colgroup>
 <col style="width: 11.1111%;">
 <col style="width: 11.1111%;">
@@ -3442,7 +4060,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_motor_drehen">7.8.4. Motor drehen</h4>
+<h4 id="_motor_drehen">7.9.4. Motor drehen</h4>
 <div class="paragraph">
 <p>Die schrittweise Drehung des Motors haben wir in einem for-Loop implementier. Die Variable <code>element</code> enthält die zu einstellende Position des aktuell auszuführenden Schritts. Dies könnte zum Beispiel der Wert <code>0b0100</code> sein. Dieser entspricht dem 2. Step im Single Stepping.</p>
 </div>
@@ -3501,7 +4119,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_drehrichtung_ändern">7.8.5. Drehrichtung ändern</h4>
+<h4 id="_drehrichtung_ändern">7.9.5. Drehrichtung ändern</h4>
 <div class="paragraph">
 <p>In der lokalen Variable <code>currentPosition</code> speichern wir die aktuelle Position des Motors im Array des aktuellen Modi. Beim Drehen des Motors müssen wir die Variable neu berechnen, da wir beim Ändern der Drehrichtung einen seperaten Array verwenden. Dieser entspricht dem gespiegelten original Array des jeweiligen Modus.</p>
 </div>
@@ -3534,12 +4152,12 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_servo_motor_2">7.9. Servo Motor</h3>
+<h3 id="_servo_motor_2">7.10. Servo Motor</h3>
 <div class="paragraph">
 <p>Mit Servo Motoren lassen sich Winkel präzise einstellen und halten. Gängige Servo Motoren erlauben das Einstellen von Winkeln zwischen 0 und 180 Grad. Der Wechsel zwischen einzelnen Positionen erfolgt sehr zügig. Gesteuert wird die Position der Welle über ein PWM Signal. Unsere Klasse unterstützt dabei die Hardware PWM Pins des Raspberry Pi. Software PWM Signale unterstützen wir bewusst nicht. Diese sind meist zu ungenau und sind deshalb nicht für die Steuerung von Servo Motoren geeignet.</p>
 </div>
 <div class="sect3">
-<h4 id="_steuerung_über_pwm">7.9.1. Steuerung über PWM</h4>
+<h4 id="_steuerung_über_pwm">7.10.1. Steuerung über PWM</h4>
 <div class="paragraph">
 <p>Die Mehrheit aller Servo Motoren benötigt für dessen Steuerung einen 50 Hertz PWM Puls, was einem Zyklus alle 20 Millisekunden entspricht. Mittels WiringPi können wir die gewünschte Frequenz ziemlich einfach einstellen.</p>
 </div>
@@ -3560,7 +4178,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <p>Servo Motoren lassen sich nun über die sogenannte Pulslänge steuern. Die Pulslänge enspricht der HIGH Time eines einzelnen Pulses. Die meisten Mini und Micro Servo Motoren können über Pulslängen von 500 Mikro Sekunden bis 2400 Mikro Sekunden positioniert werden. Die genauen Werte können jedoch im Data Sheet des jeweiligen Servos gefunden werden. Kleinere Pulslängen entsprechen dabei kleineren Winkeln. Die Position verhält sich immer linear zur Pulslänge.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 23. Beispiele Pulslänge</caption>
+<caption class="title">Table 31. Beispiele Pulslänge</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3616,7 +4234,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_winkel_setzen">7.9.2. Winkel setzen</h4>
+<h4 id="_winkel_setzen">7.10.2. Winkel setzen</h4>
 <div class="paragraph">
 <p>Unsere Hilfsklasse untersützt das Setzen von gewünschen Servo Motor Positionen via gewünschtem Zielwinkel. Mit der Funktion <code>setPositionDegrees()</code> können Winkel auf einen Grad genau gesetzt werden, sofern der verwendete Servo dies ebenfalls unterstützt. Unterstützt der verwendete Servo dies nicht, können wir den Winkel nicht garantieren.</p>
 </div>
@@ -3637,12 +4255,12 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_grove_serial_camera_2">7.10. Grove Serial Camera</h3>
+<h3 id="_grove_serial_camera_2">7.11. Grove Serial Camera</h3>
 <div class="paragraph">
 <p>Die Grove Serial Camera ist eines der komplexeren Devices, welches von unserer Library unterstützt wird. Zur Kommunikation über den Serial Bus wird ein spezielles Protokoll eingesetzt. In den folgenden Unterkapiteln finden Sie weitere Informationen zu jenem Protokoll und unserer Implementation davon.</p>
 </div>
 <div class="sect3">
-<h4 id="_protokoll">7.10.1. Protokoll</h4>
+<h4 id="_protokoll">7.11.1. Protokoll</h4>
 <div class="paragraph">
 <p>Die Datenübermittlung zwischen Kamera und Pi erfolgt über den Serial Bus und das OV528 Protokoll. Die einzelnen Kommandos umfassen jeweils 6 Bytes, welche zusammen als Paket übermittelt werden. Das nachfolgende Beispiel zeigt das SYNC Kommando, welches jeweils zu Beginn der Kommunikation vom Pi ausgesendet wird. Folgende Bytes werden übermittelt: AA0D00000000h.</p>
 </div>
@@ -3650,11 +4268,11 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_SYNC_Command.png" alt="500" width="500" height="Grove Serial Camera SYNC">
 </div>
-<div class="title">Figure 44. SYNC Kommando</div>
+<div class="title">Figure 47. SYNC Kommando</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_verbindung_mit_der_kamera_aufbauen">7.10.2. Verbindung mit der Kamera aufbauen</h4>
+<h4 id="_verbindung_mit_der_kamera_aufbauen">7.11.2. Verbindung mit der Kamera aufbauen</h4>
 <div class="paragraph">
 <p>Bevor Befehle an die Kamera gesendet werden können, muss eine Verbindung zwischen Kamera und Raspberry Pi etabliert werden. Dazu wird vom Host mehrmals ein SYNC Kommando auf den Serial Port geschrieben und auf eine Antwort von der Kamera gewartet. Durchschnittlich antwortet die Kamera nach 25 SYNC Kommandos mit einem ACK (AA0E0Dxx0000h). Auf die Empfangsbestätigung folgt das Kommando, welches die Kamera bestätigt. In diesem Fall das SYNC Kommando (AA0D00000000h). Gibt die Kamera nach 60 SYNC Befehlen noch immer keine Antwort, kann davon ausgegangen werden, dass etwas mit der Verkabelung der Kamera nicht stimmt oder der Controller der Kamera defekt ist.</p>
 </div>
@@ -3662,7 +4280,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_Initialisation.png" alt="500" width="500" height="Grove Serial Camera Connection">
 </div>
-<div class="title">Figure 45. Verbindungsaufbau</div>
+<div class="title">Figure 48. Verbindungsaufbau</div>
 </div>
 <div class="paragraph">
 <p>In unserer Java Klasse haben wir den Verbindungsaufbau in einer eigenen Funktion realisiert, welche vom jeweiligen Konstruktor aufgerufen wird. In einer While-Schlaufe wird das SYNC Kommando solange an die Kamera gesendet, bis diese eine Antwort auf den Serial Bus geschrieben hat. Ist dies nach 60 Versuchen nicht der Fall, wird die Initialisierung mit einem Fehler abgebrochen. Hat die Kamera eine Antwort gesendet, wird diese auf Ihre Korrektheit überprüft. Die ersten sechs Bytes müssen dem ACK Kommando entsprechen (AA0E0Dxx0000h). Bei den nächsten sechs Bytes muss es sich um das SYNC Kommando handeln (AA0D00000000h). Sofern dies der Fall ist, war der Verbindungsaufbau erfolgreich. Die Kamera ist nun bereit für die Entgegennahme von weiteren Befehlen.</p>
@@ -3714,7 +4332,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_jpeg_foto_anfordern">7.10.3. JPEG Foto anfordern</h4>
+<h4 id="_jpeg_foto_anfordern">7.11.3. JPEG Foto anfordern</h4>
 <div class="paragraph">
 <p>Nach dem erfolgreichen Verbindungsaufbau ist die Kamera bereit für das Schiessen von Bildern. Unsere Implementation stellt Bilder im JPEG Format in der Auflösung 640 x 480 zur Verfügung. Hierbei handelt es sich um die maximale Auflösung der Kamera. Theoretisch können auch Bilder in anderen Grössen und Formaten von der Kamera angefordert werden. Diese Formate werden von uns jedoch nicht unterstützt.</p>
 </div>
@@ -3725,11 +4343,11 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_Get_Picture.png" alt="500" width="500" height="Grove Serial Camera Get Picture">
 </div>
-<div class="title">Figure 46. Ablauf der Bildanforderung</div>
+<div class="title">Figure 49. Ablauf der Bildanforderung</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_bildgrösser_ermitteln">7.10.4. Bildgrösser ermitteln</h4>
+<h4 id="_bildgrösser_ermitteln">7.11.4. Bildgrösser ermitteln</h4>
 <div class="paragraph">
 <p>Zur Ermittlung der Bildgrösse wird die gewünschte Paketgrösse der einzelnen Pakete benötigt. Die Paketgrösse kann vom Anwender im Bereich von 16 bis 2048 Bits definiert werden. Die Default Paketgrösse ist 512 Bits.</p>
 </div>
@@ -3810,7 +4428,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_bild_pakete_empfangen">7.10.5. Bild Pakete empfangen</h4>
+<h4 id="_bild_pakete_empfangen">7.11.5. Bild Pakete empfangen</h4>
 <div class="paragraph">
 <p>Nachdem die Bildgrösse von der Kamera ermittelt wurde, kann der Host Paket für Paket von der Kamera über den Serial Bus anfordern. Wir fordern solange Pakete von der Kamera an, bis wir das letzte Paket von der Kamera erhalten haben. Das letzte Paket erkennen wir anhand der letzten zwei Bytes. Handelt es sich bei diesen um 0xFF gefolgt von 0xD9, wurde das komplette JPEG übermittelt. Bei den zwei Bytes handelt es sich nämlich um den Footer eines jeden JPEGs.</p>
 </div>
@@ -3873,7 +4491,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_raspberry_pi_camera_2">7.11. Raspberry Pi Camera</h3>
+<h3 id="_raspberry_pi_camera_2">7.12. Raspberry Pi Camera</h3>
 <div class="paragraph">
 <p>Die Raspberry Pi Camera enthält in Rasbian vier Applikationen, welche man vom Terminal aus verwenden kann.</p>
 </div>
@@ -3894,7 +4512,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <p>In den folgenden Unterkapiteln wird auf die Terminal Befehle für <code>raspistill</code> und <code>raspivid</code> eingegangen, falls es direkt verwendet wird. Ausserdem wird auf die Funktionalität der <code>RaspberryPiCameraComponent</code> eingegangen.</p>
 </div>
 <div class="sect3">
-<h4 id="_terminal_befehle">7.11.1. Terminal Befehle</h4>
+<h4 id="_terminal_befehle">7.12.1. Terminal Befehle</h4>
 <div class="paragraph">
 <p>Hier sind einige Beispiele für Standardbefehle mit <code>raspistill</code>:</p>
 </div>
@@ -3951,7 +4569,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_java_library_für_bildaufnahme">7.11.2. Java Library für Bildaufnahme</h4>
+<h4 id="_java_library_für_bildaufnahme">7.12.2. Java Library für Bildaufnahme</h4>
 <div class="paragraph">
 <p>Es gibt zwei prominente java Libraries, welche für die Bildaufnahme verwendet werden können.</p>
 </div>
@@ -3970,7 +4588,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_bildaufnahme">7.11.3. Bildaufnahme</h4>
+<h4 id="_bildaufnahme">7.12.3. Bildaufnahme</h4>
 <div class="paragraph">
 <p>Für die Bildaufnahme mit der <code>RaspberrPiCameraComponent</code> muss man sich zuerst ein <code>CameraConfiguration</code>-Objekt erstellen, welches praktisch den Befehl wiederspiegelt, welchen man im Terminal manuell eingeben kann.</p>
 </div>
@@ -3990,7 +4608,7 @@ CameraConfiguration config = cameraConfiguration()
 </div>
 </div>
 <div class="sect3">
-<h4 id="_videoaufnahme">7.11.4. Videoaufnahme</h4>
+<h4 id="_videoaufnahme">7.12.4. Videoaufnahme</h4>
 <div class="paragraph">
 <p>Für die Videoaufnahme gibt es eine Builder-Klasse, welche vom Syntax und der Verwendung her ähnlich aufgebaut ist, wie die <code>CameraConfiguration</code> Klasse von PiCam.</p>
 </div>
@@ -4051,7 +4669,7 @@ RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-07 18:16:12 +0200
+Last updated 2020-08-08 17:19:05 +0200
 </div>
 </div>
 </body>

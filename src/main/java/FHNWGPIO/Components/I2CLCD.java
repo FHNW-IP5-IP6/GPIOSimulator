@@ -8,7 +8,7 @@ import java.io.IOException;
 
 /**
  * FHNW implementation for the I2C LCD display
- *
+ * <p>
  * Following library was used as additional reference for underlying logic
  * https://github.com/Poduzov/PI4J-I2C-LCD
  */
@@ -20,9 +20,10 @@ public class I2CLCD extends I2CBase {
 
     /**
      * Standard Constructor that needs address and the busnumber to initialise
-     * @param address address of the I2C LCD
+     *
+     * @param address   address of the I2C LCD
      * @param busNumber bus number of the I2
-     * @throws IOException Exception that can be thrown when trying to initialise
+     * @throws IOException                              Exception that can be thrown when trying to initialise
      * @throws I2CFactory.UnsupportedBusNumberException Exception can be thrown when trying to initialise
      */
     public I2CLCD(int address, int busNumber) throws IOException, I2CFactory.UnsupportedBusNumberException {
@@ -31,6 +32,7 @@ public class I2CLCD extends I2CBase {
 
     /**
      * Constructor that needs I2C information in the pi4j I2CDevice object
+     *
      * @param device device object containing i2c info
      */
     public I2CLCD(I2CDevice device) {
@@ -103,12 +105,13 @@ public class I2CLCD extends I2CBase {
         //lcd only has 2 lines, so I assume the first one if the second one wasn't selected explicitly
         if (line != 2) {
             posNew = (byte) pos;
-            if (text.length() > COLUMNS - pos) {
-                firstLine = text.substring(0, 15 - pos);
-                secondLine = text.substring(COLUMNS - pos, text.length() - 1);
+            boolean textLargerThanLine = text.length() > COLUMNS - pos;
+            if (textLargerThanLine) {
+                firstLine = text.substring(0, 16 - pos);
+                secondLine = text.substring(COLUMNS - pos);
             }
             displayLine(firstLine, posNew);
-            if (jumpToNextLine) displayLine(secondLine, posNew + 0x40);
+            if (jumpToNextLine && textLargerThanLine) displayLine(secondLine, posNew + 0x40);
         } else {
             posNew = (byte) (0x40 + pos);
             displayLine(secondLine, posNew);
@@ -118,8 +121,9 @@ public class I2CLCD extends I2CBase {
 
     /**
      * shows text on display and scrolls it with a delay
-     * @param text to display
-     * @param line on which the text should be visible
+     *
+     * @param text  to display
+     * @param line  on which the text should be visible
      * @param delay for every position jump
      * @throws InterruptedException can be thrown while on delay
      */
@@ -144,39 +148,34 @@ public class I2CLCD extends I2CBase {
     /**
      * displays the text and scrolls to the sides, but bounces back.
      * This only works for short texts, otherwise it would be unreadable
-     * @param text to display
-     * @param line for the text
-     * @param delay for every position jump
-     * @param jumpToNextLine jumps to the second line before bouncing back
+     *
+     * @param text       to display
+     * @param line       for the text
+     * @param delay      for every position jump
      * @param startAgain decides wether it's done only once or again and again
      * @throws InterruptedException can be thrown while on delay
      */
     // tag::LCDDisplayBounceText[]
-    public void displayBounceText(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) throws InterruptedException {
-        if (text.length() >= COLUMNS - 1) { // Bounce doesn't make sense for a large text
-            displayText(text, line);
-        }
+    public void displayBounceText(String text, int line, int delay, boolean startAgain) throws InterruptedException {
+        // Bounce doesn't make sense for a large text
+        if (text.length() >= COLUMNS - 1)
+            throw new IllegalArgumentException("text has to be smaller than 15 characters");
+
         //shifts the whole text to the right end
         for (int i = 0; i < COLUMNS - text.length(); i++) {
             if (i + text.length() <= COLUMNS) {
-                displayText(text, line, i, jumpToNextLine);
+                displayText(text, line, i, false);
                 Thread.sleep(delay);
-                if (jumpToNextLine)
-                    clearText();
-                else
-                    clearLine(line);
+                clearLine(line);
             }
         }
         //shifts the whole text to the left end
         for (int i = COLUMNS - text.length(); i > 0; i--) {
-            displayText(text, line, i, jumpToNextLine);
+            displayText(text, line, i, false);
             Thread.sleep(delay);
-            if (jumpToNextLine)
-                clearText();
-            else
-                clearLine(line);
+            clearLine(line);
         }
-        if (startAgain) displayBounceText(text, line, delay, jumpToNextLine, startAgain);
+        if (startAgain) displayBounceText(text, line, delay, startAgain);
     }
     // end::LCDDisplayBounceText[]
 
@@ -203,8 +202,9 @@ public class I2CLCD extends I2CBase {
 
     /**
      * displays a line on a specific position
+     *
      * @param text to display
-     * @param pos for the start of the text
+     * @param pos  for the start of the text
      */
     private void displayLine(String text, int pos) {
         writeCommand((byte) (0x80 + pos));
@@ -218,7 +218,7 @@ public class I2CLCD extends I2CBase {
      * write a character to lcd
      */
     public void writeCharacter(byte charvalue) {
-        writeSplitCommand(charvalue,Rs);
+        writeSplitCommand(charvalue, Rs);
     }
 
     //Gets an empty line
@@ -229,6 +229,7 @@ public class I2CLCD extends I2CBase {
 
     /**
      * clears the selected lin
+     *
      * @param line line to clear
      */
     private void clearLine(int line) {
@@ -267,6 +268,7 @@ public class I2CLCD extends I2CBase {
         //bitshift and bitwise AND to remove first 4 bits
         writeFourBits((byte) (mode | ((cmd << 4) & 0xF0)));
     }
+
     /**
      * writes four bits
      */

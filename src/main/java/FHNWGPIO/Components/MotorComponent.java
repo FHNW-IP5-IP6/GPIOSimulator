@@ -2,9 +2,9 @@ package fhnwgpio.components;
 
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.GpioPinPwmOutput;
-import com.pi4j.io.gpio.Pin;
 import com.pi4j.util.Console;
 import com.pi4j.wiringpi.Gpio;
+import fhnwgpio.components.helper.PwmHelper;
 
 /**
  * FHNW implementation for controlling dc motors using a motor control driver such as L293D. It allows to run motors
@@ -52,7 +52,10 @@ public class MotorComponent {
         this.pwmForwards = forwards;
         this.pwmBackwards = backwards;
         isPwm = true;
-        rangeAdjustment = isHardwarePwmPin(forwards.getPin()) && isHardwarePwmPin(backwards.getPin()) ? 10.24 : 1.0;
+        rangeAdjustment =
+                PwmHelper.isHardwarePwmPin(forwards.getPin()) && PwmHelper.isHardwarePwmPin(backwards.getPin()) ?
+                        10.24 :
+                        1.0;
         Gpio.pwmSetMode(Gpio.PWM_MODE_MS);
         Gpio.pwmSetRange(range);
         Gpio.pwmSetClock(clock);
@@ -147,14 +150,4 @@ public class MotorComponent {
         console.println("motor stopped");
     }
     // end::MotorComponentStop[]
-
-    /**
-     * Checks if the provided pin is a valid hardware or software PWM pin.
-     *
-     * @param pin The pin which should be checked
-     * @return True if the pin is a hardware
-     */
-    private boolean isHardwarePwmPin(Pin pin) {
-        return pin.getAddress() == 12 || pin.getAddress() == 13 || pin.getAddress() == 18 || pin.getAddress() == 19;
-    }
 }

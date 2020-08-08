@@ -4,6 +4,7 @@ import com.pi4j.io.gpio.GpioPinPwmOutput;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.util.Console;
 import com.pi4j.wiringpi.Gpio;
+import fhnwgpio.components.helper.PwmHelper;
 
 /**
  * FHNW implementation for controlling servo motors. This class allows its user to control a wide range of 50 hertz
@@ -29,7 +30,7 @@ public class ServoMotorComponent {
      */
     public ServoMotorComponent(Console console, GpioPinPwmOutput pin, int pulseMin, int pulseMax, int maxDegrees)
             throws IllegalArgumentException {
-        if (!isHardwarePwmPin(pin.getPin())) {
+        if (!PwmHelper.isHardwarePwmPin(pin.getPin())) {
             throw new IllegalArgumentException("please use one of the Pis hardware PWM pins");
         }
 
@@ -38,9 +39,11 @@ public class ServoMotorComponent {
         this.pulseMin = pulseMin;
         this.pulseMax = pulseMax;
         this.maxDegrees = maxDegrees;
+        // tag::ServoMotorComponentSetPWMFrequency[]
         Gpio.pwmSetMode(Gpio.PWM_MODE_MS);
         Gpio.pwmSetClock(192);
         Gpio.pwmSetRange(2000);
+        // end::ServoMotorComponentSetPWMFrequency[]
     }
 
     /**
@@ -67,9 +70,12 @@ public class ServoMotorComponent {
     }
 
     /**
+     * Sets the servo position to a specific pulse high time in microseconds
+     *
      * @param pulse The desired pulse length in microseconds
      * @throws IllegalArgumentException Thrown when a value smaller than pulseMin or bigger than pulse max is provided
      */
+    // tag::ServoMotorComponentSetPosition[]
     public void setPosition(int pulse) throws IllegalArgumentException {
         if (pulse < pulseMin || pulse > pulseMax) {
             throw new IllegalArgumentException("please provide a value in the range pulseMin to pulseMax");
@@ -78,11 +84,15 @@ public class ServoMotorComponent {
         setPwm(pulse);
         console.println("set the position to pulse " + pulse);
     }
+    // end::ServoMotorComponentSetPosition[]
 
     /**
+     * Sets the servo position to a desired angle in degrees
+     *
      * @param degree The desired rotation in degrees
      * @throws IllegalArgumentException Thrown when a value smaller than 0 or bigger than maxDegrees is provided
      */
+    // tag::ServoMotorComponentSetPositionDegrees[]
     public void setPositionDegrees(int degree) throws IllegalArgumentException {
         if (degree < 0 || degree > maxDegrees) {
             throw new IllegalArgumentException("please provide a vlaue in the range 0 to maxDegrees");
@@ -93,6 +103,7 @@ public class ServoMotorComponent {
         setPwm(pulse);
         console.println("set the position to degrees " + degree + " which is a pulse of " + pulse);
     }
+    // end::ServoMotorComponentSetPositionDegrees[]
 
     /**
      * Sets the servo to its maximal position
@@ -118,17 +129,14 @@ public class ServoMotorComponent {
         console.println("set servo to minimal position");
     }
 
+    /**
+     * Sets the PWM value of the pin
+     *
+     * @param pwm The desired PWM value
+     */
+    // tag::ServoMotorComponentSetPWM[]
     private void setPwm(int pwm) {
         pin.setPwm(Math.round(pwm / 10));
     }
-
-    /**
-     * Checks if the provided pin is a valid hardware or software PWM pin.
-     *
-     * @param pin The pin which should be checked
-     * @return True if the pin is a hardware
-     */
-    private boolean isHardwarePwmPin(Pin pin) {
-        return pin.getAddress() == 12 || pin.getAddress() == 13 || pin.getAddress() == 18 || pin.getAddress() == 19;
-    }
+    // end::ServoMotorComponentSetPWM[]
 }

@@ -8,6 +8,9 @@ import java.io.IOException;
 
 /**
  * FHNW implementation for the I2C LCD display
+ *
+ * Following library was used as additional reference for underlying logic
+ * https://github.com/Poduzov/PI4J-I2C-LCD
  */
 public class I2CLCD extends I2CBase {
 
@@ -28,7 +31,7 @@ public class I2CLCD extends I2CBase {
 
     /**
      * Constructor that needs I2C information in the pi4j I2CDevice object
-     * @param device
+     * @param device device object containing i2c info
      */
     public I2CLCD(I2CDevice device) {
         super(device);
@@ -37,6 +40,7 @@ public class I2CLCD extends I2CBase {
     /**
      * sends initialisation commands to display
      */
+    // tag::LCDInit[]
     public void init() {
         try {
             writeCommand((byte) 0x03);
@@ -46,13 +50,14 @@ public class I2CLCD extends I2CBase {
 
             writeCommand((byte) (LCD_FUNCTIONSET | LCD_2LINE | LCD_5x8DOTS | LCD_4BITMODE));
             writeCommand((byte) (LCD_DISPLAYCONTROL | LCD_DISPLAYON));
-            writeCommand((byte) (LCD_CLEARDISPLAY));
+            writeCommand(LCD_CLEARDISPLAY);
             writeCommand((byte) (LCD_ENTRYMODESET | LCD_ENTRYLEFT));
             Thread.sleep(0, 200000);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
+    // end::LCDInit[]
 
     /**
      * displays a text on the first line of the display.
@@ -86,13 +91,14 @@ public class I2CLCD extends I2CBase {
      * @param pos            is the position on the line.
      * @param jumpToNextLine jumps to the second line if the first line is
      */
+    // tag::LCDDisplayText[]
     public void displayText(String text, int line, int pos, boolean jumpToNextLine) {
         if (text.length() > 32 - pos)
             text = text.substring(0, 31 - pos);
 
         String firstLine = text, secondLine = text;
 
-        byte posNew = 0;
+        byte posNew;
 
         //lcd only has 2 lines, so I assume the first one if the second one wasn't selected explicitly
         if (line != 2) {
@@ -108,14 +114,16 @@ public class I2CLCD extends I2CBase {
             displayLine(secondLine, posNew);
         }
     }
+    // end::LCDDisplayText[]
 
     /**
      * shows text on display and scrolls it with a delay
      * @param text to display
      * @param line on which the text should be visible
      * @param delay for every position jump
-     * @throws InterruptedException
+     * @throws InterruptedException can be thrown while on delay
      */
+    // tag::LCDDisplayScrollText[]
     public void displayScrollText(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) throws InterruptedException {
         String paddedtext = getEmptyLine() + text;
 
@@ -131,6 +139,7 @@ public class I2CLCD extends I2CBase {
                 displayScrollText(text, line, delay, jumpToNextLine, startAgain);
         }
     }
+    // end::LCDDisplayScrollText[]
 
     /**
      * displays the text and scrolls to the sides, but bounces back.
@@ -140,8 +149,9 @@ public class I2CLCD extends I2CBase {
      * @param delay for every position jump
      * @param jumpToNextLine jumps to the second line before bouncing back
      * @param startAgain decides wether it's done only once or again and again
-     * @throws InterruptedException
+     * @throws InterruptedException can be thrown while on delay
      */
+    // tag::LCDDisplayBounceText[]
     public void displayBounceText(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) throws InterruptedException {
         if (text.length() >= COLUMNS - 1) { // Bounce doesn't make sense for a large text
             displayText(text, line);
@@ -168,6 +178,7 @@ public class I2CLCD extends I2CBase {
         }
         if (startAgain) displayBounceText(text, line, delay, jumpToNextLine, startAgain);
     }
+    // end::LCDDisplayBounceText[]
 
     /**
      * define backlight on / off(lcd.backlight(1) off = lcd.backlight(0)
@@ -186,8 +197,8 @@ public class I2CLCD extends I2CBase {
      * clears the lcd text
      */
     public void clearText() {
-        writeCommand((byte) LCD_CLEARDISPLAY);
-        writeCommand((byte) LCD_RETURNHOME);
+        writeCommand(LCD_CLEARDISPLAY);
+        writeCommand(LCD_RETURNHOME);
     }
 
     /**
@@ -274,6 +285,7 @@ public class I2CLCD extends I2CBase {
      * or
      * https://www.waveshare.com/datasheet/LCD_en_PDF/LCD1602.pdf
      */
+    // tag::LCD1602Commands[]
     private final byte LCD_CLEARDISPLAY = (byte) 0x01;
     private final byte LCD_RETURNHOME = (byte) 0x02;
     private final byte LCD_ENTRYMODESET = (byte) 0x04;
@@ -318,4 +330,5 @@ public class I2CLCD extends I2CBase {
     private final byte En = (byte) 0b00000100; // Enable bit
     private final byte Rw = (byte) 0b00000010; // Read/Write bit
     private final byte Rs = (byte) 0b00000001; // Register select bit
+    // end::LCD1602Commands[]
 }

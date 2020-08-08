@@ -1000,7 +1000,61 @@ include::{sourcedir}/fhnwgpio/components/BuzzerComponent.java[tags=BuzzerCompone
 ----
 
 === LCD I2C
+Das LCD Modul besteht aus dem LCD1602 I2C und dem PCF8574 I2C extender Mikrochip auf dem Rücken des LCDs. Der I2C Extender vereinfacht die Verkabelung und das Senden von Daten an das LCD-Display, da man ohne I2C Extender 8 GPIO Pins belegen müsste.
 
+==== Befehle für den LCD1602
+Das LCD1602 besitzt den folgenden Befehlssatz:
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/I2CLCD.java[tags=LCD1602Commands]
+----
+
+==== Initialisierung
+Das LCD Display wird im nach dem Protokoll folgendermassen initialisiert:
+
+.LCD1602 Init
+[link=https://www.waveshare.com/datasheet/LCD_en_PDF/LCD1602.pdf]
+image::LCD_Init.PNG[width=75% LCD Init]
+
+Die Initialisierung wurde in java folgendermassen realisiert:
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/I2CLCD.java[tags=LCDInit]
+----
+
+==== Text auf dem Display anzeigen
+Sobald das LCD-Display initialisiert wurde, kann es jedes Zeichen auf der Zeichentabelle anzeigen. Das Display hat zwei Zeilen mit Platz für je 16 Zeichen, welche einzeln dem LCD zugeschickt werden müssen. Die einzelnen Zeichen werden in 8 Bit dargestellt, da aber das Gerät im 4-Bit Modus arbeitet, werden zuerst die 4-Bit auf der linken Seite der Zeichentabelle gesendet und danach die 4-Bit die oben zusehen sind in der Zeichentabelle.
+
+.LCD1602 Zeichentabelle
+[link=https://www.waveshare.com/datasheet/LCD_en_PDF/LCD1602.pdf]
+image::LCD_Characters.PNG[width=75% LCD Character Table]
+
+Wenn dem `I2CLCDComponent` ein ganzer String übergeben wird, dann werden alle Zeichen des Strings einzeln dem LCD geschickt und jeweils in zwei Nibbles (4-Bits) eingeteilt und gesendet.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/I2CLCD.java[tags=LCDDisplayText]
+----
+
+==== Spezielle Anzeigefunktionen
+Das `I2CLCDComponent` hat zusätzlich zur normalen Anzeige noch 2 weitere Funktionen für besondere Anzeigemöglichkeiten:
+
+*Scroll Text* + 
+Ein Scroll Text ist ein Text, welcher von der Länge her die 32 Zeichen auf dem LCD übersteigt, deshalb werden zuerst einfach die ersten 32 Zeichen auf dem Display angezeigt. Mit einer Verzögerung, die man selber angeben kann, verschwinden dann langsam die ersten Zeichen und die darauffolgenden Zeichen werden angezeigt, was dann aussieht wie ein seitliches Scrollen.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/I2CLCD.java[tags=LCDDisplayScrollText]
+----
+
+*Bounce Text* + 
+Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit geschenkt wird mittels eines kleinen Effekts. Ein kurzer Text bewegt sich mit einer Verzögerung von der einen Seite zur anderen, als würde der Text von der einen Seite zur Anderen springen.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/I2CLCD.java[tags=LCDDisplayBounceText]
+----
 
 === Grove RFID Reader
 Dieses Grove-125kHz RFID-Lesegerät ist ein Modul zum Lesen von em4100 RFID-Karteninformationen mit dem Ausgabeformaten Uart. Es hat eine Empfindlichkeit mit maximal 7cm Erfassungsabstand.

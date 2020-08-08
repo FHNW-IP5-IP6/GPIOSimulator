@@ -15,10 +15,6 @@ import fhnwgpio.grove.GroveAdapter;
 public class UltraSonicRangerComponent {
     private int pin;
 
-    private final int TIMEOUT1 = 1000000; //for pulse start
-    private final int TIMEOUT2 = 1000000; //for pulse end
-
-
     /**
      * Standard Constructor for the Ultra Sonic Ranger that only needs grove hat connection information
      *
@@ -37,7 +33,8 @@ public class UltraSonicRangerComponent {
      */
     public long measureInCentimeter() throws InterruptedException {
         trigger();
-        Gpio.pinMode(pin, Gpio.INPUT);
+        //distance there and back again has to be divided by 2, to get the one way distance
+        //and 29 is the constant to get the distance in cm
         return getPulseDifference() / 29 / 2;
     }
 
@@ -49,7 +46,8 @@ public class UltraSonicRangerComponent {
      */
     public long measureInInches() throws InterruptedException {
         trigger();
-        Gpio.pinMode(pin, Gpio.INPUT);
+        //distance there and back again has to be divided by 2, to get the one way distance
+        //and 74 is the constant to get the distance in inches
         return getPulseDifference() / 74 / 2;
     }
 
@@ -57,12 +55,14 @@ public class UltraSonicRangerComponent {
      * Triggers the Ultra Sonic Ranger to start measuring. It starts to send an ultra sonic wave to the target after this method.
      */
     private void trigger() throws InterruptedException {
+        // tag::UltraSonicRangerTrigger[]
         Gpio.pinMode(pin, Gpio.OUTPUT);
         Gpio.digitalWrite(pin, false);
         Thread.sleep(0, 2000);
         Gpio.digitalWrite(pin, true);
         Thread.sleep(0, 10000);
         Gpio.digitalWrite(pin, false);
+        // end::UltraSonicRangerTrigger[]
     }
 
     /**
@@ -71,6 +71,7 @@ public class UltraSonicRangerComponent {
      * @return the pulse difference
      */
     private long getPulseDifference() {
+        Gpio.pinMode(pin, Gpio.INPUT);
         long diff = 0;
         while (diff == 0) {
             diff = pulseIn();
@@ -82,23 +83,26 @@ public class UltraSonicRangerComponent {
      * returns the pulse time in microseconds (time between sending and receiving the ultra sonic wave)
      */
     private long pulseIn() {
-        long t0 = microTime();
+        // tag::UltraSonicRangerMeasure[]
         int count = 0;
+        int TIMEOUT = 1000000; //just a large number to avoid an endless loop when there is a device problem
+
         //wait for the pulse to start (ultra sonic wave sent)
-        while (count < TIMEOUT1 && Gpio.digitalRead(pin) == 0)
+        while (count < TIMEOUT && Gpio.digitalRead(pin) == 0)
             count++;
 
-        if (count >= TIMEOUT1) return 0;
+        if (count >= TIMEOUT) return 0;
         long t1 = microTime();
 
         count = 0;
         //wait for the pulse to end (ultra sonic wave received)
-        while (count < TIMEOUT2 && Gpio.digitalRead(pin) == 1)
+        while (count < TIMEOUT && Gpio.digitalRead(pin) == 1)
             count++;
-        if (count >= TIMEOUT2) return 0;
+        if (count >= TIMEOUT) return 0;
         long t2 = microTime();
 
         return t2 - t1; //return the time difference between emission and reception of the ultra sonic wave
+        // end::UltraSonicRangerMeasure[]
     }
 
     /**

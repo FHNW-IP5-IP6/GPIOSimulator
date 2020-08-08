@@ -478,7 +478,30 @@ Für die Verkabelung wird folgende Hardware benötigt:
 .LCD I2C Modul Verkabelung 
 image::./fritzing/LCDI2C.png[width=75% I2C Wiring]
 
-==== TODO: API
+==== API
+.I2C LCD - Konstruktoren
+[cols="1,1"]
+|===
+|Konstruktor |Beschreibung
+|I2CLCD​(int address, int busNumber) |Standard Constructor that needs address and the busnumber to initialise
+|I2CLCD​(com.pi4j.io.i2c.I2CDevice device)	
+|Constructor that needs I2C information in the pi4j I2CDevice object
+|===
+
+.I2C LCD - Funktionen
+[cols="1,2,2"]
+|===
+|Rückgabetyp |Funktion |Beschreibung
+|void |init() |sends initialisation commands to display
+|void |clearText() |clears the lcd text
+|void |displayText​(String text) |displays a text on the first line of the display.
+|void |displayText​(String text, int line) |writes string to the lcd display on a specific line.
+|void |displayText​(String text, int line, int pos, boolean jumpToNextLine) |displays the string with an additional position.
+|void |displayScrollText​(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) |shows text on display and scrolls it with a delay
+|void |displayBounceText​(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) |displays the text and scrolls to the sides, but bounces back.
+|void |writeCharacter​(byte charvalue) |write a character to lcd
+|void |setBacklightState​(boolean state) |define backlight on / off(lcd.backlight(1) off = lcd.backlight(0)
+|===
 
 ==== Anwendungsbeispiel
 In diesem Code Beispiel wird der Titel des Projekts in der ersten Zeile angezeigt und die Uhrzeit in der Zweiten. Die Uhrzeit wird im Sekundentakt aktualisiert. +
@@ -549,7 +572,7 @@ include::{sourcedir}/fhnwexamples/component/RFIDReader.java[tags=RFIDReader]
 ----
 
 === Ultrasonic Ranger
-Der Grove Ultrasonic Ranger ist ein Grove Modul, welches an eines der digitalen Adapter des Grove Hats angeschlossen werden kann. Der Ultrasonic Ranger misst die Distanz zwischen dem Sensor und einem Ziel indem die Zeit zwischen der Emission und der Rezeption einer Ultraschallwelle gemessen wird.
+Der Grove Ultrasonic Ranger ist ein Grove Modul, welches an eines der digitalen Adapter des Grove Hats angeschlossen werden kann. Der Ultrasonic Ranger misst die Distanz zwischen dem Sensor und einem Ziel indem die Zeit zwischen der Emission und der Rezeption einer Ultraschallwelle gemessen wird. Es kann Distanzen von bis zu 2m lesen.
 
 *Formel zur Distanzmessung: 0.5 * T * C* +
 
@@ -823,7 +846,25 @@ Für die Verkabelung wird folgende Hardware benötigt:
 image::./fritzing/raspiCam.png[width=60% RaspiCam Wiring]
 
 ==== API
-TODO
+.Raspberry Pi Camera - Konstruktoren
+[cols="1,1"]
+|===
+|Konstruktor |Beschreibung
+|RaspberryPiCameraComponent​(com.pi4j.util.Console console, uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration) |Constructor for only using the picture functionality
+|RaspberryPiCameraComponent​(com.pi4j.util.Console console, fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration) |Constructor for only using the video functionality
+|RaspberryPiCameraComponent​(com.pi4j.util.Console console, uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration, fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration) |Constructor for using the picture and video functionality
+|===
+
+.Raspberry Pi Camera - Funktionen
+[cols="1,2,2"]
+|===
+|Rückgabetyp |Funktion |Beschreibung
+|void |takeStill() |takes picture and saves it to the default Pictures folder
+|void |takeStill​(String outputPath) |Takes picture and saves it to the specified outputPath
+|void |takeStill​(String outputPath, int delay) | Takes a picture using the picam library and saves it to the specified output after a delay
+|void |takeVid​(java.lang.String outputPath) |Takes a video with the configuration and saves it to the output path
+|CameraConfiguration |createCameraConfiguration() |The picam library has a private constructor and therefore needs this method
+|===
 
 ==== Anwendungsbeispiel
 In diesem Code Beispiel wird die Raspberry Pi Camera mit der `RaspberryPiCameraComponent` verwendet, um zwei Bilder und ein Video aufzunehmen in den Ordner `/home/pi/Pictures/`.  +
@@ -946,6 +987,37 @@ include::{sourcedir}/fhnwgpio/components/BuzzerComponent.java[tags=BuzzerCompone
 
 === TODO: LCD I2C
 
+=== TODO: Grove RFID Reader
+
+=== Grove Ultrasonic Ranger
+Dieser Grove Ultrasonic Ranger ist ein berührungsloses Distanzmessmodul, das bei 40KHz arbeitet. Wenn wir ein Impuls-Triggersignal durch den Signal-Pin liefern, gibt der Grove Ultrasonic Ranger 8 Zyklen mit 40kHz Zykluspegel aus und erkennt das Echo. 
+
+Abstand = Echosignal hohe Zeit * Schallgeschwindigkeit (340M/S) / 2. 
+
+Das Triggersignal und das Echosignal des Grove Ultrasonic Ranger teilen sich denselben Pin.
+
+==== Trigger Signal
+Das Trigger Signal welches eine Ultraschallwelle mit dem Ranger abfeuert muss zunächst den Pinmodus auf Output stellen, danach wird der Pin abwechselnd mit einem in der Spezifikation definierten Abstand auf LOW, HIGH und dann wieder LOW gesetzt.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/UltraSonicRangerComponent.java[tags=UltraSonicRangerTrigger]
+----
+
+==== Echo messen
+Um das Echo der abgefeuerten Schallwelle zu messen, muss zunächst der Pinmodus auf Input gewechselt werden. Dann muss zunächst abgewartet werden bis der Pin LOW (Emission der Schallwelle) ist und danach bis er HIGH (Rezeption der Schallwelle) ist.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/UltraSonicRangerComponent.java[tags=UltraSonicRangerMeasure]
+----
+
+Wenn die gemessene Zeit zwischen Emission und Rezeption durch 2 geteilt wird, dann erhält man nur die Zeit bis zum Erreichen des Objektes. Um die Distanz in einer anderen Einheit darzustellen, muss man es zusätzlich durch folgende Konstanten teilen:
+
+* Für cm: `29`
+* Für inches: `74`
+
+
 === Potentiometer
 Das Grove Potentiometer wird über einen der analogen Ports an den Grove Base Hat angeschlossen. Der Grove Base Hat stellt die gelesenen oder zu schreibenden Werte über den I2C Bus dem Raspberry Pi zur Verfügung.
 
@@ -972,8 +1044,6 @@ Der aktuelle Value des Potentiometers kann über die `getValue()` Funktion geles
 ----
 include::{sourcedir}/fhnwgpio/components/PotentiometerComponent.java[tags=PotentiometerComponentGetValue]
 ----
-
-=== TODO: Grove RFID Reader
 
 === DC Motor
 Gleichstrommotoren können mittels dem ihnen zur Verfügung gestellten Strom in ihrer Drehrichtung und Drehzahl reguliert werden. Diese Eigenschaft haben wir uns zu Nutzen gemacht, um unsere Component Klasse zu implementieren.

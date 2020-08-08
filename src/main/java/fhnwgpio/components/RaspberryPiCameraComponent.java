@@ -10,7 +10,7 @@ import java.io.IOException;
 import static uk.co.caprica.picam.PicamNativeLibrary.installTempLibrary;
 
 /**
- * This is the component class of the Raspberry Pi Camera.
+ * FHNW implementation for the Raspberry Pi Camera.
  */
 public class RaspberryPiCameraComponent {
     private Console console;
@@ -21,9 +21,9 @@ public class RaspberryPiCameraComponent {
 
     /**
      * Constructor for using the picture and video functionality
-     * @param console
-     * @param raspiStillConfiguration
-     * @param raspiVidConfiguration
+     * @param console pi4J console object for logging
+     * @param raspiStillConfiguration configuration object that represents the raspistill command
+     * @param raspiVidConfiguration configuration object that represents the raspivid command
      */
     public RaspberryPiCameraComponent(Console console, CameraConfiguration raspiStillConfiguration, RaspiVidConfiguration raspiVidConfiguration) {
         this.console = console;
@@ -37,8 +37,8 @@ public class RaspberryPiCameraComponent {
 
     /**
      * Constructor for only using the picture functionality
-     * @param console
-     * @param raspiStillConfiguration
+     * @param console pi4J console object for logging
+     * @param raspiStillConfiguration configuration object that represents the raspistill command
      */
     public RaspberryPiCameraComponent(Console console, CameraConfiguration raspiStillConfiguration){
         this.console = console;
@@ -50,8 +50,8 @@ public class RaspberryPiCameraComponent {
 
     /**
      * Constructor for only using the video functionality
-     * @param console console that is used for logging
-     * @param raspiVidConfiguration configuration file which is used for the videos
+     * @param console pi4J console object for logging
+     * @param raspiVidConfiguration configuration object that represents the raspivid command
      */
     public RaspberryPiCameraComponent(Console console, RaspiVidConfiguration raspiVidConfiguration) {
         this.console = console;
@@ -74,7 +74,7 @@ public class RaspberryPiCameraComponent {
     }
 
     /**
-     * takes picture and saves it to the default Pictures folder
+     * Takes picture and saves it to the default Pictures folder
      */
     public void takeStill() {
         takeStill("/home/pi/Pictures/picam.jpg", 0);
@@ -89,7 +89,7 @@ public class RaspberryPiCameraComponent {
     }
 
     /**
-     * takes a picture using the picam library and saves it to the specified output
+     * Takes a picture using the picam library and saves it to the specified output after a delay
      * @param outputPath path to the output file that saves the picture
      * @param delay before taking the picture
      */
@@ -116,12 +116,9 @@ public class RaspberryPiCameraComponent {
 
     /**
      * Takes a video with the configuration and saves it to the output path
-     * @param outputPath
-     * @throws IOException
-     * @throws InterruptedException
+     * @param outputPath path to the .h264 file
      */
-
-    public void takeVid(String outputPath) throws IOException, InterruptedException {
+    public void takeVid(String outputPath) {
         // tag::RasPiCamTakeVid[]
         if (!isRaspiVidAvailable) {
             throw new ExceptionInInitializerError("RaspiVid has to be initialised with the Configuration for taking videos");

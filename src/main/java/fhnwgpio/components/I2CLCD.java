@@ -7,19 +7,31 @@ import com.pi4j.io.i2c.I2CFactory;
 import java.io.IOException;
 
 /**
- * I2C LCD component for easier usage
+ * FHNW implementation for the I2C LCD display
  */
 public class I2CLCD extends I2CBase {
 
     private final int ROWS = 2;
     private final int COLUMNS = 16;
 
-    public I2CLCD(I2CDevice device) {
-        super(device);
-    }
 
+    /**
+     * Standard Constructor that needs address and the busnumber to initialise
+     * @param address address of the I2C LCD
+     * @param busNumber bus number of the I2
+     * @throws IOException Exception that can be thrown when trying to initialise
+     * @throws I2CFactory.UnsupportedBusNumberException Exception can be thrown when trying to initialise
+     */
     public I2CLCD(int address, int busNumber) throws IOException, I2CFactory.UnsupportedBusNumberException {
         super(address, busNumber);
+    }
+
+    /**
+     * Constructor that needs I2C information in the pi4j I2CDevice object
+     * @param device
+     */
+    public I2CLCD(I2CDevice device) {
+        super(device);
     }
 
     /**

@@ -98,7 +98,7 @@ public class I2CLCD extends I2CBase {
 
         String firstLine = text, secondLine = text;
 
-        byte posNew = 0;
+        byte posNew;
 
         //lcd only has 2 lines, so I assume the first one if the second one wasn't selected explicitly
         if (line != 2) {
@@ -121,7 +121,7 @@ public class I2CLCD extends I2CBase {
      * @param text to display
      * @param line on which the text should be visible
      * @param delay for every position jump
-     * @throws InterruptedException
+     * @throws InterruptedException can be thrown while on delay
      */
     // tag::LCDDisplayScrollText[]
     public void displayScrollText(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) throws InterruptedException {
@@ -149,7 +149,7 @@ public class I2CLCD extends I2CBase {
      * @param delay for every position jump
      * @param jumpToNextLine jumps to the second line before bouncing back
      * @param startAgain decides wether it's done only once or again and again
-     * @throws InterruptedException
+     * @throws InterruptedException can be thrown while on delay
      */
     // tag::LCDDisplayBounceText[]
     public void displayBounceText(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) throws InterruptedException {

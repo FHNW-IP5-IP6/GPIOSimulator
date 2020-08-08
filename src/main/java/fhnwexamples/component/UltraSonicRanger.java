@@ -16,6 +16,7 @@ public class UltraSonicRanger extends Example {
         console.promptForExit();
 
         try {
+            // tag::UltraSonicRanger[]
             UltraSonicRangerComponent ultraSonicRangerComponent = new UltraSonicRangerComponent(GroveAdapter.D5);
 
             //Shows the measured distance every second
@@ -24,6 +25,7 @@ public class UltraSonicRanger extends Example {
                 console.println(distance);
                 Thread.sleep(1000);
             }
+            // end::UltraSonicRanger[]
         } catch (Exception e) {
             console.println(e.getMessage());
         }

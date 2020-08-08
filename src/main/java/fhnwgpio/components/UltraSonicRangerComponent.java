@@ -13,49 +13,48 @@ import fhnwgpio.grove.GroveAdapter;
  * Code is based on the python implementation
  */
 public class UltraSonicRangerComponent {
-    private Adapter adapter;
     private int pin;
 
-    private final int TIMEOUT1 = 1000; //for pulse start
-    private final int TIMEOUT2 = 10000; //for pulse end
+    private final int TIMEOUT1 = 1000000; //for pulse start
+    private final int TIMEOUT2 = 1000000; //for pulse end
 
 
     /**
      * Standard Constructor for the Ultra Sonic Ranger that only needs grove hat connection information
+     *
      * @param groveAdapter Adapter that contains the connection information
      */
     public UltraSonicRangerComponent(GroveAdapter groveAdapter) {
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
-        this.adapter = groveAdapter.getAdapter();
-        pin = adapter.getUpperPin().getAddress();
+        pin = groveAdapter.getAdapter().getUpperPin().getAddress();
     }
 
     /**
      * Measures the distance between the device and an object in cm
+     *
      * @return the distance to an object in cm
      * @throws InterruptedException
      */
     public long measureInCentimeter() throws InterruptedException {
         trigger();
         Gpio.pinMode(pin, Gpio.INPUT);
-        long diff = getPulseDifference();
-        return (diff) / 29 / 2;
+        return getPulseDifference() / 29 / 2;
     }
 
     /**
      * Measures the distance between the device and an object in inches
+     *
      * @return distance to object in inches
      * @throws InterruptedException
      */
     public long measureInInches() throws InterruptedException {
         trigger();
         Gpio.pinMode(pin, Gpio.INPUT);
-        long diff = getPulseDifference();
-        return (diff) / 74 / 2;
+        return getPulseDifference() / 74 / 2;
     }
 
     /**
-     * Triggers the Ultra Sonic Ranger to start measuring.
+     * Triggers the Ultra Sonic Ranger to start measuring. It starts to send an ultra sonic wave to the target after this method.
      */
     private void trigger() throws InterruptedException {
         Gpio.pinMode(pin, Gpio.OUTPUT);
@@ -67,7 +66,8 @@ public class UltraSonicRangerComponent {
     }
 
     /**
-     *  gets the pulse difference between the emission and reception of the ultra sonic wave and clears the zeros for timeouts
+     * gets the pulse difference between the emission and reception of the ultra sonic wave and clears the zeros for timeouts
+     *
      * @return the pulse difference
      */
     private long getPulseDifference() {
@@ -84,30 +84,26 @@ public class UltraSonicRangerComponent {
     private long pulseIn() {
         long t0 = microTime();
         int count = 0;
-        //wait for the pulse to start
-        while (count < TIMEOUT1) {
-            if (Gpio.digitalRead(pin) == 1)
-                break;
+        //wait for the pulse to start (ultra sonic wave sent)
+        while (count < TIMEOUT1 && Gpio.digitalRead(pin) == 0)
             count++;
-        }
+
         if (count >= TIMEOUT1) return 0;
         long t1 = microTime();
-        count = 0;
 
-        //wait for the pulse to end
-        while (count < TIMEOUT2) {
-            if (Gpio.digitalRead(pin) == 0)
-                break;
+        count = 0;
+        //wait for the pulse to end (ultra sonic wave received)
+        while (count < TIMEOUT2 && Gpio.digitalRead(pin) == 1)
             count++;
-        }
         if (count >= TIMEOUT2) return 0;
-        int diff1 = (int) ((t1 - t0) * 1000);
         long t2 = microTime();
-        return t2 - t1;
+
+        return t2 - t1; //return the time difference between emission and reception of the ultra sonic wave
     }
 
     /**
      * Gets the current time in micro seconds
+     *
      * @return current time in micro seconds
      */
     private long microTime() {

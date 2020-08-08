@@ -561,7 +561,21 @@ Für die Verkabelung wird folgende Hardware benötigt:
 .Grove RFID Reader Verkabelung
 image::./fritzing/grove_rfid_reader.png[width=75% Grove RFID Reader Fritzing]
 
-==== TODO: API
+==== API
+
+.RFID Reader - Konstruktoren
+[cols="1,1"]
+|===
+|Konstruktor |Beschreibung
+|RFIDReaderComponent​(com.pi4j.util.Console console) |Constructor of the RFID Reader
+|===
+
+.RFID - Funktionen
+[cols="1,2,2"]
+|===
+|Rückgabetyp |Funktion |Beschreibung
+|void |addListener​(com.pi4j.io.serial.SerialDataEventListener... listener) |Adds Listeners for when the device receives data
+|===
 
 ==== Anwendungsbeispiel
 In diesem Code Beispiel wird der Grove RFID Reader getestet. Das serielle Gerät wird initialisiert und ein Listener wird hinzugefügt, der die `dataReceived()` Methode des `SerialDataEventListener` überschreibt. Diese Methode wird immer ausgeführt, wenn der RFID Reader Daten durch einen RFID Tag erhält. +
@@ -985,9 +999,36 @@ Ein Ton besteht aus einer Frequenz, welche über eine bestimmte Dauer wiedergege
 include::{sourcedir}/fhnwgpio/components/BuzzerComponent.java[tags=BuzzerComponentPlayTone]
 ----
 
-=== TODO: LCD I2C
+=== LCD I2C
 
-=== TODO: Grove RFID Reader
+
+=== Grove RFID Reader
+Dieses Grove-125kHz RFID-Lesegerät ist ein Modul zum Lesen von em4100 RFID-Karteninformationen mit dem Ausgabeformaten Uart. Es hat eine Empfindlichkeit mit maximal 7cm Erfassungsabstand.
+
+Der Grove RFID Reader erzeugt ein elektromagnetisches Wechselfeld , dem der RFID-Tag ausgesetzt wird. Die Hochfrequenzenergie versorgt den Chip im RFID-Tag mit Strom und der RFID-Tag kann dann die Daten auf dem Tag an den RFID Reader übertragen.
+
+==== Kompatibilität mit RFID Tag
+Nicht jeder RFID-Tag ist mit dem Grove RFID Reader kompatibel. Die Daten auf dem Tag müssen dem Standart em4100 entsprechen, damit sie gelesen werden können. Em4100 legt fest, dass sich auf dem Tag 64 Bit Readonly Memory in folgendem Format befinden:
+.em4100 Aufbau
+[link=http://www.priority1design.com.au/em4100_protocol.html]
+image::RFID_em4100.PNG[width=75% RFID em4100]
+
+Ausserdem muss der Tag im selben Langwellen-Bereich von 125kHZ arbeiten können.
+
+==== RFID Tag Daten ausgeben
+Um die Daten aus dem Tag auszulesen kann man einfach den `SerialDataEventListener` von Pi4J dem `RFIDReaderComponent` übergeben. Wenn die 64 Bits an Daten beim Reader ankommen, dann werden sie davon angenommen.
+[source,java]
+----
+rfidReaderComponent.addListener(event -> {
+    // print out the data received to the console
+    try {
+        console.println("[HEX DATA]   " + event.getHexByteString());
+        console.println("[ASCII DATA] " + event.getAsciiString());
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+});
+----
 
 === Grove Ultrasonic Ranger
 Dieser Grove Ultrasonic Ranger ist ein berührungsloses Distanzmessmodul, das bei 40KHz arbeitet. Wenn wir ein Impuls-Triggersignal durch den Signal-Pin liefern, gibt der Grove Ultrasonic Ranger 8 Zyklen mit 40kHz Zykluspegel aus und erkennt das Echo. 

@@ -94,7 +94,13 @@ Der Chip hat die I2C Adresse 0x04. Die einzelnen analogen Anschlüsse haben jewe
 Die drei I2C Anschlüsse sind alle mit dem I2C Bus 1 des Raspberry Pi verbunden. Mit I2C können mehrere Devices auf einmal angesteuert werden.
 
 === Breadboard
+Breadboards sind Prototyping-Devices, welche es in diversen Grössen und Formen gibt. Sie bieten eine einfache Möglichkeit, elektronische Komponenten miteinander zu verbinden, ohne dass diese zusammengelötet werden müssen. Sie sind daher bestens für den Testaufbau von Schaltungen geeignet.
 
+Die untere Abbildung zeigt, wie ein solches Breadboard aufgebaut ist. In die einzelnen Punkte können Kabel oder elektronischen Leiter der einzelnen Devices eingesteckt werden. Sind Punkte miteinander verbunden, stehen sie bei Benutzung alle unter dem gleichen Strom. Die Roten Leitungen sind für die Stromzufuhr gedacht. Die blauen Leitungen können mit dem Ground Pin des Raspberry Pi verbunden werden.
+
+._Breadboard_
+[link=https://magpi.raspberrypi.org/articles/breadboard-tutorial]
+image::./installation/breadboard.jpeg[width=75% Breadboard]
 
 == Software
 
@@ -254,13 +260,67 @@ Es kann gut sein, dass die Auflösung sowie die Grösse der Icons zu Beginn noch
     _Preferences -> Appearance Settings -> System -> Defaults_ + 
     Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.
 
-=== TODO: Installation von zusätzlicher Software auf dem Pi
+=== Installation von zusätzlicher Software auf dem Pi
+Bevor mit der Implementation von GPIO Projekten gestartet werden kann, muss noch weitere Software auf dem Raspberry Pi installiert werden. Für eine erfolgreiche Installation muss der Raspberry Pi über eine aktive Internetverbindung verfügen.
 
 ==== Java
+Da wir die GPIO Pins mit Java kontrollieren möchten, brauchen wir auf dem Raspberry zwingen eine Java Version. Unsere Component Klasse nutzen Libraries, welche die Installation von Java 8 voraussetzen. Aus diesem Grund muss Java 8 auf dem Pi installiert sein. Neuere Java Version werden aktuell leider nicht unterstützt.
 
-==== Git
+Java kann mittels `apt` auf dem Pi installiert werden. Dazu müssen die folgenden Kommandos auf der Konsole von Raspbian ausgeführt werden:
+
+* `sudo apt update`
+* `sudo apt install openjdk-8-jdk`
+
+Sobald die installation abgeschlossen ist, kann mit dem Kommando `java –version` überprüft werden, ob die installation korrekt funktioniert hat. Das Kommando sollte den folgenden Output zeigen:
+
+._Output java -version_
+image::./installation/java_version.png[width=75% java -version output]
+
+src: https://phoenixnap.com/kb/install-java-raspberry-pi
 
 ==== Gradle
+Gradle wird für das Bauen des Codes benötigt. Mittels dem `wget` Befehl kann das Build Tool direkt auf der Herstellerseite heruntergeladen werden. Wir haben die Version 6.5.1 verwendet.
+
+* Gradle als `.zip` herunterladen und im `tmp` Directory speichern: +
+`wget https://services.gradle.org/distributions/gradle-6.5.1-bin.zip -P /tmp`
+
+* Das heruntergeladene `.zip` File in den Folder `opt/gradle` entpacken: +
+`sudo unzip -d /opt/gradle /tmp/gradle-*.zip`
+
+Durch das Auflisten der entpackten Komponenten kann geführt werden, ob das Entpacken korrekt funktioniert hat.
+
+* `ls /opt/gradle/gradle-6.5.1`
+
+Das Kommando sollte den folgenden Output zeigen:
+
+._Gradle Ordner Inhalt_
+image::./installation/gradle_folder_content.png[width=75% Gradle Folder Content]
+
+In einem nächsten Schritt müssen wir die PATH Variable für Gradle konfigurieren. Dazu müssen wir ein neues File auf dem Pi anlegen.
+
+* Neues File mit dem `nano` Editor öffnen: +
+`sudo nano /etc/profile.d/gradle.sh`
+* Im Editor folgenden Code einfügen:
+----
+export GRADLE_HOME=/opt/gradle/gradle-6.5.1
+export PATH=${GRADLE_HOME}/bin:${PATH}`
+----
+* File mittels Ctrl + S speichern. Editor mit Ctrl + X verlassen.
+
+Nun müssen wir das eben erzeugte Script mit dem `chmod` Befehl noch ausführbar machen.
+
+* `sudo chmod +x /etc/profile.d/gradle.sh`
+
+In einem letzten Schritt laden wir die Umgebungsvariablen neu.
+
+* `source /etc/profile.d/gradle.sh`
+
+Die installation von Gradle ist nun abgeschlossen. Mit dem Befehl `gradle -v` können wir überprüfen, ob Gradel korrekt installiert wurde. Die Ausgabe des Kommandos sollte wie folgend aussehen:
+
+._Output gradle -v_
+image::./installation/gradle_version.png[width=75% gradle -v output]
+
+src: https://linuxize.com/post/how-to-install-gradle-on-debian-9/
 
 == Code auf dem Pi bauen
 Es ist möglich den Code in intelliJ auf dem eigenen Rechner zu schreiben und diesen dann auf den Pi zu deployen. Das hat den wesentlichen Vorteil, dass man nicht mit der langsamen Entwicklungsumgebung des Raspberry Pi arbeiten muss und auch nicht jede kleinste Änderung in git pushen muss, um es auf dem Pi mit der richtigen Hardware zu testen.
@@ -292,6 +352,8 @@ Auf dem Pi selbst müssen Sie dann nur noch ihr Projekt bauen und ausführen, ab
 
 ._Update Remote Host_
 image::./installation/RemoteHost4.png[width=75% update remote host server]
+
+=== TODO: Code bauen mit Gradle
 
 === Optional: Remote Debugging
 Es ist auch möglich den Code vom eigenen Rechner aus mit IntelliJ auf dem Raspberry Pi auszuführen und diesen auf dem eigenen Rechner zu debuggen. Diese Funktionalität kann sehr hilfreich sein, wenn man mit schwierigen Bugs zu tun hat, aber birgt auch Schwierigkeiten und funktioniert auch nicht immer ideal, deshalb wurde dieser Bereich als optional deklariert.
@@ -839,7 +901,7 @@ Für die Verwendung muss sie aber zunächst im OS aktiviert werden. Unter den In
 .Raspberry Pi Camera aktivieren
 image::./RaspberryPi_Camera_Activation.jpg[width=60% activate RaspiCam]
 
-Rasbian OS enthält auch Applikationen, welche sie nutzen können, um die Camera in der Console zu testen.
+Raspbian OS enthält auch Applikationen, welche sie nutzen können, um die Camera in der Console zu testen.
 
 Starten Sie ihr Terminal und geben sie folgenden Befehl ein:
 
@@ -1446,7 +1508,7 @@ include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialC
 ----
 
 === Raspberry Pi Camera
-Die Raspberry Pi Camera enthält in Rasbian vier Applikationen, welche man vom Terminal aus verwenden kann.
+Die Raspberry Pi Camera enthält in Raspbian vier Applikationen, welche man vom Terminal aus verwenden kann.
 
 * `raspistill` und `raspiyuv` für die Bildaufnahme
 * `raspivid` und `raspividyuv` für die Videoaufnahme

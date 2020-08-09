@@ -5,8 +5,8 @@ import fhnwexamples.Example;
 import fhnwgpio.components.UltraSonicRangerComponent;
 import fhnwgpio.grove.GroveAdapter;
 
-public class UltraSonicRanger extends Example {
-    public UltraSonicRanger(int key, String title) {
+public class UltraSonicRangerDevice extends Example {
+    public UltraSonicRangerDevice(int key, String title) {
         super(key, title);
     }
 
@@ -16,7 +16,7 @@ public class UltraSonicRanger extends Example {
         console.promptForExit();
 
         try {
-            // tag::UltraSonicRanger[]
+            // tag::UltraSonicRangerDevice[]
             UltraSonicRangerComponent ultraSonicRangerComponent = new UltraSonicRangerComponent(GroveAdapter.D5);
 
             //Shows the measured distance every second
@@ -25,7 +25,7 @@ public class UltraSonicRanger extends Example {
                 console.println(distance);
                 Thread.sleep(1000);
             }
-            // end::UltraSonicRanger[]
+            // end::UltraSonicRangerDevice[]
         } catch (Exception e) {
             console.println(e.getMessage());
         }

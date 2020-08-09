@@ -10,9 +10,9 @@ import fhnwgpio.components.RFIDReaderComponent;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class RFIDReader extends Example {
+public class RFIDReaderDevice extends Example {
 
-    public RFIDReader(int key, String title) {
+    public RFIDReaderDevice(int key, String title) {
         super(key, title);
     }
 
@@ -23,7 +23,7 @@ public class RFIDReader extends Example {
         Console console =  new Console();
         console.promptForExit();
 
-        // tag::RFIDReader[]
+        // tag::RFIDReaderDevice[]
         RFIDReaderComponent rfidReaderComponent = new RFIDReaderComponent();
         // create and register the serial data listener
         rfidReaderComponent.addListener(new SerialDataEventListener() {
@@ -38,6 +38,6 @@ public class RFIDReader extends Example {
                 }
             }
         });
-        // end::RFIDReader[]
+        // end::RFIDReaderDevice[]
     }
 }

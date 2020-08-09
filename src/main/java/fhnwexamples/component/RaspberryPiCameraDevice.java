@@ -31,15 +31,15 @@ import static uk.co.caprica.picam.PicamNativeLibrary.installTempLibrary;
  * For additional information on how to take pictures or videos from the console with the camera go to:
  * https://www.raspberrypi.org/documentation/configuration/camera.md
  */
-public class RaspberryPiCamera extends Example {
+public class RaspberryPiCameraDevice extends Example {
 
-    public RaspberryPiCamera(int key, String title) {
+    public RaspberryPiCameraDevice(int key, String title) {
         super(key, title);
     }
 
     @Override
     public void execute() throws Exception {
-        // tag::RaspberryPiCamera[]
+        // tag::RaspberryPiCameraDevice[]
         Console console = new Console();
         console.promptForExit();
 
@@ -70,7 +70,7 @@ public class RaspberryPiCamera extends Example {
         raspberryPiCamera.takeVid("/home/pi/Pictures/video.h264");
 
         System.out.println("End of example");
-        // end::RaspberryPiCamera[]
+        // end::RaspberryPiCameraDevice[]
     }
 
 

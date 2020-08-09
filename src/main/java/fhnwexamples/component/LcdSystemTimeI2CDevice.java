@@ -14,14 +14,14 @@ import java.util.Scanner;
  * Documentation of the I2C extender:
  * http://www.ti.com/lit/ds/symlink/pcf8574.pdf?ts=1588064881394
  */
-public class LcdSystemTimeI2C extends Example {
+public class LcdSystemTimeI2CDevice extends Example {
 
-    public LcdSystemTimeI2C(int key, String title) {
+    public LcdSystemTimeI2CDevice(int key, String title) {
         super(key, title);
     }
 
     @Override
-    // tag::LcdSystemTimeI2C[]
+    // tag::LcdSystemTimeI2CDevice[]
     public void execute() {
         Console console = new Console();
         try {
@@ -45,6 +45,6 @@ public class LcdSystemTimeI2C extends Example {
             console.println(ex.toString());
         }
     }
-    // end::LcdSystemTimeI2C[]
+    // end::LcdSystemTimeI2CDevice[]
 }
 

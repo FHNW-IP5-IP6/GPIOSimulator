@@ -118,14 +118,14 @@ public class Examples {
         deviceExamples.add(new LcdSystemTimeI2C(3, "LCD System Time I2C Test"));
         deviceExamples.add(new SerialCamera(4, "grove Serial Camera example"));
         deviceExamples.add(new PotentiometerDevice(5, "Potentiometer example"));
-        deviceExamples.add(new RaspberryPiCamera(6, "Raspberry Pi Camera example"));
+        deviceExamples.add(new RaspberryPiCameraDevice(6, "Raspberry Pi Camera example"));
         deviceExamples.add(new BuzzerDevice(7, "Buzzer example"));
         deviceExamples.add(new MotorDevice(8, "Motor example"));
         deviceExamples.add(new StepperMotorDevice(9, "Stepper Motor example"));
-        deviceExamples.add(new RFIDReader(10, "RFID Reader example"));
+        deviceExamples.add(new RFIDReaderDevice(10, "RFID Reader example"));
         deviceExamples.add(new ServoMotorDevice(11, "Servo Motor example"));
         deviceExamples.add(new LedStripDriverDevice(12, "LED Strip Driver example"));
-        deviceExamples.add(new UltraSonicRanger(13, "Ultra Sonic Ranger example"));
+        deviceExamples.add(new UltraSonicRangerDevice(13, "Ultra Sonic Ranger example"));
         deviceExamples.add(new LedDevice(14, "Led example"));
         deviceExamples.add(new ButtonDevice(15, "Button example"));
     }

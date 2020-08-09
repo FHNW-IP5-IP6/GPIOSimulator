@@ -475,11 +475,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_zugriff_auf_ui_via_vnc_viewer">3.3.3. Zugriff auf UI via VNC Viewer</a></li>
 </ul>
 </li>
-<li><a href="#_todo_installation_von_zusätzlicher_software_auf_dem_pi">3.4. TODO: Installation von zusätzlicher Software auf dem Pi</a>
+<li><a href="#_installation_von_zusätzlicher_software_auf_dem_pi">3.4. Installation von zusätzlicher Software auf dem Pi</a>
 <ul class="sectlevel3">
 <li><a href="#_java_2">3.4.1. Java</a></li>
-<li><a href="#_git">3.4.2. Git</a></li>
-<li><a href="#_gradle">3.4.3. Gradle</a></li>
+<li><a href="#_gradle">3.4.2. Gradle</a></li>
 </ul>
 </li>
 </ul>
@@ -487,7 +486,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_code_auf_dem_pi_bauen">4. Code auf dem Pi bauen</a>
 <ul class="sectlevel2">
 <li><a href="#_remote_host_in_intellij">4.1. Remote Host in IntelliJ</a></li>
-<li><a href="#_optional_remote_debugging">4.2. Optional: Remote Debugging</a></li>
+<li><a href="#_todo_code_bauen_mit_gradle">4.2. TODO: Code bauen mit Gradle</a></li>
+<li><a href="#_optional_remote_debugging">4.3. Optional: Remote Debugging</a></li>
 </ul>
 </li>
 <li><a href="#_beispiele">5. Beispiele</a>
@@ -713,7 +713,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </div>
 <div class="paragraph">
-<p><strong>Datum</strong>: 2020-08-08</p>
+<p><strong>Datum</strong>: 2020-08-09</p>
 </div>
 <div style="page-break-after: always;"></div>
 <!-- toc disabled -->
@@ -850,7 +850,18 @@ potentiometer.getValue()</code></pre>
 </div>
 <div class="sect2">
 <h3 id="_breadboard">1.4. Breadboard</h3>
-
+<div class="paragraph">
+<p>Breadboards sind Prototyping-Devices, welche es in diversen Grössen und Formen gibt. Sie bieten eine einfache Möglichkeit, elektronische Komponenten miteinander zu verbinden, ohne dass diese zusammengelötet werden müssen. Sie sind daher bestens für den Testaufbau von Schaltungen geeignet.</p>
+</div>
+<div class="paragraph">
+<p>Die untere Abbildung zeigt, wie ein solches Breadboard aufgebaut ist. In die einzelnen Punkte können Kabel oder elektronischen Leiter der einzelnen Devices eingesteckt werden. Sind Punkte miteinander verbunden, stehen sie bei Benutzung alle unter dem gleichen Strom. Die Roten Leitungen sind für die Stromzufuhr gedacht. Die blauen Leitungen können mit dem Ground Pin des Raspberry Pi verbunden werden.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="https://magpi.raspberrypi.org/articles/breadboard-tutorial"><img src="./assets/images/installation/breadboard.jpeg" alt="breadboard" width="75% Breadboard"></a>
+</div>
+<div class="title">Figure 2. <em>Breadboard</em></div>
+</div>
 </div>
 </div>
 </div>
@@ -886,7 +897,7 @@ potentiometer.getValue()</code></pre>
 <div class="content">
 <img src="./assets/images/installation/raspbianDownload.png" alt="raspbianDownload" width="75% raspbian Download">
 </div>
-<div class="title">Figure 2. <em>Raspbian Download</em></div>
+<div class="title">Figure 3. <em>Raspbian Download</em></div>
 </div>
 <div class="paragraph">
 <p>Wählen Sie nun die Raspbian Version <code>Raspbian Buster with desktop</code> aus. Sobald Ihr Browser den Download abgeschlossen hat, extrahieren Sie bitte den Zip-Ordner an eine beliebige Stelle. Im extrahierten Ordner befindet sich eine .img-Datei, welche wir in den folgenden Installationsschritten benötigen werden. Merken Sie sich also, wo auf dem Dateisystem der entpackte Folder liegt.</p>
@@ -902,7 +913,7 @@ potentiometer.getValue()</code></pre>
 <div class="content">
 <img src="./assets/images/installation/balenaDownload.png" alt="balenaDownload" width="75% balenaEtcher Download">
 </div>
-<div class="title">Figure 3. <em>balenaEtcher Download</em></div>
+<div class="title">Figure 4. <em>balenaEtcher Download</em></div>
 </div>
 <div class="paragraph">
 <p>Nachdem Sie balenaEtcher installiert haben, können Sie die Applikation starten. In nur drei einfachen Schritten spiegelt balenaEtcher das Raspbian Image auf Ihre Mini SD-Karte.</p>
@@ -911,7 +922,7 @@ potentiometer.getValue()</code></pre>
 <div class="content">
 <img src="./assets/images/installation/balenaStart.png" alt="balenaStart" width="75% balenaEtcher Startbildschirm">
 </div>
-<div class="title">Figure 4. <em>balenaEtcher Startbildschirm</em></div>
+<div class="title">Figure 5. <em>balenaEtcher Startbildschirm</em></div>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -970,7 +981,7 @@ potentiometer.getValue()</code></pre>
 <div class="content">
 <img src="./assets/images/installation/bootFolder.png" alt="bootFolder" width="75% boot Ordner">
 </div>
-<div class="title">Figure 5. <em>boot Ordner</em></div>
+<div class="title">Figure 6. <em>boot Ordner</em></div>
 </div>
 <div class="ulist">
 <ul>
@@ -1003,7 +1014,7 @@ potentiometer.getValue()</code></pre>
 <div class="content">
 <img src="./assets/images/installation/cmdLine.png" alt="cmdLine" width="75% cmdLine file">
 </div>
-<div class="title">Figure 6. <em>cmdLine File</em></div>
+<div class="title">Figure 7. <em>cmdLine File</em></div>
 </div>
 <div class="paragraph">
 <p>Zu guter Letzt erstellen Sie ein leeres File ohne Dateiendung mit dem Namen <code>ssh</code>. Um dies zu erreichen, können Sie beispielsweise ein neues Textfile erstellen und dieses <code>ssh</code> nennen. Nun entfernen Sie die Dateiendung .txt.</p>
@@ -1012,7 +1023,7 @@ potentiometer.getValue()</code></pre>
 <div class="content">
 <img src="./assets/images/installation/activateSSH.png" alt="activateSSH" width="75% activate SSH">
 </div>
-<div class="title">Figure 7. <em>SSH aktivieren</em></div>
+<div class="title">Figure 8. <em>SSH aktivieren</em></div>
 </div>
 <div class="paragraph">
 <p>Nun können Sie die Mini SD-Karte wieder in den Raspberry Pi einlegen und diesen mittels USB-Kabel an Ihren Computer anschliessen. Beim Startup von Raspbian untersucht das System den boot Folder und lädt Ihre neuen Einstellungen. Anschliessend können Sie PuTTY starten und mit der folgenden Konfiguration auf den Pi zugreifen.</p>
@@ -1021,7 +1032,7 @@ potentiometer.getValue()</code></pre>
 <div class="content">
 <img src="./assets/images/installation/SSHputty.png" alt="SSHputty" width="65% SSH Zugriff">
 </div>
-<div class="title">Figure 8. <em>SSH Zugriff mit PuTTY</em></div>
+<div class="title">Figure 9. <em>SSH Zugriff mit PuTTY</em></div>
 </div>
 <div class="paragraph">
 <p>Im neuen Shell Fenster können Sie sich mit den Standard Credentials anmelden und den Raspberry Pi über die Konsole verwenden.</p>
@@ -1040,7 +1051,7 @@ potentiometer.getValue()</code></pre>
 <div class="content">
 <img src="./assets/images/installation/puttyLogin.png" alt="puttyLogin" width="75% Login in PuTTY">
 </div>
-<div class="title">Figure 9. <em>Login in PuTTY</em></div>
+<div class="title">Figure 10. <em>Login in PuTTY</em></div>
 </div>
 </div>
 <div class="sect3">
@@ -1082,7 +1093,7 @@ network={
 <div class="content">
 <img src="./assets/images/installation/advanced_ip_scanner.png" alt="advanced ip scanner" width="75% Advanced IP Scanner">
 </div>
-<div class="title">Figure 10. <em>Advanced IP Scanner</em></div>
+<div class="title">Figure 11. <em>Advanced IP Scanner</em></div>
 </div>
 </div>
 <div class="sect3">
@@ -1111,7 +1122,7 @@ network={
 <div class="content">
 <img src="./assets/images/installation/VNCViewer.png" alt="VNCViewer" width="70% VNC Viewer Zugriff auf Pi">
 </div>
-<div class="title">Figure 11. <em>VNC Viewer Zugriff auf Pi</em></div>
+<div class="title">Figure 12. <em>VNC Viewer Zugriff auf Pi</em></div>
 </div>
 <div class="paragraph">
 <p>Nach einem kurzen Verbindungsaufbau öffnet sich ein neues Fenster, welches einem den Remote Zugriff auf das User Interface des Raspberry Pi erlaubt.</p>
@@ -1120,7 +1131,7 @@ network={
 <div class="content">
 <img src="./assets/images/installation/VNCViewerGUI.png" alt="VNCViewerGUI" width="70% VNC Viewer GUI von Raspbian">
 </div>
-<div class="title">Figure 12. <em>VNC Viewer GUI von Raspbian</em></div>
+<div class="title">Figure 13. <em>VNC Viewer GUI von Raspbian</em></div>
 </div>
 <div class="paragraph">
 <p>Es kann gut sein, dass die Auflösung sowie die Grösse der Icons zu Beginn noch nicht optimal ist. Die Einstellungen können Sie wie folgend anpassen:</p>
@@ -1142,18 +1153,136 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_todo_installation_von_zusätzlicher_software_auf_dem_pi">3.4. TODO: Installation von zusätzlicher Software auf dem Pi</h3>
+<h3 id="_installation_von_zusätzlicher_software_auf_dem_pi">3.4. Installation von zusätzlicher Software auf dem Pi</h3>
+<div class="paragraph">
+<p>Bevor mit der Implementation von GPIO Projekten gestartet werden kann, muss noch weitere Software auf dem Raspberry Pi installiert werden. Für eine erfolgreiche Installation muss der Raspberry Pi über eine aktive Internetverbindung verfügen.</p>
+</div>
 <div class="sect3">
 <h4 id="_java_2">3.4.1. Java</h4>
-
+<div class="paragraph">
+<p>Da wir die GPIO Pins mit Java kontrollieren möchten, brauchen wir auf dem Raspberry zwingen eine Java Version. Unsere Component Klasse nutzen Libraries, welche die Installation von Java 8 voraussetzen. Aus diesem Grund muss Java 8 auf dem Pi installiert sein. Neuere Java Version werden aktuell leider nicht unterstützt.</p>
+</div>
+<div class="paragraph">
+<p>Java kann mittels <code>apt</code> auf dem Pi installiert werden. Dazu müssen die folgenden Kommandos auf der Konsole von Raspbian ausgeführt werden:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sudo apt update</code></p>
+</li>
+<li>
+<p><code>sudo apt install openjdk-8-jdk</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Sobald die installation abgeschlossen ist, kann mit dem Kommando <code>java –version</code> überprüft werden, ob die installation korrekt funktioniert hat. Das Kommando sollte den folgenden Output zeigen:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/installation/java_version.png" alt="java version" width="75% java -version output">
+</div>
+<div class="title">Figure 14. <em>Output java -version</em></div>
+</div>
+<div class="paragraph">
+<p>src: <a href="https://phoenixnap.com/kb/install-java-raspberry-pi" class="bare">https://phoenixnap.com/kb/install-java-raspberry-pi</a></p>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_git">3.4.2. Git</h4>
-
+<h4 id="_gradle">3.4.2. Gradle</h4>
+<div class="paragraph">
+<p>Gradle wird für das Bauen des Codes benötigt. Mittels dem <code>wget</code> Befehl kann das Build Tool direkt auf der Herstellerseite heruntergeladen werden. Wir haben die Version 6.5.1 verwendet.</p>
 </div>
-<div class="sect3">
-<h4 id="_gradle">3.4.3. Gradle</h4>
-
+<div class="ulist">
+<ul>
+<li>
+<p>Gradle als <code>.zip</code> herunterladen und im <code>tmp</code> Directory speichern:<br>
+<code>wget <a href="https://services.gradle.org/distributions/gradle-6.5.1-bin.zip" class="bare">https://services.gradle.org/distributions/gradle-6.5.1-bin.zip</a> -P /tmp</code></p>
+</li>
+<li>
+<p>Das heruntergeladene <code>.zip</code> File in den Folder <code>opt/gradle</code> entpacken:<br>
+<code>sudo unzip -d /opt/gradle /tmp/gradle-*.zip</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Durch das Auflisten der entpackten Komponenten kann geführt werden, ob das Entpacken korrekt funktioniert hat.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ls /opt/gradle/gradle-6.5.1</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Das Kommando sollte den folgenden Output zeigen:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/installation/gradle_folder_content.png" alt="gradle folder content" width="75% Gradle Folder Content">
+</div>
+<div class="title">Figure 15. <em>Gradle Ordner Inhalt</em></div>
+</div>
+<div class="paragraph">
+<p>In einem nächsten Schritt müssen wir die PATH Variable für Gradle konfigurieren. Dazu müssen wir ein neues File auf dem Pi anlegen.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Neues File mit dem <code>nano</code> Editor öffnen:<br>
+<code>sudo nano /etc/profile.d/gradle.sh</code></p>
+</li>
+<li>
+<p>Im Editor folgenden Code einfügen:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>export GRADLE_HOME=/opt/gradle/gradle-6.5.1
+export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>File mittels Ctrl + S speichern. Editor mit Ctrl + X verlassen.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Nun müssen wir das eben erzeugte Script mit dem <code>chmod</code> Befehl noch ausführbar machen.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sudo chmod +x /etc/profile.d/gradle.sh</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In einem letzten Schritt laden wir die Umgebungsvariablen neu.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>source /etc/profile.d/gradle.sh</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Die installation von Gradle ist nun abgeschlossen. Mit dem Befehl <code>gradle -v</code> können wir überprüfen, ob Gradel korrekt installiert wurde. Die Ausgabe des Kommandos sollte wie folgend aussehen:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/installation/gradle_version.png" alt="gradle version" width="75% gradle -v output">
+</div>
+<div class="title">Figure 16. <em>Output gradle -v</em></div>
+</div>
+<div class="paragraph">
+<p>src: <a href="https://linuxize.com/post/how-to-install-gradle-on-debian-9/" class="bare">https://linuxize.com/post/how-to-install-gradle-on-debian-9/</a></p>
+</div>
 </div>
 </div>
 </div>
@@ -1198,7 +1327,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/installation/RemoteHost3.png" alt="RemoteHost3" width="75% remote host server settings">
 </div>
-<div class="title">Figure 13. <em>Remote Host Server Einstellungen</em></div>
+<div class="title">Figure 17. <em>Remote Host Server Einstellungen</em></div>
 </div>
 <div class="paragraph">
 <p>Jetzt können Sie jeder Zeit alle Dateien oder einzelne ausgewählte Dateien mit im Remote Host Menü auf den Raspberry Pi übertragen.</p>
@@ -1210,11 +1339,15 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/installation/RemoteHost4.png" alt="RemoteHost4" width="75% update remote host server">
 </div>
-<div class="title">Figure 14. <em>Update Remote Host</em></div>
+<div class="title">Figure 18. <em>Update Remote Host</em></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_optional_remote_debugging">4.2. Optional: Remote Debugging</h3>
+<h3 id="_todo_code_bauen_mit_gradle">4.2. TODO: Code bauen mit Gradle</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_optional_remote_debugging">4.3. Optional: Remote Debugging</h3>
 <div class="paragraph">
 <p>Es ist auch möglich den Code vom eigenen Rechner aus mit IntelliJ auf dem Raspberry Pi auszuführen und diesen auf dem eigenen Rechner zu debuggen. Diese Funktionalität kann sehr hilfreich sein, wenn man mit schwierigen Bugs zu tun hat, aber birgt auch Schwierigkeiten und funktioniert auch nicht immer ideal, deshalb wurde dieser Bereich als optional deklariert.</p>
 </div>
@@ -1239,7 +1372,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/installation/RemoteDebugging.png" alt="RemoteDebugging" width="75% Remote Debuggging Configuration">
 </div>
-<div class="title">Figure 15. <em>Embedded JVM Configuration</em></div>
+<div class="title">Figure 19. <em>Embedded JVM Configuration</em></div>
 </div>
 <div class="paragraph">
 <p>Für  weitere Informationen zum Remote Debugging mit IntelliJ auf dem Raspberry Pi können Sie den folgenden Artikel studieren:<br>
@@ -1321,7 +1454,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://upload.wikimedia.org/wikipedia/commons/9/9e/Verschiedene_LEDs.jpg"><img src="./assets/images/led.jpg" alt="led" width="75% LED"></a>
 </div>
-<div class="title">Figure 16. LED</div>
+<div class="title">Figure 20. LED</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung">5.1.1. Verkabelung</h4>
@@ -1345,7 +1478,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/blink_led.png" alt="blink led" width="75% LED Wiring">
 </div>
-<div class="title">Figure 17. LED Verkabelung</div>
+<div class="title">Figure 21. LED Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -1462,7 +1595,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://cdn.antratek.nl/media/product/03c/mini-push-button-switch-com-00097-1b3.jpg"><img src="./assets/images/push_button.png" alt="push button" width="75% Push Button"></a>
 </div>
-<div class="title">Figure 18. Button</div>
+<div class="title">Figure 22. Button</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung_2">5.2.1. Verkabelung</h4>
@@ -1489,7 +1622,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/button_click.png" alt="button click" width="75% Button Wiring">
 </div>
-<div class="title">Figure 19. Button Verkabelung</div>
+<div class="title">Figure 23. Button Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -1603,7 +1736,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/buzzer.jpg" alt="buzzer" width="30% Buzzer">
 </div>
-<div class="title">Figure 20. Buzzer</div>
+<div class="title">Figure 24. Buzzer</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung_3">5.3.1. Verkabelung</h4>
@@ -1624,7 +1757,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/buzzer.png" alt="buzzer" width="50% Buzzer Fritzing">
 </div>
-<div class="title">Figure 21. Buzzer Verkabelung</div>
+<div class="title">Figure 25. Buzzer Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -1752,7 +1885,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/LCDI2C.png" alt="LCDI2C" width="75% I2C Wiring">
 </div>
-<div class="title">Figure 22. LCD I2C Modul Verkabelung</div>
+<div class="title">Figure 26. LCD I2C Modul Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -1883,7 +2016,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Rotary_Angle_Sensor.jpg" alt="Grove Rotary Angle Sensor" width="75% Grove Rotary Angle Sensor">
 </div>
-<div class="title">Figure 23. Grove Potentiometer</div>
+<div class="title">Figure 27. Grove Potentiometer</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung_5">5.5.1. Verkabelung</h4>
@@ -1901,7 +2034,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/Grove_Base_Hat_Rotary_Angel_Sensor.jpg" alt="Grove Base Hat Rotary Angel Sensor" width="75% Grove Rotary Angle Sensor Fritzing">
 </div>
-<div class="title">Figure 24. Grove Potentiometer Verkabelung</div>
+<div class="title">Figure 28. Grove Potentiometer Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -1996,7 +2129,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/grove_rfid_reader.png" alt="grove rfid reader" width="75% Grove RFID Reader Fritzing">
 </div>
-<div class="title">Figure 25. Grove RFID Reader Verkabelung</div>
+<div class="title">Figure 29. Grove RFID Reader Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2105,7 +2238,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Ultrasonic_Ranger.jpg" alt="Grove Ultrasonic Ranger" width="75% RaspiCam Wiring">
 </div>
-<div class="title">Figure 26. Ultrasonic Ranger Verkabelung</div>
+<div class="title">Figure 30. Ultrasonic Ranger Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2194,7 +2327,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/motor_and_driver.png" alt="motor and driver" width="75% DC Motor and Driver">
 </div>
-<div class="title">Figure 27. Motor und Treiber</div>
+<div class="title">Figure 31. Motor und Treiber</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung_8">5.8.1. Verkabelung</h4>
@@ -2218,7 +2351,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/motor.png" alt="motor" width="75% DC Motor Fritzing">
 </div>
-<div class="title">Figure 28. DC Motor Verkabelung</div>
+<div class="title">Figure 32. DC Motor Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2385,7 +2518,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/stepper_motor_and_driver.png" alt="stepper motor and driver" width="75% RaspiCam Wiring">
 </div>
-<div class="title">Figure 29. Stepper Motor Verkabelung</div>
+<div class="title">Figure 33. Stepper Motor Verkabelung</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung_9">5.9.1. Verkabelung</h4>
@@ -2409,7 +2542,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/stepper_motor.png" alt="stepper motor" width="75% RaspiCam Wiring">
 </div>
-<div class="title">Figure 30. Stepper Motor Verkabelung</div>
+<div class="title">Figure 34. Stepper Motor Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2576,7 +2709,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/servo_motor.png" alt="servo motor" width="75% Servo Motor Fritzing">
 </div>
-<div class="title">Figure 31. Servo Motor Verkabelung</div>
+<div class="title">Figure 35. Servo Motor Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2695,7 +2828,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera.jpg" alt="Grove Serial Camera" width="75% Grove Serial Camera">
 </div>
-<div class="title">Figure 32. Grove Serial Camera</div>
+<div class="title">Figure 36. Grove Serial Camera</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung_11">5.11.1. Verkabelung</h4>
@@ -2716,7 +2849,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/grove_serial_cam.png" alt="grove serial cam" width="75% Grove Serial Camera Fritzing">
 </div>
-<div class="title">Figure 33. Serial Camera Verkabelung</div>
+<div class="title">Figure 37. Serial Camera Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2809,7 +2942,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/RaspberryPi_Camera.jpg" alt="RaspberryPi Camera" width="70% RaspiCam">
 </div>
-<div class="title">Figure 34. Raspberry Pi Camera</div>
+<div class="title">Figure 38. Raspberry Pi Camera</div>
 </div>
 <div class="paragraph">
 <p>Für die Verwendung muss sie aber zunächst im OS aktiviert werden. Unter den Interfacing Options, von raspi-config können Sie es problemlos aktivieren.</p>
@@ -2818,10 +2951,10 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/RaspberryPi_Camera_Activation.jpg" alt="RaspberryPi Camera Activation" width="60% activate RaspiCam">
 </div>
-<div class="title">Figure 35. Raspberry Pi Camera aktivieren</div>
+<div class="title">Figure 39. Raspberry Pi Camera aktivieren</div>
 </div>
 <div class="paragraph">
-<p>Rasbian OS enthält auch Applikationen, welche sie nutzen können, um die Camera in der Console zu testen.</p>
+<p>Raspbian OS enthält auch Applikationen, welche sie nutzen können, um die Camera in der Console zu testen.</p>
 </div>
 <div class="paragraph">
 <p>Starten Sie ihr Terminal und geben sie folgenden Befehl ein:</p>
@@ -2854,7 +2987,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <img src="./assets/images/fritzing/raspiCam.png" alt="raspiCam" width="60% RaspiCam Wiring">
 </div>
-<div class="title">Figure 36. Raspberry Pi Camera Verkabelung</div>
+<div class="title">Figure 40. Raspberry Pi Camera Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -3103,7 +3236,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://www.elektronik-kompendium.de/sites/raspberry-pi/2006051.htm"><img src="./assets/images/pulldown.gif" alt="pulldown" width="75% Pulldown Ressistor"></a>
 </div>
-<div class="title">Figure 37. Schaltbild Pulldown-Wiederstand</div>
+<div class="title">Figure 41. Schaltbild Pulldown-Wiederstand</div>
 </div>
 <div class="paragraph">
 <p>Wie man im Schaltbild erkennen kann, liest der GPIO Pin bei offenem Schalter eine Spannung von 0V des Ground Pins. Bei geschlossenem Schalter liegt die volle Spannung von 3.3V am GPIO Pin an. Der Input Pin besitzt also immer einen fixen Zustand. Entweder ist er High oder Low.</p>
@@ -3162,7 +3295,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://www.islproducts.com/design-notes/piezo-buzzers-vs-magnetic-buzzers/"><img src="./assets/images/buzzer_construction.jpg" alt="buzzer construction" width="75% Buzzer Construction"></a>
 </div>
-<div class="title">Figure 38. Buzzer Aufbau</div>
+<div class="title">Figure 42. Buzzer Aufbau</div>
 </div>
 <div class="sect3">
 <h4 id="_clock_divider_berechnen">7.3.1. Clock Divider berechnen</h4>
@@ -3267,7 +3400,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://www.waveshare.com/datasheet/LCD_en_PDF/LCD1602.pdf"><img src="./assets/images/LCD_Init.PNG" alt="LCD Init" width="75% LCD Init"></a>
 </div>
-<div class="title">Figure 39. LCD1602 Init</div>
+<div class="title">Figure 43. LCD1602 Init</div>
 </div>
 <div class="paragraph">
 <p>Die Initialisierung wurde in java folgendermassen realisiert:</p>
@@ -3302,7 +3435,7 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
 <div class="content">
 <a class="image" href="https://www.waveshare.com/datasheet/LCD_en_PDF/LCD1602.pdf"><img src="./assets/images/LCD_Characters.PNG" alt="LCD Characters" width="75% LCD Character Table"></a>
 </div>
-<div class="title">Figure 40. LCD1602 Zeichentabelle</div>
+<div class="title">Figure 44. LCD1602 Zeichentabelle</div>
 </div>
 <div class="paragraph">
 <p>Wenn dem <code>I2CLCDComponent</code> ein ganzer String übergeben wird, dann werden alle Zeichen des Strings einzeln dem LCD geschickt und jeweils in zwei Nibbles (4-Bits) eingeteilt und gesendet.</p>
@@ -3320,12 +3453,13 @@ Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.</p>
         //lcd only has 2 lines, so I assume the first one if the second one wasn't selected explicitly
         if (line != 2) {
             posNew = (byte) pos;
-            if (text.length() &gt; COLUMNS - pos) {
-                firstLine = text.substring(0, 15 - pos);
-                secondLine = text.substring(COLUMNS - pos, text.length() - 1);
+            boolean textLargerThanLine = text.length() &gt; COLUMNS - pos;
+            if (textLargerThanLine) {
+                firstLine = text.substring(0, 16 - pos);
+                secondLine = text.substring(COLUMNS - pos);
             }
             displayLine(firstLine, posNew);
-            if (jumpToNextLine) displayLine(secondLine, posNew + 0x40);
+            if (jumpToNextLine &amp;&amp; textLargerThanLine) displayLine(secondLine, posNew + 0x40);
         } else {
             posNew = (byte) (0x40 + pos);
             displayLine(secondLine, posNew);
@@ -3368,31 +3502,26 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">    public void displayBounceText(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) throws InterruptedException {
-        if (text.length() &gt;= COLUMNS - 1) { // Bounce doesn't make sense for a large text
-            displayText(text, line);
-        }
+<pre class="highlight"><code class="language-java" data-lang="java">    public void displayBounceText(String text, int line, int delay, boolean startAgain) throws InterruptedException {
+        // Bounce doesn't make sense for a large text
+        if (text.length() &gt;= COLUMNS - 1)
+            throw new IllegalArgumentException("text has to be smaller than 15 characters");
+
         //shifts the whole text to the right end
         for (int i = 0; i &lt; COLUMNS - text.length(); i++) {
             if (i + text.length() &lt;= COLUMNS) {
-                displayText(text, line, i, jumpToNextLine);
+                displayText(text, line, i, false);
                 Thread.sleep(delay);
-                if (jumpToNextLine)
-                    clearText();
-                else
-                    clearLine(line);
+                clearLine(line);
             }
         }
         //shifts the whole text to the left end
         for (int i = COLUMNS - text.length(); i &gt; 0; i--) {
-            displayText(text, line, i, jumpToNextLine);
+            displayText(text, line, i, false);
             Thread.sleep(delay);
-            if (jumpToNextLine)
-                clearText();
-            else
-                clearLine(line);
+            clearLine(line);
         }
-        if (startAgain) displayBounceText(text, line, delay, jumpToNextLine, startAgain);
+        if (startAgain) displayBounceText(text, line, delay, startAgain);
     }</code></pre>
 </div>
 </div>
@@ -3594,7 +3723,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <a class="image" href="https://components101.com/l293d-pinout-features-datasheet"><img src="./assets/images/L293D_Pinout.png" alt="L293D Pinout" width="75% L293D Pinout"></a>
 </div>
-<div class="title">Figure 41. Pinout L293D</div>
+<div class="title">Figure 45. Pinout L293D</div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 26. Beschreibung Pinout</caption>
@@ -3770,7 +3899,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <a class="image" href="https://www.elektronik-kompendium.de/sites/kom/0401111.htm"><img src="./assets/images/pwm.png" alt="pwm" width="75% PWM as a Graph"></a>
 </div>
-<div class="title">Figure 42. PWM als Grafik</div>
+<div class="title">Figure 46. PWM als Grafik</div>
 </div>
 <div class="paragraph">
 <p>In unserer Component Klasse steuern wir den Duty Cycle über die GPIO Klasse von Wiring Pi. Der gewünschte Duty Cycle wird über die <code>setPWM()</code> Funktion festgelegt. Die <code>rangeAdjustment</code> Variable wird benötigt, da Wiring Pi zwischen Software und Hardware PWM Pins unterscheidet.</p>
@@ -3817,7 +3946,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <a class="image" href="https://commons.wikimedia.org/w/index.php?curid=10011776"><img src="./assets/images/StepperMotor.gif" alt="StepperMotor" width="75% Single Stepping Stepper Motor"></a>
 </div>
-<div class="title">Figure 43. Stepper Motor unter Single Stepping</div>
+<div class="title">Figure 47. Stepper Motor unter Single Stepping</div>
 </div>
 <div class="paragraph">
 <p>Bei den meisten Schrittmotoren kommt zusätzlich zur Welle noch ein Getriebe zum Einsatz, welches durch seine Übersetzung den Drehwinkel pro Schritt weiter verkleinert. Beim weit verbreiteten Stepper Motor 28BYJ-48 ist zum Beispiel ein 1/64 Getriebe verbaut. Jeder Schritt der Welle resultiert bei diesem Motor um eine um 64 verkleinerte Drehung.</p>
@@ -3834,7 +3963,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <a class="image" href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping"><img src="./assets/images/single_stepping.jpg" alt="single stepping" width="75% Single Stepping"></a>
 </div>
-<div class="title">Figure 44. Single Stepping</div>
+<div class="title">Figure 48. Single Stepping</div>
 </div>
 <div class="paragraph">
 <p>Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.</p>
@@ -3904,7 +4033,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <a class="image" href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping"><img src="./assets/images/double_stepping.jpg" alt="double stepping" width="75% Double Stepping"></a>
 </div>
-<div class="title">Figure 45. Double Stepping</div>
+<div class="title">Figure 49. Double Stepping</div>
 </div>
 <div class="paragraph">
 <p>Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.</p>
@@ -3974,7 +4103,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <a class="image" href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping"><img src="./assets/images/half_stepping.jpg" alt="half stepping" width="75% Half Stepping"></a>
 </div>
-<div class="title">Figure 46. Half Stepping</div>
+<div class="title">Figure 50. Half Stepping</div>
 </div>
 <div class="paragraph">
 <p>Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.</p>
@@ -4268,7 +4397,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_SYNC_Command.png" alt="500" width="500" height="Grove Serial Camera SYNC">
 </div>
-<div class="title">Figure 47. SYNC Kommando</div>
+<div class="title">Figure 51. SYNC Kommando</div>
 </div>
 </div>
 <div class="sect3">
@@ -4280,7 +4409,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_Initialisation.png" alt="500" width="500" height="Grove Serial Camera Connection">
 </div>
-<div class="title">Figure 48. Verbindungsaufbau</div>
+<div class="title">Figure 52. Verbindungsaufbau</div>
 </div>
 <div class="paragraph">
 <p>In unserer Java Klasse haben wir den Verbindungsaufbau in einer eigenen Funktion realisiert, welche vom jeweiligen Konstruktor aufgerufen wird. In einer While-Schlaufe wird das SYNC Kommando solange an die Kamera gesendet, bis diese eine Antwort auf den Serial Bus geschrieben hat. Ist dies nach 60 Versuchen nicht der Fall, wird die Initialisierung mit einem Fehler abgebrochen. Hat die Kamera eine Antwort gesendet, wird diese auf Ihre Korrektheit überprüft. Die ersten sechs Bytes müssen dem ACK Kommando entsprechen (AA0E0Dxx0000h). Bei den nächsten sechs Bytes muss es sich um das SYNC Kommando handeln (AA0D00000000h). Sofern dies der Fall ist, war der Verbindungsaufbau erfolgreich. Die Kamera ist nun bereit für die Entgegennahme von weiteren Befehlen.</p>
@@ -4343,7 +4472,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_Get_Picture.png" alt="500" width="500" height="Grove Serial Camera Get Picture">
 </div>
-<div class="title">Figure 49. Ablauf der Bildanforderung</div>
+<div class="title">Figure 53. Ablauf der Bildanforderung</div>
 </div>
 </div>
 <div class="sect3">
@@ -4493,7 +4622,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="sect2">
 <h3 id="_raspberry_pi_camera_2">7.12. Raspberry Pi Camera</h3>
 <div class="paragraph">
-<p>Die Raspberry Pi Camera enthält in Rasbian vier Applikationen, welche man vom Terminal aus verwenden kann.</p>
+<p>Die Raspberry Pi Camera enthält in Raspbian vier Applikationen, welche man vom Terminal aus verwenden kann.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -4669,7 +4798,7 @@ RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-08 17:19:05 +0200
+Last updated 2020-08-09 12:21:17 +0200
 </div>
 </div>
 </body>

@@ -606,8 +606,8 @@ image::./fritzing/LCDI2C.png[width=75% I2C Wiring]
 [cols="1,1"]
 |===
 |Konstruktor |Beschreibung
-|I2CLCD​(int address, int busNumber) |Standard Constructor that needs address and the busnumber to initialise
-|I2CLCD​(com.pi4j.io.i2c.I2CDevice device)	
+|I2CLCDComponent(int address, int busNumber) |Standard Constructor that needs address and the busnumber to initialise
+|I2CLCDComponent(com.pi4j.io.i2c.I2CDevice device)	
 |Constructor that needs I2C information in the pi4j I2CDevice object
 |===
 
@@ -692,7 +692,7 @@ image::./fritzing/grove_rfid_reader.png[width=75% Grove RFID Reader Fritzing]
 [cols="1,1"]
 |===
 |Konstruktor |Beschreibung
-|RFIDReaderComponent​(com.pi4j.util.Console console) |Constructor of the RFID Reader
+|RFIDReaderComponent​() |Standard constructor of the RFID Reader
 |===
 
 .RFID - Funktionen
@@ -994,9 +994,9 @@ image::./fritzing/raspiCam.png[width=60% RaspiCam Wiring]
 [cols="1,1"]
 |===
 |Konstruktor |Beschreibung
-|RaspberryPiCameraComponent​(com.pi4j.util.Console console, uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration) |Constructor for only using the picture functionality
-|RaspberryPiCameraComponent​(com.pi4j.util.Console console, fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration) |Constructor for only using the video functionality
-|RaspberryPiCameraComponent​(com.pi4j.util.Console console, uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration, fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration) |Constructor for using the picture and video functionality
+|RaspberryPiCameraComponent​(uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration) |Constructor for only using the picture functionality
+|RaspberryPiCameraComponent​(fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration) |Constructor for only using the video functionality
+|RaspberryPiCameraComponent​(uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration, fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration) |Constructor for using the picture and video functionality
 |===
 
 .Raspberry Pi Camera - Funktionen

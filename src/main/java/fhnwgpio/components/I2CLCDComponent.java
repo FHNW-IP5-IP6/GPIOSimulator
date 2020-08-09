@@ -4,7 +4,6 @@ import fhnwgpio.components.base.I2CBase;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
 import fhnwgpio.components.helper.ComponentLogger;
-import org.apache.logging.log4j.Level;
 
 import java.io.IOException;
 
@@ -57,9 +56,9 @@ public class I2CLCDComponent extends I2CBase {
             writeCommand(LCD_CLEARDISPLAY);
             writeCommand((byte) (LCD_ENTRYMODESET | LCD_ENTRYLEFT));
             Thread.sleep(0, 200000);
-            ComponentLogger.logInfo("I2C LCD initialised");
+            ComponentLogger.logInfo("I2CLCDComponent: initialised");
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            ComponentLogger.logError("I2CLCDComponent: Error while trying to initialise " + ex.getMessage());
         }
     }
     // end::LCDInit[]
@@ -98,11 +97,14 @@ public class I2CLCDComponent extends I2CBase {
      */
     // tag::LCDDisplayText[]
     public void displayText(String text, int line, int pos, boolean jumpToNextLine) {
-        if (text.length() > 32 - pos)
+        ComponentLogger.logInfo("I2CLCDComponent: displaying text: '" + text + "' on line " + line);
+
+        if (text.length() > 32 - pos) {
             text = text.substring(0, 31 - pos);
+            ComponentLogger.logInfo("I2CLCDComponent: text length cut to 31 characters");
+        }
 
         String firstLine = text, secondLine = text;
-
         byte posNew;
 
         //lcd only has 2 lines, so I assume the first one if the second one wasn't selected explicitly
@@ -132,13 +134,15 @@ public class I2CLCDComponent extends I2CBase {
      */
     // tag::LCDDisplayScrollText[]
     public void displayScrollText(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) throws InterruptedException {
+        ComponentLogger.logInfo("I2CLCDComponent: displaying scroll text: '" + text + "' on line " + line + "with a delay of " + delay + " milliseconds");
+
         String paddedtext = getEmptyLine() + text;
 
         for (int i = 0; i < paddedtext.length(); i++) {
             displayText(paddedtext.substring(i), line, 0, jumpToNextLine);
             Thread.sleep(delay);
             if (jumpToNextLine)
-                clearText();
+                clearText(false);
             else
                 clearLine(line);
 
@@ -160,9 +164,15 @@ public class I2CLCDComponent extends I2CBase {
      */
     // tag::LCDDisplayBounceText[]
     public void displayBounceText(String text, int line, int delay, boolean startAgain) throws InterruptedException {
+        ComponentLogger.logInfo("I2CLCDComponent: displaying bounce text: '" + text + "' on line " + line + "with a delay of " + delay + " milliseconds");
+
         // Bounce doesn't make sense for a large text
-        if (text.length() >= COLUMNS - 1)
-            throw new IllegalArgumentException("text has to be smaller than 15 characters");
+        if (text.length() >= COLUMNS - 1) {
+            IllegalArgumentException ex = new IllegalArgumentException("text has to be smaller than 15 characters");
+            ComponentLogger.logError("I2CLCDComponent: " + ex.getMessage());
+            throw ex;
+
+        }
 
         //shifts the whole text to the right end
         for (int i = 0; i < COLUMNS - text.length(); i++) {
@@ -188,6 +198,7 @@ public class I2CLCDComponent extends I2CBase {
      * @param state sets the backlight (1 == on, 0 == off)
      */
     public void setBacklightState(boolean state) {
+        ComponentLogger.logInfo("I2CLCDComponent: Set Backlight: " + state);
         if (state) {
             writeCmd(LCD_BACKLIGHT);
         } else {
@@ -196,9 +207,21 @@ public class I2CLCDComponent extends I2CBase {
     }
 
     /**
+     * write a character to lcd
+     */
+    public void writeCharacter(byte charvalue) {
+        writeSplitCommand(charvalue, Rs);
+    }
+
+    /**
      * clears the lcd text
      */
     public void clearText() {
+        clearText(false);
+    }
+
+    private void clearText(boolean log) {
+        if (log) ComponentLogger.logInfo("I2CLCDComponent: Display cleared");
         writeCommand(LCD_CLEARDISPLAY);
         writeCommand(LCD_RETURNHOME);
     }
@@ -215,13 +238,6 @@ public class I2CLCDComponent extends I2CBase {
         for (int i = 0; i < text.length(); i++) {
             writeCharacter((byte) text.charAt(i));
         }
-    }
-
-    /**
-     * write a character to lcd
-     */
-    public void writeCharacter(byte charvalue) {
-        writeSplitCommand(charvalue, Rs);
     }
 
     //Gets an empty line

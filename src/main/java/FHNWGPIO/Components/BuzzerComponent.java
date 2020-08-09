@@ -27,6 +27,8 @@ public class BuzzerComponent {
         Gpio.pinMode(this.pin.getAddress(), Gpio.PWM_OUTPUT);
         Gpio.pwmSetMode(Gpio.PWM_MODE_MS);
         Gpio.pwmSetRange(dutyCycle);
+
+        ComponentLogger.log(Level.INFO, "BuzzerComponent for GPIO pin " + pin.getAddress() + " created");
     }
 
     /**

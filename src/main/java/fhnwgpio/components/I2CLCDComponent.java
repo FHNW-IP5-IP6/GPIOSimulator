@@ -266,7 +266,7 @@ public class I2CLCDComponent extends I2CBase {
             writeCmd((byte) ((data & ~En) | LCD_BACKLIGHT));
             Thread.sleep(0, 100000);
         } catch (Exception ex) {
-            getConsole().println(ex.getMessage());
+            ComponentLogger.logError("I2CLCDComponent: Error sending cmd to device " + ex.getMessage());
         }
     }
 
@@ -296,7 +296,7 @@ public class I2CLCDComponent extends I2CBase {
             writeCmd((byte) (data | LCD_BACKLIGHT));
             lcdStrobe(data);
         } catch (Exception ex) {
-            getConsole().println(ex.getMessage());
+            ComponentLogger.logError("I2CLCDComponent: Error sending split cmd to device " + ex.getMessage());
         }
     }
 

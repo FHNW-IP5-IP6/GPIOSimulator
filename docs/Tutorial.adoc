@@ -520,10 +520,10 @@ image::./fritzing/button_click.png[width=75% Button Wiring]
 [cols="1,1"]
 |===
 |Konstruktor |Beschreibung
-|ButtonComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalInput pin) |Constructor for GPIO pins without value reversion.
-|ButtonComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalInput pin, boolean reverse) |Constructor for GPIO pins.
-|ButtonComponent(com.pi4j.util.Console console, GroveAdapter adapter) |Constructor for digital grove devices without value reversion.
-|ButtonComponent(com.pi4j.util.Console console, GroveAdapter adapter, boolean reverse) |Constructor for digital grove devices.
+|ButtonComponent(com.pi4j.io.gpio.GpioPinDigitalInput pin) |Constructor for GPIO pins without value reversion.
+|ButtonComponent(com.pi4j.io.gpio.GpioPinDigitalInput pin, boolean reverse) |Constructor for GPIO pins. User can set if the buttons value should be reversed.
+|ButtonComponent(GroveAdapter adapter) |Constructor for digital grove devices without value reversion.
+|ButtonComponent(GroveAdapter adapter, boolean reverse) |Constructor for digital grove devices. User can set if the buttons value should be reversed.
 |===
 
 .Button - Funktionen

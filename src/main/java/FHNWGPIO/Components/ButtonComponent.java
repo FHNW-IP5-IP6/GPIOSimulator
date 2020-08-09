@@ -2,60 +2,57 @@ package fhnwgpio.components;
 
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalInput;
-import com.pi4j.util.Console;
+import fhnwgpio.components.helper.ComponentLogger;
 import fhnwgpio.grove.GroveAdapter;
+import org.apache.logging.log4j.Level;
 
 /**
  * HNW implementation for reading the current value of a button. This implementation supports Grove buttons,
  * Grove touch sensors, four legged buttons and many other digital input devices.
  */
 public class ButtonComponent {
-    private Console console;
     private GpioPinDigitalInput pin;
     private boolean reverse;
 
     /**
      * Constructor for GPIO pins. User can set if the buttons value should be reversed.
      *
-     * @param console The Pi4J Console
      * @param pin     Digital GPIO input pin
      * @param reverse The buttons values are reversed if this boolean is set to true
      */
-    public ButtonComponent(Console console, GpioPinDigitalInput pin, boolean reverse) {
-        this.console = console;
+    public ButtonComponent(GpioPinDigitalInput pin, boolean reverse) {
         this.pin = pin;
         this.reverse = reverse;
+
+        ComponentLogger.log(Level.INFO, "ButtonComponent for GPIO pin " + pin.getPin().getAddress() + " created");
     }
 
     /**
      * Constructor for digital grove devices. User can set if the buttons value should be reversed.
      *
-     * @param console The Pi4J Console
      * @param adapter Digital grove adapter
      * @param reverse The buttons values are reversed if this boolean is set to true
      */
-    public ButtonComponent(Console console, GroveAdapter adapter, boolean reverse) {
-        this(console, GpioFactory.getInstance().provisionDigitalInputPin(adapter.getAdapter().getUpperPin()), reverse);
+    public ButtonComponent(GroveAdapter adapter, boolean reverse) {
+        this(GpioFactory.getInstance().provisionDigitalInputPin(adapter.getAdapter().getUpperPin()), reverse);
     }
 
     /**
      * Constructor for GPIO pins without value reversion.
      *
-     * @param console The Pi4J Console
-     * @param pin     Digital GPIO input pin
+     * @param pin Digital GPIO input pin
      */
-    public ButtonComponent(Console console, GpioPinDigitalInput pin) {
-        this(console, pin, false);
+    public ButtonComponent(GpioPinDigitalInput pin) {
+        this(pin, false);
     }
 
     /**
      * Constructor for digital grove devices without value reversion.
      *
-     * @param console The Pi4J Console
      * @param adapter Digital grove adapter
      */
-    public ButtonComponent(Console console, GroveAdapter adapter) {
-        this(console, GpioFactory.getInstance().provisionDigitalInputPin(adapter.getAdapter().getUpperPin()), false);
+    public ButtonComponent(GroveAdapter adapter) {
+        this(GpioFactory.getInstance().provisionDigitalInputPin(adapter.getAdapter().getUpperPin()), false);
     }
 
     /**
@@ -65,9 +62,9 @@ public class ButtonComponent {
      */
     public void setReverse(boolean reverse) {
         if (reverse) {
-            console.println("Button values will be reversed");
+            ComponentLogger.log(Level.INFO, "Button values will be reversed");
         } else {
-            console.println("Button values will not be reversed");
+            ComponentLogger.log(Level.INFO, "Button values will not be reversed");
         }
         this.reverse = reverse;
     }

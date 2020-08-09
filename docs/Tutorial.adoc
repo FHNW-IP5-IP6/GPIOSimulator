@@ -47,26 +47,22 @@ Der Hauptteil des Tutorials befasst sich mit verschiedenen Sensoren und Aktoren,
 == Hardware 
 
 === Raspberry Pi
-Der Raspberry Pi ist ein kostengünstiger Computer in Kreditkartengröße. Es ist ein leistungsfähiger kleiner PC, der es Menschen jeden Alters ermöglicht, sich mit Computern auseinanderzusetzen und zu lernen, wie man in Sprachen wie Scratch, Python oder hier in Java programmiert. Es ist in der Lage, alles zu tun, was man von einem Desktop-Computer erwarten würde, vom Surfen im Internet und dem Abspielen von hochauflösenden Videos bis hin zum Erstellen von Tabellenkalkulationen, Textverarbeitung und Spielen.
+Der Raspberry Pi ist ein kostengünstiger Computer in Kreditkartengröße. Es ist ein leistungsfähiger kleiner PC, der es Menschen jeden Alters ermöglicht, sich mit Computern auseinanderzusetzen und zu lernen, wie man in Sprachen wie Scratch, Python oder hier in Java programmiert. Es ist in der Lage, alles zu tun, was man von einem Desktop-Computer erwarten würde, vom Surfen im Internet und dem Abspielen von hochauflösenden Videos bis hin zum Erstellen von Tabellenkalkulationen, Textverarbeitung und Spielen<<RaspberryPi1>>.
 
-Darüber hinaus hat die Raspberry Pi die Fähigkeit, mit der Außenwelt zu interagieren. An den sogenannten GPIO (General Purpose Input Output) Pins kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für IoT-Projekte macht.
+Darüber hinaus hat die Raspberry Pi die Fähigkeit, mit der Außenwelt zu interagieren. An den sogenannten GPIO (General Purpose Input Output) Pins kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für IoT-Projekte macht<<RaspberryPi2>>.
 
 Der Pi wurde von der britischen Raspberry Pi Foundation entwickelt und hat das Ziel, Bildung im Bereich Computer Hardware, Elektronik und Informatik zu fördern.
-
-source: https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/[RaspberryPi.org]
-        https://www.elektronik-kompendium.de/sites/raspberry-pi/2002191.htm[Elektronik-Kompendium]
 
 === Grove Sensoren & Aktuatoren
 Grove ist ein offenes modulares System, das für den einfachen Anschluss beliebiger Sensoren und Aktuatoren entwickelt wurde. Es gibt Grove Sensoren und Aktuatoren für die verschiedensten Bereiche:  Robotik, Annäherung, Bewegung, Umwelt und Biomedizin.
 
-Grove erleichtert das Anschließen und Experimentieren mit den Geräte. Die Sensoren und Aktuatoren können mittels der Grove Kabel an einen Grove Aufsatz, wie dem Grove Base Hat angeschlossen werden, somit sind keine Jumper oder Lötkolben mehr erforderlich für einfache IoT Projekte.
-
-src: https://www.seeedstudio.com/category/Sensor-for-Grove-c-24.html [Grove Sensors and actuators]
+Grove erleichtert das Anschließen und Experimentieren mit den Geräte. Die Sensoren und Aktuatoren können mittels der Grove Kabel an einen Grove Aufsatz, wie dem Grove Base Hat angeschlossen werden, somit sind keine Jumper oder Lötkolben mehr erforderlich für einfache IoT Projekte <<GroveSA>>.
 
 === Grove Base Hat
 Grove Sensoren und Aktuatoren sind beliebt und werden oft in Projekten eingesetzt. Sie verfügen über simple Steckverbindungen, sogenannte Adapter, welche in Kombination mit dem Grove Base Hat eine sichere und fehlerfreie Verbindung mit dem Raspberry Pi garantieren.
 
 .Grove Base Hat
+[link=https://wiki.seeedstudio.com/Grove_Base_Hat_for_Raspberry_Pi/]
 image::Grove_Base_Hat.png[500, 500, Grove Base Hat]
 
 Der Grove Base Hat stellt Adapter für PWM, Digital, Analog, UART sowie I2C zur Verfügung. Zusätzlich werden alle GPIO Pins auf den Hat projiziert. Unsere Implementation des Grove Adapters unterstützt alle diese Anschlüsse.
@@ -162,7 +158,7 @@ Wenn Sie sich ebenfalls für balenaEtcher entscheiden, können Sie das Programm 
 https://www.balena.io/etcher/
 
 ._balenaEtcher Download_
-image::./installation/balenaDownload.png[width=75% balenaEtcher Download]
+image::./installation/balenaDownload.png[width=60% balenaEtcher Download]
 
 Nachdem Sie balenaEtcher installiert haben, können Sie die Applikation starten. In nur drei einfachen Schritten spiegelt balenaEtcher das Raspbian Image auf Ihre Mini SD-Karte.
 
@@ -553,6 +549,7 @@ Ein Buzzer ist eine Art primitiver Speaker. Er wandelt ein elektrisches Signal i
 Die Hilfsklasse `Notes` stellt eine Vielzahl von Tönen über mehrere Oktaven zur Verfügung. Jedes Enum Attribut verfügt über einen Integer, welcher der Frequenz des Tons entspricht.
 
 .Buzzer
+[link=https://www.geekering.com/wp-content/uploads/2020/01/buzzer_passivo.jpg]
 image::./buzzer.jpg[width=30% Buzzer]
 
 ==== Verkabelung
@@ -641,6 +638,7 @@ include::{sourcedir}/fhnwexamples/component/LcdSystemTimeI2C.java[tags=LcdSystem
 Ein Potentiometer ist eine Art dynamischer Wiederstand, welcher durch das Drehen oder Verschieben eines Reglers vergrössert oder verkleinert werden kann. Der Grove Potentiometer gibt uns je nach eingestelltem Wiederstand einen Wert zwischen 0 und 1'000 zurück. Mit einem Potentiometer können wir also Werte einstellen, mit welchen wir dann einen Aktuator kontrollieren können. Zum Beispiel könnten wir mit einem Potentiometer die Helligkeit einer Leuchtdiode steuern.
 
 .Grove Potentiometer
+[link=https://www.seeedstudio.com/Grove-Rotary-Angle-Sensor.html]
 image::./Grove_Rotary_Angle_Sensor.jpg[width=75% Grove Rotary Angle Sensor]
 
 ==== Verkabelung
@@ -649,6 +647,7 @@ Für die Verkabelung wird folgende Hardware benötigt:
 * 1x Grove Potentiometer mit Grove Adapter Kabel
 
 .Grove Potentiometer Verkabelung
+[link=https://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/]
 image::./fritzing/Grove_Base_Hat_Rotary_Angel_Sensor.jpg[width=75% Grove Rotary Angle Sensor Fritzing]
 
 ==== API
@@ -728,6 +727,7 @@ Für die Verkabelung wird folgende Hardware benötigt:
 * 1x Grove Hat
 
 .Ultrasonic Ranger Verkabelung 
+[link=https://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/]
 image::./Grove_Ultrasonic_Ranger.jpg[width=75% RaspiCam Wiring]
 
 ==== API
@@ -763,6 +763,7 @@ Um einen DC Motor zu kontrollieren, benötigt man einen Motor Treiber. Wir haben
 * Dieses Youtube Video von Gaven MacDonald zeit auf, wie ein DC Motor über GPIO Pins gesteuert werden kann. Ab der Minute 2 wird genauer auf den Treiber L293D eingegangen. https://www.youtube.com/watch?v=W7cV9_W12sM
 
 .Motor und Treiber
+[link=https://elektro.turanis.de/html/prj147/index.html]
 image::./motor_and_driver.png[width=75% DC Motor and Driver]
 
 ==== Verkabelung
@@ -822,6 +823,7 @@ In der unten abgebildeten Tabelle beziehen wir uns auf den weit verbreiteten Sch
 Auf YouTube findet ihr ein sehr informatives Video von Gaven MacDonald über die Funktionsweise eines Stepper Motors. https://www.youtube.com/watch?v=Dc16mKFA7Fo
 
 .Stepper Motor Verkabelung 
+[link=https://www.bastelgarage.ch/stepper-motor-schrittmotor-5v-1-64-28byj-48]
 image::./stepper_motor_and_driver.png[width=75% RaspiCam Wiring]
 
 ==== Verkabelung
@@ -913,6 +915,7 @@ include::{sourcedir}/fhnwexamples/component/ServoMotorDevice.java[tags=ServoMoto
 Die Grove Serial Camera besteht aus einem Kamera Modul und einem Control Board, welches die Kommunikation zwischen der Kamera und dem Raspberry Pi über den Serial Bus ermöglicht. Die Kamera benötigt eine Spannung von 5 Volt, weshalb sie leider nicht mit unserem Grove Hat kompatibel ist. Dieser liefert nur 3.3 Volt an die Grove Adapter. Um die Kamera dennoch nutzen zu können, muss sie via Jumper Kabel an den Serial Port des Raspberry Pi angeschlossen werden. Weitere Informationen zur Verkabelung können dem Tutorial entnommen werden.
 
 .Grove Serial Camera
+[link=https://wiki.seeedstudio.com/Grove-Serial_Camera_Kit/]
 image::Grove_Serial_Camera.jpg[width=75% Grove Serial Camera]
 
 ==== Verkabelung
@@ -956,6 +959,7 @@ include::{sourcedir}/fhnwexamples/component/SerialCamera.java[tags=SerialCamera]
 Die Raspberry Pi Camera ist die Camera Komponente, welche standardmässig vom Pi unterstützt wird. Es ist eine kleine 8MP Kamera, die über ein Flachbandkabel direkt an den Pi angeschlossen werden kann. Man kann 3280 x 2464 Pixel für Bilder verwenden und 1080p mit 30fps/ 720p mit 60fps/ 640x480p mit 90fps für Videos.
 
 .Raspberry Pi Camera
+[link=https://projects.raspberrypi.org/en/projects/getting-started-with-picamera]
 image::./RaspberryPi_Camera.jpg[width=70% RaspiCam]
 
 Für die Verwendung muss sie aber zunächst im OS aktiviert werden. Unter den Interfacing Options, von raspi-config können Sie es problemlos aktivieren. 
@@ -1015,6 +1019,10 @@ include::{sourcedir}/fhnwexamples/component/RaspberryPiCamera.java[tags=Raspberr
 ----
 
 == Beispielprojekt
+Dieses Beispielprojekt soll zeigen, wie die Geräte in einem kleinen Projekt zusammenspielen können. 
+
+Das Projekt ist eine Art Photo Booth, also eine Fotobox in der die folgenden Geräte zusammenarbeiten müssen, um ein gutes Foto von einer Person zu machen:
+
 * Button
 * Buzzer
 * LCD Display
@@ -1022,6 +1030,29 @@ include::{sourcedir}/fhnwexamples/component/RaspberryPiCamera.java[tags=Raspberr
 * Raspberry Pi (Grove Camera)
 * Motor als Countdown
 * ev Ranger für Distanz
+
+=== Komponenten Klassen als Library hinzufügen
+Um die Komponenten Klassen in einem neuen Projekt zu verwenden, muss man die Jar-Datei in dem neuen Projekt als Bibliothek hinzufügen.
+
+Unter den Releases der Github-Repository finden Sie die Jar-Datei: https://github.com/FHNW-IP5-IP6/GPIOSimulator/releases/
+
+Diese Jar-Datei muss in einen geeigneten Ordner im neuen Projekt hinzugefügt werden wie zum Beispiel `/build/libs`
+
+In der Datei `build.gradle` muss man dann nur noch die Library angeben, dann sind die Komponenten Klassen wie in den Beispielen in Kapitel 5 nutzbar:
+
+----
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'build/libs'
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation name: 'GPIOSimulator-0.1'
+}
+----
 
 
 == Zusatzinformationen
@@ -1410,7 +1441,6 @@ include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=Stepper
 Im Gegensatz zu den anderen Modi agiert Half Stepping in acht Schritten. Somit kann die Position des Motors genauer bestimmt werden als in den anderen Modi. Half Stepping kombiniert Single Stepping und Dual Stepping. Dies führt dazu, dass der Motor nicht immer gleich viel Kraft hat. Bei jedem zweiten Schritt ist jeweils nur eine Spule aktiv.
 
 .Half Stepping
-[link=https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping]
 image::half_stepping.jpg[width=75% Half Stepping]
 
 Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.
@@ -1522,12 +1552,14 @@ Die Grove Serial Camera ist eines der komplexeren Devices, welches von unserer L
 Die Datenübermittlung zwischen Kamera und Pi erfolgt über den Serial Bus und das OV528 Protokoll. Die einzelnen Kommandos umfassen jeweils 6 Bytes, welche zusammen als Paket übermittelt werden. Das nachfolgende Beispiel zeigt das SYNC Kommando, welches jeweils zu Beginn der Kommunikation vom Pi ausgesendet wird. Folgende Bytes werden übermittelt: AA0D00000000h.
 
 .SYNC Kommando
+[link=https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf]
 image::Grove_Serial_Camera_SYNC_Command.png[500, 500, Grove Serial Camera SYNC]
 
 ==== Verbindung mit der Kamera aufbauen
 Bevor Befehle an die Kamera gesendet werden können, muss eine Verbindung zwischen Kamera und Raspberry Pi etabliert werden. Dazu wird vom Host mehrmals ein SYNC Kommando auf den Serial Port geschrieben und auf eine Antwort von der Kamera gewartet. Durchschnittlich antwortet die Kamera nach 25 SYNC Kommandos mit einem ACK (AA0E0Dxx0000h). Auf die Empfangsbestätigung folgt das Kommando, welches die Kamera bestätigt. In diesem Fall das SYNC Kommando (AA0D00000000h). Gibt die Kamera nach 60 SYNC Befehlen noch immer keine Antwort, kann davon ausgegangen werden, dass etwas mit der Verkabelung der Kamera nicht stimmt oder der Controller der Kamera defekt ist.
 
 .Verbindungsaufbau
+[link=https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf]
 image::Grove_Serial_Camera_Initialisation.png[500, 500, Grove Serial Camera Connection]
 
 In unserer Java Klasse haben wir den Verbindungsaufbau in einer eigenen Funktion realisiert, welche vom jeweiligen Konstruktor aufgerufen wird. In einer While-Schlaufe wird das SYNC Kommando solange an die Kamera gesendet, bis diese eine Antwort auf den Serial Bus geschrieben hat. Ist dies nach 60 Versuchen nicht der Fall, wird die Initialisierung mit einem Fehler abgebrochen. Hat die Kamera eine Antwort gesendet, wird diese auf Ihre Korrektheit überprüft. Die ersten sechs Bytes müssen dem ACK Kommando entsprechen (AA0E0Dxx0000h). Bei den nächsten sechs Bytes muss es sich um das SYNC Kommando handeln (AA0D00000000h). Sofern dies der Fall ist, war der Verbindungsaufbau erfolgreich. Die Kamera ist nun bereit für die Entgegennahme von weiteren Befehlen.
@@ -1543,6 +1575,7 @@ Nach dem erfolgreichen Verbindungsaufbau ist die Kamera bereit für das Schiesse
 Um ein Bild von der Kamera zu erhalten, sind mehrere einzelne Schritte, Befehle und Bestätigungen nötig. Diese sind im folgenden Diagramm ersichtlich.
 
 .Ablauf der Bildanforderung
+[link=https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf]
 image::Grove_Serial_Camera_Get_Picture.png[500, 500, Grove Serial Camera Get Picture]
 
 ==== Bildgrösser ermitteln
@@ -1659,4 +1692,13 @@ Wenn das Objekt dann der `RaspberryPiCameraComponent` übergeben wird im Konstru
 include::{sourcedir}/fhnwgpio/components/RaspberryPiCameraComponent.java[tags=RasPiCamTakeVid]
 ----
 
-== TODO: Literaturverzeichnis
+[bibliography]
+== Literaturverzeichnis
+- [[[RaspberryPi1,{counter:bibliography}]]] Raspberry Pi Foundation. What is a Raspberry Pi? In: raspberrypi.org [
+  https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/; 09.08.2020]
+
+- [[[RaspberryPi2,{counter:bibliography}]]] Elektronik Kompendium. Raspberry Pi: GPIO - General Purpose Input Output. In: Elektronik Kompendium
+ [https://www.elektronik-kompendium.de/sites/raspberry-pi/2002191.htm; 09.08.2020]
+
+- [[[GroveSA,{counter:bibliography}]]] Seed Studio. Grove System. In: Seed Studio Wiki [https://wiki.seeedstudio.com/Grove_System/, 09.08.2020]
+

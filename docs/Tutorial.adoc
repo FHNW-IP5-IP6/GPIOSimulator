@@ -116,10 +116,31 @@ Die untere Abbildung zeigt, wie ein solches Breadboard aufgebaut ist. In die ein
 image::./installation/breadboard.jpeg[width=75% Breadboard]
 
 == Software
-
-=== Pi4J
+Zur Umsetzung von GPIO Projekten benötigen wir nebst den Hardware Komponenten natürlich auch Software. Als Basis dient uns Java 8 sowie Pi4J.
 
 === Java
+Zur Programmierung der GPIO Pins des Raspberry Pis benutzen wir die Objektorientierte Programmiersprache Java in der Version 8. Aus kompatibilitätsgründen sind neure Versionen von Java leider nicht unterstützt.
+
+=== Pi4J
+Die Software Bibliothek Pi4J bietet vollzugriff auf die I/O Funktionalität des Raspberry Pi. Die Library abstrahiert die komplexe Hardware Programmierung und bietet stattdessen einfache API-Calls an, welche direkt verwendet werden können. Folgende Funktionalität wird von Pi4J abgedeckt
+
+* Exportieren und Importieren von GPIO Pins
+* Konfigurieren der GPIO Pin Flussrichtung
+* Lesen und Schreiben des GPIO Pin State
+* Pulse Width Modulation (Hardware & Software)
+* Erstellen von GPIO State Listeners (Hardware Interrupt)
+* Automatisches setzen eines Pin State bei Programmende (GPIO Shutdown)
+* Senden und Empfangen von Daten via serielle Schnittstelle (RS232)
+* Support für Kommunikation über den I2C Bus (Inter-Integrated Circuit)
+* Support für Kommunikation über den SPI Bus (Serial Peripheral Interface)
+* Erweiterbarer GPIO Provider mit Support für GPIO Extension Boards
+* Zugriff auf System- und Netzwerkinformationen des Raspberry Pi
+* Wrapper Klassen für den direkten Zugriff auf WiringPi
+
+Unsere Library verwendet Pi4J 1.2, da die Version 1.4 den I2C Bus des Raspberry Pi nicht unterstützt.
+
+=== Log4j 2
+Wir benutzen Log4j 2 von Apache für das Schreiben von Logs in ein Rolling File. Log4j 2 ist ein beliebter und weit verbreiteter Vertreter der Java Logging Frameworks. 
 
 == Setup des RaspberryPi
 Bevor Sie mit der Implementation ihres ersten Raspberry Pi Projekts starten können, muss der Mini-Computer aufgesetzt werden. Im Gegensatz zu den verschiedenen im Handel erhältichen Micro Controllern, wie Beispielsweise der Arduino Uno, benötigt der Pi ein Betriebssystem. Wir verwenden das auf Linux basierende System Raspbian, eine speziell für den Raspberry Pi modifiziertes Derbian.

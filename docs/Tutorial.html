@@ -460,8 +460,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_software">2. Software</a>
 <ul class="sectlevel2">
-<li><a href="#_pi4j">2.1. Pi4J</a></li>
-<li><a href="#_java">2.2. Java</a></li>
+<li><a href="#_java">2.1. Java</a></li>
+<li><a href="#_pi4j">2.2. Pi4J</a></li>
+<li><a href="#_log4j_2">2.3. Log4j 2</a></li>
 </ul>
 </li>
 <li><a href="#_setup_des_raspberrypi">3. Setup des RaspberryPi</a>
@@ -734,11 +735,31 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_raspberry_pi">1.1. Raspberry Pi</h3>
-
+<div class="paragraph">
+<p>Der Raspberry Pi ist ein kostengünstiger Computer in Kreditkartengröße. Es ist ein leistungsfähiger kleiner PC, der es Menschen jeden Alters ermöglicht, sich mit Computern auseinanderzusetzen und zu lernen, wie man in Sprachen wie Scratch, Python oder hier in Java programmiert. Es ist in der Lage, alles zu tun, was man von einem Desktop-Computer erwarten würde, vom Surfen im Internet und dem Abspielen von hochauflösenden Videos bis hin zum Erstellen von Tabellenkalkulationen, Textverarbeitung und Spielen.</p>
+</div>
+<div class="paragraph">
+<p>Darüber hinaus hat die Raspberry Pi die Fähigkeit, mit der Außenwelt zu interagieren. An den sogenannten GPIO (General Purpose Input Output) Pins kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für IoT-Projekte macht.</p>
+</div>
+<div class="paragraph">
+<p>Der Pi wurde von der britischen Raspberry Pi Foundation entwickelt und hat das Ziel, Bildung im Bereich Computer Hardware, Elektronik und Informatik zu fördern.</p>
+</div>
+<div class="paragraph">
+<p>source: <a href="https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/">RaspberryPi.org</a>
+        <a href="https://www.elektronik-kompendium.de/sites/raspberry-pi/2002191.htm">Elektronik-Kompendium</a></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_grove_sensoren_aktuatoren">1.2. Grove Sensoren &amp; Aktuatoren</h3>
-
+<div class="paragraph">
+<p>Grove ist ein offenes modulares System, das für den einfachen Anschluss beliebiger Sensoren und Aktuatoren entwickelt wurde. Es gibt Grove Sensoren und Aktuatoren für die verschiedensten Bereiche:  Robotik, Annäherung, Bewegung, Umwelt und Biomedizin.</p>
+</div>
+<div class="paragraph">
+<p>Grove erleichtert das Anschließen und Experimentieren mit den Geräte. Die Sensoren und Aktuatoren können mittels der Grove Kabel an einen Grove Aufsatz, wie dem Grove Base Hat angeschlossen werden, somit sind keine Jumper oder Lötkolben mehr erforderlich für einfache IoT Projekte.</p>
+</div>
+<div class="paragraph">
+<p>src: <a href="https://www.seeedstudio.com/category/Sensor-for-Grove-c-24.html" class="bare">https://www.seeedstudio.com/category/Sensor-for-Grove-c-24.html</a> [Grove Sensors and actuators]</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_grove_base_hat">1.3. Grove Base Hat</h3>
@@ -867,13 +888,69 @@ potentiometer.getValue()</code></pre>
 <div class="sect1">
 <h2 id="_software">2. Software</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_pi4j">2.1. Pi4J</h3>
-
+<div class="paragraph">
+<p>Zur Umsetzung von GPIO Projekten benötigen wir nebst den Hardware Komponenten natürlich auch Software. Als Basis dient uns Java 8 sowie Pi4J.</p>
 </div>
 <div class="sect2">
-<h3 id="_java">2.2. Java</h3>
-
+<h3 id="_java">2.1. Java</h3>
+<div class="paragraph">
+<p>Zur Programmierung der GPIO Pins des Raspberry Pis benutzen wir die Objektorientierte Programmiersprache Java in der Version 8. Aus kompatibilitätsgründen sind neure Versionen von Java leider nicht unterstützt.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pi4j">2.2. Pi4J</h3>
+<div class="paragraph">
+<p>Die Software Bibliothek Pi4J bietet vollzugriff auf die I/O Funktionalität des Raspberry Pi. Die Library abstrahiert die komplexe Hardware Programmierung und bietet stattdessen einfache API-Calls an, welche direkt verwendet werden können. Folgende Funktionalität wird von Pi4J abgedeckt</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Exportieren und Importieren von GPIO Pins</p>
+</li>
+<li>
+<p>Konfigurieren der GPIO Pin Flussrichtung</p>
+</li>
+<li>
+<p>Lesen und Schreiben des GPIO Pin State</p>
+</li>
+<li>
+<p>Pulse Width Modulation (Hardware &amp; Software)</p>
+</li>
+<li>
+<p>Erstellen von GPIO State Listeners (Hardware Interrupt)</p>
+</li>
+<li>
+<p>Automatisches setzen eines Pin State bei Programmende (GPIO Shutdown)</p>
+</li>
+<li>
+<p>Senden und Empfangen von Daten via serielle Schnittstelle (RS232)</p>
+</li>
+<li>
+<p>Support für Kommunikation über den I2C Bus (Inter-Integrated Circuit)</p>
+</li>
+<li>
+<p>Support für Kommunikation über den SPI Bus (Serial Peripheral Interface)</p>
+</li>
+<li>
+<p>Erweiterbarer GPIO Provider mit Support für GPIO Extension Boards</p>
+</li>
+<li>
+<p>Zugriff auf System- und Netzwerkinformationen des Raspberry Pi</p>
+</li>
+<li>
+<p>Wrapper Klassen für den direkten Zugriff auf WiringPi</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Unsere Library verwendet Pi4J 1.2, da die Version 1.4 den I2C Bus des Raspberry Pi nicht unterstützt.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_log4j_2">2.3. Log4j 2</h3>
+<div class="paragraph">
+<p>Wir benutzen Log4j 2 von Apache für das Schreiben von Logs in ein Rolling File. Log4j 2 ist ein beliebter und weit verbreiteter Vertreter der Java Logging Frameworks.</p>
+</div>
 </div>
 </div>
 </div>
@@ -4837,7 +4914,7 @@ RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-09 13:31:08 +0200
+Last updated 2020-08-09 13:50:39 +0200
 </div>
 </div>
 </body>

@@ -1,9 +1,8 @@
 package fhnwgpio.components;
 
 import com.pi4j.io.gpio.GpioPinPwmOutput;
-import com.pi4j.io.gpio.Pin;
-import com.pi4j.util.Console;
 import com.pi4j.wiringpi.Gpio;
+import fhnwgpio.components.helper.ComponentLogger;
 import fhnwgpio.components.helper.PwmHelper;
 
 /**
@@ -12,7 +11,6 @@ import fhnwgpio.components.helper.PwmHelper;
  * or it can be set to an exact pulse length.
  */
 public class ServoMotorComponent {
-    private Console console;
     private GpioPinPwmOutput pin;
     private int pulseMin;
     private int pulseMax;
@@ -21,20 +19,21 @@ public class ServoMotorComponent {
     /**
      * Constructor with all possible values.
      *
-     * @param console    Pi4J Console
      * @param pin        The hardware PWM pin
      * @param pulseMin   Minimal high time of the 50hz pulse in microseconds
      * @param pulseMax   Maximal high time of the 50hz pulse in microseconds
      * @param maxDegrees Maximal degrees the servo is able to spin
      * @throws IllegalArgumentException Thrown when no hardware pwm pin is provided
      */
-    public ServoMotorComponent(Console console, GpioPinPwmOutput pin, int pulseMin, int pulseMax, int maxDegrees)
+    public ServoMotorComponent(GpioPinPwmOutput pin, int pulseMin, int pulseMax, int maxDegrees)
             throws IllegalArgumentException {
         if (!PwmHelper.isHardwarePwmPin(pin.getPin())) {
-            throw new IllegalArgumentException("please use one of the Pis hardware PWM pins");
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "ServoMotorComponent: Please use one of the Pis hardware PWM pins");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
-        this.console = console;
         this.pin = pin;
         this.pulseMin = pulseMin;
         this.pulseMax = pulseMax;
@@ -43,30 +42,32 @@ public class ServoMotorComponent {
         Gpio.pwmSetMode(Gpio.PWM_MODE_MS);
         Gpio.pwmSetClock(192);
         Gpio.pwmSetRange(2000);
+
+        ComponentLogger.logInfo("ServoMotorComponent: ServoMotor created for GPIO pin " + pin.getPin().getAddress()
+                + " with a minimal pulse length of " + pulseMin + " and a maximal pulse length of " + pulseMax);
+
         // end::ServoMotorComponentSetPWMFrequency[]
     }
 
     /**
      * Constructor with default value for maxDegrees of 180 degrees.
      *
-     * @param console  Pi4J Console
      * @param pin      The hardware PWM pin
      * @param pulseMin Minimal high time of the 50hz pulse in microseconds
      * @param pulseMax Maximal high time of the 50hz pulse in microseconds
      */
-    public ServoMotorComponent(Console console, GpioPinPwmOutput pin, int pulseMin, int pulseMax) {
-        this(console, pin, pulseMin, pulseMax, 180);
+    public ServoMotorComponent(GpioPinPwmOutput pin, int pulseMin, int pulseMax) {
+        this(pin, pulseMin, pulseMax, 180);
     }
 
     /**
      * Constructor with default value for pulseMin = 500, pulseMax = 2400 and maxDegrees = 180. This constructor can
      * be used for most micro and mini servo motors.
      *
-     * @param console Pi4J Console
-     * @param pin     The hardware PWM pin
+     * @param pin The hardware PWM pin
      */
-    public ServoMotorComponent(Console console, GpioPinPwmOutput pin) {
-        this(console, pin, 500, 2400, 180);
+    public ServoMotorComponent(GpioPinPwmOutput pin) {
+        this(pin, 500, 2400, 180);
     }
 
     /**
@@ -78,11 +79,14 @@ public class ServoMotorComponent {
     // tag::ServoMotorComponentSetPosition[]
     public void setPosition(int pulse) throws IllegalArgumentException {
         if (pulse < pulseMin || pulse > pulseMax) {
-            throw new IllegalArgumentException("please provide a value in the range pulseMin to pulseMax");
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "ServoMotorComponent: Please provide a value in the range pulseMin to pulseMax");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
         setPwm(pulse);
-        console.println("set the position to pulse " + pulse);
+        ComponentLogger.logInfo("ServoMotorComponent: set the position to pulse " + pulse);
     }
     // end::ServoMotorComponentSetPosition[]
 
@@ -95,13 +99,17 @@ public class ServoMotorComponent {
     // tag::ServoMotorComponentSetPositionDegrees[]
     public void setPositionDegrees(int degree) throws IllegalArgumentException {
         if (degree < 0 || degree > maxDegrees) {
-            throw new IllegalArgumentException("please provide a vlaue in the range 0 to maxDegrees");
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "ServoMotorComponent: Please provide a value in the range 0 to maxDegrees");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
         double stepSize = ((double) maxDegrees / (pulseMax - pulseMin));
         int pulse = pulseMin + (int) Math.round(degree / stepSize);
         setPwm(pulse);
-        console.println("set the position to degrees " + degree + " which is a pulse of " + pulse);
+        ComponentLogger.logInfo(
+                "ServoMotorComponent: Set the position to degrees " + degree + " which is a pulse of " + pulse);
     }
     // end::ServoMotorComponentSetPositionDegrees[]
 
@@ -110,7 +118,7 @@ public class ServoMotorComponent {
      */
     public void setMax() {
         setPwm(pulseMax);
-        console.println("set servo to maximal position");
+        ComponentLogger.logInfo("ServoMotorComponent: Set servo to maximal position");
     }
 
     /**
@@ -118,7 +126,7 @@ public class ServoMotorComponent {
      */
     public void setCenter() {
         setPwm(pulseMin + Math.round((pulseMax - pulseMin) / 2));
-        console.println("set servo to center position");
+        ComponentLogger.logInfo("ServoMotorComponent: Set servo to center position");
     }
 
     /**
@@ -126,7 +134,7 @@ public class ServoMotorComponent {
      */
     public void setMin() {
         setPwm(pulseMin);
-        console.println("set servo to minimal position");
+        ComponentLogger.logInfo("ServoMotorComponent: Set servo to minimal position");
     }
 
     /**

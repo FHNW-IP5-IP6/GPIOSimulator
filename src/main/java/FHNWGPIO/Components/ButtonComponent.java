@@ -4,7 +4,6 @@ import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalInput;
 import fhnwgpio.components.helper.ComponentLogger;
 import fhnwgpio.grove.GroveAdapter;
-import org.apache.logging.log4j.Level;
 
 /**
  * HNW implementation for reading the current value of a button. This implementation supports Grove buttons,
@@ -23,8 +22,7 @@ public class ButtonComponent {
     public ButtonComponent(GpioPinDigitalInput pin, boolean reverse) {
         this.pin = pin;
         this.reverse = reverse;
-
-        ComponentLogger.log(Level.INFO, "ButtonComponent for GPIO pin " + pin.getPin().getAddress() + " created");
+        ComponentLogger.logInfo("ButtonComponent: Button created for GPIO pin " + pin.getPin().getAddress());
     }
 
     /**
@@ -62,9 +60,9 @@ public class ButtonComponent {
      */
     public void setReverse(boolean reverse) {
         if (reverse) {
-            ComponentLogger.log(Level.INFO, "Button values will be reversed");
+            ComponentLogger.logInfo("ButtonComponent: Button values will be reversed");
         } else {
-            ComponentLogger.log(Level.INFO, "Button values will not be reversed");
+            ComponentLogger.logInfo("ButtonComponent: Button values will not be reversed");
         }
         this.reverse = reverse;
     }

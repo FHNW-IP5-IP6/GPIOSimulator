@@ -17,9 +17,10 @@ public class LedDevice extends Example {
         final GpioController gpio = GpioFactory.getInstance();
 
         Console console = new Console();
+        console.promptForExit();
 
         GpioPinPwmOutput pwmPin = gpio.provisionSoftPwmOutputPin(RaspiBcmPin.GPIO_02);
-        LedComponent led = new LedComponent(console, pwmPin);
+        LedComponent led = new LedComponent(pwmPin);
 
         while (console.isRunning()) {
             led.turnLedOff();

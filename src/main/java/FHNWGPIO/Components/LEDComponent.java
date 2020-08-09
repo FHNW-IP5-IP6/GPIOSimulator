@@ -1,16 +1,16 @@
 package fhnwgpio.components;
 
 import com.pi4j.io.gpio.*;
-import com.pi4j.util.Console;
 import com.pi4j.wiringpi.Gpio;
+import fhnwgpio.components.helper.ComponentLogger;
 import fhnwgpio.grove.GroveAdapter;
+import org.apache.logging.log4j.Level;
 
 /**
  * FHNW implementation for controlling light emitting diodes. This class allows to control the state of the LED. If
  * a PWM pin is provide, the brightness of the LED can be controlled, too.
  */
 public class LedComponent {
-    private Console console;
     private GpioPinDigitalOutput pin;
     private GpioPinPwmOutput pwmPin;
     private boolean dimmable;
@@ -18,35 +18,31 @@ public class LedComponent {
     /**
      * Constructor for directly controlling digital LEDs without PWM.
      *
-     * @param console Pi4J Console
-     * @param pin     Digital GPIO pin
+     * @param pin Digital GPIO pin
      */
-    public LedComponent(Console console, GpioPinDigitalOutput pin) {
-        this.console = console;
+    public LedComponent(GpioPinDigitalOutput pin) {
         this.pin = pin;
         this.dimmable = false;
+        ComponentLogger.logInfo("LedComponent: Created component for pin " + pin.getPin().getAddress());
     }
 
     /**
      * Constructor for controlling Grove LEDs.
      *
-     * @param console Pi4J Console
      * @param adapter The digital pin
      */
-    public LedComponent(Console console, GroveAdapter adapter) {
-        this(console, GpioFactory.getInstance().provisionDigitalOutputPin(adapter.getAdapter().getUpperPin()));
+    public LedComponent(GroveAdapter adapter) {
+        this(GpioFactory.getInstance().provisionDigitalOutputPin(adapter.getAdapter().getUpperPin()));
     }
 
     /**
      * Constructor for controlling LEDs connected to pins with hard- or software PWM. This constructor allows
      * controlling the brightness of the LED.
      *
-     * @param console Pi4J Console
-     * @param pwmPin  Hard- or software PWM pin
+     * @param pwmPin Hard- or software PWM pin
      */
     // tag::LedComponentPwmPin[]
-    public LedComponent(Console console, GpioPinPwmOutput pwmPin) {
-        this.console = console;
+    public LedComponent(GpioPinPwmOutput pwmPin) {
         this.pwmPin = pwmPin;
         this.dimmable = true;
 
@@ -54,6 +50,7 @@ public class LedComponent {
         Gpio.pwmSetClock(192);
         Gpio.pwmSetRange(2000);
         pwmPin.setPwmRange(100);
+        ComponentLogger.logInfo("LedComponent: Created component for pwm pin " + pwmPin.getPin().getAddress());
     }
     // end::LedComponentPwmPin[]
 
@@ -69,7 +66,7 @@ public class LedComponent {
             pin.high();
         }
 
-        console.println("LED on");
+        ComponentLogger.logInfo("LedComponent: LED turned on");
     }
     // end::LedComponentTurnLedOn[]
 
@@ -84,7 +81,7 @@ public class LedComponent {
             pin.high();
         }
 
-        console.println("LED off");
+        ComponentLogger.logInfo("LedComponent: LED turned off");
     }
     // end::LedComponentTurnLedOff[]
 
@@ -98,16 +95,21 @@ public class LedComponent {
     // tag::LedComponentSetBrightness[]
     public void setBrightness(int brightness) throws IllegalArgumentException {
         if (!dimmable) {
-            throw new IllegalArgumentException(
-                    "please provide a GpioPinPwmOutput Pin in the constructor if you want to dim your led");
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "LedComponent: Please provide a GpioPinPwmOutput Pin in the constructor if you want to dim your led");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
         if (brightness < 0 || brightness > 100) {
-            throw new IllegalArgumentException("please enter a brightness between 0 and 100");
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "LedComponent: Please enter a brightness between 0 and 100");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
         pwmPin.setPwm(brightness);
-        console.println("LED set to " + brightness + "% brightness");
+        ComponentLogger.log(Level.INFO, "LedComponent: LED set to " + brightness + "% brightness");
     }
     // end::LedComponentSetBrightness[]
 }

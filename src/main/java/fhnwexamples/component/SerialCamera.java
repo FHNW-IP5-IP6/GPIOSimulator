@@ -14,16 +14,16 @@ public class SerialCamera extends Example {
         super(key, title);
     }
 
+    // tag::SerialCamera[]
     @Override public void execute() throws Exception {
-        // tag::SerialCamera[]
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         Console console = new Console();
         console.promptForExit();
 
         console.println("taking a picture. please smile :)");
-        SerialCameraComponent cam = new SerialCameraComponent(console, 1024, true);
+        SerialCameraComponent cam = new SerialCameraComponent(1024);
         String fileName = cam.saveImageAsJpg("pictures", "GroveCamPic_");
         console.println("picture was taken and saved in file " + fileName);
-        // end::SerialCamera[]
     }
+    // end::SerialCamera[]
 }

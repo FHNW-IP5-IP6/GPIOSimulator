@@ -28,7 +28,7 @@ public class MotorDevice extends Example {
 
         GpioPinPwmOutput pwmForwards = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_12);
         GpioPinPwmOutput pwmBackwards = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_13);
-        MotorComponent pwmMotor = new MotorComponent(console, pwmForwards, pwmBackwards);
+        MotorComponent pwmMotor = new MotorComponent(pwmForwards, pwmBackwards);
 
         while (console.isRunning()) {
             for (int i = 0; i <= 100; i = i + 10) {

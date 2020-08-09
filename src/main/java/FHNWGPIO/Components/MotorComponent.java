@@ -2,8 +2,8 @@ package fhnwgpio.components;
 
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.GpioPinPwmOutput;
-import com.pi4j.util.Console;
 import com.pi4j.wiringpi.Gpio;
+import fhnwgpio.components.helper.ComponentLogger;
 import fhnwgpio.components.helper.PwmHelper;
 
 /**
@@ -14,7 +14,6 @@ import fhnwgpio.components.helper.PwmHelper;
 public class MotorComponent {
     private final int range = 1024;
     private final int clock = 512;
-    private Console console;
     private GpioPinDigitalOutput forwards;
     private GpioPinDigitalOutput backwards;
     private GpioPinPwmOutput pwmForwards;
@@ -26,29 +25,28 @@ public class MotorComponent {
      * Constructor of the MotorComponent. This constructor allows controlling the motors direction using digital
      * output pins.
      *
-     * @param console   Pi4J Console
      * @param forwards  Digital pin used to move the motor forwards
      * @param backwards Digital pin used to move the motor backwards
      */
-    public MotorComponent(Console console, GpioPinDigitalOutput forwards, GpioPinDigitalOutput backwards) {
-        this.console = console;
+    public MotorComponent(GpioPinDigitalOutput forwards, GpioPinDigitalOutput backwards) {
         this.forwards = forwards;
         this.backwards = backwards;
         isPwm = false;
         forwards.low();
         backwards.low();
+        ComponentLogger.logInfo(
+                "MotorComponent: Digital motor created for GPIO pins " + forwards.getPin().getAddress() + " and "
+                        + backwards.getPin().getAddress());
     }
 
     /**
      * Constructor of the MotorComponent. This constructor allows controlling the motors direction and speed using
      * hardware or software pwm output pins.
      *
-     * @param console   Pi4J Console
      * @param forwards  PWM pin used to move the motor forwards
      * @param backwards PWM pin used to move the motor backwards
      */
-    public MotorComponent(Console console, GpioPinPwmOutput forwards, GpioPinPwmOutput backwards) {
-        this.console = console;
+    public MotorComponent(GpioPinPwmOutput forwards, GpioPinPwmOutput backwards) {
         this.pwmForwards = forwards;
         this.pwmBackwards = backwards;
         isPwm = true;
@@ -59,6 +57,9 @@ public class MotorComponent {
         Gpio.pwmSetMode(Gpio.PWM_MODE_MS);
         Gpio.pwmSetRange(range);
         Gpio.pwmSetClock(clock);
+        ComponentLogger.logInfo(
+                "MotorComponent: PWM motor created for GPIO pins " + pwmForwards.getPin().getAddress() + " and "
+                        + pwmBackwards.getPin().getAddress());
     }
 
     /**
@@ -71,7 +72,7 @@ public class MotorComponent {
         } else {
             backwards.low();    //Input 2
             forwards.high();    //Input 1
-            console.println("motor is moving forwards with maximum power");
+            ComponentLogger.logInfo("MotorComponent: Motor is moving forwards with maximum power");
         }
     }
     // end::MotorComponentMoveForwards[]
@@ -86,17 +87,23 @@ public class MotorComponent {
     // tag::MotorComponentMoveForwardsPwm[]
     public void moveForwards(int power) throws UnsupportedOperationException, IllegalArgumentException {
         if (!isPwm) {
-            throw new UnsupportedOperationException(
-                    "void moveForwards(int power) can only be used with hardware pwm pin. please use void moveForwards() instead.");
+            UnsupportedOperationException exception = new UnsupportedOperationException(
+                    "MotorComponent: void moveForwards(int power) can only be used with hardware pwm pin. Please use void moveForwards() instead.");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
         if (power < 0 || power > 100) {
-            throw new IllegalArgumentException("power must be between 0 and 100 percent");
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "MotorComponent: Power must be between 0 and 100 percent");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
         pwmBackwards.setPwm(0);
         pwmForwards.setPwm((int) (power * rangeAdjustment));
-        console.println("motor is moving forwards at " + power + "%");
+
+        ComponentLogger.logInfo("MotorComponent: Motor is moving forwards at " + power + "%");
     }
     // end::MotorComponentMoveForwardsPwm[]
 
@@ -109,7 +116,7 @@ public class MotorComponent {
         } else {
             forwards.low();     //Input 1
             backwards.high();   //Input 2
-            console.println("motor is moving backwards with maximum power");
+            ComponentLogger.logInfo("MotorComponent: Motor is moving backwards with maximum power");
         }
     }
 
@@ -122,17 +129,22 @@ public class MotorComponent {
      */
     public void moveBackwards(int power) throws UnsupportedOperationException, IllegalArgumentException {
         if (!isPwm) {
-            throw new UnsupportedOperationException(
-                    "void moveBackwards(int power) can only be used with hardware pwm pin. please use void moveBackwards() instead.");
+            UnsupportedOperationException exception = new UnsupportedOperationException(
+                    "MotorComponent: void moveBackwards(int power) can only be used with hardware pwm pin. Please use void moveBackwards() instead.");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
         if (power < 0 || power > 100) {
-            throw new IllegalArgumentException("power must be between 0 and 100 percent");
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "MotorComponent: Power must be between 0 and 100 percent");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
         pwmForwards.setPwm(0);
         pwmBackwards.setPwm((int) (power * rangeAdjustment));
-        console.println("motor is moving backwards at " + power + "%");
+        ComponentLogger.logInfo("MotorComponent Motor is moving backwards at " + power + "%");
     }
 
     /**
@@ -147,7 +159,8 @@ public class MotorComponent {
             forwards.low();     //Input 1
             backwards.low();    //Input 2
         }
-        console.println("motor stopped");
+
+        ComponentLogger.logInfo("MotorComponent: Motor stopped");
     }
     // end::MotorComponentStop[]
 }

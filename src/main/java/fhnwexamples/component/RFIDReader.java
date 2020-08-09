@@ -24,7 +24,7 @@ public class RFIDReader extends Example {
         console.promptForExit();
 
         // tag::RFIDReader[]
-        RFIDReaderComponent rfidReaderComponent = new RFIDReaderComponent(console);
+        RFIDReaderComponent rfidReaderComponent = new RFIDReaderComponent();
         // create and register the serial data listener
         rfidReaderComponent.addListener(new SerialDataEventListener() {
             @Override

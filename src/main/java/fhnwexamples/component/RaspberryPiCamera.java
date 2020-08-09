@@ -59,7 +59,7 @@ public class RaspberryPiCamera extends Example {
                 .time(15000);
 
         //initialise the camera component using the two configurations
-        RaspberryPiCameraComponent raspberryPiCamera = new RaspberryPiCameraComponent(console, stillConfig, vidConfig);
+        RaspberryPiCameraComponent raspberryPiCamera = new RaspberryPiCameraComponent(stillConfig, vidConfig);
 
         console.println("Config done");
 

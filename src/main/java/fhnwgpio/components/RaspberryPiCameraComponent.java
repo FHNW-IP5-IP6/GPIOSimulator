@@ -66,7 +66,7 @@ public class RaspberryPiCameraComponent {
             installTempLibrary();
             camera = new Camera(raspiStillConfiguration);
         } catch (NativeLibraryException | CameraException e) {
-            ComponentLogger.logError("Error while initialising: " + e.getMessage());
+            ComponentLogger.logError("RaspberryPiCameraComponent: Error while initialising: " + e.getMessage());
         }
     }
 
@@ -93,10 +93,10 @@ public class RaspberryPiCameraComponent {
      * @param delay      before taking the picture
      */
     public void takeStill(String outputPath, int delay) {
-        ComponentLogger.logInfo("Take Picture to the path: " + outputPath + " with the delay: " + delay);
+        ComponentLogger.logInfo("RaspberryPiCameraComponent: Take Picture to the path: " + outputPath + " with the delay: " + delay);
         if (!isRaspiStillAvailable) {
             ExceptionInInitializerError ex = new ExceptionInInitializerError("RaspiStill has to be initialised with the Configuration for taking pictures");
-            ComponentLogger.logError(ex.getMessage());
+            ComponentLogger.logError("RaspberryPiCameraComponent: " + ex.getMessage());
             throw ex;
         }
         try {
@@ -104,7 +104,7 @@ public class RaspberryPiCameraComponent {
             camera.takePicture(new FilePictureCaptureHandler(new File(outputPath)), delay);
 
         } catch (Exception e) {
-            ComponentLogger.logError("Error while taking picture: " + e.getMessage());
+            ComponentLogger.logError("RaspberryPiCameraComponent: Error while taking picture: " + e.getMessage());
         }
     }
 
@@ -124,11 +124,11 @@ public class RaspberryPiCameraComponent {
      */
     // tag::RasPiCamTakeVid[]
     public void takeVid(String outputPath) {
-        ComponentLogger.logInfo("Taking video to the path: "+outputPath);
+        ComponentLogger.logInfo("RaspberryPiCameraComponent: Taking video to the path: " + outputPath);
 
         if (!isRaspiVidAvailable) {
             ExceptionInInitializerError ex = new ExceptionInInitializerError("RaspiVid has to be initialised with the Configuration for taking videos");
-            ComponentLogger.logError(ex.getMessage());
+            ComponentLogger.logError("RaspberryPiCameraComponent: " + ex.getMessage());
             throw ex;
         }
         try {
@@ -145,7 +145,7 @@ public class RaspberryPiCameraComponent {
                 p.destroyForcibly();
 
         } catch (IOException | InterruptedException ieo) {
-            ComponentLogger.logError("Error while taking video: " + ieo.getMessage());
+            ComponentLogger.logError("RaspberryPiCameraComponent: Error while taking video: " + ieo.getMessage());
         }
     }
     // end::RasPiCamTakeVid[]

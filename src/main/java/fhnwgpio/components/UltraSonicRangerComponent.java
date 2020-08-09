@@ -4,6 +4,7 @@ import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.RaspiGpioProvider;
 import com.pi4j.io.gpio.RaspiPinNumberingScheme;
 import com.pi4j.wiringpi.Gpio;
+import fhnwgpio.components.helper.ComponentLogger;
 import fhnwgpio.grove.Adapter;
 import fhnwgpio.grove.GroveAdapter;
 
@@ -29,10 +30,11 @@ public class UltraSonicRangerComponent {
      * Measures the distance between the device and an object in cm
      *
      * @return the distance to an object in cm
-     * @throws InterruptedException
+     * @throws InterruptedException exception when waiting for the echo
      */
     public long measureInCentimeter() throws InterruptedException {
         trigger();
+        ComponentLogger.logInfo("UltraSonicRangerComponent:  Measure distance in cm");
         //distance there and back again has to be divided by 2, to get the one way distance
         //and 29 is the constant to get the distance in cm
         return getPulseDifference() / 29 / 2;
@@ -42,10 +44,11 @@ public class UltraSonicRangerComponent {
      * Measures the distance between the device and an object in inches
      *
      * @return distance to object in inches
-     * @throws InterruptedException
+     * @throws InterruptedException exception when waiting for the echo
      */
     public long measureInInches() throws InterruptedException {
         trigger();
+        ComponentLogger.logInfo("UltraSonicRangerComponent:  Measure distance in inches");
         //distance there and back again has to be divided by 2, to get the one way distance
         //and 74 is the constant to get the distance in inches
         return getPulseDifference() / 74 / 2;
@@ -56,6 +59,7 @@ public class UltraSonicRangerComponent {
      */
     private void trigger() throws InterruptedException {
         // tag::UltraSonicRangerTrigger[]
+        ComponentLogger.logInfo("UltraSonicRangerComponent:  Triggered");
         Gpio.pinMode(pin, Gpio.OUTPUT);
         Gpio.digitalWrite(pin, false);
         Thread.sleep(0, 2000);

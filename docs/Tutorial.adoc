@@ -631,7 +631,7 @@ In diesem Code Beispiel wird der Titel des Projekts in der ersten Zeile angezeig
 *Vorkenntnisse: Basic*
 [source,java]
 ----
-include::{sourcedir}/fhnwexamples/component/LcdSystemTimeI2C.java[tags=LcdSystemTimeI2C]
+include::{sourcedir}/fhnwexamples/component/LcdSystemTimeI2CDevice.java[tags=LcdSystemTimeI2CDevice]
 ----
 
 === Potentiometer
@@ -707,7 +707,7 @@ In diesem Code Beispiel wird der Grove RFID Reader getestet. Das serielle Gerät
 *Vorkenntnisse: Intermediate*
 [source,java]
 ----
-include::{sourcedir}/fhnwexamples/component/RFIDReader.java[tags=RFIDReader]
+include::{sourcedir}/fhnwexamples/component/RFIDReaderDevice.java[tags=RFIDReaderDevice]
 ----
 
 === Ultrasonic Ranger
@@ -751,7 +751,7 @@ image::./Grove_Ultrasonic_Ranger.jpg[width=75% RaspiCam Wiring]
 In diesem Beispiel wird der Grove Ultrasonic Ranger an den D5 Adapter des Grove Hats angeschlossen und es wird sekündlich die Distanz gemessen zwischen dem Device und einem Ziel.
 [source,java]
 ----
-include::{sourcedir}/fhnwexamples/component/UltraSonicRanger.java[tags=UltraSonicRanger]
+include::{sourcedir}/fhnwexamples/component/UltraSonicRangerDevice.java[tags=UltraSonicRangerDevice]
 ----
 
 === DC Motor
@@ -952,7 +952,7 @@ Das unten abgebildete Code Beispiel zeigt, wie mit der Hilfe unserer SerialCamer
 
 [source,java]
 ----
-include::{sourcedir}/fhnwexamples/component/SerialCamera.java[tags=SerialCamera]
+include::{sourcedir}/fhnwexamples/component/SerialCameraDevice.java[tags=SerialCameraDevice]
 ----
 
 === Raspberry Pi Camera
@@ -1015,7 +1015,7 @@ In diesem Code Beispiel wird die Raspberry Pi Camera mit der `RaspberryPiCameraC
 *Vorkenntnisse: Intermediate*
 [source,java]
 ----
-include::{sourcedir}/fhnwexamples/component/RaspberryPiCamera.java[tags=RaspberryPiCamera]
+include::{sourcedir}/fhnwexamples/component/RaspberryPiCameraDevice.java[tags=RaspberryPiCameraDevice]
 ----
 
 == Beispielprojekt
@@ -1164,7 +1164,7 @@ Das LCD1602 besitzt den folgenden Befehlssatz:
 
 [source,java]
 ----
-include::{sourcedir}/fhnwgpio/components/I2CLCD.java[tags=LCD1602Commands]
+include::{sourcedir}/fhnwgpio/components/I2CLCDComponent.java[tags=LCD1602Commands]
 ----
 
 ==== Initialisierung
@@ -1177,7 +1177,7 @@ image::LCD_Init.PNG[width=75% LCD Init]
 Die Initialisierung wurde in java folgendermassen realisiert:
 [source,java]
 ----
-include::{sourcedir}/fhnwgpio/components/I2CLCD.java[tags=LCDInit]
+include::{sourcedir}/fhnwgpio/components/I2CLCDComponent.java[tags=LCDInit]
 ----
 
 ==== Text auf dem Display anzeigen
@@ -1191,7 +1191,7 @@ Wenn dem `I2CLCDComponent` ein ganzer String übergeben wird, dann werden alle Z
 
 [source,java]
 ----
-include::{sourcedir}/fhnwgpio/components/I2CLCD.java[tags=LCDDisplayText]
+include::{sourcedir}/fhnwgpio/components/I2CLCDComponent.java[tags=LCDDisplayText]
 ----
 
 ==== Spezielle Anzeigefunktionen
@@ -1202,7 +1202,7 @@ Ein Scroll Text ist ein Text, welcher von der Länge her die 32 Zeichen auf dem 
 
 [source,java]
 ----
-include::{sourcedir}/fhnwgpio/components/I2CLCD.java[tags=LCDDisplayScrollText]
+include::{sourcedir}/fhnwgpio/components/I2CLCDComponent.java[tags=LCDDisplayScrollText]
 ----
 
 *Bounce Text* + 
@@ -1210,7 +1210,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 
 [source,java]
 ----
-include::{sourcedir}/fhnwgpio/components/I2CLCD.java[tags=LCDDisplayBounceText]
+include::{sourcedir}/fhnwgpio/components/I2CLCDComponent.java[tags=LCDDisplayBounceText]
 ----
 
 === Grove RFID Reader

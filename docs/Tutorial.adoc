@@ -346,14 +346,42 @@ Nun können Sie die Einstellung für das Raspberry Pi im Deployment Fenster ange
 ._Remote Host Server Einstellungen_
 image::./installation/RemoteHost3.png[width=75% remote host server settings]
 
-Jetzt können Sie jeder Zeit alle Dateien oder einzelne ausgewählte Dateien mit im Remote Host Menü auf den Raspberry Pi übertragen.
+Jetzt können Sie jederzeit alle Dateien oder einzelne ausgewählte Dateien via Remote Host Menü auf den Raspberry Pi übertragen.
 
-Auf dem Pi selbst müssen Sie dann nur noch ihr Projekt bauen und ausführen, aber für die Entwicklung geniessen Sie alle Vorzüge der IDE auf ihrem Rechner.
+Auf dem Pi selbst müssen Sie dann nur noch ihr Projekt bauen und ausführen. Währen der Entwicklung geniessen Sie allerdings alle Vorzüge der IDE auf ihrem Rechner.
 
 ._Update Remote Host_
 image::./installation/RemoteHost4.png[width=75% update remote host server]
 
-=== TODO: Code bauen mit Gradle
+=== Code mit Gradle bauen
+Nachdem der Code via Remote Deployment auf den Rasbperry Pi gespielt wurde, müssen wir diesen noch kompilieren und als `.jar` ablegen. Dies ist die Aufgabe von Gradle. Für die Ausführung des Gradle Tasks navigieren Sie bitte in den Root Folder ihres Projekts. Dort kann das Projekt dann mit dem folgenden Befehl gebaut werden:
+
+* `gradle jar`
+
+Sofern die Kompilierung fehlerfrei war, sollten Sie den folgenden Output erhalten:
+
+._Output gradle jar_
+image::./installation/gradle_jar.png[width=75% gradle jar output]
+
+Gradle hat nun ein `.jar` File generiert und im Folder `build/libs` ihres Projektes abgelegt. Das `.jar` File kann nun gestartet werden.
+
+* `java -jar build/libs/YOUR_PROJECT_NAME_AND_VERSION.jar`
+
+Sofern Ihr Projekt den seriellen Bus des Raspberry Pis verwendet, müssen Sie das `.jar` als Administrator (`sudo`) starten.
+
+Der Befehl `gradle jar` setzt voraus, dass ihr `build.gradle` File einen Task mit dem Namen `jar` enthätl. Dieser Task sollte den folgenden Code enthalten:
+
+[source,json]
+----
+jar {
+    manifest {
+        attributes "Main-Class": "Main.Class.Path"
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+----
 
 === Optional: Remote Debugging
 Es ist auch möglich den Code vom eigenen Rechner aus mit IntelliJ auf dem Raspberry Pi auszuführen und diesen auf dem eigenen Rechner zu debuggen. Diese Funktionalität kann sehr hilfreich sein, wenn man mit schwierigen Bugs zu tun hat, aber birgt auch Schwierigkeiten und funktioniert auch nicht immer ideal, deshalb wurde dieser Bereich als optional deklariert.
@@ -1596,8 +1624,5 @@ Wenn das Objekt dann der `RaspberryPiCameraComponent` übergeben wird im Konstru
 ----
 include::{sourcedir}/fhnwgpio/components/RaspberryPiCameraComponent.java[tags=RasPiCamTakeVid]
 ----
-
-:sectnums!:
-== TODO: Schluss
 
 == TODO: Literaturverzeichnis

@@ -24,12 +24,13 @@ public class StepperMotorDevice extends Example {
         final GpioController gpio = GpioFactory.getInstance();
 
         Console console = new Console();
+        console.promptForExit();
 
         GpioPinDigitalOutput out1 = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_17);
         GpioPinDigitalOutput out2 = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_18);
         GpioPinDigitalOutput out3 = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_27);
         GpioPinDigitalOutput out4 = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_22);
-        StepperMotorComponent stepperMotor = new StepperMotorComponent(console, out1, out2, out3, out4);
+        StepperMotorComponent stepperMotor = new StepperMotorComponent(out1, out2, out3, out4);
 
         console.println("Make 4096 steps forwards with half step mode");
         stepperMotor.setMode(StepperMotorMode.HALF_STEP);
@@ -63,7 +64,6 @@ public class StepperMotorDevice extends Example {
         stepperMotor.stop();
 
         gpio.shutdown();
-        console.promptForExit();
     }
     // end::StepperMotorDevice[]
 }

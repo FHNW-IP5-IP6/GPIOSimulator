@@ -27,7 +27,7 @@ public class ServoMotorDevice extends Example {
         console.promptForExit();
 
         GpioPinPwmOutput pwm = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_18);
-        ServoMotorComponent servo = new ServoMotorComponent(console, pwm);
+        ServoMotorComponent servo = new ServoMotorComponent(pwm);
 
         while (console.isRunning()) {
             servo.setMin();

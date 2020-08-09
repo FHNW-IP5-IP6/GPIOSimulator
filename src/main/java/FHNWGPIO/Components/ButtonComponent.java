@@ -22,7 +22,6 @@ public class ButtonComponent {
     public ButtonComponent(GpioPinDigitalInput pin, boolean reverse) {
         this.pin = pin;
         this.reverse = reverse;
-
         ComponentLogger.logInfo("ButtonComponent: Button created for GPIO pin " + pin.getPin().getAddress());
     }
 

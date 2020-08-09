@@ -29,7 +29,6 @@ public class PotentiometerComponent extends I2CBase {
             throws IOException, I2CFactory.UnsupportedBusNumberException {
         super(groveAdapter.getAdapter().getAnalogI2CAddress(), I2CBus.BUS_1);
         this.adapter = groveAdapter.getAdapter();
-
         ComponentLogger.logInfo("PotentiometerComponent: Potentiometer created for analog grove adapter");
     }
     // end::PotentiometerComponentConstructor[]
@@ -61,7 +60,6 @@ public class PotentiometerComponent extends I2CBase {
 
         this.minValue = minValue;
         this.maxValue = maxValue;
-
         ComponentLogger.logInfo("PotentiometerComponent: Range set from " + minValue + " to " + maxValue);
     }
     // end::PotentiometerComponentSetRange[]

@@ -6,7 +6,6 @@ import fhnwgpio.grove.AdapterType;
 import fhnwgpio.grove.GroveAdapter;
 import com.pi4j.io.gpio.*;
 import com.pi4j.wiringpi.Gpio;
-import org.apache.logging.log4j.Level;
 
 /**
  * FHNW implementation for the grove buzzer.
@@ -28,7 +27,7 @@ public class BuzzerComponent {
         Gpio.pwmSetMode(Gpio.PWM_MODE_MS);
         Gpio.pwmSetRange(dutyCycle);
 
-        ComponentLogger.log(Level.INFO, "BuzzerComponent for GPIO pin " + pin.getAddress() + " created");
+        ComponentLogger.logInfo("BuzzerComponent: Buzzer created for GPIO pin " + pin.getAddress());
     }
 
     /**
@@ -41,8 +40,9 @@ public class BuzzerComponent {
         this(pin.getPin());
 
         if (!PwmHelper.isHardwarePwmPin(pin.getPin())) {
-            IllegalArgumentException exception = new IllegalArgumentException("please provide a valid pwm pin");
-            ComponentLogger.log(Level.ERROR, exception.getMessage());
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "BuzzerComponent: Please provide a valid pwm pin");
+            ComponentLogger.logError(exception.getMessage());
             throw exception;
         }
     }
@@ -57,8 +57,9 @@ public class BuzzerComponent {
         this(groveAdapter.getAdapter().getUpperPin());
 
         if (groveAdapter.getAdapter().getAdapterType() != AdapterType.PWM) {
-            IllegalArgumentException exception = new IllegalArgumentException("please provide a grove pwm pin");
-            ComponentLogger.log(Level.ERROR, exception.getMessage());
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "BuzzerComponent: Please provide a grove pwm pin");
+            ComponentLogger.logError(exception.getMessage());
             throw exception;
         }
     }
@@ -72,7 +73,8 @@ public class BuzzerComponent {
      */
     // tag::BuzzerComponentPlayTone[]
     public void playTone(int frequency, int duration) throws InterruptedException {
-        ComponentLogger.log(Level.INFO, "play tone with " + frequency + "Hz for " + duration + " milliseconds");
+        ComponentLogger
+                .logInfo("BuzzerComponent: Play tone with " + frequency + "Hz for " + duration + " milliseconds");
 
         if (frequency != 0) {
             int clock = calculateClock(frequency);
@@ -88,7 +90,7 @@ public class BuzzerComponent {
     /**
      * Plays a tone with a specific frequency.
      *
-     * @param frequency in hzComponentLogger
+     * @param frequency in hz
      * @throws InterruptedException Might be thrown because of Thread.sleep() usage
      */
     public void playTone(int frequency) throws InterruptedException {
@@ -102,7 +104,7 @@ public class BuzzerComponent {
      * @throws InterruptedException Might be thrown because of Thread.sleep() usage
      */
     public void stop(int duration) throws InterruptedException {
-        ComponentLogger.log(Level.INFO, "pause for " + duration + " milliseconds");
+        ComponentLogger.logInfo("BuzzerComponent: Pause for " + duration + " milliseconds");
 
         Gpio.pwmWrite(pin.getAddress(), 0);
         Thread.sleep(duration);

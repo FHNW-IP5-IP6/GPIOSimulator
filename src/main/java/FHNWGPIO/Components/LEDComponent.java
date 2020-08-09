@@ -23,7 +23,6 @@ public class LedComponent {
     public LedComponent(GpioPinDigitalOutput pin) {
         this.pin = pin;
         this.dimmable = false;
-
         ComponentLogger.logInfo("LedComponent: Created component for pin " + pin.getPin().getAddress());
     }
 
@@ -51,7 +50,6 @@ public class LedComponent {
         Gpio.pwmSetClock(192);
         Gpio.pwmSetRange(2000);
         pwmPin.setPwmRange(100);
-
         ComponentLogger.logInfo("LedComponent: Created component for pwm pin " + pwmPin.getPin().getAddress());
     }
     // end::LedComponentPwmPin[]

@@ -1,6 +1,6 @@
 package fhnwexamples.component;
 
-import fhnwgpio.components.I2CLCD;
+import fhnwgpio.components.I2CLCDComponent;
 import com.pi4j.io.i2c.I2CBus;
 import fhnwexamples.Example;
 import com.pi4j.util.Console;
@@ -27,7 +27,7 @@ public class LcdSystemTimeI2C extends Example {
         try {
             //find the address and the bus with the following command on the pi
             //sudo i2cdetect -y 1
-            I2CLCD lcd = new I2CLCD(0x27, I2CBus.BUS_1);
+            I2CLCDComponent lcd = new I2CLCDComponent(0x27, I2CBus.BUS_1);
             lcd.init();
 
             Scanner scanner = new Scanner(System.in);

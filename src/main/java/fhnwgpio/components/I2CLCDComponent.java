@@ -3,6 +3,8 @@ package fhnwgpio.components;
 import fhnwgpio.components.base.I2CBase;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
+import fhnwgpio.components.helper.ComponentLogger;
+import org.apache.logging.log4j.Level;
 
 import java.io.IOException;
 
@@ -12,7 +14,7 @@ import java.io.IOException;
  * Following library was used as additional reference for underlying logic
  * https://github.com/Poduzov/PI4J-I2C-LCD
  */
-public class I2CLCD extends I2CBase {
+public class I2CLCDComponent extends I2CBase {
 
     private final int ROWS = 2;
     private final int COLUMNS = 16;
@@ -26,7 +28,7 @@ public class I2CLCD extends I2CBase {
      * @throws IOException                              Exception that can be thrown when trying to initialise
      * @throws I2CFactory.UnsupportedBusNumberException Exception can be thrown when trying to initialise
      */
-    public I2CLCD(int address, int busNumber) throws IOException, I2CFactory.UnsupportedBusNumberException {
+    public I2CLCDComponent(int address, int busNumber) throws IOException, I2CFactory.UnsupportedBusNumberException {
         super(address, busNumber);
     }
 
@@ -35,7 +37,7 @@ public class I2CLCD extends I2CBase {
      *
      * @param device device object containing i2c info
      */
-    public I2CLCD(I2CDevice device) {
+    public I2CLCDComponent(I2CDevice device) {
         super(device);
     }
 
@@ -55,6 +57,7 @@ public class I2CLCD extends I2CBase {
             writeCommand(LCD_CLEARDISPLAY);
             writeCommand((byte) (LCD_ENTRYMODESET | LCD_ENTRYLEFT));
             Thread.sleep(0, 200000);
+            ComponentLogger.logInfo("I2C LCD initialised");
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

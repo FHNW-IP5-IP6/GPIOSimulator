@@ -10,4 +10,12 @@ public class ComponentLogger {
     public static void log(Level level, String message) {
         logger.log(level, message);
     }
+
+    public static void logError(String message){
+        log(Level.ERROR, message);
+    }
+
+    public static void logInfo(String message){
+        log(Level.ERROR, message);
+    }
 }

@@ -26,7 +26,6 @@ public class BuzzerComponent {
         Gpio.pinMode(this.pin.getAddress(), Gpio.PWM_OUTPUT);
         Gpio.pwmSetMode(Gpio.PWM_MODE_MS);
         Gpio.pwmSetRange(dutyCycle);
-
         ComponentLogger.logInfo("BuzzerComponent: Buzzer created for GPIO pin " + pin.getAddress());
     }
 
@@ -105,7 +104,6 @@ public class BuzzerComponent {
      */
     public void stop(int duration) throws InterruptedException {
         ComponentLogger.logInfo("BuzzerComponent: Pause for " + duration + " milliseconds");
-
         Gpio.pwmWrite(pin.getAddress(), 0);
         Thread.sleep(duration);
     }

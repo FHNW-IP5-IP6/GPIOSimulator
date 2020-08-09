@@ -1,7 +1,7 @@
 package fhnwgpio.components;
 
 import com.pi4j.io.serial.*;
-import com.pi4j.util.Console;
+import fhnwgpio.components.helper.ComponentLogger;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -17,9 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
-// TODO: Make different settings available
-// TODO: Make different file types available
-
 /**
  * FHNW implementation for the grove serial camera. This class implements the communication protocol and simplifies
  * accessing the grove serial camera via the built-in default serial bus of the Raspberry Pi.
@@ -27,10 +24,8 @@ import java.util.Date;
  * Documentation: https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf
  */
 public class SerialCameraComponent {
-    private Console console;
     private Serial serial = null;
     private int packageSize;
-    private boolean logIsActive;
     private int nofNoDataBits = 6;
     private int lowDataSizeBit = 2;
     private int highDataSizeBit = 3;
@@ -41,66 +36,38 @@ public class SerialCameraComponent {
     /**
      * Constructor of the SerialCameraComponent. Configures the default serial port of the Raspberry Pi.
      *
-     * @param console         Pi4J Console
-     * @param packageSize     Desired package size. Must be between 15 and 2049 bytes.
-     * @param activateLogging Activates / deactivates logging.
+     * @param packageSize Desired package size. Must be between 15 and 2049 bytes.
      * @throws IOException
      * @throws InterruptedException
      */
-    public SerialCameraComponent(Console console, int packageSize, boolean activateLogging)
-            throws IOException, InterruptedException {
+    public SerialCameraComponent(int packageSize) throws IOException, InterruptedException {
         if (packageSize < 16 || packageSize > 2048) {
-            throw new IllegalArgumentException("package size needs to be bigger than 15 and smaller than 2049");
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "SerialCameraComponent: Package size needs to be bigger than 15 and smaller than 2049");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
-        this.console = console;
         this.packageSize = packageSize;
-        logIsActive = activateLogging;
         serial = SerialFactory.createInstance();
         SerialConfig config = new SerialConfig();
         config.device(SerialPort.getDefaultPort()).baud(Baud._9600);
         serial.open(config);
 
+        ComponentLogger.logInfo("SerialCameraComponent: SerialCamera created with a packageSize of " + packageSize);
         initializeSerialBusCommunication();
         sendSettingsToCamera();
-    }
-
-    /**
-     * Constructor of the SerialCameraComponent without logging. Configures the default serial port of the
-     * Raspberry Pi.
-     *
-     * @param console     Pi4j Console
-     * @param packageSize Desired package size. Must be between 15 and 2049 bytes.
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public SerialCameraComponent(Console console, int packageSize) throws IOException, InterruptedException {
-        this(console, packageSize, false);
     }
 
     /**
      * Constructor of the SerialCameraComponent with a default package size of 512 bytes. Configures the
      * default serial port of the Raspberry Pi.
      *
-     * @param console         Pi4j Console
-     * @param activateLogging Activates / deactivates logging.
      * @throws IOException
      * @throws InterruptedException
      */
-    public SerialCameraComponent(Console console, boolean activateLogging) throws IOException, InterruptedException {
-        this(console, 512, activateLogging);
-    }
-
-    /**
-     * Constructor of the SerialCameraComponent without logging and a default package size of 512 bytes.
-     * Configures the default serial port of the Raspberry Pi.
-     *
-     * @param console Pi4j Console
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public SerialCameraComponent(Console console) throws IOException, InterruptedException {
-        this(console, 512, false);
+    public SerialCameraComponent() throws IOException, InterruptedException {
+        this(512);
     }
 
     /**
@@ -141,7 +108,7 @@ public class SerialCameraComponent {
      */
     public String saveImageAsJpg(String relativePath, String fileName) throws IOException, InterruptedException {
         String absolutePath = new File(relativePath).getAbsolutePath();
-        logMessage("Absolute save location will be " + absolutePath);
+        ComponentLogger.logInfo("SerialCameraComponent: The absolute save location will be " + absolutePath);
         Path path = Paths.get(absolutePath);
         if (!Files.exists(path)) {
             Files.createDirectory(path);
@@ -152,15 +119,18 @@ public class SerialCameraComponent {
 
     /**
      * This method initializes the serial bus communication for the grove serial camera.
+     *
+     * @throws IOException
+     * @throws InterruptedException
      */
     // tag::SerialCamInit[]
-    private void initializeSerialBusCommunication() {
+    private void initializeSerialBusCommunication() throws InterruptedException, IOException {
         try {
             int tryCount = 0;
             byte[] syncCommand = { (byte) 0xaa, 0x0d, 0x00, 0x00, 0x00, 0x00 };
             byte[] ackCommand = { (byte) 0xaa, 0x0e, 0x0d, 0x00, 0x00, 0x00 };
 
-            logMessage("initializing communication with the camera");
+            ComponentLogger.logInfo("SerialCameraComponent: Initializing communication with the camera");
 
             while (serial.available() == 0 && tryCount < syncRetryCount) {
                 serial.write(syncCommand);
@@ -169,59 +139,67 @@ public class SerialCameraComponent {
             }
 
             if (tryCount >= syncRetryCount) {
-                throw new IOException("tried to sync with camera for " + tryCount + " without success");
+                IOException exception = new IOException(
+                        "SerialCameraComponent: Tried to sync with camera for " + tryCount + " without success");
+                ComponentLogger.logError(exception.getMessage());
+                throw exception;
             }
 
-            logMessage("camera responded after " + tryCount + " requests");
+            ComponentLogger.logInfo("SerialCameraComponent: Camera responded after " + tryCount + " requests");
             byte[] bytes = serial.read(6);
             clearDataFromSerialInput();
 
             if (bytes[0] == 0xaa && bytes[1] == 0x0e && bytes[2] == 0x0d && bytes[4] == 0x00 && bytes[5] == 0x00) {
-                logMessage("received response is a valid acknowledgement");
-                logMessage("waiting for sync from camera");
+                ComponentLogger.logInfo("SerialCameraComponent: Received response is a valid acknowledgement");
+                ComponentLogger.logInfo("SerialCameraComponent: Waiting for sync from camera");
                 bytes = serial.read(6);
 
                 if (bytes[0] == 0xaa && bytes[1] == 0x0d && bytes[2] == 0x00 && bytes[3] == 0x00 && bytes[4] == 0x00
                         && bytes[5] == 0x00) {
-                    logMessage("received sync from the camera");
-                    logMessage("sending sync acknowledgement to camera");
+                    ComponentLogger.logInfo("SerialCameraComponent: Received sync from the camera");
+                    ComponentLogger.logInfo("SerialCameraComponent: Sending sync acknowledgement to camera");
                     serial.write(ackCommand);
-                    logMessage("serial bus communication between camera and pi is ready");
+                    ComponentLogger.logInfo("SerialCameraComponent: Serial bus communication ready");
                 }
             }
 
             clearDataFromSerialInput();
         } catch (Exception ex) {
-            console.println(ex);
+            ComponentLogger.logError("SerialCameraComponent: " + ex.getMessage());
+            throw ex;
         }
     }
     // end::SerialCamInit[]
 
     /**
      * Transmitting of the desired camera settings.
+     *
+     * @throws IOException
+     * @throws InterruptedException
      */
-    private void sendSettingsToCamera() {
+    private void sendSettingsToCamera() throws InterruptedException, IOException {
         try {
             byte[] initialCommand = { (byte) 0xaa, 0x01, 0x00, 0x07, 0x03, 0x07 };
 
-            logMessage("sending settings to the camera");
+            ComponentLogger.logInfo("SerialCameraComponent: Sending settings to the camera");
             serial.write(initialCommand);
 
             while (serial.available() < 6) {
                 Thread.sleep(10);
             }
 
-            logMessage("received a response from the camera");
+            ComponentLogger.logInfo("SerialCameraComponent: Received a response from the camera");
             byte[] bytes = serial.read(6);
 
             if (bytes[0] == 0xaa && bytes[1] == 0x0e && bytes[2] == 0x01 && bytes[4] == 0x00 && bytes[5] == 0x00) {
-                logMessage("received response is a valid settings acknowledgement");
-                logMessage("settings where successfully sent to the camera");
+                ComponentLogger.logInfo("SerialCameraComponent: Received response is a valid settings acknowledgement");
+                ComponentLogger.logInfo("SerialCameraComponent: Settings where successfully sent to the camera");
             }
 
             clearDataFromSerialInput();
         } catch (Exception ex) {
-            console.println(ex);
+            ComponentLogger.logError("SerialCameraComponent: " + ex.getMessage());
+            throw ex;
         }
     }
 
@@ -239,55 +217,55 @@ public class SerialCameraComponent {
         byte[] snapshotCommand = { (byte) 0xaa, 0x05, 0x00, 0x00, 0x00, 0x00 };
         byte[] getPictureCommand = { (byte) 0xaa, 0x04, 0x01, 0x00, 0x00, 0x00 };
 
-        logMessage("sending the desired package size to the camera");
+        ComponentLogger.logInfo("SerialCameraComponent: Sending the desired package size to the camera");
         serial.write(setPackageSizeCommand);
 
         while (serial.available() < 6) {
             Thread.sleep(10);
         }
 
-        logMessage("received a response from the camera");
+        ComponentLogger.logInfo("SerialCameraComponent: Received a response from the camera");
         byte[] bytes = serial.read(6);
 
         if (bytes[0] == (byte) 0xaa && bytes[1] == (byte) 0x0e && bytes[2] == (byte) 0x06 && bytes[4] == (byte) 0x00
                 && bytes[5] == (byte) 0x00) {
-            logMessage("response was a valid package size acknowledgement");
+            ComponentLogger.logInfo("SerialCameraComponent: Response was a valid package size acknowledgement");
         }
 
-        logMessage("sending snapshot command");
+        ComponentLogger.logInfo("SerialCameraComponent: Sending snapshot command");
         serial.write(snapshotCommand);
 
         while (serial.available() < 6) {
             Thread.sleep(10);
         }
 
-        logMessage("received a response from the camera");
+        ComponentLogger.logInfo("SerialCameraComponent: Received a response from the camera");
         bytes = serial.read(6);
 
         if (bytes[0] == (byte) 0xaa && bytes[1] == (byte) 0x0e && bytes[2] == (byte) 0x05 && bytes[4] == (byte) 0x00
                 && bytes[5] == (byte) 0x00) {
-            logMessage("response was a valid snapshot acknowledgement");
+            ComponentLogger.logInfo("SerialCameraComponent: Response was a valid snapshot acknowledgement");
         }
 
-        logMessage("sending get picture length command");
+        ComponentLogger.logInfo("SerialCameraComponent: Sending get picture length command");
         serial.write(getPictureCommand);
 
         while (serial.available() < 6) {
             Thread.sleep(10);
         }
 
-        logMessage("received a response from the camera");
+        ComponentLogger.logInfo("SerialCameraComponent: Received a response from the camera");
         bytes = serial.read(6);
 
         if (bytes[0] == (byte) 0xaa && bytes[1] == (byte) 0x0e && bytes[2] == (byte) 0x04 && bytes[4] == (byte) 0x00
                 && bytes[5] == (byte) 0x00) {
-            logMessage("response was a valid picture length acknowledgement");
-            logMessage("reading the next 6 bytes to get the picture length");
+            ComponentLogger.logInfo("SerialCameraComponent: Response was a valid picture length acknowledgement");
+            ComponentLogger.logInfo("SerialCameraComponent: Reading the next 6 bytes to get the picture length");
             bytes = serial.read(6);
 
             if (bytes[0] == (byte) 0xaa && bytes[1] == 0x0a && bytes[2] == 0x01) {
                 pictureLength = (int) bytes[3] + (bytes[4] << 8) + (bytes[5] << 16);
-                logMessage("picture length is: " + pictureLength);
+                ComponentLogger.logInfo("SerialCameraComponent: Picture length is: " + pictureLength);
             }
         }
 
@@ -336,19 +314,19 @@ public class SerialCameraComponent {
                 int byteCount = getIntegerFromBytes(receivedData[lowDataSizeBit], receivedData[highDataSizeBit]);
                 lastWrittenByte = receivedData[receivedData.length - 3];
                 camStream.write(receivedData, 4, byteCount);
-                logMessage("package at " + successCount + " was handled successfully");
+                ComponentLogger.logInfo("SerialCameraComponent: Package at " + successCount + " successfully handled");
                 successCount++;
             } else {
-                logMessage("calculated check sum is " + calculatedCheckSum);
-                logMessage("received check sum is " + receivedCheckSum);
-                logMessage("package error at package " + successCount);
-                logMessage(" => retry");
+                ComponentLogger.logInfo("SerialCameraComponent: Calculated check sum is " + calculatedCheckSum);
+                ComponentLogger.logInfo("SerialCameraComponent: Received check sum is " + receivedCheckSum);
+                ComponentLogger.logInfo("SerialCameraComponent: Package error at package " + successCount);
+                ComponentLogger.logInfo("SerialCameraComponent:  => retry");
             }
         }
 
-        logMessage("read a total of " + camStream.size() + " bytes");
-        logMessage("pure picture length was " + pictureLength);
-        logMessage("sending package end acknowledgement to camera");
+        ComponentLogger.logInfo("SerialCameraComponent: Read a total of " + camStream.size() + " bytes");
+        ComponentLogger.logInfo("SerialCameraComponent: Pure picture length was " + pictureLength);
+        ComponentLogger.logInfo("SerialCameraComponent: Sending package end acknowledgement to camera");
         serial.write(ackPackageEndCommand);
 
         return camStream.toByteArray();
@@ -367,7 +345,7 @@ public class SerialCameraComponent {
         String fileName = getFileName(defaultFileName);
         BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBytes));
         ImageIO.write(image, "JPG", new File(fileName));
-        logMessage("picture saved in file " + fileName);
+        ComponentLogger.logInfo("SerialCameraComponent: Picture saved in file " + fileName);
         return fileName;
     }
 
@@ -437,17 +415,6 @@ public class SerialCameraComponent {
         int byteCount = serial.available();
         if (byteCount > 0) {
             serial.read(byteCount);
-        }
-    }
-
-    /**
-     * Logs a given message to the console if logging is activated.
-     *
-     * @param message The log message.
-     */
-    private void logMessage(String message) {
-        if (logIsActive) {
-            console.println(message);
         }
     }
 }

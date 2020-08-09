@@ -460,8 +460,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_software">2. Software</a>
 <ul class="sectlevel2">
-<li><a href="#_pi4j">2.1. Pi4J</a></li>
-<li><a href="#_java">2.2. Java</a></li>
+<li><a href="#_java">2.1. Java</a></li>
+<li><a href="#_pi4j">2.2. Pi4J</a></li>
+<li><a href="#_log4j_2">2.3. Log4j 2</a></li>
 </ul>
 </li>
 <li><a href="#_setup_des_raspberrypi">3. Setup des RaspberryPi</a>
@@ -486,7 +487,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_code_auf_dem_pi_bauen">4. Code auf dem Pi bauen</a>
 <ul class="sectlevel2">
 <li><a href="#_remote_host_in_intellij">4.1. Remote Host in IntelliJ</a></li>
-<li><a href="#_todo_code_bauen_mit_gradle">4.2. TODO: Code bauen mit Gradle</a></li>
+<li><a href="#_code_mit_gradle_bauen">4.2. Code mit Gradle bauen</a></li>
 <li><a href="#_optional_remote_debugging">4.3. Optional: Remote Debugging</a></li>
 </ul>
 </li>
@@ -668,8 +669,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
-<li><a href="#_todo_schluss">TODO: Schluss</a></li>
-<li><a href="#_todo_literaturverzeichnis">TODO: Literaturverzeichnis</a></li>
+<li><a href="#_todo_literaturverzeichnis">8. TODO: Literaturverzeichnis</a></li>
 </ul>
 </div>
 </div>
@@ -735,11 +735,31 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_raspberry_pi">1.1. Raspberry Pi</h3>
-
+<div class="paragraph">
+<p>Der Raspberry Pi ist ein kostengünstiger Computer in Kreditkartengröße. Es ist ein leistungsfähiger kleiner PC, der es Menschen jeden Alters ermöglicht, sich mit Computern auseinanderzusetzen und zu lernen, wie man in Sprachen wie Scratch, Python oder hier in Java programmiert. Es ist in der Lage, alles zu tun, was man von einem Desktop-Computer erwarten würde, vom Surfen im Internet und dem Abspielen von hochauflösenden Videos bis hin zum Erstellen von Tabellenkalkulationen, Textverarbeitung und Spielen.</p>
+</div>
+<div class="paragraph">
+<p>Darüber hinaus hat die Raspberry Pi die Fähigkeit, mit der Außenwelt zu interagieren. An den sogenannten GPIO (General Purpose Input Output) Pins kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für IoT-Projekte macht.</p>
+</div>
+<div class="paragraph">
+<p>Der Pi wurde von der britischen Raspberry Pi Foundation entwickelt und hat das Ziel, Bildung im Bereich Computer Hardware, Elektronik und Informatik zu fördern.</p>
+</div>
+<div class="paragraph">
+<p>source: <a href="https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/">RaspberryPi.org</a>
+        <a href="https://www.elektronik-kompendium.de/sites/raspberry-pi/2002191.htm">Elektronik-Kompendium</a></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_grove_sensoren_aktuatoren">1.2. Grove Sensoren &amp; Aktuatoren</h3>
-
+<div class="paragraph">
+<p>Grove ist ein offenes modulares System, das für den einfachen Anschluss beliebiger Sensoren und Aktuatoren entwickelt wurde. Es gibt Grove Sensoren und Aktuatoren für die verschiedensten Bereiche:  Robotik, Annäherung, Bewegung, Umwelt und Biomedizin.</p>
+</div>
+<div class="paragraph">
+<p>Grove erleichtert das Anschließen und Experimentieren mit den Geräte. Die Sensoren und Aktuatoren können mittels der Grove Kabel an einen Grove Aufsatz, wie dem Grove Base Hat angeschlossen werden, somit sind keine Jumper oder Lötkolben mehr erforderlich für einfache IoT Projekte.</p>
+</div>
+<div class="paragraph">
+<p>src: <a href="https://www.seeedstudio.com/category/Sensor-for-Grove-c-24.html" class="bare">https://www.seeedstudio.com/category/Sensor-for-Grove-c-24.html</a> [Grove Sensors and actuators]</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_grove_base_hat">1.3. Grove Base Hat</h3>
@@ -868,13 +888,69 @@ potentiometer.getValue()</code></pre>
 <div class="sect1">
 <h2 id="_software">2. Software</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_pi4j">2.1. Pi4J</h3>
-
+<div class="paragraph">
+<p>Zur Umsetzung von GPIO Projekten benötigen wir nebst den Hardware Komponenten natürlich auch Software. Als Basis dient uns Java 8 sowie Pi4J.</p>
 </div>
 <div class="sect2">
-<h3 id="_java">2.2. Java</h3>
-
+<h3 id="_java">2.1. Java</h3>
+<div class="paragraph">
+<p>Zur Programmierung der GPIO Pins des Raspberry Pis benutzen wir die Objektorientierte Programmiersprache Java in der Version 8. Aus kompatibilitätsgründen sind neure Versionen von Java leider nicht unterstützt.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pi4j">2.2. Pi4J</h3>
+<div class="paragraph">
+<p>Die Software Bibliothek Pi4J bietet vollzugriff auf die I/O Funktionalität des Raspberry Pi. Die Library abstrahiert die komplexe Hardware Programmierung und bietet stattdessen einfache API-Calls an, welche direkt verwendet werden können. Folgende Funktionalität wird von Pi4J abgedeckt</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Exportieren und Importieren von GPIO Pins</p>
+</li>
+<li>
+<p>Konfigurieren der GPIO Pin Flussrichtung</p>
+</li>
+<li>
+<p>Lesen und Schreiben des GPIO Pin State</p>
+</li>
+<li>
+<p>Pulse Width Modulation (Hardware &amp; Software)</p>
+</li>
+<li>
+<p>Erstellen von GPIO State Listeners (Hardware Interrupt)</p>
+</li>
+<li>
+<p>Automatisches setzen eines Pin State bei Programmende (GPIO Shutdown)</p>
+</li>
+<li>
+<p>Senden und Empfangen von Daten via serielle Schnittstelle (RS232)</p>
+</li>
+<li>
+<p>Support für Kommunikation über den I2C Bus (Inter-Integrated Circuit)</p>
+</li>
+<li>
+<p>Support für Kommunikation über den SPI Bus (Serial Peripheral Interface)</p>
+</li>
+<li>
+<p>Erweiterbarer GPIO Provider mit Support für GPIO Extension Boards</p>
+</li>
+<li>
+<p>Zugriff auf System- und Netzwerkinformationen des Raspberry Pi</p>
+</li>
+<li>
+<p>Wrapper Klassen für den direkten Zugriff auf WiringPi</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Unsere Library verwendet Pi4J 1.2, da die Version 1.4 den I2C Bus des Raspberry Pi nicht unterstützt.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_log4j_2">2.3. Log4j 2</h3>
+<div class="paragraph">
+<p>Wir benutzen Log4j 2 von Apache für das Schreiben von Logs in ein Rolling File. Log4j 2 ist ein beliebter und weit verbreiteter Vertreter der Java Logging Frameworks.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1330,10 +1406,10 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="title">Figure 17. <em>Remote Host Server Einstellungen</em></div>
 </div>
 <div class="paragraph">
-<p>Jetzt können Sie jeder Zeit alle Dateien oder einzelne ausgewählte Dateien mit im Remote Host Menü auf den Raspberry Pi übertragen.</p>
+<p>Jetzt können Sie jederzeit alle Dateien oder einzelne ausgewählte Dateien via Remote Host Menü auf den Raspberry Pi übertragen.</p>
 </div>
 <div class="paragraph">
-<p>Auf dem Pi selbst müssen Sie dann nur noch ihr Projekt bauen und ausführen, aber für die Entwicklung geniessen Sie alle Vorzüge der IDE auf ihrem Rechner.</p>
+<p>Auf dem Pi selbst müssen Sie dann nur noch ihr Projekt bauen und ausführen. Währen der Entwicklung geniessen Sie allerdings alle Vorzüge der IDE auf ihrem Rechner.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1343,8 +1419,54 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_todo_code_bauen_mit_gradle">4.2. TODO: Code bauen mit Gradle</h3>
-
+<h3 id="_code_mit_gradle_bauen">4.2. Code mit Gradle bauen</h3>
+<div class="paragraph">
+<p>Nachdem der Code via Remote Deployment auf den Rasbperry Pi gespielt wurde, müssen wir diesen noch kompilieren und als <code>.jar</code> ablegen. Dies ist die Aufgabe von Gradle. Für die Ausführung des Gradle Tasks navigieren Sie bitte in den Root Folder ihres Projekts. Dort kann das Projekt dann mit dem folgenden Befehl gebaut werden:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>gradle jar</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Sofern die Kompilierung fehlerfrei war, sollten Sie den folgenden Output erhalten:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/installation/gradle_jar.png" alt="gradle jar" width="75% gradle jar output">
+</div>
+<div class="title">Figure 19. <em>Output gradle jar</em></div>
+</div>
+<div class="paragraph">
+<p>Gradle hat nun ein <code>.jar</code> File generiert und im Folder <code>build/libs</code> ihres Projektes abgelegt. Das <code>.jar</code> File kann nun gestartet werden.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>java -jar build/libs/YOUR_PROJECT_NAME_AND_VERSION.jar</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Sofern Ihr Projekt den seriellen Bus des Raspberry Pis verwendet, müssen Sie das <code>.jar</code> als Administrator (<code>sudo</code>) starten.</p>
+</div>
+<div class="paragraph">
+<p>Der Befehl <code>gradle jar</code> setzt voraus, dass ihr <code>build.gradle</code> File einen Task mit dem Namen <code>jar</code> enthätl. Dieser Task sollte den folgenden Code enthalten:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">jar {
+    manifest {
+        attributes "Main-Class": "Main.Class.Path"
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}</code></pre>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_optional_remote_debugging">4.3. Optional: Remote Debugging</h3>
@@ -1372,7 +1494,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/installation/RemoteDebugging.png" alt="RemoteDebugging" width="75% Remote Debuggging Configuration">
 </div>
-<div class="title">Figure 19. <em>Embedded JVM Configuration</em></div>
+<div class="title">Figure 20. <em>Embedded JVM Configuration</em></div>
 </div>
 <div class="paragraph">
 <p>Für  weitere Informationen zum Remote Debugging mit IntelliJ auf dem Raspberry Pi können Sie den folgenden Artikel studieren:<br>
@@ -1454,7 +1576,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <a class="image" href="https://upload.wikimedia.org/wikipedia/commons/9/9e/Verschiedene_LEDs.jpg"><img src="./assets/images/led.jpg" alt="led" width="75% LED"></a>
 </div>
-<div class="title">Figure 20. LED</div>
+<div class="title">Figure 21. LED</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung">5.1.1. Verkabelung</h4>
@@ -1478,7 +1600,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/fritzing/blink_led.png" alt="blink led" width="75% LED Wiring">
 </div>
-<div class="title">Figure 21. LED Verkabelung</div>
+<div class="title">Figure 22. LED Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -1595,7 +1717,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <a class="image" href="https://cdn.antratek.nl/media/product/03c/mini-push-button-switch-com-00097-1b3.jpg"><img src="./assets/images/push_button.png" alt="push button" width="75% Push Button"></a>
 </div>
-<div class="title">Figure 22. Button</div>
+<div class="title">Figure 23. Button</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung_2">5.2.1. Verkabelung</h4>
@@ -1622,7 +1744,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/fritzing/button_click.png" alt="button click" width="75% Button Wiring">
 </div>
-<div class="title">Figure 23. Button Verkabelung</div>
+<div class="title">Figure 24. Button Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -1736,7 +1858,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/buzzer.jpg" alt="buzzer" width="30% Buzzer">
 </div>
-<div class="title">Figure 24. Buzzer</div>
+<div class="title">Figure 25. Buzzer</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung_3">5.3.1. Verkabelung</h4>
@@ -1757,7 +1879,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/fritzing/buzzer.png" alt="buzzer" width="50% Buzzer Fritzing">
 </div>
-<div class="title">Figure 25. Buzzer Verkabelung</div>
+<div class="title">Figure 26. Buzzer Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -1885,7 +2007,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/fritzing/LCDI2C.png" alt="LCDI2C" width="75% I2C Wiring">
 </div>
-<div class="title">Figure 26. LCD I2C Modul Verkabelung</div>
+<div class="title">Figure 27. LCD I2C Modul Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2016,7 +2138,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/Grove_Rotary_Angle_Sensor.jpg" alt="Grove Rotary Angle Sensor" width="75% Grove Rotary Angle Sensor">
 </div>
-<div class="title">Figure 27. Grove Potentiometer</div>
+<div class="title">Figure 28. Grove Potentiometer</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung_5">5.5.1. Verkabelung</h4>
@@ -2034,7 +2156,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/fritzing/Grove_Base_Hat_Rotary_Angel_Sensor.jpg" alt="Grove Base Hat Rotary Angel Sensor" width="75% Grove Rotary Angle Sensor Fritzing">
 </div>
-<div class="title">Figure 28. Grove Potentiometer Verkabelung</div>
+<div class="title">Figure 29. Grove Potentiometer Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2129,7 +2251,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/fritzing/grove_rfid_reader.png" alt="grove rfid reader" width="75% Grove RFID Reader Fritzing">
 </div>
-<div class="title">Figure 29. Grove RFID Reader Verkabelung</div>
+<div class="title">Figure 30. Grove RFID Reader Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2238,7 +2360,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/Grove_Ultrasonic_Ranger.jpg" alt="Grove Ultrasonic Ranger" width="75% RaspiCam Wiring">
 </div>
-<div class="title">Figure 30. Ultrasonic Ranger Verkabelung</div>
+<div class="title">Figure 31. Ultrasonic Ranger Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2327,7 +2449,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/motor_and_driver.png" alt="motor and driver" width="75% DC Motor and Driver">
 </div>
-<div class="title">Figure 31. Motor und Treiber</div>
+<div class="title">Figure 32. Motor und Treiber</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung_8">5.8.1. Verkabelung</h4>
@@ -2351,7 +2473,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/fritzing/motor.png" alt="motor" width="75% DC Motor Fritzing">
 </div>
-<div class="title">Figure 32. DC Motor Verkabelung</div>
+<div class="title">Figure 33. DC Motor Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2518,7 +2640,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/stepper_motor_and_driver.png" alt="stepper motor and driver" width="75% RaspiCam Wiring">
 </div>
-<div class="title">Figure 33. Stepper Motor Verkabelung</div>
+<div class="title">Figure 34. Stepper Motor Verkabelung</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung_9">5.9.1. Verkabelung</h4>
@@ -2542,7 +2664,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/fritzing/stepper_motor.png" alt="stepper motor" width="75% RaspiCam Wiring">
 </div>
-<div class="title">Figure 34. Stepper Motor Verkabelung</div>
+<div class="title">Figure 35. Stepper Motor Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2709,7 +2831,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/fritzing/servo_motor.png" alt="servo motor" width="75% Servo Motor Fritzing">
 </div>
-<div class="title">Figure 35. Servo Motor Verkabelung</div>
+<div class="title">Figure 36. Servo Motor Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2828,7 +2950,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera.jpg" alt="Grove Serial Camera" width="75% Grove Serial Camera">
 </div>
-<div class="title">Figure 36. Grove Serial Camera</div>
+<div class="title">Figure 37. Grove Serial Camera</div>
 </div>
 <div class="sect3">
 <h4 id="_verkabelung_11">5.11.1. Verkabelung</h4>
@@ -2849,7 +2971,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/fritzing/grove_serial_cam.png" alt="grove serial cam" width="75% Grove Serial Camera Fritzing">
 </div>
-<div class="title">Figure 37. Serial Camera Verkabelung</div>
+<div class="title">Figure 38. Serial Camera Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -2942,7 +3064,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/RaspberryPi_Camera.jpg" alt="RaspberryPi Camera" width="70% RaspiCam">
 </div>
-<div class="title">Figure 38. Raspberry Pi Camera</div>
+<div class="title">Figure 39. Raspberry Pi Camera</div>
 </div>
 <div class="paragraph">
 <p>Für die Verwendung muss sie aber zunächst im OS aktiviert werden. Unter den Interfacing Options, von raspi-config können Sie es problemlos aktivieren.</p>
@@ -2951,7 +3073,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/RaspberryPi_Camera_Activation.jpg" alt="RaspberryPi Camera Activation" width="60% activate RaspiCam">
 </div>
-<div class="title">Figure 39. Raspberry Pi Camera aktivieren</div>
+<div class="title">Figure 40. Raspberry Pi Camera aktivieren</div>
 </div>
 <div class="paragraph">
 <p>Raspbian OS enthält auch Applikationen, welche sie nutzen können, um die Camera in der Console zu testen.</p>
@@ -2987,7 +3109,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <img src="./assets/images/fritzing/raspiCam.png" alt="raspiCam" width="60% RaspiCam Wiring">
 </div>
-<div class="title">Figure 40. Raspberry Pi Camera Verkabelung</div>
+<div class="title">Figure 41. Raspberry Pi Camera Verkabelung</div>
 </div>
 </div>
 <div class="sect3">
@@ -3236,7 +3358,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <a class="image" href="https://www.elektronik-kompendium.de/sites/raspberry-pi/2006051.htm"><img src="./assets/images/pulldown.gif" alt="pulldown" width="75% Pulldown Ressistor"></a>
 </div>
-<div class="title">Figure 41. Schaltbild Pulldown-Wiederstand</div>
+<div class="title">Figure 42. Schaltbild Pulldown-Wiederstand</div>
 </div>
 <div class="paragraph">
 <p>Wie man im Schaltbild erkennen kann, liest der GPIO Pin bei offenem Schalter eine Spannung von 0V des Ground Pins. Bei geschlossenem Schalter liegt die volle Spannung von 3.3V am GPIO Pin an. Der Input Pin besitzt also immer einen fixen Zustand. Entweder ist er High oder Low.</p>
@@ -3295,7 +3417,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <a class="image" href="https://www.islproducts.com/design-notes/piezo-buzzers-vs-magnetic-buzzers/"><img src="./assets/images/buzzer_construction.jpg" alt="buzzer construction" width="75% Buzzer Construction"></a>
 </div>
-<div class="title">Figure 42. Buzzer Aufbau</div>
+<div class="title">Figure 43. Buzzer Aufbau</div>
 </div>
 <div class="sect3">
 <h4 id="_clock_divider_berechnen">7.3.1. Clock Divider berechnen</h4>
@@ -3400,7 +3522,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <a class="image" href="https://www.waveshare.com/datasheet/LCD_en_PDF/LCD1602.pdf"><img src="./assets/images/LCD_Init.PNG" alt="LCD Init" width="75% LCD Init"></a>
 </div>
-<div class="title">Figure 43. LCD1602 Init</div>
+<div class="title">Figure 44. LCD1602 Init</div>
 </div>
 <div class="paragraph">
 <p>Die Initialisierung wurde in java folgendermassen realisiert:</p>
@@ -3435,7 +3557,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <a class="image" href="https://www.waveshare.com/datasheet/LCD_en_PDF/LCD1602.pdf"><img src="./assets/images/LCD_Characters.PNG" alt="LCD Characters" width="75% LCD Character Table"></a>
 </div>
-<div class="title">Figure 44. LCD1602 Zeichentabelle</div>
+<div class="title">Figure 45. LCD1602 Zeichentabelle</div>
 </div>
 <div class="paragraph">
 <p>Wenn dem <code>I2CLCDComponent</code> ein ganzer String übergeben wird, dann werden alle Zeichen des Strings einzeln dem LCD geschickt und jeweils in zwei Nibbles (4-Bits) eingeteilt und gesendet.</p>
@@ -3723,7 +3845,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <a class="image" href="https://components101.com/l293d-pinout-features-datasheet"><img src="./assets/images/L293D_Pinout.png" alt="L293D Pinout" width="75% L293D Pinout"></a>
 </div>
-<div class="title">Figure 45. Pinout L293D</div>
+<div class="title">Figure 46. Pinout L293D</div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 26. Beschreibung Pinout</caption>
@@ -3899,7 +4021,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <a class="image" href="https://www.elektronik-kompendium.de/sites/kom/0401111.htm"><img src="./assets/images/pwm.png" alt="pwm" width="75% PWM as a Graph"></a>
 </div>
-<div class="title">Figure 46. PWM als Grafik</div>
+<div class="title">Figure 47. PWM als Grafik</div>
 </div>
 <div class="paragraph">
 <p>In unserer Component Klasse steuern wir den Duty Cycle über die GPIO Klasse von Wiring Pi. Der gewünschte Duty Cycle wird über die <code>setPWM()</code> Funktion festgelegt. Die <code>rangeAdjustment</code> Variable wird benötigt, da Wiring Pi zwischen Software und Hardware PWM Pins unterscheidet.</p>
@@ -3946,7 +4068,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <a class="image" href="https://commons.wikimedia.org/w/index.php?curid=10011776"><img src="./assets/images/StepperMotor.gif" alt="StepperMotor" width="75% Single Stepping Stepper Motor"></a>
 </div>
-<div class="title">Figure 47. Stepper Motor unter Single Stepping</div>
+<div class="title">Figure 48. Stepper Motor unter Single Stepping</div>
 </div>
 <div class="paragraph">
 <p>Bei den meisten Schrittmotoren kommt zusätzlich zur Welle noch ein Getriebe zum Einsatz, welches durch seine Übersetzung den Drehwinkel pro Schritt weiter verkleinert. Beim weit verbreiteten Stepper Motor 28BYJ-48 ist zum Beispiel ein 1/64 Getriebe verbaut. Jeder Schritt der Welle resultiert bei diesem Motor um eine um 64 verkleinerte Drehung.</p>
@@ -3963,7 +4085,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <a class="image" href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping"><img src="./assets/images/single_stepping.jpg" alt="single stepping" width="75% Single Stepping"></a>
 </div>
-<div class="title">Figure 48. Single Stepping</div>
+<div class="title">Figure 49. Single Stepping</div>
 </div>
 <div class="paragraph">
 <p>Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.</p>
@@ -4033,7 +4155,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <a class="image" href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping"><img src="./assets/images/double_stepping.jpg" alt="double stepping" width="75% Double Stepping"></a>
 </div>
-<div class="title">Figure 49. Double Stepping</div>
+<div class="title">Figure 50. Double Stepping</div>
 </div>
 <div class="paragraph">
 <p>Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.</p>
@@ -4103,7 +4225,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <a class="image" href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping"><img src="./assets/images/half_stepping.jpg" alt="half stepping" width="75% Half Stepping"></a>
 </div>
-<div class="title">Figure 50. Half Stepping</div>
+<div class="title">Figure 51. Half Stepping</div>
 </div>
 <div class="paragraph">
 <p>Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.</p>
@@ -4397,7 +4519,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_SYNC_Command.png" alt="500" width="500" height="Grove Serial Camera SYNC">
 </div>
-<div class="title">Figure 51. SYNC Kommando</div>
+<div class="title">Figure 52. SYNC Kommando</div>
 </div>
 </div>
 <div class="sect3">
@@ -4409,7 +4531,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_Initialisation.png" alt="500" width="500" height="Grove Serial Camera Connection">
 </div>
-<div class="title">Figure 52. Verbindungsaufbau</div>
+<div class="title">Figure 53. Verbindungsaufbau</div>
 </div>
 <div class="paragraph">
 <p>In unserer Java Klasse haben wir den Verbindungsaufbau in einer eigenen Funktion realisiert, welche vom jeweiligen Konstruktor aufgerufen wird. In einer While-Schlaufe wird das SYNC Kommando solange an die Kamera gesendet, bis diese eine Antwort auf den Serial Bus geschrieben hat. Ist dies nach 60 Versuchen nicht der Fall, wird die Initialisierung mit einem Fehler abgebrochen. Hat die Kamera eine Antwort gesendet, wird diese auf Ihre Korrektheit überprüft. Die ersten sechs Bytes müssen dem ACK Kommando entsprechen (AA0E0Dxx0000h). Bei den nächsten sechs Bytes muss es sich um das SYNC Kommando handeln (AA0D00000000h). Sofern dies der Fall ist, war der Verbindungsaufbau erfolgreich. Die Kamera ist nun bereit für die Entgegennahme von weiteren Befehlen.</p>
@@ -4472,7 +4594,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <img src="./assets/images/Grove_Serial_Camera_Get_Picture.png" alt="500" width="500" height="Grove Serial Camera Get Picture">
 </div>
-<div class="title">Figure 53. Ablauf der Bildanforderung</div>
+<div class="title">Figure 54. Ablauf der Bildanforderung</div>
 </div>
 </div>
 <div class="sect3">
@@ -4784,13 +4906,7 @@ RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
 </div>
 </div>
 <div class="sect1">
-<h2 id="_todo_schluss">TODO: Schluss</h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="_todo_literaturverzeichnis">TODO: Literaturverzeichnis</h2>
+<h2 id="_todo_literaturverzeichnis">8. TODO: Literaturverzeichnis</h2>
 <div class="sectionbody">
 
 </div>
@@ -4798,7 +4914,7 @@ RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-09 12:21:17 +0200
+Last updated 2020-08-09 13:50:39 +0200
 </div>
 </div>
 </body>

@@ -966,6 +966,10 @@ include::{sourcedir}/fhnwexamples/component/RaspberryPiCamera.java[tags=Raspberr
 ----
 
 == Beispielprojekt
+Dieses Beispielprojekt soll zeigen, wie die Geräte in einem kleinen Projekt zusammenspielen können. 
+
+Das Projekt ist eine Art Photo Booth, also eine Fotobox in der die folgenden Geräte zusammenarbeiten müssen, um ein gutes Foto von einer Person zu machen:
+
 * Button
 * Buzzer
 * LCD Display
@@ -973,6 +977,29 @@ include::{sourcedir}/fhnwexamples/component/RaspberryPiCamera.java[tags=Raspberr
 * Raspberry Pi (Grove Camera)
 * Motor als Countdown
 * ev Ranger für Distanz
+
+=== Komponenten Klassen als Library hinzufügen
+Um die Komponenten Klassen in einem neuen Projekt zu verwenden, muss man die Jar-Datei in dem neuen Projekt als Bibliothek hinzufügen.
+
+Unter den Releases der Github-Repository finden Sie die Jar-Datei: https://github.com/FHNW-IP5-IP6/GPIOSimulator/releases/
+
+Diese Jar-Datei muss in einen geeigneten Ordner im neuen Projekt hinzugefügt werden wie zum Beispiel `/build/libs`
+
+In der Datei `build.gradle` muss man dann nur noch die Library angeben, dann sind die Komponenten Klassen wie in den Beispielen in Kapitel 5 nutzbar:
+
+----
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'build/libs'
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation name: 'GPIOSimulator-0.1'
+}
+----
 
 
 == Zusatzinformationen

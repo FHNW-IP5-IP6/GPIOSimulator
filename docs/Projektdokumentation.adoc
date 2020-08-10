@@ -33,18 +33,12 @@ image::FHNW.png[FHNW,382,59]
 
 <<<
 [discrete]
-== TODO: Summary
-TBD am Ende: + 
-Anhand dieses Textes soll eine Person entscheiden können, ob sie sich für ihr Thema interessiert.
+== Management Summary
+Das Ziel dieser Arbeit war es zu Beginn einen Hardware Simulator für die meistverwendeten Sensoren und Aktuatoren, die an den Raspberry Pi angeschlossen werden können, zu entwickeln. Der Simulator sollte die Programmierschnittstellen des Raspberry Pi auf Basis von der Java Library Pi4J simulieren können. Den Studierenden sollte es ermöglicht werden unter Verwendung von Java gegen ihren simulierten Aufbau zu programmieren und Feedback vom Simulator zu erhalten. Dieser Aufbau hätte die Effektivität der Teamarbeit an den IP1/2 Projekten erhöht und die Entwicklungsarbeit an der Hardware reduziert.
 
-. Was wurde erreicht?
-. Was sind die Ergebnisse
-. Warum wurde es gemacht? Was war das Problem? 
-. Wie wurde es gemacht/untersucht/getestet?
+Ein grosser Teil dieser Arbeit beschäftigt sich damit, wieso der Simulator nicht in einem umsetzbaren Rahmen realisiert werden konnte, der den Nutzen bringt, welcher im Ziel definiert wurde. Das Projekt musste sich anpassen, damit die Studierenden der ersten Semester dennoch einen Mehrwert von dieser Arbeit haben.
 
-<<<
-[discrete]
-== TODO: Vorwort
+Es wurde eine API in Java entwickelt für die meistverwendeten Geräte, welche es vereinfachen soll, IoT Projekte in Java mit dem Raspberry Pi zu entwickeln. Neben den unabhängigen Geräten, welche an den Raspberry Pi angeschlossen werden können, ist die Library auch kompatibel mit einigen Grove Sensoren und Aktuatoren. Die Grove Sensoren und Aktuatoren können über den Grove Hat (Ein Aufsatz für den Raspberry Pi) direkt an dem Pi angeschlossen werden. Die Library und das modulare Grove System ermöglichen den Studierenden, die hardwarenahe Entwicklungszeit zu reduzieren. Zusätzlich wurde ein umfangreiches Tutorial erstellt, welches die Entwicklung und Verwendung der Komponentenklassen der API beschreibt. Das Tutorial und die API zusammen erreichen das ursprüngliche Ziel, den Informatikstudenten die elektrotechnischen Arbeiten der IoT Projekte zu erleichtern und die Softwareentwicklung in den Vordergrund zu stellen.
 
 <<<
 [discrete]

@@ -48,19 +48,19 @@ Der Hauptteil des Tutorials befasst sich mit verschiedenen Sensoren und Aktoren,
 == Hardware 
 
 === Raspberry Pi
-Der Raspberry Pi ist ein kostengünstiger Computer in Kreditkartengröße. Es ist ein leistungsfähiger kleiner PC, der es Menschen jeden Alters ermöglicht, sich mit Computern auseinanderzusetzen und zu lernen, wie man in Sprachen wie Scratch, Python oder hier in Java programmiert. Es ist in der Lage, alles zu tun, was man von einem Desktop-Computer erwarten würde, vom Surfen im Internet und dem Abspielen von hochauflösenden Videos bis hin zum Erstellen von Tabellenkalkulationen, Textverarbeitung und Spielen<<RaspberryPi1>>.
+Der Raspberry Pi ist ein kostengünstiger Computer in Kreditkartengröße. Es ist ein leistungsfähiger kleiner PC, der es Menschen jeden Alters ermöglicht, sich mit Computern auseinanderzusetzen und zu lernen, wie man in Sprachen wie Scratch, Python oder hier in Java programmiert. Es ist in der Lage, alles zu tun, was man von einem Desktop-Computer erwarten würde, vom Surfen im Internet und dem Abspielen von hochauflösenden Videos bis hin zum Erstellen von Tabellenkalkulationen, Textverarbeitung und Spielen. <<RaspberryPi1>>
 
-Darüber hinaus hat die Raspberry Pi die Fähigkeit, mit der Außenwelt zu interagieren. An den sogenannten GPIO (General Purpose Input Output) Pins kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für IoT-Projekte macht<<RaspberryPi2>>.
+Darüber hinaus hat die Raspberry Pi die Fähigkeit, mit der Außenwelt zu interagieren. An den sogenannten GPIO (General Purpose Input Output) Pins kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für IoT-Projekte macht. <<RaspberryPi2>>
 
 Der Pi wurde von der britischen Raspberry Pi Foundation entwickelt und hat das Ziel, Bildung im Bereich Computer Hardware, Elektronik und Informatik zu fördern.
 
 === Grove Sensoren & Aktuatoren
 Grove ist ein offenes modulares System, das für den einfachen Anschluss beliebiger Sensoren und Aktuatoren entwickelt wurde. Es gibt Grove Sensoren und Aktuatoren für die verschiedensten Bereiche:  Robotik, Annäherung, Bewegung, Umwelt und Biomedizin.
 
-Grove erleichtert das Anschließen und Experimentieren mit den Geräte. Die Sensoren und Aktuatoren können mittels der Grove Kabel an einen Grove Aufsatz, wie dem Grove Base Hat angeschlossen werden, somit sind keine Jumper oder Lötkolben mehr erforderlich für einfache IoT Projekte <<GroveSA>>.
+Grove erleichtert das Anschließen und Experimentieren mit den Geräte. Die Sensoren und Aktuatoren können mittels der Grove Kabel an einen Grove Aufsatz, wie dem Grove Base Hat angeschlossen werden, somit sind keine Jumper oder Lötkolben mehr erforderlich für einfache IoT Projekte. <<GroveSA>>
 
 === Grove Base Hat
-Grove Sensoren und Aktuatoren sind beliebt und werden oft in Projekten eingesetzt. Sie verfügen über simple Steckverbindungen, sogenannte Adapter, welche in Kombination mit dem Grove Base Hat eine sichere und fehlerfreie Verbindung mit dem Raspberry Pi garantieren.
+Grove Sensoren und Aktuatoren sind beliebt und werden oft in Projekten eingesetzt. Sie verfügen über simple Steckverbindungen, sogenannte Adapter, welche in Kombination mit dem Grove Base Hat eine sichere und fehlerfreie Verbindung mit dem Raspberry Pi garantieren. <<GroveBaseHat>>
 
 .Grove Base Hat
 [link=https://wiki.seeedstudio.com/Grove_Base_Hat_for_Raspberry_Pi/]
@@ -82,7 +82,7 @@ potentiometer.getValue()
 ----
 
 ==== PWM
-Der Grove Base Hat unterstütz die Hardware PWM Pins 12 sowie 13. Beide Pins sind im selben Adapter vereinigt.
+Der Grove Base Hat unterstütz die Hardware PWM (**P**ulse **W**idth **M**odulation) Pins 12 sowie 13. Beide Pins sind im selben Adapter vereinigt.
 
 ==== UART
 Der UART Adapter macht den Serial Bus der Raspberry Pi für Grove Sensoren und Aktuatoren verfügbar. Er benutzt die GPIO Pins 14 und 15. An diesem Port würden wir die Grove Serial Camera anschliessen, wenn diese mit 3.3 Volt kompatibel wäre.
@@ -119,7 +119,7 @@ Zur Umsetzung von GPIO Projekten benötigen wir nebst den Hardware Komponenten n
 Zur Programmierung der GPIO Pins des Raspberry Pis benutzen wir die Objektorientierte Programmiersprache Java in der Version 8. Aus kompatibilitätsgründen sind neure Versionen von Java leider nicht unterstützt.
 
 === Pi4J
-Die Software Bibliothek Pi4J bietet vollzugriff auf die I/O Funktionalität des Raspberry Pi. Die Library abstrahiert die komplexe Hardware Programmierung und bietet stattdessen einfache API-Calls an, welche direkt verwendet werden können. Folgende Funktionalität wird von Pi4J abgedeckt
+Die Software Bibliothek Pi4J bietet vollzugriff auf die I/O Funktionalität des Raspberry Pi. Die Library abstrahiert die komplexe Hardware Programmierung und bietet stattdessen einfache API-Calls an, welche direkt verwendet werden können. Folgende Funktionalität wird von Pi4J abgedeckt: <<Pi4J>>
 
 * Exportieren und Importieren von GPIO Pins
 * Konfigurieren der GPIO Pin Flussrichtung
@@ -137,7 +137,7 @@ Die Software Bibliothek Pi4J bietet vollzugriff auf die I/O Funktionalität des 
 Unsere Library verwendet Pi4J 1.2, da die Version 1.4 den I2C Bus des Raspberry Pi nicht unterstützt.
 
 === Log4j 2
-Wir benutzen Log4j 2 von Apache für das Schreiben von Logs in ein Rolling File. Log4j 2 ist ein beliebter und weit verbreiteter Vertreter der Java Logging Frameworks. 
+Wir benutzen Log4j 2 von Apache für das Schreiben von Logs in ein Rolling File. Log4j 2 ist ein beliebter und weit verbreiteter Vertreter der Java Logging Frameworks. <<Log4j>>
 
 == Setup des RaspberryPi
 Bevor Sie mit der Implementation ihres ersten Raspberry Pi Projekts starten können, muss der Mini-Computer aufgesetzt werden. Im Gegensatz zu den verschiedenen im Handel erhältichen Micro Controllern, wie Beispielsweise der Arduino Uno, benötigt der Pi ein Betriebssystem. Wir verwenden das auf Linux basierende System Raspbian, eine speziell für den Raspberry Pi modifiziertes Derbian.
@@ -181,7 +181,7 @@ Für das initiale Login auf dem Pi können Sie die folgenden Standard Credential
 * *Passwort*: raspberry
 
 === Raspberry Pi ohne zusätzliche Hardware nutzen
-Es gibt verschiedene Gründe, weshalb Sie den Raspberry Pi ohne zusätzliche Hardware verwenden möchten. Womöglich erfüllt der Pi die Mindestanforderungen Ihrer bevorzugten Entwicklungsumgebung nicht oder Ihnen steht schlicht und einfach nicht die nötige Hardware zur Verfügung. In diesem Kapitel möchten wir Ihnen aufzeigen, wie Sie den Mini Computer ganz ohne zusätzliche Hardware konfigurieren und verwenden können. Sie benötigen dazu ledeglich ein USB-Kabel und Ihren Laptop.
+Es gibt verschiedene Gründe, weshalb Sie den Raspberry Pi ohne zusätzliche Hardware verwenden möchten. Womöglich erfüllt der Pi die Mindestanforderungen Ihrer bevorzugten Entwicklungsumgebung nicht oder Ihnen steht schlicht und einfach nicht die nötige Hardware zur Verfügung. In diesem Kapitel möchten wir Ihnen aufzeigen, wie Sie den Mini Computer ganz ohne zusätzliche Hardware konfigurieren und verwenden können. Sie benötigen dazu ledeglich ein USB-Kabel und Ihren Laptop. <<Setup>>
 
 Um mit dem Raspberry Pi ohne zusätzliche Hardware arbeiten zu können, wird SSH verwendet. Damit Sie via SSH auf den Pi zugreifen können, benötigen Sie eine SSH Software. Ein beliebtes Tool ist PuTTY. Sie können es unter folgendem Link direkt vom Hersteller herunterladen und auf Ihrem Rechner installieren: +
 https://www.putty.org/
@@ -231,7 +231,7 @@ image::./installation/puttyLogin.png[width=75% Login in PuTTY]
 
 
 ==== Zugriff über WiFi
-Die Verbindung zum Raspberry Pi via SSH funktioniert auch kabellos. Dafür muss sich Ihr Computer lediglich im gleichen Netzwerk befinden wie der Raspberry Pi. Zum Beispiel bei Ihnen Zuhause im WLAN oder über Ihren mobilen HotSpot. Damit der Pi auf das WLAN zugreifen kann, müssen Sie die SD-Karte erneut an Ihren Laptop anschliessen und eine neue Datei im boot Ordner erstellen. Das `wpa_supplicant.conf` File.
+Die Verbindung zum Raspberry Pi via SSH funktioniert auch kabellos. Dafür muss sich Ihr Computer lediglich im gleichen Netzwerk befinden wie der Raspberry Pi. Zum Beispiel bei Ihnen Zuhause im WLAN oder über Ihren mobilen HotSpot. Damit der Pi auf das WLAN zugreifen kann, müssen Sie die SD-Karte erneut an Ihren Laptop anschliessen und eine neue Datei im boot Ordner erstellen. Das `wpa_supplicant.conf` File. <<RasPiWifi>>
 
 Wenn Sie bereits mit dem Pi über Kabel verbunden sind, können Sie die Datei auch direkt über die PuTTY Konsole erstellen. Mit dem unteren Befehl wird das File mit dem Text Editor `nano` erstellt.
 
@@ -297,7 +297,7 @@ Bevor mit der Implementation von GPIO Projekten gestartet werden kann, muss noch
 ==== Java
 Da wir die GPIO Pins mit Java kontrollieren möchten, brauchen wir auf dem Raspberry zwingen eine Java Version. Unsere Component Klasse nutzen Libraries, welche die Installation von Java 8 voraussetzen. Aus diesem Grund muss Java 8 auf dem Pi installiert sein. Neuere Java Version werden aktuell leider nicht unterstützt.
 
-Java kann mittels `apt` auf dem Pi installiert werden. Dazu müssen die folgenden Kommandos auf der Konsole von Raspbian ausgeführt werden:
+Java kann mittels `apt` auf dem Pi installiert werden. Dazu müssen die folgenden Kommandos auf der Konsole von Raspbian ausgeführt werden: <<JavaInstall>>
 
 * `sudo apt update`
 * `sudo apt install openjdk-8-jdk`
@@ -307,10 +307,8 @@ Sobald die installation abgeschlossen ist, kann mit dem Kommando `java –versio
 ._Output java -version_
 image::./installation/java_version.png[width=75% java -version output]
 
-src: https://phoenixnap.com/kb/install-java-raspberry-pi
-
 ==== Gradle
-Gradle wird für das Bauen des Codes benötigt. Mittels dem `wget` Befehl kann das Build Tool direkt auf der Herstellerseite heruntergeladen werden. Wir haben die Version 6.5.1 verwendet.
+Gradle wird für das Bauen des Codes benötigt. Mittels dem `wget` Befehl kann das Build Tool direkt auf der Herstellerseite heruntergeladen werden. Wir haben die Version 6.5.1 verwendet. <<GradleInstall>>
 
 * Gradle als `.zip` herunterladen und im `tmp` Directory speichern: +
 `wget https://services.gradle.org/distributions/gradle-6.5.1-bin.zip -P /tmp`
@@ -350,8 +348,6 @@ Die installation von Gradle ist nun abgeschlossen. Mit dem Befehl `gradle -v` k�
 
 ._Output gradle -v_
 image::./installation/gradle_version.png[width=75% gradle -v output]
-
-src: https://linuxize.com/post/how-to-install-gradle-on-debian-9/
 
 == Code auf dem Pi bauen
 Es ist möglich den Code in intelliJ auf dem eigenen Rechner zu schreiben und diesen dann auf den Pi zu deployen. Das hat den wesentlichen Vorteil, dass man nicht mit der langsamen Entwicklungsumgebung des Raspberry Pi arbeiten muss und auch nicht jede kleinste Änderung in git pushen muss, um es auf dem Pi mit der richtigen Hardware zu testen.
@@ -453,7 +449,7 @@ In diesem Kapitel finden Sie für eine Vielzahl an gängigen Sensoren und Aktuat
     ** Daten-Persistenz (File-Handling, Serialisierung).
 
 === LED
-Leuchtdioden emmitieren Licht, sofern Strom duch sie fliesst. Wie bei allen Dioden lassen LEDs nur eine Flussrichtiung zu. Mit unserer LedComponent lässt sich der Status der LED kontrollieren. Über PWM kann zusätzlich die Helligkeit der LED eingestellt werden. 
+Leuchtdioden emmitieren Licht, sofern Strom duch sie fliesst. Wie bei allen Dioden lassen LEDs nur eine Flussrichtiung zu. Mit unserer LedComponent lässt sich der Status der LED kontrollieren. Über PWM kann zusätzlich die Helligkeit der LED eingestellt werden.  <<LED>>
 
 .LED
 [link=https://upload.wikimedia.org/wikipedia/commons/9/9e/Verschiedene_LEDs.jpg]
@@ -636,7 +632,7 @@ include::{sourcedir}/fhnwexamples/component/LcdSystemTimeI2CDevice.java[tags=Lcd
 ----
 
 === Potentiometer
-Ein Potentiometer ist eine Art dynamischer Wiederstand, welcher durch das Drehen oder Verschieben eines Reglers vergrössert oder verkleinert werden kann. Der Grove Potentiometer gibt uns je nach eingestelltem Wiederstand einen Wert zwischen 0 und 1'000 zurück. Mit einem Potentiometer können wir also Werte einstellen, mit welchen wir dann einen Aktuator kontrollieren können. Zum Beispiel könnten wir mit einem Potentiometer die Helligkeit einer Leuchtdiode steuern.
+Ein Potentiometer ist eine Art dynamischer Wiederstand, welcher durch das Drehen oder Verschieben eines Reglers vergrössert oder verkleinert werden kann. Der Grove Potentiometer gibt uns je nach eingestelltem Wiederstand einen Wert zwischen 0 und 1'000 zurück. Mit einem Potentiometer können wir also Werte einstellen, mit welchen wir dann einen Aktuator kontrollieren können. Zum Beispiel könnten wir mit einem Potentiometer die Helligkeit einer Leuchtdiode steuern. <<Potentiometer>>
 
 .Grove Potentiometer
 [link=https://www.seeedstudio.com/Grove-Rotary-Angle-Sensor.html]
@@ -676,7 +672,7 @@ include::{sourcedir}/fhnwexamples/component/PotentiometerDevice.java[tags=Potent
 ----
 
 === Grove RFID Reader
-Der Grove RFID Reader ist ein 125KHz RFID Reader, welches uem4100 RFID Karteninformationen seriell lesen kann. Die maximale Distanz zum Lesen beträgt 70mm. Die RFID Reader benötigt eine Spannung von 5 Volt, weshalb es nicht mit dem Grove Hat kompatibel ist, da dieser nur 3.3 Volt liefert. Es ist jedoch möglich es mit Kabeln direkt an den Pi zu verbinden, wie bei der Grove Serial Camera.
+Der Grove RFID Reader ist ein 125KHz RFID Reader, welches uem4100 RFID Karteninformationen seriell lesen kann. Die maximale Distanz zum Lesen beträgt 70mm. Die RFID Reader benötigt eine Spannung von 5 Volt, weshalb es nicht mit dem Grove Hat kompatibel ist, da dieser nur 3.3 Volt liefert. Es ist jedoch möglich es mit Kabeln direkt an den Pi zu verbinden, wie bei der Grove Serial Camera. <<RfidReader>>
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -712,7 +708,7 @@ include::{sourcedir}/fhnwexamples/component/RFIDReaderDevice.java[tags=RFIDReade
 ----
 
 === Ultrasonic Ranger
-Der Grove Ultrasonic Ranger ist ein Grove Modul, welches an eines der digitalen Adapter des Grove Hats angeschlossen werden kann. Der Ultrasonic Ranger misst die Distanz zwischen dem Sensor und einem Ziel indem die Zeit zwischen der Emission und der Rezeption einer Ultraschallwelle gemessen wird. Es kann Distanzen von bis zu 2m lesen.
+Der Grove Ultrasonic Ranger ist ein Grove Modul, welches an eines der digitalen Adapter des Grove Hats angeschlossen werden kann. Der Ultrasonic Ranger misst die Distanz zwischen dem Sensor und einem Ziel indem die Zeit zwischen der Emission und der Rezeption einer Ultraschallwelle gemessen wird. Es kann Distanzen von bis zu 2m lesen. <<UltrasonicRanger>>
 
 *Formel zur Distanzmessung: 0.5 * T * C* +
 
@@ -757,7 +753,7 @@ include::{sourcedir}/fhnwexamples/component/UltraSonicRangerDevice.java[tags=Ult
 === DC Motor
 Gleichstrommotoren arbeiten, wie der Name schon verrät, mit Gleichstrom. Da der Raspberry Pi Gleichstrom mit 3.3 Volt sowie 5.0 Volt zur Verfügung stellt, können die Motoren direkt an den Stromkreis des Pi angeschlossen werden. Alternativ kann auch eine stärkere, externe Spannungsquelle verwendet werden. Dabei gilt aber zu beachten, dass der Motor nicht überlastet wird.
 
-Um einen DC Motor zu kontrollieren, benötigt man einen Motor Treiber. Wir haben dazu den Chip L293D verwendet. Natürlich kann auch ein anderer Treiber verwendet werden.
+Um einen DC Motor zu kontrollieren, benötigt man einen Motor Treiber. Wir haben dazu den Chip L293D verwendet. Natürlich kann auch ein anderer Treiber verwendet werden. <<DcMotor>>
 
 * Das Pinout des L293D findet ihr unter folgendem Link oder in diesem Dokument unter Zusatzinformationen.: https://components101.com/l293d-pinout-features-datasheet
 * Dieses Youtube Video von Gaven MacDonald zeit auf, wie ein DC Motor über GPIO Pins gesteuert werden kann. Ab der Minute 2 wird genauer auf den Treiber L293D eingegangen. https://www.youtube.com/watch?v=W7cV9_W12sM
@@ -807,7 +803,7 @@ include::{sourcedir}/fhnwexamples/component/MotorDevice.java[tags=MotorDevice]
 ----
 
 === Stepper Motor
-Der Stepper Motor oder Schrittmotor rotiert die in seiner Mitte liegende Welle in Schritten. Die Welle eines Schrittmotors dreht sich im Vergleich zu jener eines Gleichstrommotors sehr langsam. Dafür kann der Schrittmotor sehr genau gesteuert werden. Je nach eingestelltem Modus variiert die Anzahl der Schritte, welche für eine gesamte Drehung benötigt werden. Der Modus beeinflusst auch die Kraft, welcher der Motor hat und hat Zusammenhang mit dem resultierenden Energieverbrauch des Motors.
+Der Stepper Motor oder Schrittmotor rotiert die in seiner Mitte liegende Welle in Schritten. Die Welle eines Schrittmotors dreht sich im Vergleich zu jener eines Gleichstrommotors sehr langsam. Dafür kann der Schrittmotor sehr genau gesteuert werden. Je nach eingestelltem Modus variiert die Anzahl der Schritte, welche für eine gesamte Drehung benötigt werden. Der Modus beeinflusst auch die Kraft, welcher der Motor hat und hat Zusammenhang mit dem resultierenden Energieverbrauch des Motors. <<StepperMotor>>
 
 In der unten abgebildeten Tabelle beziehen wir uns auf den weit verbreiteten Schrittmotor 28BYJ-48. Eine Drehung des Zylinders innerhalb des Motors resultiert in einer Drehung der Welle um 11.25°. Für eine Komplette Drehung werden also 360° / 11.25° = 32 Schritte benötigt. Ein Getriebe innerhalb des Motors reduziert einen einzelnen Schritt in weitere 64 Steps. Unter Verwendung des Full oder Dual Stepping bedeutet ein einzelner Step also eine Drehung um 360° / (32 * 64) = 0.17578125°. Bei Half Stepping verdoppelt sich die Anzahl der möglichen Schritte, was eine Drehgenauigkeit von 0.087890625° zulässt.
 
@@ -869,7 +865,7 @@ include::{sourcedir}/fhnwexamples/component/StepperMotorDevice.java[tags=Stepper
 ----
 
 === Servo Motor
-Mittels Servo Motoren können spezifische Winkelpositionen eingestellt und gehalten werden. Positionen können dabei zügig gewechselt werden. Die meisten Servo Motoren erlauben Winkel zwischen 0 und 180 Grad. Der einzustellende Winkel wird dabei über PWM gesteuert. Genauer gesagt über dessen Pulslänge.
+Mittels Servo Motoren können spezifische Winkelpositionen eingestellt und gehalten werden. Positionen können dabei zügig gewechselt werden. Die meisten Servo Motoren erlauben Winkel zwischen 0 und 180 Grad. Der einzustellende Winkel wird dabei über PWM gesteuert. Genauer gesagt über dessen Pulslänge. <<ServoMotor>>
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -1130,7 +1126,7 @@ include::{sourcedir}/fhnwgpio/components/ButtonComponent.java[tags=ButtonCompone
 ----
 
 === Buzzer
-Damit ein Buzzer einen Ton abspielt, muss ein bestimmtes PWM Signal anliegen. Das Signal versetzt eine Platte im Inneren des Buzzers in Schwingungen. Die daraus entstehenden Schallwellen generieren den Ton, welchen wir hören können.
+Damit ein Buzzer einen Ton abspielt, muss ein bestimmtes PWM Signal anliegen. Das Signal versetzt eine Platte im Inneren des Buzzers in Schwingungen. Die daraus entstehenden Schallwellen generieren den Ton, welchen wir hören können. <<BuzzerBuild>>
 
 Für das Abspielen von Tönen ist eine Exakte Frequenz sehr wichtig. Aus diesem Grund unterstützt unsere Component Klasse nur Hardware PWM Pins des Raspberry Pi.
 
@@ -1212,12 +1208,13 @@ include::{sourcedir}/fhnwgpio/components/I2CLCDComponent.java[tags=LCDDisplayBou
 ----
 
 === Grove RFID Reader
-Dieses Grove-125kHz RFID-Lesegerät ist ein Modul zum Lesen von em4100 RFID-Karteninformationen mit dem Ausgabeformaten Uart. Es hat eine Empfindlichkeit mit maximal 7cm Erfassungsabstand.
+Dieses Grove-125kHz RFID-Lesegerät ist ein Modul zum Lesen von em4100 RFID-Karteninformationen mit dem Ausgabeformaten Uart. Es hat eine Empfindlichkeit mit maximal 7cm Erfassungsabstand. <<RfidReader>>
 
 Der Grove RFID Reader erzeugt ein elektromagnetisches Wechselfeld , dem der RFID-Tag ausgesetzt wird. Die Hochfrequenzenergie versorgt den Chip im RFID-Tag mit Strom und der RFID-Tag kann dann die Daten auf dem Tag an den RFID Reader übertragen.
 
 ==== Kompatibilität mit RFID Tag
 Nicht jeder RFID-Tag ist mit dem Grove RFID Reader kompatibel. Die Daten auf dem Tag müssen dem Standart em4100 entsprechen, damit sie gelesen werden können. Em4100 legt fest, dass sich auf dem Tag 64 Bit Readonly Memory in folgendem Format befinden:
+
 .em4100 Aufbau
 [link=http://www.priority1design.com.au/em4100_protocol.html]
 image::RFID_em4100.PNG[width=75% RFID em4100]
@@ -1240,7 +1237,7 @@ rfidReaderComponent.addListener(event -> {
 ----
 
 === Grove Ultrasonic Ranger
-Dieser Grove Ultrasonic Ranger ist ein berührungsloses Distanzmessmodul, das bei 40KHz arbeitet. Wenn wir ein Impuls-Triggersignal durch den Signal-Pin liefern, gibt der Grove Ultrasonic Ranger 8 Zyklen mit 40kHz Zykluspegel aus und erkennt das Echo. 
+Dieser Grove Ultrasonic Ranger ist ein berührungsloses Distanzmessmodul, das bei 40KHz arbeitet. Wenn wir ein Impuls-Triggersignal durch den Signal-Pin liefern, gibt der Grove Ultrasonic Ranger 8 Zyklen mit 40kHz Zykluspegel aus und erkennt das Echo.  <<UltrasonicRanger>>
 
 Abstand = Echosignal hohe Zeit * Schallgeschwindigkeit (340M/S) / 2. 
 
@@ -1299,7 +1296,7 @@ include::{sourcedir}/fhnwgpio/components/PotentiometerComponent.java[tags=Potent
 Gleichstrommotoren können mittels dem ihnen zur Verfügung gestellten Strom in ihrer Drehrichtung und Drehzahl reguliert werden. Diese Eigenschaft haben wir uns zu Nutzen gemacht, um unsere Component Klasse zu implementieren.
 
 ==== Motor Treiber L293D
-Der Chip erlaubt uns das Anpassen der Drehrichtung von Gleichstrommotoren mit einer Spannungsaufnahme von bis zu 36 Volt. Jede Seite des Chips erlaubt die Kontrolle eines Motors. Mit einem einzelnen L293D können also gleich zwei Motoren individuell angesteuert werden. Die folgende Abbildung zeigt das Pinout des Chips gefolgt von einer Beschreibung der einzelnen Pins.
+Der Chip erlaubt uns das Anpassen der Drehrichtung von Gleichstrommotoren mit einer Spannungsaufnahme von bis zu 36 Volt. Jede Seite des Chips erlaubt die Kontrolle eines Motors. Mit einem einzelnen L293D können also gleich zwei Motoren individuell angesteuert werden. Die folgende Abbildung zeigt das Pinout des Chips gefolgt von einer Beschreibung der einzelnen Pins. <<L293D>>
 
 .Pinout L293D
 [link=https://components101.com/l293d-pinout-features-datasheet]
@@ -1373,7 +1370,7 @@ include::{sourcedir}/fhnwgpio/components/MotorComponent.java[tags=MotorComponent
 ----
 
 === Stepper Motor
-Schrittmotoren bestehen aus mehreren Spulen, welche um die in ihrer Mitte liegenden Welle angeordnet sind. Die Welle wird von einem Zylinder umschlossen, welcher abwechselnd mit positiven und negativen Polen versehen ist. Sobald durch eine Spule Strom fliesst, erzeugt diese ein Magnetfeld, nach welchem sich die Pole im Zylinder der Welle ausrichten. Somit kann die Welle gedreht werden.
+Schrittmotoren bestehen aus mehreren Spulen, welche um die in ihrer Mitte liegenden Welle angeordnet sind. Die Welle wird von einem Zylinder umschlossen, welcher abwechselnd mit positiven und negativen Polen versehen ist. Sobald durch eine Spule Strom fliesst, erzeugt diese ein Magnetfeld, nach welchem sich die Pole im Zylinder der Welle ausrichten. Somit kann die Welle gedreht werden. <<StepperMotor>>
 
 .Stepper Motor unter Single Stepping
 [link=https://commons.wikimedia.org/w/index.php?curid=10011776]
@@ -1384,13 +1381,13 @@ Bei den meisten Schrittmotoren kommt zusätzlich zur Welle noch ein Getriebe zum
 Mit der von uns zur Verfügung gestellten Component Klasse können vier Phasen Schrittmotoren gesteuert werden. Das jeweilige Getriebe hat keinen Einfluss auf die Funktionalität unserer Bibliothek.
 
 ==== Single Stepping
-Beim Single Stepping wird jeweils nur eine Spule im Gehäuse des Motors unter Strom gesetzt. Die Welle des Motors richtet sich also immer genau nach der momentan aktiven Spule aus.
+Beim Single Stepping wird jeweils nur eine Spule im Gehäuse des Motors unter Strom gesetzt. Die Welle des Motors richtet sich also immer genau nach der momentan aktiven Spule aus. <<Stepping>>
 
 .Single Stepping
 [link=https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping]
 image::single_stepping.jpg[width=75% Single Stepping]
 
-Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.
+Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen. <<StepperMotor>>
 
 .Single Stepping
 [cols="1,1,1,1,1"]
@@ -1410,13 +1407,13 @@ include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=Stepper
 ----
 
 ==== Double Stepping
-Unter Verwendung des Double Stepping werden immer zwei Spulen simultan unter Strom gesetzt. Dies führt dazu, dass sich die Welle gemäss dem entstehenden Magnetfeld zwischen den zwei Spulen ausrichtet. Die sich überschneidenden Magnetfelder sind stärker als ein einzelnes Magnetfeld, weshalb der Schrittmotor unter diesem Modus mit grösserer Kraft arbeitet. Da allerdings zwei Spulen gleichzeitig mit Strom beliefert werden müssen, verdoppelt sich der Stromverbrauch im Vergleich zum Single Stepping.
+Unter Verwendung des Double Stepping werden immer zwei Spulen simultan unter Strom gesetzt. Dies führt dazu, dass sich die Welle gemäss dem entstehenden Magnetfeld zwischen den zwei Spulen ausrichtet. Die sich überschneidenden Magnetfelder sind stärker als ein einzelnes Magnetfeld, weshalb der Schrittmotor unter diesem Modus mit grösserer Kraft arbeitet. Da allerdings zwei Spulen gleichzeitig mit Strom beliefert werden müssen, verdoppelt sich der Stromverbrauch im Vergleich zum Single Stepping. <<Stepping>>
 
 .Double Stepping
 [link=https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping]
 image::double_stepping.jpg[width=75% Double Stepping]
 
-Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.
+Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen. <<StepperMotor>>
 
 .Double Stepping
 [cols="1,1,1,1,1"]
@@ -1436,12 +1433,12 @@ include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=Stepper
 ----
 
 ==== Half Stepping
-Im Gegensatz zu den anderen Modi agiert Half Stepping in acht Schritten. Somit kann die Position des Motors genauer bestimmt werden als in den anderen Modi. Half Stepping kombiniert Single Stepping und Dual Stepping. Dies führt dazu, dass der Motor nicht immer gleich viel Kraft hat. Bei jedem zweiten Schritt ist jeweils nur eine Spule aktiv.
+Im Gegensatz zu den anderen Modi agiert Half Stepping in acht Schritten. Somit kann die Position des Motors genauer bestimmt werden als in den anderen Modi. Half Stepping kombiniert Single Stepping und Dual Stepping. Dies führt dazu, dass der Motor nicht immer gleich viel Kraft hat. Bei jedem zweiten Schritt ist jeweils nur eine Spule aktiv. <<Stepping>>
 
 .Half Stepping
 image::half_stepping.jpg[width=75% Half Stepping]
 
-Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen.
+Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen. <<StepperMotor>>
 
 .Half Stepping
 [cols="1,1,1,1,1,1,1,1,1"]
@@ -1499,7 +1496,7 @@ include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=Stepper
 Mit Servo Motoren lassen sich Winkel präzise einstellen und halten. Gängige Servo Motoren erlauben das Einstellen von Winkeln zwischen 0 und 180 Grad. Der Wechsel zwischen einzelnen Positionen erfolgt sehr zügig. Gesteuert wird die Position der Welle über ein PWM Signal. Unsere Klasse unterstützt dabei die Hardware PWM Pins des Raspberry Pi. Software PWM Signale unterstützen wir bewusst nicht. Diese sind meist zu ungenau und sind deshalb nicht für die Steuerung von Servo Motoren geeignet.
 
 ==== Steuerung über PWM
-Die Mehrheit aller Servo Motoren benötigt für dessen Steuerung einen 50 Hertz PWM Puls, was einem Zyklus alle 20 Millisekunden entspricht. Mittels WiringPi können wir die gewünschte Frequenz ziemlich einfach einstellen.
+Die Mehrheit aller Servo Motoren benötigt für dessen Steuerung einen 50 Hertz PWM Puls, was einem Zyklus alle 20 Millisekunden entspricht. Mittels WiringPi können wir die gewünschte Frequenz ziemlich einfach einstellen. <<ServoMotor>>
 
 Der Raspberry Pi Prozessor liefert uns eine Basis-Frequenz von 19.2 MHZ. Diese müssen wir nun auf 50 Hertz reduzierten. Dies erreichen wir über die folgenden Einstellungen.
 
@@ -1544,7 +1541,7 @@ include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMoto
 ----
 
 === Grove Serial Camera
-Die Grove Serial Camera ist eines der komplexeren Devices, welches von unserer Library unterstützt wird. Zur Kommunikation über den Serial Bus wird ein spezielles Protokoll eingesetzt. In den folgenden Unterkapiteln finden Sie weitere Informationen zu jenem Protokoll und unserer Implementation davon.
+Die Grove Serial Camera ist eines der komplexeren Devices, welches von unserer Library unterstützt wird. Zur Kommunikation über den Serial Bus wird ein spezielles Protokoll eingesetzt. In den folgenden Unterkapiteln finden Sie weitere Informationen zu jenem Protokoll und unserer Implementation davon. <<GroveCam>>
 
 ==== Protokoll
 Die Datenübermittlung zwischen Kamera und Pi erfolgt über den Serial Bus und das OV528 Protokoll. Die einzelnen Kommandos umfassen jeweils 6 Bytes, welche zusammen als Paket übermittelt werden. Das nachfolgende Beispiel zeigt das SYNC Kommando, welches jeweils zu Beginn der Kommunikation vom Pi ausgesendet wird. Folgende Bytes werden übermittelt: AA0D00000000h.
@@ -1692,11 +1689,47 @@ include::{sourcedir}/fhnwgpio/components/RaspberryPiCameraComponent.java[tags=Ra
 
 [bibliography]
 == Literaturverzeichnis
-- [[[RaspberryPi1,{counter:bibliography}]]] Raspberry Pi Foundation. What is a Raspberry Pi? In: raspberrypi.org [
+- [[[Log4j,1]]] Apache Logging Services™: Apache Log4j 2: [https://logging.apache.org/log4j/2.x/, 10.08.2020]
+
+- [[[L293D,2]]] components101: L293D Motor Driver IC [https://components101.com/l293d-pinout-features-datasheet, 10.08.2020]
+
+- [[[Stepping,3]]] DesignSpark: Stepper motors and drives, what is full step, half step and microstepping? [https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping, 10.08.2020]
+
+- [[[RaspberryPi2,4]]] Elektronik Kompendium: Raspberry Pi: GPIO - General Purpose Input Output. [https://www.elektronik-kompendium.de/sites/raspberry-pi/2002191.htm; 09.08.2020]
+
+- [[[PullDown,5]]] Elektronik Kompendium: Raspberry Pi: GPIO mit Pullup- oder Pulldown-Widerstand beschalten? [https://www.elektronik-kompendium.de/sites/raspberry-pi/2006051.htm, 10.08.2020]
+
+- [[[DcMotor,6]]] instructables circuits : DC Motor Control With Raspberry Pi and L293D [https://www.instructables.com/id/DC-Motor-Control-With-Raspberry-Pi-and-L293D/, 10.08.2020]
+
+- [[[BuzzerBuild,7]]] ISL Products International Ltd.: DESIGN NOTE: PIEZO BUZZERS VS. MAGNETIC BUZZERS [https://www.islproducts.com/design-notes/piezo-buzzers-vs-magnetic-buzzers/, 10.08.2020]
+
+- [[[GradleInstall,8]]] Linuxize: How to Install Gradle on Debian 9 [https://linuxize.com/post/how-to-install-gradle-on-debian-9/, 10.08.2020]
+
+- [[[JavaInstall,9]]] phoenixNAP: How To Install Java On Raspberry Pi [https://phoenixnap.com/kb/install-java-raspberry-pi, 10.08.2020]
+
+- [[[RasPiWifi,10]]] Raspberry Pi Foundation: Setting up a wireless LAN via the command line [https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md, 10.08.2020]
+
+- [[[RaspberryPi1,11]]] Raspberry Pi Foundation: What is a Raspberry Pi? [
   https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/; 09.08.2020]
 
-- [[[RaspberryPi2,{counter:bibliography}]]] Elektronik Kompendium. Raspberry Pi: GPIO - General Purpose Input Output. In: Elektronik Kompendium
- [https://www.elektronik-kompendium.de/sites/raspberry-pi/2002191.htm; 09.08.2020]
+- [[[RfidReader,12]]] Seed Studio: Grove - 125KHz RFID Reader [https://wiki.seeedstudio.com/Grove-125KHz_RFID_Reader/, 10.08.2020]
 
-- [[[GroveSA,{counter:bibliography}]]] Seed Studio. Grove System. In: Seed Studio Wiki [https://wiki.seeedstudio.com/Grove_System/, 09.08.2020]
+- [[[Potentiometer,13]]] Seed Studio: Grove - Rotary Angle Sensor [https://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/, 10.08.2020]
 
+- [[[UltrasonicRanger,14]]] Seed Studio: Grove - Ultrasonic Ranger [https://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/, 10.08.2020]
+
+- [[[GroveBaseHat,15]]] Seed Studio: Grove Base Hat for Raspberry Pi. [https://wiki.seeedstudio.com/Grove_Base_Hat_for_Raspberry_Pi/, 10.08.2020]
+
+- [[[GroveSA,16]]] Seed Studio: Grove System. [https://wiki.seeedstudio.com/Grove_System/, 09.08.2020]
+
+- [[[GroveCam,17]]] ShenZhen Top Create Electronic Co .，Ltd: CJ - CAM User Manual OV528 Protocol [https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf, 10.08.2020]
+
+- [[[Pi4J,18]]] The Pi4J Project: Welcome to Pi4J! [https://www.pi4j.com/1.2/index.html, 10.08.2020]
+
+- [[[LED,19]]] Wikipedia: Leuchtdiode [https://de.wikipedia.org/wiki/Leuchtdiode, 10.08.2020]
+
+- [[[ServoMotor,20]]] Youtube - Daniel Ross: Java and Raspberry Pi Programming - Servo Control Explained [https://www.youtube.com/watch?v=xw10KuDYu4Q, 10.08.2020]
+
+- [[[StepperMotor,21]]] Youtube - Gaven MacDonald: Stepper Motor Control with the Raspberry Pi [https://www.youtube.com/watch?v=Dc16mKFA7Fo, 10.08.2020]
+
+- [[[Setup, 22]]] Youtube - TechWizTime: Connect to a Raspberry Pi Zero W via USB - No Mini HDMI Cable Needed [https://www.youtube.com/watch?v=xj3MPmJhAPU, 10.08.2020]

@@ -47,7 +47,16 @@ toc::[]
 
 <<<
 :sectnums!:
-== TODO: Einleitung
+== Einleitung
+
+In den IP12 Projekten der FHNW setzen die Studierenden IoT Projekte mit dem Raspberry Pi unter Verwendung der Java Library Pi4J um. Die Studierenden arbeiten in Gruppen von 6 bis 8 Personen. Jeder Gruppe steht die komplette Hardware nur einmal zur Verfügung. Allerdings sind Design und Testing stark von der Hardware abhängig, was immer wieder zu Verzögerungen in der Arbeit der Teams während der Startphase geführt hat.
+
+Das Ziel dieser Arbeit ist es, diese Hardwareabhängigkeit zu Beginn des Projektes und die daraus resultierende Abnahme der effektiven Teamarbeit zu reduzieren.
+
+Zu Beginn sollte das Ziel mit einem Hardware Simulator erreicht werden, welche es ermöglichen sollte, die Hardware mit dem Simulator zu ersetzten und problemlos weiterarbeiten zu können. Ein grosser Teil dieser Arbeit beschäftigt sich mit diesem ursprünglichen Umsetzungsversuch und warum dieser nicht realisiert werden konnte.
+
+Das Projekt entwickelte sich zu einer Java-Library mit einem umfangreichen Tutorial, welche das ursprüngliche Ziel gewinnbringender für die Studierenden zu erreichen vermochte.
+
 :sectnums:
 
 <<<

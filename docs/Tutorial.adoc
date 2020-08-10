@@ -595,6 +595,8 @@ include::{sourcedir}/fhnwexamples/component/BuzzerDevice.java[tags=BuzzerDevice]
 ----
 
 === LCD I2C
+Das LCD Modul besteht aus dem LCD1602 und dem PCF8574 I2C extender Mikrochip auf dem Rücken des LCDs.  Es wird über dem I2C Extender direkt an die I2C Pins des Raspberry Pis angeschlossen und benötigt eine Spannung von 5 Volt. Das Display hat zwei Zeilen und pro Zeile Platz für 16 Zeichen und somit insgesamt Platz für 32 Zeichen.
+
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
@@ -706,7 +708,10 @@ image::./fritzing/grove_rfid_reader.png[width=75% Grove RFID Reader Fritzing]
 |===
 
 ==== Anwendungsbeispiel
-In diesem Code Beispiel wird der Grove RFID Reader getestet. Das serielle Gerät wird initialisiert und ein Listener wird hinzugefügt, der die `dataReceived()` Methode des `SerialDataEventListener` überschreibt. Diese Methode wird immer ausgeführt, wenn der RFID Reader Daten durch einen RFID Tag erhält. +
+In diesem Code Beispiel wird der Grove RFID Reader getestet. Das serielle Gerät wird initialisiert und ein Listener wird hinzugefügt, der die `dataReceived()` Methode des `SerialDataEventListener` überschreibt. Diese Methode wird immer ausgeführt, wenn der RFID Reader Daten durch einen RFID Tag erhält.
+
+*Achtung:* Um Code auszuführen, der auf die seriellen Ports zugreift, muss man es als Superuser ausführen z. B: `sudo java -jar Example.jar`
+
 *Vorkenntnisse: Intermediate*
 [source,java]
 ----
@@ -1207,7 +1212,7 @@ include::{sourcedir}/fhnwgpio/components/BuzzerComponent.java[tags=BuzzerCompone
 ----
 
 === LCD I2C
-Das LCD Modul besteht aus dem LCD1602 I2C und dem PCF8574 I2C extender Mikrochip auf dem Rücken des LCDs. Der I2C Extender vereinfacht die Verkabelung und das Senden von Daten an das LCD-Display, da man ohne I2C Extender 8 GPIO Pins belegen müsste.
+Das LCD Modul besteht aus dem LCD1602 und dem PCF8574 I2C extender Mikrochip auf dem Rücken des LCDs. Der I2C Extender vereinfacht die Verkabelung und das Senden von Daten an das LCD-Display, da man ohne I2C Extender 8 GPIO Pins belegen müsste. In diesem Zusatzteil wird darauf eingegangen, wie die Messages tatsächlich an das LCD geschickt werden.
 
 ==== Befehle für den LCD1602
 Das LCD1602 besitzt den folgenden Befehlssatz:

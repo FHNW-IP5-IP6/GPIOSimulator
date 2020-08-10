@@ -34,7 +34,6 @@ public class UltraSonicRangerComponent {
      */
     public long measureInCentimeter() throws InterruptedException {
         trigger();
-        ComponentLogger.logInfo("UltraSonicRangerComponent:  Measure distance in cm");
         //distance there and back again has to be divided by 2, to get the one way distance
         //and 29 is the constant to get the distance in cm
         return getPulseDifference() / 29 / 2;
@@ -48,7 +47,6 @@ public class UltraSonicRangerComponent {
      */
     public long measureInInches() throws InterruptedException {
         trigger();
-        ComponentLogger.logInfo("UltraSonicRangerComponent:  Measure distance in inches");
         //distance there and back again has to be divided by 2, to get the one way distance
         //and 74 is the constant to get the distance in inches
         return getPulseDifference() / 74 / 2;
@@ -59,7 +57,7 @@ public class UltraSonicRangerComponent {
      */
     private void trigger() throws InterruptedException {
         // tag::UltraSonicRangerTrigger[]
-        ComponentLogger.logInfo("UltraSonicRangerComponent:  Triggered");
+        ComponentLogger.logInfo("UltraSonicRangerComponent:  Trigger to measure distance");
         Gpio.pinMode(pin, Gpio.OUTPUT);
         Gpio.digitalWrite(pin, false);
         Thread.sleep(0, 2000);

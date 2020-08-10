@@ -1,4 +1,5 @@
-:toc: macro
+:title: IP5: GPIOSimoulator
+:toc: left
 :toc-title:
 :toclevels: 5
 :sectnums:
@@ -29,7 +30,6 @@ image::FHNW.png[FHNW,382,59]
 * Herr Dr. Dieter Holz (dieter.holz@fhnw.ch) 
 
 *Datum*: {docdate}
-
 
 <<<
 [discrete]
@@ -433,8 +433,33 @@ Bei den Code Beispielen muss ausserdem darauf geachtet werden, dass sie nicht zu
 
 <<<
 
-== TODO: Projektstrategie: Tutorial
-Beschreiben, wie das Tutorial aufgebaut werden soll und welches Ziel es erreichen soll.
+== Projektstrategie: Tutorial
+Das Ziel des Tutorials soll es sein, die Anlaufstelle für Hilfestellungen bezüglich der meistverwendeten Sensoren und Aktuatoren unter <<Hardware>> zu sein. Zudem sollte genau erklärt werden, wie ein IoT-Projekt in Java eingerichtet wird und wie die  Komponentenklassen als API eingebunden werden.
+
+Um diese Anforderungen zu erfüllen hat das Tutorial den folgenden Aufbau:
+
+* *Allgemeine Beschreibung:* +
+In diesem ersten Teil wird das Ziel des Tutorials und die verwendete Hardware beschrieben. Der Lesende soll verstehen womit in den darauffolgenden Kapiteln gearbeitet wird. Der Raspberry Pi, das Grove System mit den Grove Sensoren und Aktuatoren, sowie die verschiedenen Verbindungsmöglichkeiten der Geräte sollen erklärt sein.
+
+* *Setup des Raspberry Pi:* +
+In diesem Teil wird beschrieben wie der Raspberry Pi aufgesetzt werden kann, um IoT Projekte damit zu realisieren. Es soll ein möglichst benutzerfreundliches Setup für die Entwicklung gefunden werden.
+Die Einrichtung soll detailliert beschrieben werden, da es wahrscheinlich ist, das andere Projekte aufgrund anderer Anforderungen Veränderungen vornehmen müssen. Es soll ersichtlich sein, wie man den Code auf dem Pi ausführen lassen kann und was es dafür braucht, um dies zu tun.
+
+* *Komponentenklassen:* +
+In diesem Teil werden alle Sensoren und Aktuatoren beschrieben, für welche eine Komponentenklasse in Java geschrieben wurde. Jede Komponentenbeschreibung soll folgende Unterpunkte beinhalten:
+** Eine grobe Beschreibung des Geräts, welches kurz auf den Aufbau und die Funktionsweise eingeht
+** Die Verkabelung an dem Breadboard oder direkt an dem Pi soll anhand eines Fritzings oder eines Bildes gezeigt werden.
+** Die Konstruktoren und öffentlichen Methoden der Komponentenklasse sollen in einer API-Tabelle dokumentiert sein
+** Zuletzt soll anhand eines Anwendungsbeispiels gezeigt werden, wie eine solche Komponentenklasse aufgerufen und verwendet werden kann.
+
+* *Beispielprojekt:* +
+In diesem Teil wird ein Beispielprojekt definiert, indem verschiedene Komponenten verwendet werden und zusammenspielen sollen.
+Das Ziel des Beispielprojektes ist es, zu zeigen, wie von Grund auf ein neues Java IoT Projekt aufgesetzt werden kann und wie man in einem solchen Projekt die Komponentenklassen als API einbinden kann.
+
+Das Beispielprojekt zeigt auch, wie das Logging der Komponentenklassen eingesetzt wird und wie ein neues Projekte auf dem Raspberry Pi mit gradle gebaut und ausgeführt wird.
+
+* *Zusatzinformationen:* +
+Dieser Teil dient als Ergänzung zu dem Abschnitt für die Komponentenklassen. In dem vorherigen Abschnitt werden die Komponenten als Blackbox beschrieben und gezeigt wie man die API verwenden kann, aber in diesem Teil wird darauf eingegangen, was im Hintergrund tatsächlich passiert und wie die Komponentenklassen geschrieben sind. Für Studierende welche sich ein tieferes Wissen über die einzelnen Geräte oder den Code dahinter interessieren, bietet dieses Kapitel die Abendlektüre. Wenn es zu Fehlern oder Ergänzungen kommt wird es sich auch lohnen den Zusatzinformationsteil zu durchforsten.
 
 :sectnums!:
 == TODO Schluss

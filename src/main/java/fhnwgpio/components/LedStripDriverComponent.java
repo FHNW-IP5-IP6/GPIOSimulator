@@ -16,7 +16,7 @@ public class LedStripDriverComponent {
     GpioPinDigitalOutput clock;
 
     /**
-     * * Standard constructor of the LED Strip Driver connected to the Pi's GPIO pins
+     * Standard constructor of the LED Strip Driver connected to the Pi's GPIO pins
      *
      * @param data  Data pin
      * @param clock Clock pin

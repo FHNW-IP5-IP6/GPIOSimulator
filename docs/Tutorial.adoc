@@ -47,16 +47,16 @@ Der Hauptteil des Tutorials befasst sich mit verschiedenen Sensoren und Aktoren,
 == Hardware 
 
 === Raspberry Pi
-Der Raspberry Pi ist ein kostengünstiger Computer in Kreditkartengröße. Es ist ein leistungsfähiger kleiner PC, der es Menschen jeden Alters ermöglicht, sich mit Computern auseinanderzusetzen und zu lernen, wie man in Sprachen wie Scratch, Python oder hier in Java programmiert. Es ist in der Lage, alles zu tun, was man von einem Desktop-Computer erwarten würde, vom Surfen im Internet und dem Abspielen von hochauflösenden Videos bis hin zum Erstellen von Tabellenkalkulationen, Textverarbeitung und Spielen<<RaspberryPi1>>.
+Der Raspberry Pi ist ein kostengünstiger Computer in Kreditkartengrösse. Es ist ein leistungsfähiger kleiner PC, der es Menschen jeden Alters ermöglicht, sich mit Computern auseinanderzusetzen und zu lernen, wie man in Sprachen wie Scratch, Python oder Java programmiert. Es ist in der Lage, alles zu tun, was man von einem Desktop-Computer erwarten würde, vom Surfen im Internet und dem Abspielen von HD-Videos bis hin zum Erstellen von Tabellenkalkulationen, Textverarbeitung und Spielen<<RaspberryPi1>>.
 
-Darüber hinaus hat die Raspberry Pi die Fähigkeit, mit der Außenwelt zu interagieren. An den sogenannten GPIO (General Purpose Input Output) Pins kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für IoT-Projekte macht<<RaspberryPi2>>.
+Darüber hinaus hat die Raspberry Pi die Fähigkeit, mit der Aussenwelt zu interagieren. An den sogenannten GPIO (General Purpose Input Output) Pins kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für IoT-Projekte macht<<RaspberryPi2>>.
 
 Der Pi wurde von der britischen Raspberry Pi Foundation entwickelt und hat das Ziel, Bildung im Bereich Computer Hardware, Elektronik und Informatik zu fördern.
 
 === Grove Sensoren & Aktuatoren
 Grove ist ein offenes modulares System, das für den einfachen Anschluss beliebiger Sensoren und Aktuatoren entwickelt wurde. Es gibt Grove Sensoren und Aktuatoren für die verschiedensten Bereiche:  Robotik, Annäherung, Bewegung, Umwelt und Biomedizin.
 
-Grove erleichtert das Anschließen und Experimentieren mit den Geräte. Die Sensoren und Aktuatoren können mittels der Grove Kabel an einen Grove Aufsatz, wie dem Grove Base Hat angeschlossen werden, somit sind keine Jumper oder Lötkolben mehr erforderlich für einfache IoT Projekte <<GroveSA>>.
+Grove erleichtert das Anschliessen und Experimentieren mit den Geräte. Die Sensoren und Aktuatoren können mittels der Grove Kabel an einen Grove Aufsatz, wie dem Grove Base Hat angeschlossen werden, somit sind keine Jumper oder Lötkolben mehr erforderlich für einfache IoT Projekte <<GroveSA>>.
 
 === Grove Base Hat
 Grove Sensoren und Aktuatoren sind beliebt und werden oft in Projekten eingesetzt. Sie verfügen über simple Steckverbindungen, sogenannte Adapter, welche in Kombination mit dem Grove Base Hat eine sichere und fehlerfreie Verbindung mit dem Raspberry Pi garantieren.
@@ -376,12 +376,14 @@ Nun können Sie die Einstellung für das Raspberry Pi im Deployment Fenster ange
 ._Remote Host Server Einstellungen_
 image::./installation/RemoteHost3.png[width=75% remote host server settings]
 
-Jetzt können Sie jederzeit alle Dateien oder einzelne ausgewählte Dateien via Remote Host Menü auf den Raspberry Pi übertragen.
+Wenn man keine besonderen Mappings benötigt und einfach alle Files im angegeben Root-Pfad haben möchte, dann kann man im Mappings Menü unter Deployment Path ein einfaches `/` eingeben und das Mapping hinzufügen.
+
+Jetzt können Sie jederzeit alle Dateien oder einzelne ausgewählte Dateien (z. B nur das Jar-File) via Remote Host Menü auf den Raspberry Pi übertragen.
 
 Auf dem Pi selbst müssen Sie dann nur noch ihr Projekt bauen und ausführen. Währen der Entwicklung geniessen Sie allerdings alle Vorzüge der IDE auf ihrem Rechner.
 
 ._Update Remote Host_
-image::./installation/RemoteHost4.png[width=75% update remote host server]
+image::./installation/RemoteHost4.png[width=60% update remote host server]
 
 === Code mit Gradle bauen
 Nachdem der Code via Remote Deployment auf den Rasbperry Pi gespielt wurde, müssen wir diesen noch kompilieren und als `.jar` ablegen. Dies ist die Aufgabe von Gradle. Für die Ausführung des Gradle Tasks navigieren Sie bitte in den Root Folder ihres Projekts. Dort kann das Projekt dann mit dem folgenden Befehl gebaut werden:
@@ -1019,7 +1021,7 @@ include::{sourcedir}/fhnwexamples/component/RaspberryPiCameraDevice.java[tags=Ra
 ----
 
 == Beispielprojekt
-Dieses Beispielprojekt soll zeigen, wie die Geräte in einem kleinen Projekt zusammenspielen können. 
+Dieses Beispielprojekt soll zeigen, wie man die Komponentenklassen in ein neues Projekt einbindet und wie die Geräte in einem kleinen Projekt zusammenspielen können. 
 
 Das Projekt ist eine Art Photo Booth, also eine Fotobox in der die folgenden Geräte zusammenarbeiten müssen, um ein gutes Foto von einer Person zu machen:
 
@@ -1049,11 +1051,61 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation name: 'GPIOSimulator-0.1'
 }
 ----
 
+=== Logging Informationen der Komponente
+Die Komponentenklassen können Informationen und eventuelle Fehler die auftreten könnten in logs aufzeichnen. Diese logs können im Beispielprojekt gesteuert werden, dafür muss man zunächst log4j2 unter den gradle dependencies hinzufügen im `build.gradle` File:
+
+----
+dependencies {
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.2'
+    ...
+}
+----
+
+Danach wird eine neue Ressource benötigt, welche dann die logs steuert, die Datei `log4j2.xml`. Alle Logs der Komponenten werden unter dem Namen `ComponentLogger` geloggt.
+
+In dieser Beispieldatei werden alle Logs mit dem Level Info in der Console und in einer Logdatei namens _log_ festgehalten:
+
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <File name="File" fileName="log/log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="OFF"></Root>
+        <Logger name="ComponentLogger" level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Logger>
+    </Loggers>
+</Configuration>
+----
+
+Für mehr Informationen über Log4J2 und der Konfigurationsdatei: https://logging.apache.org/log4j/2.x/manual/configuration.html
+
+Wenn jetzt eine Jar-Datei aus dem Projekt erstellt und ausgeführt wird, dann werden alle Komponenten Logs in der Konsole und im Log-File ersichtlich sein.
+
+Um mit gradle ein Jar File erstellen zu können muss man noch folgende Ergänzung im `build.gradle` vornehmen, wie in <<Code mit Gradle bauen>> beschrieben:
+
+----
+jar {
+    manifest {
+        attributes "Main-Class": "Program"
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+----
 
 == Zusatzinformationen
 

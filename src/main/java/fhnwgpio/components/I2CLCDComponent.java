@@ -193,9 +193,9 @@ public class I2CLCDComponent extends I2CBase {
     // end::LCDDisplayBounceText[]
 
     /**
-     * define backlight on / off(lcd.backlight(1) off = lcd.backlight(0)
+     * Sets the backlight on or off
      *
-     * @param state sets the backlight (1 == on, 0 == off)
+     * @param state sets the backlight (true == on, false == off)
      */
     public void setBacklightState(boolean state) {
         ComponentLogger.logInfo("I2CLCDComponent: Set Backlight: " + state);

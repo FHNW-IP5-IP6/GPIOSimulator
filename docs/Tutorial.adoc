@@ -578,7 +578,7 @@ include::{sourcedir}/fhnwexamples/component/BuzzerDevice.java[tags=BuzzerDevice]
 ----
 
 === LCD I2C
-Das LCD Modul besteht aus dem LCD1602 und dem PCF8574 I2C extender Mikrochip auf dem Rücken des LCDs.  Es wird über dem I2C Extender direkt an die I2C Pins des Raspberry Pis angeschlossen und benötigt eine Spannung von 5 Volt. Das Display hat zwei Zeilen und pro Zeile Platz für 16 Zeichen und somit insgesamt Platz für 32 Zeichen.
+Das LCD Modul besteht aus dem LCD1602 und dem PCF8574 I2C extender Mikrochip auf dem Rücken des LCDs.  Es wird über dem I2C Extender direkt an die I2C Pins des Raspberry Pis angeschlossen und benötigt eine Spannung von 5 Volt. Das Display hat zwei Zeilen und pro Zeile Platz für 16 Zeichen und somit insgesamt Platz für 32 Zeichen. Die Helligkeit des Hintergrundes kann mit einem Kreuzschlitzschraubenzieher am Extender angepasst werden.
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -611,7 +611,7 @@ image::./fritzing/LCDI2C.png[width=75% I2C Wiring]
 |void |displayScrollText​(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) |Shows text on display and scrolls it with a delay.
 |void |displayBounceText​(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) |Displays the text and scrolls to the sides, but bounces back. This only works for short texts, otherwise it would be unreadable.
 |void |writeCharacter​(byte charvalue) |Write a character to lcd.
-|void |setBacklightState​(boolean state) |Define backlight on / off(lcd.backlight(1) off = lcd.backlight(0).
+|void |setBacklightState​(boolean state) |Sets the backlight on or off
 |===
 
 ==== Anwendungsbeispiel

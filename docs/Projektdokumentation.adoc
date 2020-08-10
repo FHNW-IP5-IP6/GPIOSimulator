@@ -541,6 +541,7 @@ Während der Umsetzung des Projektes haben wir viele spannende neue Erkenntnisse
 - [[[Pi4J,2]]] The Pi4J Project: Welcome to Pi4J! [https://www.pi4j.com/1.2/index.html, 10.08.2020]
 
 == Ehrlichkeitserklärung
+Die Autoren Anessollah Ima und Jonathan Bättig erkläre hiermit, dass wir die vorliegende Arbeit eigenständig und ohne unerlaubte fremde Hilfe erstellt habe. Alle Textstellen in der Arbeit, die wörtlich oder sinngemäss aus Quellen entnommen wurden, habe wir als solche gekennzeichnet und im Literaturverzeichnis angegeben.
 
 == Anhang
 

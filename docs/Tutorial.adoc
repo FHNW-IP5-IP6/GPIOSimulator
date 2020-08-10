@@ -428,6 +428,46 @@ image::./installation/RemoteDebugging.png[width=75% Remote Debuggging Configurat
 Für  weitere Informationen zum Remote Debugging mit IntelliJ auf dem Raspberry Pi können Sie den folgenden Artikel studieren: + 
 https://medium.com/@menchukanton/setup-intellij-idea-for-remote-debugging-java-code-on-a-raspberry-pi-6e9df09dfb95[Remote debugging java code on a Raspberry Pi]
 
+== Pi4J Basics
+Wie wir im Tutorial bereits erläutert haben, verwenden unsere Component Klassen die Library Pi4J. Eine Vielzahl der von uns zur Verfügung gestellten Konstruktoren benötigen als Input verschiedene Typen von Pi4J GPIO Pins. In diesem Kapitel möchten wir erklären, wie solche Pins via Pi4J angefordert werden können.
+
+=== GPIOProvider
+Zu Beginn eines jeden Pi4J GPIO Projektes muss der gewünschte Standard Provider gesetzt werden. In unseren Beispielen verwenden wir ausschliesslich den `RaspiGpioProvider` mit dem Numbering Schema `RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING`.
+
+[source,java]
+----
+GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
+----
+
+.BCM Pinout
+[link=https://pinout.xyz]
+image::pinout.png[width=75% bcm pinout]
+
+=== GpioController
+Über den `GpioController` können verschiedene Pins vom Raspberry Pi angefordert werden. Der Controller sendet dem System die nötigen Befehle weiter.
+
+[source,java]
+----
+GpioController gpio = GpioFactory.getInstance();
+----
+
+=== Pins anfordern
+Über den zuvor erzeugten `GpioController` können nun die benötigten Pins angefordert werden. In unseren Beispielen und Component Klassen benötigen wir die Pin-Typen
+
+* GpioPinDigitalInput
+* GpioPinDigitalOutput
+* GpioPinPwmOutput (Software & Hardware).
+
+Die verschiedenen Pins können wie folgend vom GpioController angefordert werden:
+
+[source,java]
+----
+GpioPinDigitalInput pin = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_17);
+GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_17);
+GpioPinPwmOutput pwm = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_13);			// Hardware PWM
+GpioPinPwmOutput pwm = gpio.provisionSoftPwmOutputPin(RaspiBcmPin.GPIO_02);		// Software PWM
+----
+
 == Beispiele
 In diesem Kapitel finden Sie für eine Vielzahl an gängigen Sensoren und Aktuatoren Code Beispiele sowie Beispiele zur Verkabelung.
 
@@ -1084,6 +1124,17 @@ jar {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
+----
+
+==== Projektidee
+
+.State Machine
+image::Sample_Project_States.png[width=75% Project State Machine]
+
+==== Programm
+
+[source,java]
+----
 ----
 
 == Zusatzinformationen

@@ -582,6 +582,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_beispielprojekt">6. Beispielprojekt</a>
 <ul class="sectlevel2">
 <li><a href="#_komponenten_klassen_als_library_hinzufügen">6.1. Komponenten Klassen als Library hinzufügen</a></li>
+<li><a href="#_logging_informationen_der_komponente">6.2. Logging Informationen der Komponente</a></li>
 </ul>
 </li>
 <li><a href="#_zusatzinformationen">7. Zusatzinformationen</a>
@@ -740,10 +741,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_raspberry_pi">1.1. Raspberry Pi</h3>
 <div class="paragraph">
-<p>Der Raspberry Pi ist ein kostengünstiger Computer in Kreditkartengröße. Es ist ein leistungsfähiger kleiner PC, der es Menschen jeden Alters ermöglicht, sich mit Computern auseinanderzusetzen und zu lernen, wie man in Sprachen wie Scratch, Python oder hier in Java programmiert. Es ist in der Lage, alles zu tun, was man von einem Desktop-Computer erwarten würde, vom Surfen im Internet und dem Abspielen von hochauflösenden Videos bis hin zum Erstellen von Tabellenkalkulationen, Textverarbeitung und Spielen. <a href="#RaspberryPi1">[11]</a></p>
+<p>Der Raspberry Pi ist ein kostengünstiger Computer in Kreditkartengrösse. Es ist ein leistungsfähiger kleiner PC, der es Menschen jeden Alters ermöglicht, sich mit Computern auseinanderzusetzen und zu lernen, wie man in Sprachen wie Scratch, Python oder Java programmiert. Es ist in der Lage, alles zu tun, was man von einem Desktop-Computer erwarten würde, vom Surfen im Internet und dem Abspielen von HD-Videos bis hin zum Erstellen von Tabellenkalkulationen, Textverarbeitung und Spielen. <a href="#RaspberryPi1">[11]</a></p>
 </div>
 <div class="paragraph">
-<p>Darüber hinaus hat die Raspberry Pi die Fähigkeit, mit der Außenwelt zu interagieren. An den sogenannten GPIO (General Purpose Input Output) Pins kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für IoT-Projekte macht. <a href="#RaspberryPi2">[4]</a></p>
+<p>Darüber hinaus hat die Raspberry Pi die Fähigkeit, mit der Aussenwelt zu interagieren. An den sogenannten GPIO (General Purpose Input Output) Pins kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für IoT-Projekte macht. <a href="#RaspberryPi2">[4]</a></p>
 </div>
 <div class="paragraph">
 <p>Der Pi wurde von der britischen Raspberry Pi Foundation entwickelt und hat das Ziel, Bildung im Bereich Computer Hardware, Elektronik und Informatik zu fördern.</p>
@@ -755,7 +756,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Grove ist ein offenes modulares System, das für den einfachen Anschluss beliebiger Sensoren und Aktuatoren entwickelt wurde. Es gibt Grove Sensoren und Aktuatoren für die verschiedensten Bereiche:  Robotik, Annäherung, Bewegung, Umwelt und Biomedizin.</p>
 </div>
 <div class="paragraph">
-<p>Grove erleichtert das Anschließen und Experimentieren mit den Geräte. Die Sensoren und Aktuatoren können mittels der Grove Kabel an einen Grove Aufsatz, wie dem Grove Base Hat angeschlossen werden, somit sind keine Jumper oder Lötkolben mehr erforderlich für einfache IoT Projekte. <a href="#GroveSA">[16]</a></p>
+<p>Grove erleichtert das Anschliessen und Experimentieren mit den Geräte. Die Sensoren und Aktuatoren können mittels der Grove Kabel an einen Grove Aufsatz, wie dem Grove Base Hat angeschlossen werden, somit sind keine Jumper oder Lötkolben mehr erforderlich für einfache IoT Projekte. <a href="#GroveSA">[16]</a></p>
 </div>
 </div>
 <div class="sect2">
@@ -1397,14 +1398,17 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="title">Figure 17. <em>Remote Host Server Einstellungen</em></div>
 </div>
 <div class="paragraph">
-<p>Jetzt können Sie jederzeit alle Dateien oder einzelne ausgewählte Dateien via Remote Host Menü auf den Raspberry Pi übertragen.</p>
+<p>Wenn man keine besonderen Mappings benötigt und einfach alle Files im angegeben Root-Pfad haben möchte, dann kann man im Mappings Menü unter Deployment Path ein einfaches <code>/</code> eingeben und das Mapping hinzufügen.</p>
+</div>
+<div class="paragraph">
+<p>Jetzt können Sie jederzeit alle Dateien oder einzelne ausgewählte Dateien (z. B nur das Jar-File) via Remote Host Menü auf den Raspberry Pi übertragen.</p>
 </div>
 <div class="paragraph">
 <p>Auf dem Pi selbst müssen Sie dann nur noch ihr Projekt bauen und ausführen. Währen der Entwicklung geniessen Sie allerdings alle Vorzüge der IDE auf ihrem Rechner.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./assets/images/installation/RemoteHost4.png" alt="RemoteHost4" width="75% update remote host server">
+<img src="./assets/images/installation/RemoteHost4.png" alt="RemoteHost4" width="60% update remote host server">
 </div>
 <div class="title">Figure 18. <em>Update Remote Host</em></div>
 </div>
@@ -1498,65 +1502,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <h2 id="_beispiele">5. Beispiele</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In diesem Kapitel finden Sie für eine Vielzahl an gängigen Sensoren und Aktuatoren Code Beispiele sowie Beispiele zur Verkabelung. Für ein vollständiges Verständnis der Code Beispiele sind gewisse Vorkenntnisse von Nöten. Wir haben die Beispiele deshalb in Levels eingeteilt, an welchen Sie den Grad an nötigen Vorkenntnissen einfach erkennen können.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Level 1: Basic</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Variablen und Berechnungen: primitive Datentypen, Wertebereiche und deren Auswirkung beim Rechnen.</p>
-</li>
-<li>
-<p>Methoden und Parameter: Deklaration, Aufruf, Signatur, Argumente und Rückgabewerte.</p>
-</li>
-<li>
-<p>Kontrollstrukturen: Schleifen und Fallunterscheidungen.</p>
-</li>
-<li>
-<p>Grundlagen Klassen, Objekte und Vererbung: Deklaration und Instanziierung von Klassen, Überladen und Überschreiben von Methoden, Vererbung, Polymorphie.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Level 2: Intermediate</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Verwendung grundlegender Datenstrukturen (List, Map, Set) und Iteratoren.</p>
-</li>
-<li>
-<p>Generics und ihre Besonderheiten in Java.</p>
-</li>
-<li>
-<p>Event Handling.</p>
-</li>
-<li>
-<p>Collection-Streams und Lambda-Ausdrücke.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Level 3: Advanced</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Nebenläufigkeit mit Threads.</p>
-</li>
-<li>
-<p>Strukturierung von Applikationen.</p>
-</li>
-<li>
-<p>Daten-Persistenz (File-Handling, Serialisierung).</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
+<p>In diesem Kapitel finden Sie für eine Vielzahl an gängigen Sensoren und Aktuatoren Code Beispiele sowie Beispiele zur Verkabelung.</p>
 </div>
 <div class="sect2">
 <h3 id="_led">5.1. LED</h3>
@@ -1847,6 +1793,9 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="paragraph">
 <p>Die Hilfsklasse <code>Notes</code> stellt eine Vielzahl von Tönen über mehrere Oktaven zur Verfügung. Jedes Enum Attribut verfügt über einen Integer, welcher der Frequenz des Tons entspricht.</p>
 </div>
+<div class="paragraph">
+<p><strong>Achtung:</strong> Unsere Buzzer Komponente manipuliert die PWM Grundfrequenz des Raspberry Pi beim Abspielen von Tönen sehr stark. Der Buzzer kann deshalb nicht zusammen mit anderen PWM Devices verwendet werden. Ist dies für ein Projekt nötig, muss auf einen externen PWM Generator zugegriffen werden.</p>
+</div>
 <div class="imageblock">
 <div class="content">
 <a class="image" href="https://www.geekering.com/wp-content/uploads/2020/01/buzzer_passivo.jpg"><img src="./assets/images/buzzer.jpg" alt="buzzer" width="30% Buzzer"></a>
@@ -1981,6 +1930,9 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </div>
 <div class="sect2">
 <h3 id="_lcd_i2c">5.4. LCD I2C</h3>
+<div class="paragraph">
+<p>Das LCD Modul besteht aus dem LCD1602 und dem PCF8574 I2C extender Mikrochip auf dem Rücken des LCDs.  Es wird über dem I2C Extender direkt an die I2C Pins des Raspberry Pis angeschlossen und benötigt eine Spannung von 5 Volt. Das Display hat zwei Zeilen und pro Zeile Platz für 16 Zeichen und somit insgesamt Platz für 32 Zeichen.</p>
+</div>
 <div class="sect3">
 <h4 id="_verkabelung_4">5.4.1. Verkabelung</h4>
 <div class="paragraph">
@@ -2090,8 +2042,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="sect3">
 <h4 id="_anwendungsbeispiel_4">5.4.3. Anwendungsbeispiel</h4>
 <div class="paragraph">
-<p>In diesem Code Beispiel wird der Titel des Projekts in der ersten Zeile angezeigt und die Uhrzeit in der Zweiten. Die Uhrzeit wird im Sekundentakt aktualisiert.<br>
-<strong>Vorkenntnisse: Basic</strong></p>
+<p>In diesem Code Beispiel wird der Titel des Projekts in der ersten Zeile angezeigt und die Uhrzeit in der Zweiten. Die Uhrzeit wird im Sekundentakt aktualisiert.<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2285,8 +2236,10 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="sect3">
 <h4 id="_anwendungsbeispiel_6">5.6.3. Anwendungsbeispiel</h4>
 <div class="paragraph">
-<p>In diesem Code Beispiel wird der Grove RFID Reader getestet. Das serielle Gerät wird initialisiert und ein Listener wird hinzugefügt, der die <code>dataReceived()</code> Methode des <code>SerialDataEventListener</code> überschreibt. Diese Methode wird immer ausgeführt, wenn der RFID Reader Daten durch einen RFID Tag erhält.<br>
-<strong>Vorkenntnisse: Intermediate</strong></p>
+<p>In diesem Code Beispiel wird der Grove RFID Reader getestet. Das serielle Gerät wird initialisiert und ein Listener wird hinzugefügt, der die <code>dataReceived()</code> Methode des <code>SerialDataEventListener</code> überschreibt. Diese Methode wird immer ausgeführt, wenn der RFID Reader Daten durch einen RFID Tag erhält.</p>
+</div>
+<div class="paragraph">
+<p><strong>Achtung:</strong> Um Code auszuführen, der auf die seriellen Ports zugreift, muss man es als Superuser ausführen z. B: <code>sudo java -jar Example.jar</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3165,8 +3118,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="sect3">
 <h4 id="_anwendungsbeispiel_12">5.12.3. Anwendungsbeispiel</h4>
 <div class="paragraph">
-<p>In diesem Code Beispiel wird die Raspberry Pi Camera mit der <code>RaspberryPiCameraComponent</code> verwendet, um zwei Bilder und ein Video aufzunehmen in den Ordner <code>/home/pi/Pictures/</code>. <br>
-<strong>Vorkenntnisse: Intermediate</strong></p>
+<p>In diesem Code Beispiel wird die Raspberry Pi Camera mit der <code>RaspberryPiCameraComponent</code> verwendet, um zwei Bilder und ein Video aufzunehmen in den Ordner <code>/home/pi/Pictures/</code>. <br></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3210,7 +3162,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <h2 id="_beispielprojekt">6. Beispielprojekt</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Dieses Beispielprojekt soll zeigen, wie die Geräte in einem kleinen Projekt zusammenspielen können.</p>
+<p>Dieses Beispielprojekt soll zeigen, wie man die Komponentenklassen in ein neues Projekt einbindet und wie die Geräte in einem kleinen Projekt zusammenspielen können.</p>
 </div>
 <div class="paragraph">
 <p>Das Projekt ist eine Art Photo Booth, also eine Fotobox in der die folgenden Geräte zusammenarbeiten müssen, um ein gutes Foto von einer Person zu machen:</p>
@@ -3264,8 +3216,70 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation name: 'GPIOSimulator-0.1'
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_logging_informationen_der_komponente">6.2. Logging Informationen der Komponente</h3>
+<div class="paragraph">
+<p>Die Komponentenklassen können Informationen und eventuelle Fehler die auftreten könnten in logs aufzeichnen. Diese logs können im Beispielprojekt gesteuert werden, dafür muss man zunächst log4j2 unter den gradle dependencies hinzufügen im <code>build.gradle</code> File:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>dependencies {
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.2'
+    ...
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Danach wird eine neue Ressource benötigt, welche dann die logs steuert, die Datei <code>log4j2.xml</code>. Alle Logs der Komponenten werden unter dem Namen <code>ComponentLogger</code> geloggt.</p>
+</div>
+<div class="paragraph">
+<p>In dieser Beispieldatei werden alle Logs mit dem Level Info in der Console und in einer Logdatei namens <em>log</em> festgehalten:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Configuration&gt;
+    &lt;Appenders&gt;
+        &lt;Console name="Console" target="SYSTEM_OUT"&gt;
+            &lt;PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/&gt;
+        &lt;/Console&gt;
+        &lt;File name="File" fileName="log/log"&gt;
+            &lt;PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/&gt;
+        &lt;/File&gt;
+    &lt;/Appenders&gt;
+    &lt;Loggers&gt;
+        &lt;Root level="OFF"&gt;&lt;/Root&gt;
+        &lt;Logger name="ComponentLogger" level="INFO"&gt;
+            &lt;AppenderRef ref="Console"/&gt;
+            &lt;AppenderRef ref="File"/&gt;
+        &lt;/Logger&gt;
+    &lt;/Loggers&gt;
+&lt;/Configuration&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Für mehr Informationen über Log4J2 und der Konfigurationsdatei: <a href="https://logging.apache.org/log4j/2.x/manual/configuration.html" class="bare">https://logging.apache.org/log4j/2.x/manual/configuration.html</a></p>
+</div>
+<div class="paragraph">
+<p>Wenn jetzt eine Jar-Datei aus dem Projekt erstellt und ausgeführt wird, dann werden alle Komponenten Logs in der Konsole und im Log-File ersichtlich sein.</p>
+</div>
+<div class="paragraph">
+<p>Um mit gradle ein Jar File erstellen zu können muss man noch folgende Ergänzung im <code>build.gradle</code> vornehmen, wie in <a href="#_code_mit_gradle_bauen">Code mit Gradle bauen</a> beschrieben:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>jar {
+    manifest {
+        attributes "Main-Class": "Program"
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }</pre>
 </div>
 </div>
@@ -3483,7 +3497,7 @@ dependencies {
 <div class="sect2">
 <h3 id="_lcd_i2c_2">7.4. LCD I2C</h3>
 <div class="paragraph">
-<p>Das LCD Modul besteht aus dem LCD1602 I2C und dem PCF8574 I2C extender Mikrochip auf dem Rücken des LCDs. Der I2C Extender vereinfacht die Verkabelung und das Senden von Daten an das LCD-Display, da man ohne I2C Extender 8 GPIO Pins belegen müsste.</p>
+<p>Das LCD Modul besteht aus dem LCD1602 und dem PCF8574 I2C extender Mikrochip auf dem Rücken des LCDs. Der I2C Extender vereinfacht die Verkabelung und das Senden von Daten an das LCD-Display, da man ohne I2C Extender 8 GPIO Pins belegen müsste. In diesem Zusatzteil wird darauf eingegangen, wie die Messages tatsächlich an das LCD geschickt werden.</p>
 </div>
 <div class="sect3">
 <h4 id="_befehle_für_den_lcd1602">7.4.1. Befehle für den LCD1602</h4>
@@ -5062,7 +5076,7 @@ RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-10 13:23:46 +0200
+Last updated 2020-08-10 13:45:38 +0200
 </div>
 </div>
 </body>

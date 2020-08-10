@@ -433,22 +433,7 @@ Für  weitere Informationen zum Remote Debugging mit IntelliJ auf dem Raspberry 
 https://medium.com/@menchukanton/setup-intellij-idea-for-remote-debugging-java-code-on-a-raspberry-pi-6e9df09dfb95[Remote debugging java code on a Raspberry Pi]
 
 == Beispiele
-In diesem Kapitel finden Sie für eine Vielzahl an gängigen Sensoren und Aktuatoren Code Beispiele sowie Beispiele zur Verkabelung. Für ein vollständiges Verständnis der Code Beispiele sind gewisse Vorkenntnisse von Nöten. Wir haben die Beispiele deshalb in Levels eingeteilt, an welchen Sie den Grad an nötigen Vorkenntnissen einfach erkennen können.
-
-* *Level 1: Basic*
-    ** Variablen und Berechnungen: primitive Datentypen, Wertebereiche und deren Auswirkung beim Rechnen.
-    ** Methoden und Parameter: Deklaration, Aufruf, Signatur, Argumente und Rückgabewerte.
-    ** Kontrollstrukturen: Schleifen und Fallunterscheidungen.
-    ** Grundlagen Klassen, Objekte und Vererbung: Deklaration und Instanziierung von Klassen, Überladen und Überschreiben von Methoden, Vererbung, Polymorphie.
-* *Level 2: Intermediate*
-    ** Verwendung grundlegender Datenstrukturen (List, Map, Set) und Iteratoren.
-    ** Generics und ihre Besonderheiten in Java.
-    ** Event Handling.
-    ** Collection-Streams und Lambda-Ausdrücke.
-* *Level 3: Advanced*
-    ** Nebenläufigkeit mit Threads.
-    ** Strukturierung von Applikationen.
-    ** Daten-Persistenz (File-Handling, Serialisierung).
+In diesem Kapitel finden Sie für eine Vielzahl an gängigen Sensoren und Aktuatoren Code Beispiele sowie Beispiele zur Verkabelung.
 
 === LED
 Leuchtdioden emmitieren Licht, sofern Strom duch sie fliesst. Wie bei allen Dioden lassen LEDs nur eine Flussrichtiung zu. Mit unserer LedComponent lässt sich der Status der LED kontrollieren. Über PWM kann zusätzlich die Helligkeit der LED eingestellt werden.  <<LED>>
@@ -547,6 +532,8 @@ Ein Buzzer ist eine Art primitiver Speaker. Er wandelt ein elektrisches Signal i
 
 Die Hilfsklasse `Notes` stellt eine Vielzahl von Tönen über mehrere Oktaven zur Verfügung. Jedes Enum Attribut verfügt über einen Integer, welcher der Frequenz des Tons entspricht.
 
+*Achtung:* Unsere Buzzer Komponente manipuliert die PWM Grundfrequenz des Raspberry Pi beim Abspielen von Tönen sehr stark. Der Buzzer kann deshalb nicht zusammen mit anderen PWM Devices verwendet werden. Ist dies für ein Projekt nötig, muss auf einen externen PWM Generator zugegriffen werden.
+
 .Buzzer
 [link=https://www.geekering.com/wp-content/uploads/2020/01/buzzer_passivo.jpg]
 image::./buzzer.jpg[width=30% Buzzer]
@@ -629,7 +616,6 @@ image::./fritzing/LCDI2C.png[width=75% I2C Wiring]
 
 ==== Anwendungsbeispiel
 In diesem Code Beispiel wird der Titel des Projekts in der ersten Zeile angezeigt und die Uhrzeit in der Zweiten. Die Uhrzeit wird im Sekundentakt aktualisiert. +
-*Vorkenntnisse: Basic*
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/component/LcdSystemTimeI2CDevice.java[tags=LcdSystemTimeI2CDevice]
@@ -708,7 +694,6 @@ In diesem Code Beispiel wird der Grove RFID Reader getestet. Das serielle Gerät
 
 *Achtung:* Um Code auszuführen, der auf die seriellen Ports zugreift, muss man es als Superuser ausführen z. B: `sudo java -jar Example.jar`
 
-*Vorkenntnisse: Intermediate*
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/component/RFIDReaderDevice.java[tags=RFIDReaderDevice]
@@ -1013,7 +998,6 @@ image::./fritzing/raspiCam.png[width=60% RaspiCam Wiring]
 
 ==== Anwendungsbeispiel
 In diesem Code Beispiel wird die Raspberry Pi Camera mit der `RaspberryPiCameraComponent` verwendet, um zwei Bilder und ein Video aufzunehmen in den Ordner `/home/pi/Pictures/`.  +
-*Vorkenntnisse: Intermediate*
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/component/RaspberryPiCameraDevice.java[tags=RaspberryPiCameraDevice]

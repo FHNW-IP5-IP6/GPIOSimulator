@@ -8,7 +8,7 @@ import fhnwgpio.grove.GroveAdapter;
 
 /**
  * Example for LedStripDriverComponent usage. This example changes the led strips colour from red to green to blue
- * in a while loop. Every colour stays for one second. This example only Works with the Grove LED Strip Driver.
+ * in a while loop. Every colour stays for five second. This example only works with the Grove LED Strip Driver.
  * Driver: https://www.seeedstudio.com/Grove-LED-Strip-Driver.html
  */
 public class LedStripDriverDevice extends Example {
@@ -29,18 +29,19 @@ public class LedStripDriverDevice extends Example {
             while (console.isRunning()) {
                 ledStrip.start();
                 ledStrip.setColor(255, 0, 0);
+                console.println("red");
                 ledStrip.stop();
-                Thread.sleep(1000);
-
+                Thread.sleep(5000);
                 ledStrip.start();
                 ledStrip.setColor(0, 255, 0);
+                console.println("green");
                 ledStrip.stop();
-                Thread.sleep(1000);
-
+                Thread.sleep(5000);
                 ledStrip.start();
                 ledStrip.setColor(0, 0, 255);
+                console.println("blue");
                 ledStrip.stop();
-                Thread.sleep(1000);
+                Thread.sleep(5000);
             }
         } catch (Exception e) {
             console.println(e.getMessage());

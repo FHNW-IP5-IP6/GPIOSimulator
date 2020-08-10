@@ -1,3 +1,4 @@
+:title: FHNW Pi4J Tutorial
 :toc: left
 :toc-title:
 :toclevels: 5
@@ -474,19 +475,19 @@ image::./fritzing/blink_led.png[width=75% LED Wiring]
 .LED - Konstruktoren
 [cols="1,1"]
 |===
-|Konstruktor |Beschreibung
-|LedComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput pin) |Constructor for directly controlling digital LEDs without PWM.
-|LedComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pwmPin) |Constructor for controlling LEDs connected to pins with hard- or software PWM. This constructor allows controlling the brightness of the LED.
-|LedComponent(com.pi4j.util.Console console, GroveAdapter adapter) |Constructor for controlling Grove LEDs.
+|*Konstruktor* |*Beschreibung*
+|LedComponent(com.pi4j.io.gpio.GpioPinDigitalOutput pin) |Constructor for directly controlling digital LEDs without PWM.
+|LedComponent(com.pi4j.io.gpio.GpioPinPwmOutput pwmPin) |Constructor for controlling LEDs connected to pins with hard- or software PWM. This constructor allows controlling the brightness of the LED.
+|LedComponent(GroveAdapter adapter) |Constructor for controlling Grove LEDs.
 |===
 
 .LED - Funktionen
 [cols="1,2,2"]
 |===
-|Rückgabetyp |Funktion |Beschreibung
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
 |void |setBrightness(int brightness) |Set the brightness of a LED through PWM. Method may only be used if a PWM pin is provided.
-|void |turnOff() |Turns the LED off. If a PWM pin was provided in the constructor, the brightness is set to 0%.
-|void |turnOn() |Turns the LED on. If a PWM pin was provided in the constructor, the brightness is set to 100%.
+|void |turnLedOff() |Turns the LED off. If a PWM pin was provided in the constructor, the brightness is set to 0%.
+|void |turnLedOn() |Turns the LED on. If a PWM pin was provided in the constructor, the brightness is set to 100%.
 |===
 
 ==== Anwendungsbeispiel
@@ -521,7 +522,7 @@ image::./fritzing/button_click.png[width=75% Button Wiring]
 .Button - Konstruktoren
 [cols="1,1"]
 |===
-|Konstruktor |Beschreibung
+|*Konstruktor* |*Beschreibung*
 |ButtonComponent(com.pi4j.io.gpio.GpioPinDigitalInput pin) |Constructor for GPIO pins without value reversion.
 |ButtonComponent(com.pi4j.io.gpio.GpioPinDigitalInput pin, boolean reverse) |Constructor for GPIO pins. User can set if the buttons value should be reversed.
 |ButtonComponent(GroveAdapter adapter) |Constructor for digital grove devices without value reversion.
@@ -531,7 +532,7 @@ image::./fritzing/button_click.png[width=75% Button Wiring]
 .Button - Funktionen
 [cols="1,2,2"]
 |===
-|Rückgabetyp |Funktion |Beschreibung
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
 |boolean |isPressed() |Returns if the button is pressed.
 |boolean |isReleased() |Returns if the button is released.
 |void |	setReverse(boolean reverse) |This function allows the user to change the buttons behaviour.
@@ -567,19 +568,19 @@ image::./fritzing/buzzer.png[width=50% Buzzer Fritzing]
 .Buzzer - Konstruktoren
 [cols="1,1"]
 |===
-|Konstruktor |Beschreibung
-|BuzzerComponent(com.pi4j.io.gpio.GpioPinPwmOutput pin) |Constructor for GPIO buzzer usage
-|BuzzerComponent(GroveAdapter groveAdapter) |Constructor for Grove buzzer usage
+|*Konstruktor* |*Beschreibung*
+|BuzzerComponent(com.pi4j.io.gpio.GpioPinPwmOutput pin) |Constructor for GPIO buzzer usage.
+|BuzzerComponent(GroveAdapter groveAdapter) |Constructor for Grove buzzer usage.
 |===
 
 .Buzzer - Funktionen
 [cols="1,2,2"]
 |===
-|Rückgabetyp |Funktion |Beschreibung
-|void |playTone(int frequency) |Plays a tone with a specific frequency
-|void |playTone(int frequency, int duration) |Plays a tone at a frequency for a specified duration in milliseconds
-|void |stop() |Pauses forever
-|void |stop(int duration) |Pauses for a specified amount of milliseconds
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|void |playTone(int frequency) |Plays a tone with a specific frequency.
+|void |playTone(int frequency, int duration) |Plays a tone at a frequency for a specified duration in milliseconds.
+|void |stop() |Pauses forever.
+|void |stop(int duration) |Pauses for a specified amount of milliseconds.
 |===
 
 
@@ -607,25 +608,25 @@ image::./fritzing/LCDI2C.png[width=75% I2C Wiring]
 .I2C LCD - Konstruktoren
 [cols="1,1"]
 |===
-|Konstruktor |Beschreibung
-|I2CLCDComponent(int address, int busNumber) |Standard Constructor that needs address and the busnumber to initialise
+|*Konstruktor* |*Beschreibung*
+|I2CLCDComponent(int address, int busNumber) |Standard Constructor that needs address and the busnumber to initialise.
 |I2CLCDComponent(com.pi4j.io.i2c.I2CDevice device)	
-|Constructor that needs I2C information in the pi4j I2CDevice object
+|Constructor that needs I2C information in the pi4j I2CDevice object.
 |===
 
 .I2C LCD - Funktionen
 [cols="1,2,2"]
 |===
-|Rückgabetyp |Funktion |Beschreibung
-|void |init() |sends initialisation commands to display
-|void |clearText() |clears the lcd text
-|void |displayText​(String text) |displays a text on the first line of the display.
-|void |displayText​(String text, int line) |writes string to the lcd display on a specific line.
-|void |displayText​(String text, int line, int pos, boolean jumpToNextLine) |displays the string with an additional position.
-|void |displayScrollText​(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) |shows text on display and scrolls it with a delay
-|void |displayBounceText​(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) |displays the text and scrolls to the sides, but bounces back.
-|void |writeCharacter​(byte charvalue) |write a character to lcd
-|void |setBacklightState​(boolean state) |define backlight on / off(lcd.backlight(1) off = lcd.backlight(0)
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|void |init() |Sends initialisation commands to display.
+|void |clearText() |Clears the lcd text.
+|void |displayText​(String text) |Displays a text on the first line of the display. If it's larger than 16 characters then it will jump over to the second line. The excess characters (greater than 32) are not shown on the display.
+|void |displayText​(String text, int line) |Writes string to the lcd display on a specific line. Excess characters (greater than 16) are not shown on the line.
+|void |displayText​(String text, int line, int pos, boolean jumpToNextLine) |Displays the string with an additional position. There are 16 fields on one LCD1602 line. The position gives the number of fields that should be empty before the text. Excess characters (greater than 16-position) on the line will not be shown.
+|void |displayScrollText​(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) |Shows text on display and scrolls it with a delay.
+|void |displayBounceText​(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) |Displays the text and scrolls to the sides, but bounces back. This only works for short texts, otherwise it would be unreadable.
+|void |writeCharacter​(byte charvalue) |Write a character to lcd.
+|void |setBacklightState​(boolean state) |Define backlight on / off(lcd.backlight(1) off = lcd.backlight(0).
 |===
 
 ==== Anwendungsbeispiel
@@ -656,16 +657,16 @@ image::./fritzing/Grove_Base_Hat_Rotary_Angel_Sensor.jpg[width=75% Grove Rotary 
 .Potentiometer - Konstruktoren
 [cols="1,1"]
 |===
-|Konstruktor |Beschreibung
+|*Konstruktor* |*Beschreibung*
 |PotentiometerComponent(GroveAdapter groveAdapter) |Constructor of the PotentiometerComponent with Grove adapter.
 |===
 
 .Potentiometer - Funktionen
 [cols="1,2,2"]
 |===
-|Rückgabetyp |Funktion |Beschreibung
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
 |int |getValue() |Get the current value from the potentiometer.
-|void |setRange(int minValue, int maxValue) |Set the value returned by getValue() to a specific range. The difference between minValue and MaxValue must be between 10 and 999.
+|void |Set the value returned by getValue() to a specific range. The difference between minValue and MaxValue must be between 9 and 1001.
 |===
 
 ==== Anwendungsbeispiel
@@ -693,15 +694,15 @@ image::./fritzing/grove_rfid_reader.png[width=75% Grove RFID Reader Fritzing]
 .RFID Reader - Konstruktoren
 [cols="1,1"]
 |===
-|Konstruktor |Beschreibung
-|RFIDReaderComponent​() |Standard constructor of the RFID Reader
+|*Konstruktor* |*Beschreibung*
+|RFIDReaderComponent​() |Standard constructor of the RFID Reader.
 |===
 
 .RFID - Funktionen
 [cols="1,2,2"]
 |===
-|Rückgabetyp |Funktion |Beschreibung
-|void |addListener​(com.pi4j.io.serial.SerialDataEventListener... listener) |Adds Listeners for when the device receives data
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|void |addListener​(com.pi4j.io.serial.SerialDataEventListener... listener) |Adds Listeners for when the device receives data.
 |===
 
 ==== Anwendungsbeispiel
@@ -736,17 +737,16 @@ image::./Grove_Ultrasonic_Ranger.jpg[width=75% RaspiCam Wiring]
 .Ultrasonic Ranger - Konstruktoren
 [cols="1,1"]
 |===
-|Konstruktor |Beschreibung
-|UltraSonicRangerComponent​(GroveAdapter groveAdapter) |Standard Constructor for the Ultra Sonic Ranger that only needs grove hat connection information
-
+|*Konstruktor* |*Beschreibung*
+|UltraSonicRangerComponent​(GroveAdapter groveAdapter) |Standard Constructor for the Ultra Sonic Ranger that only needs grove hat connection information.
 |===
 
 .Ultrasonic Ranger - Funktionen
 [cols="1,2,2"]
 |===
-|Rückgabetyp |Funktion |Beschreibung
-|long |measureInCentimeter() |Measures the distance between the device and an object in cm
-|long |measureInInches() |Measures the distance between the device and an object in inches
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|long |measureInCentimeter() |Measures the distance between the device and an object in cm.
+|long |measureInInches() |Measures the distance between the device and an object in inches.
 |===
 
 ==== Anwendungsbeispiel
@@ -782,15 +782,15 @@ image::./fritzing/motor.png[width=75% DC Motor Fritzing]
 .Motor - Konstruktoren
 [cols="1,1"]
 |===
-|Konstruktor |Beschreibung
-|MotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput forwards, com.pi4j.io.gpio.GpioPinDigitalOutput backwards) | Constructor of the MotorComponent. This constructor allows controlling the motors direction using digital output pins.
-|MotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput forwards, com.pi4j.io.gpio.GpioPinPwmOutput backwards) | Constructor of the MotorComponent. This constructor allows controlling the motors direction and speed using hardware or software PWM output pins.
+|*Konstruktor* |*Beschreibung*
+|MotorComponent(com.pi4j.io.gpio.GpioPinDigitalOutput forwards, com.pi4j.io.gpio.GpioPinDigitalOutput backwards) |Constructor of the MotorComponent. This constructor allows controlling the motors direction using digital output pins.
+|MotorComponent(com.pi4j.io.gpio.GpioPinPwmOutput forwards, com.pi4j.io.gpio.GpioPinPwmOutput backwards) |Constructor of the MotorComponent. This constructor allows controlling the motors direction and speed using hardware or software pwm output pins.
 |===
 
 .Motor - Funktionen
 [cols="1,2,2"]
 |===
-|Rückgabetyp |Funktion |Beschreibung
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
 |void |moveBackwards() | Runs the motor run backwards at full speed.
 |void |moveBackwards(int power) |Runs the motor backwards at a specific speed.
 |void |moveForwards() |Runs the motor run forwards at full speed.
@@ -842,18 +842,18 @@ image::./fritzing/stepper_motor.png[width=75% RaspiCam Wiring]
 .Stepper Motor - Konstruktoren
 [cols="1,1"]
 |===
-|Konstruktor |Beschreibung
-|StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4) |Constructor which uses the default value of 2 milliseconds for the step delay and the default stepper motor mode 'SINGLE_STEP'.
-|StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay) |Constructor which uses the default value 'SINGLE_STEP' for the stepper motor mode.
-|StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay, StepperMotorMode mode) |Constructor which allows to specify all the different Parameters.
-|StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, StepperMotorMode mode) |Constructor which uses the default value of 2 milliseconds for the step delay.
+|*Konstruktor* |*Beschreibung*
+|StepperMotorComponent(com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4) |Constructor which uses the default value of 2 milliseconds for the step delay and the default stepper motor mode 'SINGLE_STEP'.
+|StepperMotorComponent(com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay) |Constructor which uses the default value 'SINGLE_STEP' for the stepper motor mode.
+|StepperMotorComponent(com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay, StepperMotorMode mode) |Constructor which allows to specify all the different Parameters.
+|StepperMotorComponent(com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, StepperMotorMode mode) |Constructor which uses the default value of 2 milliseconds for the step delay.
 |===
 
 .Stepper Motor - Funktionen
 [cols="1,2,2"]
 |===
-|Rückgabetyp |Funktion |Beschreibung
-|StepperMotorMode |getMode() |
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|StepperMotorMode |getMode() |Getter of the stepper motor mode value.
 |int |getStepDelay() |Getter of the step delay value.
 |void |	setMode(StepperMotorMode mode) |Setter of the stepper motor mode value.
 |void |setStepDelay(int stepDelay) |Setter of the step delay value.
@@ -886,21 +886,21 @@ image::./fritzing/servo_motor.png[width=75% Servo Motor Fritzing]
 .Servo Motor - Konstruktoren
 [cols="1,1"]
 |===
-|Konstruktor |Beschreibung
-|ServoMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pin) |Constructor with default value for pulseMin = 500, pulseMax = 2400 and maxDegrees = 180.
-|ServoMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pin, int pulseMin, int pulseMax) |Constructor with default value for maxDegrees of 180 degrees.
-|ServoMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pin, int pulseMin, int pulseMax, int maxDegrees) |Constructor with all possible values.
+|*Konstruktor* |*Beschreibung*
+|ServoMotorComponent(com.pi4j.io.gpio.GpioPinPwmOutput pin) |Constructor with default value for pulseMin = 500, pulseMax = 2400 and maxDegrees = 180. This constructor can be used for most micro and mini servo motors.
+|ServoMotorComponent(com.pi4j.io.gpio.GpioPinPwmOutput pin, int pulseMin, int pulseMax) |Constructor with default value for maxDegrees of 180 degrees.
+|ServoMotorComponent(com.pi4j.io.gpio.GpioPinPwmOutput pin, int pulseMin, int pulseMax, int maxDegrees) |Constructor with all possible values.
 |===
 
 .Servo Motor - Funktionen
 [cols="1,2,2"]
 |===
-|Rückgabetyp |Funktion |Beschreibung
-|void |setCenter() |Sets the servo to its center position
-|void |setMax() |Sets the servo to its maximal position
-|void |setMin() |Sets the servo to its minimal position
-|void |setPosition(int pulse) |Sets the servo position to a specific pulse high time in microseconds
-|void |setPositionDegrees(int degree) |Sets the servo position to a desired angle in degrees
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|void |setCenter() |Sets the servo to its center position.
+|void |setMax() |Sets the servo to its maximal position.
+|void |setMin() |Sets the servo to its minimal position.
+|void |setPosition(int pulse) |Sets the servo position to a specific pulse high time in microseconds.
+|void |setPositionDegrees(int degree) |Sets the servo position to a desired angle in degrees.
 |===
 
 ==== Anwendungsbeispiel
@@ -933,20 +933,18 @@ image::./fritzing/grove_serial_cam.png[width=75% Grove Serial Camera Fritzing]
 .Serial Camera - Konstruktoren
 [cols="1,1"]
 |===
-|Konstruktor |Beschreibung
-|SerialCameraComponent(com.pi4j.util.Console console) |Constructor of the SerialCameraComponent without logging and a default package size of 512 bytes.
-|SerialCameraComponent(com.pi4j.util.Console console, boolean activateLogging) |Constructor of the SerialCameraComponent with a default package size of 512 bytes.
-|SerialCameraComponent(com.pi4j.util.Console console, int packageSize) |Constructor of the SerialCameraComponent without logging.
-|SerialCameraComponent(com.pi4j.util.Console console, int packageSize, boolean activateLogging) |Constructor of the SerialCameraComponent.
+|*Konstruktor* |*Beschreibung*
+|SerialCameraComponent(int packageSize) |Constructor of the SerialCameraComponent. Configures the default serial port of the Raspberry Pi.
+|SerialCameraComponent() |Constructor of the SerialCameraComponent with a default package size of 512 bytes. Configures the default serial port of the Raspberry Pi.
 |===
 
 .Serial Camera - Funktionen
 [cols="1,2,2"]
 |===
-|Rückgabetyp |Funktion |Beschreibung
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
 |byte[] |getImageAsJpgBytes() |This method request a jpg image of the camera and returns it as a byte array.
-|java.lang.String |saveImageAsJpg(java.lang.String fileName) | Requests a jpg image from the camera and streams it to a file.
-|java.lang.String |saveImageAsJpg(java.lang.String relativePath, java.lang.String fileName) |Requests a jpg image from the camera and streams it to a file.
+|java.lang.String |saveImageAsJpg(java.lang.String fileName) |Requests a jpg image from the camera and streams it to a file. The file name will be extended with a time stamp and the .jpg file extension.
+|java.lang.String |saveImageAsJpg(java.lang.String relativePath, java.lang.String fileName) |Requests a jpg image from the camera and streams it to a file. The file name will be extended with a time stamp and the .jpg file extension.
 |===
 
 ==== Anwendungsbeispiel
@@ -995,21 +993,21 @@ image::./fritzing/raspiCam.png[width=60% RaspiCam Wiring]
 .Raspberry Pi Camera - Konstruktoren
 [cols="1,1"]
 |===
-|Konstruktor |Beschreibung
-|RaspberryPiCameraComponent​(uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration) |Constructor for only using the picture functionality
-|RaspberryPiCameraComponent​(fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration) |Constructor for only using the video functionality
-|RaspberryPiCameraComponent​(uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration, fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration) |Constructor for using the picture and video functionality
+|*Konstruktor* |*Beschreibung*
+|RaspberryPiCameraComponent​(uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration) |Constructor for only using the picture functionality.
+|RaspberryPiCameraComponent​(fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration) |Constructor for only using the video functionality.
+|RaspberryPiCameraComponent​(uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration, fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration) |Constructor for using the picture and video functionality.
 |===
 
 .Raspberry Pi Camera - Funktionen
 [cols="1,2,2"]
 |===
-|Rückgabetyp |Funktion |Beschreibung
-|void |takeStill() |takes picture and saves it to the default Pictures folder
-|void |takeStill​(String outputPath) |Takes picture and saves it to the specified outputPath
-|void |takeStill​(String outputPath, int delay) | Takes a picture using the picam library and saves it to the specified output after a delay
-|void |takeVid​(java.lang.String outputPath) |Takes a video with the configuration and saves it to the output path
-|CameraConfiguration |createCameraConfiguration() |The picam library has a private constructor and therefore needs this method
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|void |takeStill() |Takes picture and saves it to the default Pictures folder.
+|void |takeStill​(String outputPath) |Takes picture and saves it to the specified outputPath.
+|void |takeStill​(String outputPath, int delay) | Takes a picture using the picam library and saves it to the specified output after a delay.
+|void |takeVid​(java.lang.String outputPath) |Takes a video with the configuration and saves it to the output path.
+|CameraConfiguration |createCameraConfiguration() |The picam library has a private constructor and therefore needs this method.
 |===
 
 ==== Anwendungsbeispiel
@@ -1362,7 +1360,7 @@ image::L293D_Pinout.png[width=75% L293D Pinout]
 .Beschreibung Pinout
 [cols="1,2,4"]
 |===
-|Pin Nummer |Pin Name |Beschreibung
+|*Pin Nummer* |*Pin Name* |*Beschreibung*
 |1 |Enable 1, 2 |Aktiviert Input 1 und 2 wenn 5V Spannung anliegt.
 |2 |Input 1 |Kontrolliert Output 1. Muss mit einem Controller verbunden werden.
 |3 |Output 1 |Wird mit dem Motor 1 verbunden.

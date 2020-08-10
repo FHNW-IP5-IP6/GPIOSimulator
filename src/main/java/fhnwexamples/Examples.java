@@ -2,7 +2,6 @@ package fhnwexamples;
 
 import fhnwexamples.component.*;
 import fhnwexamples.gpio.*;
-import fhnwexamples.gpio.LcdSystemTimeI2C;
 import fhnwexamples.gpio.SerialCamera;
 
 import java.util.ArrayList;
@@ -99,35 +98,32 @@ public class Examples {
         gpioExamples.add(new BlinkLed(1, "Blink LED Test"));
         gpioExamples.add(new ButtonClick(2, "Button Click Test"));
         gpioExamples.add(new LcdSystemTime(3, "LCD System Time Test"));
-        gpioExamples.add(new LcdSystemTimeI2C(4, "I2C LCD System Time Test"));
-        gpioExamples.add(new MotorDirection(5, "Motor Direction Test"));
-        gpioExamples.add(new MotorSpeedSoftPwm(6, "Motor Speed Software PWM Test"));
-        gpioExamples.add(new MotorSpeedHardPwm(7, "Motor Speed Hardware PWM Test"));
-        gpioExamples.add(new ServoMotor(8, "Servo Motor Test"));
-        gpioExamples.add(new StepperMotor(9, "Stepper Motor Test"));
-        gpioExamples.add(new KeyPad(10, "Key Pad Test"));
-        gpioExamples.add(new SerialCamera(11, "Serial Camera Test"));
+        gpioExamples.add(new MotorDirection(4, "Motor Direction Test"));
+        gpioExamples.add(new MotorSpeedSoftPwm(5, "Motor Speed Software PWM Test"));
+        gpioExamples.add(new MotorSpeedHardPwm(6, "Motor Speed Hardware PWM Test"));
+        gpioExamples.add(new ServoMotor(7, "Servo Motor Test"));
+        gpioExamples.add(new StepperMotor(8, "Stepper Motor Test"));
+        gpioExamples.add(new KeyPad(9, "Key Pad Test"));
+        gpioExamples.add(new SerialCamera(10, "Serial Camera Test"));
     }
 
     /**
      * initializes the component fhnwexamples
      */
     private static void initializeDeviceExamples() {
-        deviceExamples.add(new BlinkLedDevice(1, "Blink LED Test"));
-        deviceExamples.add(new ButtonClickDevice(2, "Button Click Test using pi4j-device"));
-        deviceExamples.add(new LcdSystemTimeI2C(3, "LCD System Time I2C Test"));
-        deviceExamples.add(new SerialCamera(4, "grove Serial Camera example"));
+        deviceExamples.add(new LedDevice(1, "Led example"));
+        deviceExamples.add(new ButtonDevice(2, "Button example"));
+        deviceExamples.add(new BuzzerDevice(3, "Buzzer example"));
+        deviceExamples.add(new LcdSystemTimeI2CDevice(4, "LCD System Time I2C example"));
         deviceExamples.add(new PotentiometerDevice(5, "Potentiometer example"));
-        deviceExamples.add(new RaspberryPiCameraDevice(6, "Raspberry Pi Camera example"));
-        deviceExamples.add(new BuzzerDevice(7, "Buzzer example"));
-        deviceExamples.add(new MotorDevice(8, "Motor example"));
+        deviceExamples.add(new RFIDReaderDevice(6, "RFID Reader example"));
+        deviceExamples.add(new UltraSonicRangerDevice(7, "Ultra Sonic Ranger example"));
+        deviceExamples.add(new MotorDevice(8, "DC Motor example"));
         deviceExamples.add(new StepperMotorDevice(9, "Stepper Motor example"));
-        deviceExamples.add(new RFIDReaderDevice(10, "RFID Reader example"));
-        deviceExamples.add(new ServoMotorDevice(11, "Servo Motor example"));
-        deviceExamples.add(new LedStripDriverDevice(12, "LED Strip Driver example"));
-        deviceExamples.add(new UltraSonicRangerDevice(13, "Ultra Sonic Ranger example"));
-        deviceExamples.add(new LedDevice(14, "Led example"));
-        deviceExamples.add(new ButtonDevice(15, "Button example"));
+        deviceExamples.add(new ServoMotorDevice(10, "Servo Motor example"));
+        deviceExamples.add(new SerialCamera(11, "Grove Serial Camera example"));
+        deviceExamples.add(new RaspberryPiCameraDevice(12, "Raspberry Pi Camera example"));
+        deviceExamples.add(new LedStripDriverDevice(13, "LED Strip Driver example"));
     }
 
     /**

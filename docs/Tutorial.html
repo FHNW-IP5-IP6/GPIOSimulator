@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Einleitung</title>
+<title>FHNW Pi4J Tutorial</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -579,7 +579,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
-<li><a href="#_beispielprojekt">6. Beispielprojekt</a></li>
+<li><a href="#_beispielprojekt">6. Beispielprojekt</a>
+<ul class="sectlevel2">
+<li><a href="#_komponenten_klassen_als_library_hinzufügen">6.1. Komponenten Klassen als Library hinzufügen</a></li>
+</ul>
+</li>
 <li><a href="#_zusatzinformationen">7. Zusatzinformationen</a>
 <ul class="sectlevel2">
 <li><a href="#_led_2">7.1. LED</a>
@@ -669,7 +673,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
-<li><a href="#_todo_literaturverzeichnis">8. TODO: Literaturverzeichnis</a></li>
+<li><a href="#_literaturverzeichnis">Literaturverzeichnis</a></li>
 </ul>
 </div>
 </div>
@@ -713,7 +717,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </div>
 <div class="paragraph">
-<p><strong>Datum</strong>: 2020-08-09</p>
+<p><strong>Datum</strong>: 2020-08-10</p>
 </div>
 <div style="page-break-after: always;"></div>
 <!-- toc disabled -->
@@ -736,17 +740,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_raspberry_pi">1.1. Raspberry Pi</h3>
 <div class="paragraph">
-<p>Der Raspberry Pi ist ein kostengünstiger Computer in Kreditkartengröße. Es ist ein leistungsfähiger kleiner PC, der es Menschen jeden Alters ermöglicht, sich mit Computern auseinanderzusetzen und zu lernen, wie man in Sprachen wie Scratch, Python oder hier in Java programmiert. Es ist in der Lage, alles zu tun, was man von einem Desktop-Computer erwarten würde, vom Surfen im Internet und dem Abspielen von hochauflösenden Videos bis hin zum Erstellen von Tabellenkalkulationen, Textverarbeitung und Spielen.</p>
+<p>Der Raspberry Pi ist ein kostengünstiger Computer in Kreditkartengröße. Es ist ein leistungsfähiger kleiner PC, der es Menschen jeden Alters ermöglicht, sich mit Computern auseinanderzusetzen und zu lernen, wie man in Sprachen wie Scratch, Python oder hier in Java programmiert. Es ist in der Lage, alles zu tun, was man von einem Desktop-Computer erwarten würde, vom Surfen im Internet und dem Abspielen von hochauflösenden Videos bis hin zum Erstellen von Tabellenkalkulationen, Textverarbeitung und Spielen<a href="#RaspberryPi1">[{counter:bibliography}]</a>.</p>
 </div>
 <div class="paragraph">
-<p>Darüber hinaus hat die Raspberry Pi die Fähigkeit, mit der Außenwelt zu interagieren. An den sogenannten GPIO (General Purpose Input Output) Pins kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für IoT-Projekte macht.</p>
+<p>Darüber hinaus hat die Raspberry Pi die Fähigkeit, mit der Außenwelt zu interagieren. An den sogenannten GPIO (General Purpose Input Output) Pins kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für IoT-Projekte macht<a href="#RaspberryPi2">[{counter:bibliography}]</a>.</p>
 </div>
 <div class="paragraph">
 <p>Der Pi wurde von der britischen Raspberry Pi Foundation entwickelt und hat das Ziel, Bildung im Bereich Computer Hardware, Elektronik und Informatik zu fördern.</p>
-</div>
-<div class="paragraph">
-<p>source: <a href="https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/">RaspberryPi.org</a>
-        <a href="https://www.elektronik-kompendium.de/sites/raspberry-pi/2002191.htm">Elektronik-Kompendium</a></p>
 </div>
 </div>
 <div class="sect2">
@@ -755,10 +755,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Grove ist ein offenes modulares System, das für den einfachen Anschluss beliebiger Sensoren und Aktuatoren entwickelt wurde. Es gibt Grove Sensoren und Aktuatoren für die verschiedensten Bereiche:  Robotik, Annäherung, Bewegung, Umwelt und Biomedizin.</p>
 </div>
 <div class="paragraph">
-<p>Grove erleichtert das Anschließen und Experimentieren mit den Geräte. Die Sensoren und Aktuatoren können mittels der Grove Kabel an einen Grove Aufsatz, wie dem Grove Base Hat angeschlossen werden, somit sind keine Jumper oder Lötkolben mehr erforderlich für einfache IoT Projekte.</p>
-</div>
-<div class="paragraph">
-<p>src: <a href="https://www.seeedstudio.com/category/Sensor-for-Grove-c-24.html" class="bare">https://www.seeedstudio.com/category/Sensor-for-Grove-c-24.html</a> [Grove Sensors and actuators]</p>
+<p>Grove erleichtert das Anschließen und Experimentieren mit den Geräte. Die Sensoren und Aktuatoren können mittels der Grove Kabel an einen Grove Aufsatz, wie dem Grove Base Hat angeschlossen werden, somit sind keine Jumper oder Lötkolben mehr erforderlich für einfache IoT Projekte <a href="#GroveSA">[{counter:bibliography}]</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -768,7 +765,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./assets/images/Grove_Base_Hat.png" alt="500" width="500" height="Grove Base Hat">
+<a class="image" href="https://wiki.seeedstudio.com/Grove_Base_Hat_for_Raspberry_Pi/"><img src="./assets/images/Grove_Base_Hat.png" alt="500" width="500" height="Grove Base Hat"></a>
 </div>
 <div class="title">Figure 1. Grove Base Hat</div>
 </div>
@@ -987,7 +984,7 @@ potentiometer.getValue()</code></pre>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./assets/images/installation/balenaDownload.png" alt="balenaDownload" width="75% balenaEtcher Download">
+<img src="./assets/images/installation/balenaDownload.png" alt="balenaDownload" width="60% balenaEtcher Download">
 </div>
 <div class="title">Figure 4. <em>balenaEtcher Download</em></div>
 </div>
@@ -1613,19 +1610,19 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Konstruktor</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">LedComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput pin)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LedComponent(com.pi4j.io.gpio.GpioPinDigitalOutput pin)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for directly controlling digital LEDs without PWM.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">LedComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pwmPin)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LedComponent(com.pi4j.io.gpio.GpioPinPwmOutput pwmPin)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for controlling LEDs connected to pins with hard- or software PWM. This constructor allows controlling the brightness of the LED.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">LedComponent(com.pi4j.util.Console console, GroveAdapter adapter)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LedComponent(GroveAdapter adapter)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for controlling Grove LEDs.</p></td>
 </tr>
 </tbody>
@@ -1639,9 +1636,9 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Rückgabetyp</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Funktion</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
@@ -1650,12 +1647,12 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">turnOff()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">turnLedOff()</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Turns the LED off. If a PWM pin was provided in the constructor, the brightness is set to 0%.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">turnOn()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">turnLedOn()</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Turns the LED on. If a PWM pin was provided in the constructor, the brightness is set to 100%.</p></td>
 </tr>
 </tbody>
@@ -1673,9 +1670,10 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
         final GpioController gpio = GpioFactory.getInstance();
 
         Console console = new Console();
+        console.promptForExit();
 
         GpioPinPwmOutput pwmPin = gpio.provisionSoftPwmOutputPin(RaspiBcmPin.GPIO_02);
-        LedComponent led = new LedComponent(console, pwmPin);
+        LedComponent led = new LedComponent(pwmPin);
 
         while (console.isRunning()) {
             led.turnLedOff();
@@ -1757,24 +1755,24 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Konstruktor</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ButtonComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalInput pin)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ButtonComponent(com.pi4j.io.gpio.GpioPinDigitalInput pin)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for GPIO pins without value reversion.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ButtonComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalInput pin, boolean reverse)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for GPIO pins.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ButtonComponent(com.pi4j.io.gpio.GpioPinDigitalInput pin, boolean reverse)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for GPIO pins. User can set if the buttons value should be reversed.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ButtonComponent(com.pi4j.util.Console console, GroveAdapter adapter)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ButtonComponent(GroveAdapter adapter)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for digital grove devices without value reversion.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ButtonComponent(com.pi4j.util.Console console, GroveAdapter adapter, boolean reverse)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for digital grove devices.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ButtonComponent(GroveAdapter adapter, boolean reverse)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for digital grove devices. User can set if the buttons value should be reversed.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1787,9 +1785,9 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Rückgabetyp</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Funktion</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
@@ -1821,9 +1819,10 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
         final GpioController gpio = GpioFactory.getInstance();
 
         Console console = new Console();
+        console.promptForExit();
 
         GpioPinDigitalInput pin = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_17);
-        ButtonComponent button = new ButtonComponent(console, pin);
+        ButtonComponent button = new ButtonComponent(pin);
 
         boolean lastStatePressed = false;
 
@@ -1856,7 +1855,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./assets/images/buzzer.jpg" alt="buzzer" width="30% Buzzer">
+<a class="image" href="https://www.geekering.com/wp-content/uploads/2020/01/buzzer_passivo.jpg"><img src="./assets/images/buzzer.jpg" alt="buzzer" width="30% Buzzer"></a>
 </div>
 <div class="title">Figure 25. Buzzer</div>
 </div>
@@ -1892,16 +1891,16 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Konstruktor</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">BuzzerComponent(com.pi4j.io.gpio.GpioPinPwmOutput pin)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for GPIO buzzer usage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for GPIO buzzer usage.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">BuzzerComponent(GroveAdapter groveAdapter)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for Grove buzzer usage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for Grove buzzer usage.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1914,29 +1913,29 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Rückgabetyp</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Funktion</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">playTone(int frequency)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Plays a tone with a specific frequency</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Plays a tone with a specific frequency.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">playTone(int frequency, int duration)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Plays a tone at a frequency for a specified duration in milliseconds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Plays a tone at a frequency for a specified duration in milliseconds.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">stop()</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Pauses forever</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pauses forever.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">stop(int duration)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Pauses for a specified amount of milliseconds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pauses for a specified amount of milliseconds.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2020,16 +2019,16 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Konstruktor</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">I2CLCD​(int address, int busNumber)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Standard Constructor that needs address and the busnumber to initialise</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I2CLCDComponent(int address, int busNumber)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Standard Constructor that needs address and the busnumber to initialise.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">I2CLCD​(com.pi4j.io.i2c.I2CDevice device)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor that needs I2C information in the pi4j I2CDevice object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I2CLCDComponent(com.pi4j.io.i2c.I2CDevice device)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor that needs I2C information in the pi4j I2CDevice object.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2042,54 +2041,54 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Rückgabetyp</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Funktion</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">init()</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">sends initialisation commands to display</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sends initialisation commands to display.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">clearText()</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">clears the lcd text</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clears the lcd text.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">displayText​(String text)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">displays a text on the first line of the display.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Displays a text on the first line of the display. If it&#8217;s larger than 16 characters then it will jump over to the second line. The excess characters (greater than 32) are not shown on the display.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">displayText​(String text, int line)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">writes string to the lcd display on a specific line.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Writes string to the lcd display on a specific line. Excess characters (greater than 16) are not shown on the line.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">displayText​(String text, int line, int pos, boolean jumpToNextLine)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">displays the string with an additional position.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Displays the string with an additional position. There are 16 fields on one LCD1602 line. The position gives the number of fields that should be empty before the text. Excess characters (greater than 16-position) on the line will not be shown.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">displayScrollText​(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">shows text on display and scrolls it with a delay</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Shows text on display and scrolls it with a delay.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">displayBounceText​(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">displays the text and scrolls to the sides, but bounces back.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Displays the text and scrolls to the sides, but bounces back. This only works for short texts, otherwise it would be unreadable.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">writeCharacter​(byte charvalue)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">write a character to lcd</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write a character to lcd.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">setBacklightState​(boolean state)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">define backlight on / off(lcd.backlight(1) off = lcd.backlight(0)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Define backlight on / off(lcd.backlight(1) off = lcd.backlight(0).</p></td>
 </tr>
 </tbody>
 </table>
@@ -2107,7 +2106,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
         try {
             //find the address and the bus with the following command on the pi
             //sudo i2cdetect -y 1
-            I2CLCD lcd = new I2CLCD(0x27, I2CBus.BUS_1);
+            I2CLCDComponent lcd = new I2CLCDComponent(0x27, I2CBus.BUS_1);
             lcd.init();
 
             Scanner scanner = new Scanner(System.in);
@@ -2136,7 +2135,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./assets/images/Grove_Rotary_Angle_Sensor.jpg" alt="Grove Rotary Angle Sensor" width="75% Grove Rotary Angle Sensor">
+<a class="image" href="https://www.seeedstudio.com/Grove-Rotary-Angle-Sensor.html"><img src="./assets/images/Grove_Rotary_Angle_Sensor.jpg" alt="Grove Rotary Angle Sensor" width="75% Grove Rotary Angle Sensor"></a>
 </div>
 <div class="title">Figure 28. Grove Potentiometer</div>
 </div>
@@ -2154,7 +2153,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./assets/images/fritzing/Grove_Base_Hat_Rotary_Angel_Sensor.jpg" alt="Grove Base Hat Rotary Angel Sensor" width="75% Grove Rotary Angle Sensor Fritzing">
+<a class="image" href="https://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/"><img src="./assets/images/fritzing/Grove_Base_Hat_Rotary_Angel_Sensor.jpg" alt="Grove Base Hat Rotary Angel Sensor" width="75% Grove Rotary Angle Sensor Fritzing"></a>
 </div>
 <div class="title">Figure 29. Grove Potentiometer Verkabelung</div>
 </div>
@@ -2169,8 +2168,8 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Konstruktor</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PotentiometerComponent(GroveAdapter groveAdapter)</p></td>
@@ -2187,19 +2186,14 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Rückgabetyp</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Funktion</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">getValue()</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Get the current value from the potentiometer.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">setRange(int minValue, int maxValue)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set the value returned by getValue() to a specific range. The difference between minValue and MaxValue must be between 10 and 999.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2264,12 +2258,12 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Konstruktor</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RFIDReaderComponent​(com.pi4j.util.Console console)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor of the RFID Reader</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RFIDReaderComponent​()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Standard constructor of the RFID Reader.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2282,14 +2276,14 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Rückgabetyp</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Funktion</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">addListener​(com.pi4j.io.serial.SerialDataEventListener&#8230;&#8203; listener)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Adds Listeners for when the device receives data</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adds Listeners for when the device receives data.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2302,7 +2296,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">        RFIDReaderComponent rfidReaderComponent = new RFIDReaderComponent(console);
+<pre class="highlight"><code class="language-java" data-lang="java">        RFIDReaderComponent rfidReaderComponent = new RFIDReaderComponent();
         // create and register the serial data listener
         rfidReaderComponent.addListener(new SerialDataEventListener() {
             @Override
@@ -2358,7 +2352,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./assets/images/Grove_Ultrasonic_Ranger.jpg" alt="Grove Ultrasonic Ranger" width="75% RaspiCam Wiring">
+<a class="image" href="https://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/"><img src="./assets/images/Grove_Ultrasonic_Ranger.jpg" alt="Grove Ultrasonic Ranger" width="75% RaspiCam Wiring"></a>
 </div>
 <div class="title">Figure 31. Ultrasonic Ranger Verkabelung</div>
 </div>
@@ -2373,12 +2367,12 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Konstruktor</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">UltraSonicRangerComponent​(GroveAdapter groveAdapter)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Standard Constructor for the Ultra Sonic Ranger that only needs grove hat connection information</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Standard Constructor for the Ultra Sonic Ranger that only needs grove hat connection information.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2391,19 +2385,19 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Rückgabetyp</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Funktion</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">measureInCentimeter()</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Measures the distance between the device and an object in cm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Measures the distance between the device and an object in cm.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">measureInInches()</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Measures the distance between the device and an object in inches</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Measures the distance between the device and an object in inches.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2447,7 +2441,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./assets/images/motor_and_driver.png" alt="motor and driver" width="75% DC Motor and Driver">
+<a class="image" href="https://elektro.turanis.de/html/prj147/index.html"><img src="./assets/images/motor_and_driver.png" alt="motor and driver" width="75% DC Motor and Driver"></a>
 </div>
 <div class="title">Figure 32. Motor und Treiber</div>
 </div>
@@ -2486,16 +2480,16 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Konstruktor</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput forwards, com.pi4j.io.gpio.GpioPinDigitalOutput backwards)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MotorComponent(com.pi4j.io.gpio.GpioPinDigitalOutput forwards, com.pi4j.io.gpio.GpioPinDigitalOutput backwards)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Constructor of the MotorComponent. This constructor allows controlling the motors direction using digital output pins.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput forwards, com.pi4j.io.gpio.GpioPinPwmOutput backwards)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor of the MotorComponent. This constructor allows controlling the motors direction and speed using hardware or software PWM output pins.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MotorComponent(com.pi4j.io.gpio.GpioPinPwmOutput forwards, com.pi4j.io.gpio.GpioPinPwmOutput backwards)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor of the MotorComponent. This constructor allows controlling the motors direction and speed using hardware or software pwm output pins.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2508,9 +2502,9 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Rückgabetyp</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Funktion</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
@@ -2560,7 +2554,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 
         GpioPinPwmOutput pwmForwards = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_12);
         GpioPinPwmOutput pwmBackwards = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_13);
-        MotorComponent pwmMotor = new MotorComponent(console, pwmForwards, pwmBackwards);
+        MotorComponent pwmMotor = new MotorComponent(pwmForwards, pwmBackwards);
 
         while (console.isRunning()) {
             for (int i = 0; i &lt;= 100; i = i + 10) {
@@ -2638,7 +2632,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./assets/images/stepper_motor_and_driver.png" alt="stepper motor and driver" width="75% RaspiCam Wiring">
+<a class="image" href="https://www.bastelgarage.ch/stepper-motor-schrittmotor-5v-1-64-28byj-48"><img src="./assets/images/stepper_motor_and_driver.png" alt="stepper motor and driver" width="75% RaspiCam Wiring"></a>
 </div>
 <div class="title">Figure 34. Stepper Motor Verkabelung</div>
 </div>
@@ -2677,23 +2671,23 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Konstruktor</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorComponent(com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Constructor which uses the default value of 2 milliseconds for the step delay and the default stepper motor mode 'SINGLE_STEP'.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorComponent(com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Constructor which uses the default value 'SINGLE_STEP' for the stepper motor mode.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay, StepperMotorMode mode)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorComponent(com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay, StepperMotorMode mode)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Constructor which allows to specify all the different Parameters.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, StepperMotorMode mode)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorComponent(com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, StepperMotorMode mode)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Constructor which uses the default value of 2 milliseconds for the step delay.</p></td>
 </tr>
 </tbody>
@@ -2707,14 +2701,14 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Rückgabetyp</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Funktion</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">StepperMotorMode</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">getMode()</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Getter of the stepper motor mode value.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
@@ -2762,12 +2756,13 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
         final GpioController gpio = GpioFactory.getInstance();
 
         Console console = new Console();
+        console.promptForExit();
 
         GpioPinDigitalOutput out1 = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_17);
         GpioPinDigitalOutput out2 = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_18);
         GpioPinDigitalOutput out3 = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_27);
         GpioPinDigitalOutput out4 = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_22);
-        StepperMotorComponent stepperMotor = new StepperMotorComponent(console, out1, out2, out3, out4);
+        StepperMotorComponent stepperMotor = new StepperMotorComponent(out1, out2, out3, out4);
 
         console.println("Make 4096 steps forwards with half step mode");
         stepperMotor.setMode(StepperMotorMode.HALF_STEP);
@@ -2801,7 +2796,6 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
         stepperMotor.stop();
 
         gpio.shutdown();
-        console.promptForExit();
     }</code></pre>
 </div>
 </div>
@@ -2844,19 +2838,19 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Konstruktor</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ServoMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pin)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor with default value for pulseMin = 500, pulseMax = 2400 and maxDegrees = 180.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ServoMotorComponent(com.pi4j.io.gpio.GpioPinPwmOutput pin)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor with default value for pulseMin = 500, pulseMax = 2400 and maxDegrees = 180. This constructor can be used for most micro and mini servo motors.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ServoMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pin, int pulseMin, int pulseMax)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ServoMotorComponent(com.pi4j.io.gpio.GpioPinPwmOutput pin, int pulseMin, int pulseMax)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Constructor with default value for maxDegrees of 180 degrees.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ServoMotorComponent(com.pi4j.util.Console console, com.pi4j.io.gpio.GpioPinPwmOutput pin, int pulseMin, int pulseMax, int maxDegrees)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ServoMotorComponent(com.pi4j.io.gpio.GpioPinPwmOutput pin, int pulseMin, int pulseMax, int maxDegrees)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Constructor with all possible values.</p></td>
 </tr>
 </tbody>
@@ -2870,34 +2864,34 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Rückgabetyp</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Funktion</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">setCenter()</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the servo to its center position</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the servo to its center position.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">setMax()</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the servo to its maximal position</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the servo to its maximal position.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">setMin()</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the servo to its minimal position</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the servo to its minimal position.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">setPosition(int pulse)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the servo position to a specific pulse high time in microseconds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the servo position to a specific pulse high time in microseconds.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">setPositionDegrees(int degree)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the servo position to a desired angle in degrees</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the servo position to a desired angle in degrees.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2921,7 +2915,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
         console.promptForExit();
 
         GpioPinPwmOutput pwm = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_18);
-        ServoMotorComponent servo = new ServoMotorComponent(console, pwm);
+        ServoMotorComponent servo = new ServoMotorComponent(pwm);
 
         while (console.isRunning()) {
             servo.setMin();
@@ -2948,7 +2942,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./assets/images/Grove_Serial_Camera.jpg" alt="Grove Serial Camera" width="75% Grove Serial Camera">
+<a class="image" href="https://wiki.seeedstudio.com/Grove-Serial_Camera_Kit/"><img src="./assets/images/Grove_Serial_Camera.jpg" alt="Grove Serial Camera" width="75% Grove Serial Camera"></a>
 </div>
 <div class="title">Figure 37. Grove Serial Camera</div>
 </div>
@@ -2984,24 +2978,16 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Konstruktor</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SerialCameraComponent(com.pi4j.util.Console console)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor of the SerialCameraComponent without logging and a default package size of 512 bytes.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SerialCameraComponent(int packageSize)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor of the SerialCameraComponent. Configures the default serial port of the Raspberry Pi.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SerialCameraComponent(com.pi4j.util.Console console, boolean activateLogging)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor of the SerialCameraComponent with a default package size of 512 bytes.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SerialCameraComponent(com.pi4j.util.Console console, int packageSize)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor of the SerialCameraComponent without logging.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SerialCameraComponent(com.pi4j.util.Console console, int packageSize, boolean activateLogging)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor of the SerialCameraComponent.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SerialCameraComponent()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor of the SerialCameraComponent with a default package size of 512 bytes. Configures the default serial port of the Raspberry Pi.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3014,9 +3000,9 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Rückgabetyp</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Funktion</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">byte[]</p></td>
@@ -3026,12 +3012,12 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">saveImageAsJpg(java.lang.String fileName)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Requests a jpg image from the camera and streams it to a file.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Requests a jpg image from the camera and streams it to a file. The file name will be extended with a time stamp and the .jpg file extension.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">saveImageAsJpg(java.lang.String relativePath, java.lang.String fileName)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Requests a jpg image from the camera and streams it to a file.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Requests a jpg image from the camera and streams it to a file. The file name will be extended with a time stamp and the .jpg file extension.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3043,14 +3029,16 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
+<pre class="highlight"><code class="language-java" data-lang="java">    @Override public void execute() throws Exception {
+        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         Console console = new Console();
         console.promptForExit();
 
         console.println("taking a picture. please smile :)");
-        SerialCameraComponent cam = new SerialCameraComponent(console, 1024, true);
+        SerialCameraComponent cam = new SerialCameraComponent(1024);
         String fileName = cam.saveImageAsJpg("pictures", "GroveCamPic_");
-        console.println("picture was taken and saved in file " + fileName);</code></pre>
+        console.println("picture was taken and saved in file " + fileName);
+    }</code></pre>
 </div>
 </div>
 </div>
@@ -3062,7 +3050,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./assets/images/RaspberryPi_Camera.jpg" alt="RaspberryPi Camera" width="70% RaspiCam">
+<a class="image" href="https://projects.raspberrypi.org/en/projects/getting-started-with-picamera"><img src="./assets/images/RaspberryPi_Camera.jpg" alt="RaspberryPi Camera" width="70% RaspiCam"></a>
 </div>
 <div class="title">Figure 39. Raspberry Pi Camera</div>
 </div>
@@ -3122,20 +3110,20 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Konstruktor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Konstruktor</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RaspberryPiCameraComponent​(com.pi4j.util.Console console, uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for only using the picture functionality</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RaspberryPiCameraComponent​(uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for only using the picture functionality.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RaspberryPiCameraComponent​(com.pi4j.util.Console console, fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for only using the video functionality</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RaspberryPiCameraComponent​(fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for only using the video functionality.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RaspberryPiCameraComponent​(com.pi4j.util.Console console, uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration, fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for using the picture and video functionality</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RaspberryPiCameraComponent​(uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration, fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for using the picture and video functionality.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3148,34 +3136,34 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rückgabetyp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Funktion</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Rückgabetyp</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Funktion</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">takeStill()</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">takes picture and saves it to the default Pictures folder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Takes picture and saves it to the default Pictures folder.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">takeStill​(String outputPath)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Takes picture and saves it to the specified outputPath</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Takes picture and saves it to the specified outputPath.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">takeStill​(String outputPath, int delay)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Takes a picture using the picam library and saves it to the specified output after a delay</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Takes a picture using the picam library and saves it to the specified output after a delay.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">takeVid​(java.lang.String outputPath)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Takes a video with the configuration and saves it to the output path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Takes a video with the configuration and saves it to the output path.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">CameraConfiguration</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">createCameraConfiguration()</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The picam library has a private constructor and therefore needs this method</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The picam library has a private constructor and therefore needs this method.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3207,7 +3195,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
                 .time(15000);
 
         //initialise the camera component using the two configurations
-        RaspberryPiCameraComponent raspberryPiCamera = new RaspberryPiCameraComponent(console, stillConfig, vidConfig);
+        RaspberryPiCameraComponent raspberryPiCamera = new RaspberryPiCameraComponent(stillConfig, vidConfig);
 
         console.println("Config done");
 
@@ -3227,6 +3215,12 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="sect1">
 <h2 id="_beispielprojekt">6. Beispielprojekt</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Dieses Beispielprojekt soll zeigen, wie die Geräte in einem kleinen Projekt zusammenspielen können.</p>
+</div>
+<div class="paragraph">
+<p>Das Projekt ist eine Art Photo Booth, also eine Fotobox in der die folgenden Geräte zusammenarbeiten müssen, um ein gutes Foto von einer Person zu machen:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -3251,6 +3245,36 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <p>ev Ranger für Distanz</p>
 </li>
 </ul>
+</div>
+<div class="sect2">
+<h3 id="_komponenten_klassen_als_library_hinzufügen">6.1. Komponenten Klassen als Library hinzufügen</h3>
+<div class="paragraph">
+<p>Um die Komponenten Klassen in einem neuen Projekt zu verwenden, muss man die Jar-Datei in dem neuen Projekt als Bibliothek hinzufügen.</p>
+</div>
+<div class="paragraph">
+<p>Unter den Releases der Github-Repository finden Sie die Jar-Datei: <a href="https://github.com/FHNW-IP5-IP6/GPIOSimulator/releases/" class="bare">https://github.com/FHNW-IP5-IP6/GPIOSimulator/releases/</a></p>
+</div>
+<div class="paragraph">
+<p>Diese Jar-Datei muss in einen geeigneten Ordner im neuen Projekt hinzugefügt werden wie zum Beispiel <code>/build/libs</code></p>
+</div>
+<div class="paragraph">
+<p>In der Datei <code>build.gradle</code> muss man dann nur noch die Library angeben, dann sind die Komponenten Klassen wie in den Beispielen in Kapitel 5 nutzbar:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'build/libs'
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation name: 'GPIOSimulator-0.1'
+}</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -3279,7 +3303,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
             pin.high();
         }
 
-        console.println("LED on");
+        ComponentLogger.logInfo("LedComponent: LED turned on");
     }</code></pre>
 </div>
 </div>
@@ -3292,7 +3316,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
             pin.high();
         }
 
-        console.println("LED off");
+        ComponentLogger.logInfo("LedComponent: LED turned off");
     }</code></pre>
 </div>
 </div>
@@ -3307,8 +3331,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">    public LedComponent(Console console, GpioPinPwmOutput pwmPin) {
-        this.console = console;
+<pre class="highlight"><code class="language-java" data-lang="java">    public LedComponent(GpioPinPwmOutput pwmPin) {
         this.pwmPin = pwmPin;
         this.dimmable = true;
 
@@ -3316,6 +3339,7 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
         Gpio.pwmSetClock(192);
         Gpio.pwmSetRange(2000);
         pwmPin.setPwmRange(100);
+        ComponentLogger.logInfo("LedComponent: Created component for pwm pin " + pwmPin.getPin().getAddress());
     }</code></pre>
 </div>
 </div>
@@ -3326,16 +3350,21 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">    public void setBrightness(int brightness) throws IllegalArgumentException {
         if (!dimmable) {
-            throw new IllegalArgumentException(
-                    "please provide a GpioPinPwmOutput Pin in the constructor if you want to dim your led");
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "LedComponent: Please provide a GpioPinPwmOutput Pin in the constructor if you want to dim your led");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
         if (brightness &lt; 0 || brightness &gt; 100) {
-            throw new IllegalArgumentException("please enter a brightness between 0 and 100");
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "LedComponent: Please enter a brightness between 0 and 100");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
         pwmPin.setPwm(brightness);
-        console.println("LED set to " + brightness + "% brightness");
+        ComponentLogger.log(Level.INFO, "LedComponent: LED set to " + brightness + "% brightness");
     }</code></pre>
 </div>
 </div>
@@ -3441,6 +3470,9 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">    public void playTone(int frequency, int duration) throws InterruptedException {
+        ComponentLogger
+                .logInfo("BuzzerComponent: Play tone with " + frequency + "Hz for " + duration + " milliseconds");
+
         if (frequency != 0) {
             int clock = calculateClock(frequency);
             Gpio.pwmSetClock(clock);
@@ -3541,8 +3573,9 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
             writeCommand(LCD_CLEARDISPLAY);
             writeCommand((byte) (LCD_ENTRYMODESET | LCD_ENTRYLEFT));
             Thread.sleep(0, 200000);
+            ComponentLogger.logInfo("I2CLCDComponent: initialised");
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            ComponentLogger.logError("I2CLCDComponent: Error while trying to initialise " + ex.getMessage());
         }
     }</code></pre>
 </div>
@@ -3565,11 +3598,14 @@ export PATH=${GRADLE_HOME}/bin:${PATH}`</pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">    public void displayText(String text, int line, int pos, boolean jumpToNextLine) {
-        if (text.length() &gt; 32 - pos)
+        ComponentLogger.logInfo("I2CLCDComponent: displaying text: '" + text + "' on line " + line);
+
+        if (text.length() &gt; 32 - pos) {
             text = text.substring(0, 31 - pos);
+            ComponentLogger.logInfo("I2CLCDComponent: text length cut to 31 characters");
+        }
 
         String firstLine = text, secondLine = text;
-
         byte posNew;
 
         //lcd only has 2 lines, so I assume the first one if the second one wasn't selected explicitly
@@ -3602,13 +3638,15 @@ Ein Scroll Text ist ein Text, welcher von der Länge her die 32 Zeichen auf dem 
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">    public void displayScrollText(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) throws InterruptedException {
+        ComponentLogger.logInfo("I2CLCDComponent: displaying scroll text: '" + text + "' on line " + line + "with a delay of " + delay + " milliseconds");
+
         String paddedtext = getEmptyLine() + text;
 
         for (int i = 0; i &lt; paddedtext.length(); i++) {
             displayText(paddedtext.substring(i), line, 0, jumpToNextLine);
             Thread.sleep(delay);
             if (jumpToNextLine)
-                clearText();
+                clearText(false);
             else
                 clearLine(line);
 
@@ -3625,9 +3663,15 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">    public void displayBounceText(String text, int line, int delay, boolean startAgain) throws InterruptedException {
+        ComponentLogger.logInfo("I2CLCDComponent: displaying bounce text: '" + text + "' on line " + line + "with a delay of " + delay + " milliseconds");
+
         // Bounce doesn't make sense for a large text
-        if (text.length() &gt;= COLUMNS - 1)
-            throw new IllegalArgumentException("text has to be smaller than 15 characters");
+        if (text.length() &gt;= COLUMNS - 1) {
+            IllegalArgumentException ex = new IllegalArgumentException("text has to be smaller than 15 characters");
+            ComponentLogger.logError("I2CLCDComponent: " + ex.getMessage());
+            throw ex;
+
+        }
 
         //shifts the whole text to the right end
         for (int i = 0; i &lt; COLUMNS - text.length(); i++) {
@@ -3710,7 +3754,8 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">        Gpio.pinMode(pin, Gpio.OUTPUT);
+<pre class="highlight"><code class="language-java" data-lang="java">        ComponentLogger.logInfo("UltraSonicRangerComponent:  Triggered");
+        Gpio.pinMode(pin, Gpio.OUTPUT);
         Gpio.digitalWrite(pin, false);
         Thread.sleep(0, 2000);
         Gpio.digitalWrite(pin, true);
@@ -3777,6 +3822,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
             throws IOException, I2CFactory.UnsupportedBusNumberException {
         super(groveAdapter.getAdapter().getAnalogI2CAddress(), I2CBus.BUS_1);
         this.adapter = groveAdapter.getAdapter();
+        ComponentLogger.logInfo("PotentiometerComponent: Potentiometer created for analog grove adapter");
     }</code></pre>
 </div>
 </div>
@@ -3790,17 +3836,23 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">    public void setRange(int minValue, int maxValue) throws IllegalArgumentException {
         if (minValue &lt; 0 || maxValue &lt; 0) {
-            throw new IllegalArgumentException("minValue and maxValue must be greater than 0");
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "PotentiometerComponent: minValue and maxValue must be greater than 0");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
         int difference = maxValue - minValue;
         if (difference &lt; 10 || difference &gt; 1000) {
-            throw new IllegalArgumentException(
-                    "the difference between min and max value needs to be between 10 and 1000");
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "PotentiometerComponent: The difference between min and max value needs to be between 10 and 1000");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
         this.minValue = minValue;
         this.maxValue = maxValue;
+        ComponentLogger.logInfo("PotentiometerComponent: Range set from " + minValue + " to " + maxValue);
     }</code></pre>
 </div>
 </div>
@@ -3816,6 +3868,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
         byte[] bytes = readData((byte) adapter.getDeviceAddress(), (byte) 2);
         int readValue = getIntegerFromBytes(bytes[0], bytes[1]);
         if (minValue == 0 &amp;&amp; maxValue == 1000) {
+            ComponentLogger.logInfo("PotentiometerComponent: Read a value of " + readValue);
             return readValue;
         } else {
             int difference = maxValue - minValue;
@@ -3823,7 +3876,9 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
                 return minValue;
             } else {
                 double reducedValue = ((double) readValue / 1000) * difference;
-                return (int) Math.round(minValue + reducedValue);
+                int roundedValue = (int) Math.round(minValue + reducedValue);
+                ComponentLogger.logInfo("PotentiometerComponent: Read a value of " + readValue);
+                return roundedValue;
             }
         }
     }</code></pre>
@@ -3856,9 +3911,9 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Pin Nummer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Pin Name</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beschreibung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Pin Nummer</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Pin Name</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Beschreibung</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
@@ -3989,7 +4044,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
         } else {
             backwards.low();    //Input 2
             forwards.high();    //Input 1
-            console.println("motor is moving forwards with maximum power");
+            ComponentLogger.logInfo("MotorComponent: Motor is moving forwards with maximum power");
         }
     }</code></pre>
 </div>
@@ -4004,7 +4059,8 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
             forwards.low();     //Input 1
             backwards.low();    //Input 2
         }
-        console.println("motor stopped");
+
+        ComponentLogger.logInfo("MotorComponent: Motor stopped");
     }</code></pre>
 </div>
 </div>
@@ -4043,17 +4099,23 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">    public void moveForwards(int power) throws UnsupportedOperationException, IllegalArgumentException {
         if (!isPwm) {
-            throw new UnsupportedOperationException(
-                    "void moveForwards(int power) can only be used with hardware pwm pin. please use void moveForwards() instead.");
+            UnsupportedOperationException exception = new UnsupportedOperationException(
+                    "MotorComponent: void moveForwards(int power) can only be used with hardware pwm pin. Please use void moveForwards() instead.");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
         if (power &lt; 0 || power &gt; 100) {
-            throw new IllegalArgumentException("power must be between 0 and 100 percent");
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "MotorComponent: Power must be between 0 and 100 percent");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
         pwmBackwards.setPwm(0);
         pwmForwards.setPwm((int) (power * rangeAdjustment));
-        console.println("motor is moving forwards at " + power + "%");
+
+        ComponentLogger.logInfo("MotorComponent: Motor is moving forwards at " + power + "%");
     }</code></pre>
 </div>
 </div>
@@ -4223,7 +4285,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 </div>
 <div class="imageblock">
 <div class="content">
-<a class="image" href="https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping"><img src="./assets/images/half_stepping.jpg" alt="half stepping" width="75% Half Stepping"></a>
+<img src="./assets/images/half_stepping.jpg" alt="half stepping" width="75% Half Stepping">
 </div>
 <div class="title">Figure 51. Half Stepping</div>
 </div>
@@ -4363,7 +4425,9 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
                     double_step[Math.floorMod(elementPosition, double_step.length)] :
                     rev_double_step[Math.floorMod(elementPosition, rev_double_step.length)];
         default:
-            throw new IllegalArgumentException("StepperMotorMode is invalid.");
+            IllegalArgumentException exception = new IllegalArgumentException("StepperMotorMode is invalid.");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
     }</code></pre>
 </div>
@@ -4419,7 +4483,10 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">        Gpio.pwmSetMode(Gpio.PWM_MODE_MS);
         Gpio.pwmSetClock(192);
-        Gpio.pwmSetRange(2000);</code></pre>
+        Gpio.pwmSetRange(2000);
+
+        ComponentLogger.logInfo("ServoMotorComponent: ServoMotor created for GPIO pin " + pin.getPin().getAddress()
+                + " with a minimal pulse length of " + pulseMin + " and a maximal pulse length of " + pulseMax);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4468,11 +4535,14 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">    public void setPosition(int pulse) throws IllegalArgumentException {
         if (pulse &lt; pulseMin || pulse &gt; pulseMax) {
-            throw new IllegalArgumentException("please provide a value in the range pulseMin to pulseMax");
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "ServoMotorComponent: Please provide a value in the range pulseMin to pulseMax");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
         setPwm(pulse);
-        console.println("set the position to pulse " + pulse);
+        ComponentLogger.logInfo("ServoMotorComponent: set the position to pulse " + pulse);
     }</code></pre>
 </div>
 </div>
@@ -4493,13 +4563,17 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">    public void setPositionDegrees(int degree) throws IllegalArgumentException {
         if (degree &lt; 0 || degree &gt; maxDegrees) {
-            throw new IllegalArgumentException("please provide a vlaue in the range 0 to maxDegrees");
+            IllegalArgumentException exception = new IllegalArgumentException(
+                    "ServoMotorComponent: Please provide a value in the range 0 to maxDegrees");
+            ComponentLogger.logError(exception.getMessage());
+            throw exception;
         }
 
         double stepSize = ((double) maxDegrees / (pulseMax - pulseMin));
         int pulse = pulseMin + (int) Math.round(degree / stepSize);
         setPwm(pulse);
-        console.println("set the position to degrees " + degree + " which is a pulse of " + pulse);
+        ComponentLogger.logInfo(
+                "ServoMotorComponent: Set the position to degrees " + degree + " which is a pulse of " + pulse);
     }</code></pre>
 </div>
 </div>
@@ -4517,7 +4591,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./assets/images/Grove_Serial_Camera_SYNC_Command.png" alt="500" width="500" height="Grove Serial Camera SYNC">
+<a class="image" href="https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf"><img src="./assets/images/Grove_Serial_Camera_SYNC_Command.png" alt="500" width="500" height="Grove Serial Camera SYNC"></a>
 </div>
 <div class="title">Figure 52. SYNC Kommando</div>
 </div>
@@ -4529,7 +4603,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./assets/images/Grove_Serial_Camera_Initialisation.png" alt="500" width="500" height="Grove Serial Camera Connection">
+<a class="image" href="https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf"><img src="./assets/images/Grove_Serial_Camera_Initialisation.png" alt="500" width="500" height="Grove Serial Camera Connection"></a>
 </div>
 <div class="title">Figure 53. Verbindungsaufbau</div>
 </div>
@@ -4538,13 +4612,13 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">    private void initializeSerialBusCommunication() {
+<pre class="highlight"><code class="language-java" data-lang="java">    private void initializeSerialBusCommunication() throws InterruptedException, IOException {
         try {
             int tryCount = 0;
             byte[] syncCommand = { (byte) 0xaa, 0x0d, 0x00, 0x00, 0x00, 0x00 };
             byte[] ackCommand = { (byte) 0xaa, 0x0e, 0x0d, 0x00, 0x00, 0x00 };
 
-            logMessage("initializing communication with the camera");
+            ComponentLogger.logInfo("SerialCameraComponent: Initializing communication with the camera");
 
             while (serial.available() == 0 &amp;&amp; tryCount &lt; syncRetryCount) {
                 serial.write(syncCommand);
@@ -4553,30 +4627,34 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
             }
 
             if (tryCount &gt;= syncRetryCount) {
-                throw new IOException("tried to sync with camera for " + tryCount + " without success");
+                IOException exception = new IOException(
+                        "SerialCameraComponent: Tried to sync with camera for " + tryCount + " without success");
+                ComponentLogger.logError(exception.getMessage());
+                throw exception;
             }
 
-            logMessage("camera responded after " + tryCount + " requests");
+            ComponentLogger.logInfo("SerialCameraComponent: Camera responded after " + tryCount + " requests");
             byte[] bytes = serial.read(6);
             clearDataFromSerialInput();
 
             if (bytes[0] == 0xaa &amp;&amp; bytes[1] == 0x0e &amp;&amp; bytes[2] == 0x0d &amp;&amp; bytes[4] == 0x00 &amp;&amp; bytes[5] == 0x00) {
-                logMessage("received response is a valid acknowledgement");
-                logMessage("waiting for sync from camera");
+                ComponentLogger.logInfo("SerialCameraComponent: Received response is a valid acknowledgement");
+                ComponentLogger.logInfo("SerialCameraComponent: Waiting for sync from camera");
                 bytes = serial.read(6);
 
                 if (bytes[0] == 0xaa &amp;&amp; bytes[1] == 0x0d &amp;&amp; bytes[2] == 0x00 &amp;&amp; bytes[3] == 0x00 &amp;&amp; bytes[4] == 0x00
                         &amp;&amp; bytes[5] == 0x00) {
-                    logMessage("received sync from the camera");
-                    logMessage("sending sync acknowledgement to camera");
+                    ComponentLogger.logInfo("SerialCameraComponent: Received sync from the camera");
+                    ComponentLogger.logInfo("SerialCameraComponent: Sending sync acknowledgement to camera");
                     serial.write(ackCommand);
-                    logMessage("serial bus communication between camera and pi is ready");
+                    ComponentLogger.logInfo("SerialCameraComponent: Serial bus communication ready");
                 }
             }
 
             clearDataFromSerialInput();
         } catch (Exception ex) {
-            console.println(ex);
+            ComponentLogger.logError("SerialCameraComponent: " + ex.getMessage());
+            throw ex;
         }
     }</code></pre>
 </div>
@@ -4592,7 +4670,7 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./assets/images/Grove_Serial_Camera_Get_Picture.png" alt="500" width="500" height="Grove Serial Camera Get Picture">
+<a class="image" href="https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf"><img src="./assets/images/Grove_Serial_Camera_Get_Picture.png" alt="500" width="500" height="Grove Serial Camera Get Picture"></a>
 </div>
 <div class="title">Figure 54. Ablauf der Bildanforderung</div>
 </div>
@@ -4621,55 +4699,55 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
         byte[] snapshotCommand = { (byte) 0xaa, 0x05, 0x00, 0x00, 0x00, 0x00 };
         byte[] getPictureCommand = { (byte) 0xaa, 0x04, 0x01, 0x00, 0x00, 0x00 };
 
-        logMessage("sending the desired package size to the camera");
+        ComponentLogger.logInfo("SerialCameraComponent: Sending the desired package size to the camera");
         serial.write(setPackageSizeCommand);
 
         while (serial.available() &lt; 6) {
             Thread.sleep(10);
         }
 
-        logMessage("received a response from the camera");
+        ComponentLogger.logInfo("SerialCameraComponent: Received a response from the camera");
         byte[] bytes = serial.read(6);
 
         if (bytes[0] == (byte) 0xaa &amp;&amp; bytes[1] == (byte) 0x0e &amp;&amp; bytes[2] == (byte) 0x06 &amp;&amp; bytes[4] == (byte) 0x00
                 &amp;&amp; bytes[5] == (byte) 0x00) {
-            logMessage("response was a valid package size acknowledgement");
+            ComponentLogger.logInfo("SerialCameraComponent: Response was a valid package size acknowledgement");
         }
 
-        logMessage("sending snapshot command");
+        ComponentLogger.logInfo("SerialCameraComponent: Sending snapshot command");
         serial.write(snapshotCommand);
 
         while (serial.available() &lt; 6) {
             Thread.sleep(10);
         }
 
-        logMessage("received a response from the camera");
+        ComponentLogger.logInfo("SerialCameraComponent: Received a response from the camera");
         bytes = serial.read(6);
 
         if (bytes[0] == (byte) 0xaa &amp;&amp; bytes[1] == (byte) 0x0e &amp;&amp; bytes[2] == (byte) 0x05 &amp;&amp; bytes[4] == (byte) 0x00
                 &amp;&amp; bytes[5] == (byte) 0x00) {
-            logMessage("response was a valid snapshot acknowledgement");
+            ComponentLogger.logInfo("SerialCameraComponent: Response was a valid snapshot acknowledgement");
         }
 
-        logMessage("sending get picture length command");
+        ComponentLogger.logInfo("SerialCameraComponent: Sending get picture length command");
         serial.write(getPictureCommand);
 
         while (serial.available() &lt; 6) {
             Thread.sleep(10);
         }
 
-        logMessage("received a response from the camera");
+        ComponentLogger.logInfo("SerialCameraComponent: Received a response from the camera");
         bytes = serial.read(6);
 
         if (bytes[0] == (byte) 0xaa &amp;&amp; bytes[1] == (byte) 0x0e &amp;&amp; bytes[2] == (byte) 0x04 &amp;&amp; bytes[4] == (byte) 0x00
                 &amp;&amp; bytes[5] == (byte) 0x00) {
-            logMessage("response was a valid picture length acknowledgement");
-            logMessage("reading the next 6 bytes to get the picture length");
+            ComponentLogger.logInfo("SerialCameraComponent: Response was a valid picture length acknowledgement");
+            ComponentLogger.logInfo("SerialCameraComponent: Reading the next 6 bytes to get the picture length");
             bytes = serial.read(6);
 
             if (bytes[0] == (byte) 0xaa &amp;&amp; bytes[1] == 0x0a &amp;&amp; bytes[2] == 0x01) {
                 pictureLength = (int) bytes[3] + (bytes[4] &lt;&lt; 8) + (bytes[5] &lt;&lt; 16);
-                logMessage("picture length is: " + pictureLength);
+                ComponentLogger.logInfo("SerialCameraComponent: Picture length is: " + pictureLength);
             }
         }
 
@@ -4720,19 +4798,19 @@ Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit ge
                 int byteCount = getIntegerFromBytes(receivedData[lowDataSizeBit], receivedData[highDataSizeBit]);
                 lastWrittenByte = receivedData[receivedData.length - 3];
                 camStream.write(receivedData, 4, byteCount);
-                logMessage("package at " + successCount + " was handled successfully");
+                ComponentLogger.logInfo("SerialCameraComponent: Package at " + successCount + " successfully handled");
                 successCount++;
             } else {
-                logMessage("calculated check sum is " + calculatedCheckSum);
-                logMessage("received check sum is " + receivedCheckSum);
-                logMessage("package error at package " + successCount);
-                logMessage(" =&gt; retry");
+                ComponentLogger.logInfo("SerialCameraComponent: Calculated check sum is " + calculatedCheckSum);
+                ComponentLogger.logInfo("SerialCameraComponent: Received check sum is " + receivedCheckSum);
+                ComponentLogger.logInfo("SerialCameraComponent: Package error at package " + successCount);
+                ComponentLogger.logInfo("SerialCameraComponent:  =&gt; retry");
             }
         }
 
-        logMessage("read a total of " + camStream.size() + " bytes");
-        logMessage("pure picture length was " + pictureLength);
-        logMessage("sending package end acknowledgement to camera");
+        ComponentLogger.logInfo("SerialCameraComponent: Read a total of " + camStream.size() + " bytes");
+        ComponentLogger.logInfo("SerialCameraComponent: Pure picture length was " + pictureLength);
+        ComponentLogger.logInfo("SerialCameraComponent: Sending package end acknowledgement to camera");
         serial.write(ackPackageEndCommand);
 
         return camStream.toByteArray();
@@ -4880,8 +4958,13 @@ RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">        if (!isRaspiVidAvailable) {
-            throw new ExceptionInInitializerError("RaspiVid has to be initialised with the Configuration for taking videos");
+<pre class="highlight"><code class="language-java" data-lang="java">    public void takeVid(String outputPath) {
+        ComponentLogger.logInfo("RaspberryPiCameraComponent: Taking video to the path: " + outputPath);
+
+        if (!isRaspiVidAvailable) {
+            ExceptionInInitializerError ex = new ExceptionInInitializerError("RaspiVid has to be initialised with the Configuration for taking videos");
+            ComponentLogger.logError("RaspberryPiCameraComponent: " + ex.getMessage());
+            throw ex;
         }
         try {
             raspiVidConfiguration.output(outputPath);
@@ -4897,8 +4980,9 @@ RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
                 p.destroyForcibly();
 
         } catch (IOException | InterruptedException ieo) {
-            console.println("Error while taking video: " + ieo.getMessage());
-        }</code></pre>
+            ComponentLogger.logError("RaspberryPiCameraComponent: Error while taking video: " + ieo.getMessage());
+        }
+    }</code></pre>
 </div>
 </div>
 </div>
@@ -4906,15 +4990,29 @@ RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
 </div>
 </div>
 <div class="sect1">
-<h2 id="_todo_literaturverzeichnis">8. TODO: Literaturverzeichnis</h2>
+<h2 id="_literaturverzeichnis">Literaturverzeichnis</h2>
 <div class="sectionbody">
-
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="RaspberryPi1"></a>[1] Raspberry Pi Foundation. What is a Raspberry Pi? In: raspberrypi.org [
+<a href="https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/" class="bare">https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/</a>; 09.08.2020]</p>
+</li>
+<li>
+<p><a id="RaspberryPi2"></a>[2] Elektronik Kompendium. Raspberry Pi: GPIO - General Purpose Input Output. In: Elektronik Kompendium
+[<a href="https://www.elektronik-kompendium.de/sites/raspberry-pi/2002191.htm" class="bare">https://www.elektronik-kompendium.de/sites/raspberry-pi/2002191.htm</a>; 09.08.2020]</p>
+</li>
+<li>
+<p><a id="GroveSA"></a>[3] Seed Studio. Grove System. In: Seed Studio Wiki [<a href="https://wiki.seeedstudio.com/Grove_System/" class="bare">https://wiki.seeedstudio.com/Grove_System/</a>, 09.08.2020]</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-09 13:50:39 +0200
+Last updated 2020-08-10 11:07:06 +0200
 </div>
 </div>
 </body>

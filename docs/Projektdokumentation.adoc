@@ -32,17 +32,12 @@ image::FHNW.png[FHNW,382,59]
 *Datum*: {docdate}
 
 [discrete]
-== TODO: Summary
-TBD am Ende: + 
-Anhand dieses Textes soll eine Person entscheiden können, ob sie sich für ihr Thema interessiert.
+== Management Summary
+Das Ziel dieser Arbeit war es zu Beginn einen Hardware Simulator für die meistverwendeten Sensoren und Aktuatoren, die an den Raspberry Pi angeschlossen werden können, zu entwickeln. Der Simulator sollte die Programmierschnittstellen des Raspberry Pi auf Basis von der Java Library Pi4J simulieren können. Den Studierenden sollte es ermöglicht werden unter Verwendung von Java gegen ihren simulierten Aufbau zu programmieren und Feedback vom Simulator zu erhalten. Dieser Aufbau hätte die Effektivität der Teamarbeit an den IP1/2 Projekten erhöht und die Entwicklungsarbeit an der Hardware reduziert.
 
-. Was wurde erreicht?
-. Was sind die Ergebnisse
-. Warum wurde es gemacht? Was war das Problem? 
-. Wie wurde es gemacht/untersucht/getestet?
+Ein grosser Teil dieser Arbeit beschäftigt sich damit, wieso der Simulator nicht in einem umsetzbaren Rahmen realisiert werden konnte, der den Nutzen bringt, welcher im Ziel definiert wurde. Das Projekt musste sich anpassen, damit die Studierenden der ersten Semester dennoch einen Mehrwert von dieser Arbeit haben.
 
-[discrete]
-== TODO: Vorwort
+Es wurde eine API in Java entwickelt für die meistverwendeten Geräte, welche es vereinfachen soll, IoT Projekte in Java mit dem Raspberry Pi zu entwickeln. Neben den unabhängigen Geräten, welche an den Raspberry Pi angeschlossen werden können, ist die Library auch kompatibel mit einigen Grove Sensoren und Aktuatoren. Die Grove Sensoren und Aktuatoren können über den Grove Hat (Ein Aufsatz für den Raspberry Pi) direkt an dem Pi angeschlossen werden. Die Library und das modulare Grove System ermöglichen den Studierenden, die hardwarenahe Entwicklungszeit zu reduzieren. Zusätzlich wurde ein umfangreiches Tutorial erstellt, welches die Entwicklung und Verwendung der Komponentenklassen der API beschreibt. Das Tutorial und die API zusammen erreichen das ursprüngliche Ziel, den Informatikstudenten die elektrotechnischen Arbeiten der IoT Projekte zu erleichtern und die Softwareentwicklung in den Vordergrund zu stellen.
 
 [discrete]
 == Inhaltsverzeichnis
@@ -226,7 +221,7 @@ Total haben wir acht verschiedene Beispiele realisiert. Sie sind im Package fhnw
 === LED
 Die blinkende LED ist wohl für die meisten Programmiererinnen und Programmierer die erste Hardware Komponente, welche Sie über einen GPIO Pin steuern. Auch für uns war die LED das erste Device, welches wir an den Raspberry Pi angeschlossen haben.
 
-Die LED kann direkt an einen GPIO Output Pin angeschlossen werden. In unserem Beispiel haben wir uns für den Pin 2 entschieden. Damit wir den Zustand der Leuchtdiode steuern können müssen wir ein Objekt vom Typ `GpioPinDigitalOutput` vom `GpioController` anfordern. Über dieses Objekt können wir den Zustand des Pins über die Funktionen `high()` und `low()` steuern. Unsere `BlinkLed` Klasse lässt die LED im Sekundentackt blinken. 
+Die LED kann direkt an einen GPIO Output Pin angeschlossen werden. In unserem Beispiel haben wir uns für den Pin 2 entschieden. Damit wir den Zustand der Leuchtdiode steuern können müssen wir ein Objekt vom Typ `GpioPinDigitalOutput` vom `GpioController` anfordern. Über dieses Objekt können wir den Zustand des Pins über die Funktionen `high()` und `low()` steuern. Unsere `BlinkLed` Klasse lässt die LED im Sekundentackt blinken.
 
 [source,java]
 ----
@@ -236,7 +231,7 @@ include::{sourcedir}/fhnwexamples/gpio/BlinkLed.java[tags=BlinkLed]
 === Button
 Der Button ist das wohl einfachste Input Device überhaupt. Damit wir den aktuellen Wert es Buttons lesen können, benötigen wir einen `GpioPinDigitalInput`, welchen wir wir vom `GpioController` anfordern. Über die Funktionen `isHigh()` sowie `isLow()` können wir erfahren, ob der Button aktuell gedrückt ist oder nicht. In unserem Beispiel verwenden wir allerdings einen von Pi4J zur Verfügung gestellten Listener, welchen wir direkt auf dem Pin registrieren können. Bei Zustandsänderungen erhalten wir vom Listener sofort eine Benachrichtigung in der Form eines Events. Dieses können wir dann auswerten.
 
-Informationen zur Verkabelung des Buttons befinden sich im Tutorial. 
+Informationen zur Verkabelung des Buttons befinden sich im Tutorial.
 
 [source,java]
 ----

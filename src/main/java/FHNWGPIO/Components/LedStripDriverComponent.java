@@ -1,9 +1,9 @@
 package fhnwgpio.components;
 
 import com.pi4j.io.gpio.*;
-import com.pi4j.wiringpi.Gpio;
-import fhnwgpio.grove.Adapter;
 import fhnwgpio.grove.GroveAdapter;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * FHNW implementation of the Grove Strip Driver. This library represents the Java equivalent of the official Seed
@@ -80,9 +80,9 @@ public class LedStripDriverComponent {
 
     private void clockRise() throws InterruptedException {
         clock.low();
-        Thread.sleep(0, 20000);
+        TimeUnit.MICROSECONDS.sleep(20);
         clock.high();
-        Thread.sleep(0, 20000);
+        TimeUnit.MICROSECONDS.sleep(20);
     }
 
     private void send32Zeros() throws InterruptedException {

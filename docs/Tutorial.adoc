@@ -31,10 +31,8 @@ image::FHNW.png[FHNW,382,59]
 
 *Datum*: {docdate}
 
-<<<
 toc::[]
 
-<<<
 :sectnums!:
 == Einleitung
 :sectnums:
@@ -42,8 +40,6 @@ toc::[]
 Dieses Tutorial soll den Studierenden der FHNW eine Hilfestellung bieten für die IoT Projekte in IP1/2. Es wird gezeigt, wie der Raspberry Pi grundlegend funktioniert und wie es mit anderen Geräten interagieren kann. Das Ziel dieses Tutorials ist es, dass die Entwicklung und die Arbeit an der Software der Projekte in den Vordergrund rückt und der elektrotechnische Teil erleichtert wird. Im Fokus bei der Entwicklung steht Java mit der Pi4J-Library, welche für Java IoT-Projekte auf dem Raspberry Pi genutzt wird.
 
 Der Hauptteil des Tutorials befasst sich mit verschiedenen Sensoren und Aktoren, welche an den Raspberry Pi angeschlossen werden können, welche zur erleichterten Verwendung hauseigene Komponenten-Klassen in Java bekommen haben. Diese Komponenten-Klassen können als Library in den IoT Projekten verwendet werden.
-
-<<<
 
 == Hardware 
 
@@ -606,7 +602,7 @@ image::./fritzing/LCDI2C.png[width=75% I2C Wiring]
 |void |init() |Sends initialisation commands to display.
 |void |clearText() |Clears the lcd text.
 |void |displayText​(String text) |Displays a text on the first line of the display. If it's larger than 16 characters then it will jump over to the second line. The excess characters (greater than 32) are not shown on the display.
-|void |displayText​(String text, int line) |Writes string to the lcd display on a specific line. Excess characters (greater than 16) are not shown on the line.
+|void |displayText​(String text, int line) |Writes string to the lc display on a specific line. Excess characters (greater than 16) are not shown on the line.
 |void |displayText​(String text, int line, int pos, boolean jumpToNextLine) |Displays the string with an additional position. There are 16 fields on one LCD1602 line. The position gives the number of fields that should be empty before the text. Excess characters (greater than 16-position) on the line will not be shown.
 |void |displayScrollText​(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) |Shows text on display and scrolls it with a delay.
 |void |displayBounceText​(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) |Displays the text and scrolls to the sides, but bounces back. This only works for short texts, otherwise it would be unreadable.
@@ -1010,7 +1006,7 @@ Das Projekt ist eine Art Photo Booth, also eine Fotobox in der die folgenden Ger
 
 * Button
 * Buzzer
-* LCD Display
+* LC Display
 * LED (LED Streifen)
 * Raspberry Pi (Grove Camera)
 * Motor als Countdown
@@ -1203,7 +1199,7 @@ include::{sourcedir}/fhnwgpio/components/I2CLCDComponent.java[tags=LCD1602Comman
 ----
 
 ==== Initialisierung
-Das LCD Display wird im nach dem Protokoll folgendermassen initialisiert:
+Das LC Display wird im nach dem Protokoll folgendermassen initialisiert:
 
 .LCD1602 Init
 [link=https://www.waveshare.com/datasheet/LCD_en_PDF/LCD1602.pdf]

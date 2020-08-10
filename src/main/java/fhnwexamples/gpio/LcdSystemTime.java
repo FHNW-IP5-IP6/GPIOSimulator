@@ -17,6 +17,7 @@ public class LcdSystemTime extends Example {
         super(key, title);
     }
 
+    // tag::LcdSystemTime[]
     @Override public void execute() throws Exception {
         if (Gpio.wiringPiSetup() == -1) {
             System.out.println(" ==>> gpio SETUP FAILED");
@@ -65,4 +66,5 @@ public class LcdSystemTime extends Example {
             Thread.sleep(1000);
         }
     }
+    // end::LcdSystemTime[]
 }

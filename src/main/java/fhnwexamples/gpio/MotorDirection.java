@@ -13,9 +13,11 @@ public class MotorDirection extends Example {
         super(key, title);
     }
 
+    // tag::MotorDirection[]
     @Override public void execute() throws Exception {
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         final GpioController gpio = GpioFactory.getInstance();
+
         moveForward = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_17, "Motor Forward", PinState.LOW);
         moveBackward = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_27, "Motor Backward", PinState.LOW);
 
@@ -53,4 +55,5 @@ public class MotorDirection extends Example {
         moveBackward.low();
         console.println("Motor is stopped.");
     }
+    // end::MotorDirection[]
 }

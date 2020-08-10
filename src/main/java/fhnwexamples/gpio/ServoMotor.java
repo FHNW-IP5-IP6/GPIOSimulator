@@ -11,6 +11,7 @@ public class ServoMotor extends Example {
         super(key, title);
     }
 
+    // tag::ServoMotor[]
     @Override public void execute() throws Exception {
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         final GpioController gpio = GpioFactory.getInstance();
@@ -23,6 +24,7 @@ public class ServoMotor extends Example {
         com.pi4j.wiringpi.Gpio.pinMode(pinBcm.getPin().getAddress(), com.pi4j.wiringpi.Gpio.PWM_OUTPUT);
         com.pi4j.wiringpi.Gpio.pwmSetMode(com.pi4j.wiringpi.Gpio.PWM_MODE_MS);
 
+        // Divide the original 19.2 Clock by 192 and 2000. Results in a base frequency of 50Hz
         com.pi4j.wiringpi.Gpio.pwmSetClock(192);
         com.pi4j.wiringpi.Gpio.pwmSetRange(2000);
 
@@ -38,4 +40,5 @@ public class ServoMotor extends Example {
 
         gpio.shutdown();
     }
+    // end::ServoMotor[]
 }

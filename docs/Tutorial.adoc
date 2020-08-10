@@ -657,7 +657,7 @@ In diesem Code Beispiel wird der Titel des Projekts in der ersten Zeile angezeig
 include::{sourcedir}/fhnwexamples/component/LcdSystemTimeI2CDevice.java[tags=LcdSystemTimeI2CDevice]
 ----
 
-=== Potentiometer
+=== Grove Potentiometer
 Ein Potentiometer ist eine Art dynamischer Wiederstand, welcher durch das Drehen oder Verschieben eines Reglers vergrössert oder verkleinert werden kann. Der Grove Potentiometer gibt uns je nach eingestelltem Wiederstand einen Wert zwischen 0 und 1'000 zurück. Mit einem Potentiometer können wir also Werte einstellen, mit welchen wir dann einen Aktuator kontrollieren können. Zum Beispiel könnten wir mit einem Potentiometer die Helligkeit einer Leuchtdiode steuern. <<Potentiometer>>
 
 .Grove Potentiometer
@@ -1034,9 +1034,60 @@ image::./fritzing/raspiCam.png[width=60% RaspiCam Wiring]
 
 ==== Anwendungsbeispiel
 In diesem Code Beispiel wird die Raspberry Pi Camera mit der `RaspberryPiCameraComponent` verwendet, um zwei Bilder und ein Video aufzunehmen in den Ordner `/home/pi/Pictures/`.  +
+
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/component/RaspberryPiCameraDevice.java[tags=RaspberryPiCameraDevice]
+----
+
+=== Grove LED Strip Driver
+Der Grove LED Strip Driver erlaubt die Steuerung der Farbe eines RGB LED Bandes mit 12V Spannungsaufnahme. Die Steuerung erfolgt über einen digitalen Grove Adapter. Unsere Component Klasse repräsentiert ein Äquivalent zur offiziellen C++ Library des LED Strip Drivers. <<LedStripDriver>>
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x 12V DC Power Spannungsquelle
+* 1x Grove Kabel
+* 4x Kabel
+* 1x Grove LED Strip Driver
+* 1x LED Strip mit 4 Anschlüssen (+, B, R, G)
+* 1x Schraubendreher
+
+Die 12V Spannungsquelle muss mittels Schraubendreher am Treiber befestigt werden. Befestigungsstelle ist im unteren Bild rot umrahmt. Das Grove Kabel, welches mit einem digitalen Output des Grove Base Hat verbunden ist, muss an den Grove Anschluss _IN_ des Treibes angeschlossen werden. Die Kabel zur LED müssen ebenfalls mit dem Schaubendreher am Treiber angeklemmt werden. Die einzelnen Verbindungen sind mit G, R, B, + beschriftet. Diese müssen entsprechend mit dem LED Band verbunden werden.
+
+* *+* mit der 12V Stromaufnahme
+* *B* mit dem blauen Kanal
+* *R* mit dem roten Kanal
+* *G* mit dem grünen Kanal
+
+.Grove LED Strip Driver
+[link=https://wiki.seeedstudio.com/Grove-LED_Strip_Driver/]
+image::led_strip_driver.jpg[width=75% Grove Led Strip Driver]
+
+==== API
+.LED Strip Driver - Konstruktoren
+[cols="1,1"]
+|===
+|*Konstruktor* |*Beschreibung*
+|LedStripDriverComponent(com.pi4j.io.gpio.GpioPinDigitalOutput data, com.pi4j.io.gpio.GpioPinDigitalOutput clock) |Standard constructor of the LED Strip Driver connected to the Pi's GPIO pins.
+|LedStripDriverComponent(GroveAdapter groveAdapter) |Standard constructor of the LED Strip Driver connected to the Grove Base Hat.
+|===
+
+.LED Strip Driver - Funktionen
+[cols="1,2,2"]
+|===
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|void |setColor(int red, int green, int blue) |Sets the color of the LED strip connected to the LED strip driver.
+|void |start() |Before setting the color of the LED strip this command has to run.
+|void |stop() |After setting the color of the LED strip this command has to run.
+|===
+
+==== Anwendungsbeispiel
+Das folgende Code Beispiel wechselt alle fünf Sekunden die Farbe des LED Bands. Von Rot auf Grün und dann zu Blau. Die gewünschte Farbe kann mittels der Funktion `setColor()` als RGB Farbcode übergeben werden.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/LedStripDriverDevice.java[tags=LEDStripDriverDevice]
 ----
 
 == Beispielprojekt
@@ -1353,7 +1404,7 @@ Wenn die gemessene Zeit zwischen Emission und Rezeption durch 2 geteilt wird, da
 * Für inches: `74`
 
 
-=== Potentiometer
+=== Grove Potentiometer
 Das Grove Potentiometer wird über einen der analogen Ports an den Grove Base Hat angeschlossen. Der Grove Base Hat stellt die gelesenen oder zu schreibenden Werte über den I2C Bus dem Raspberry Pi zur Verfügung.
 
 ==== Konstruktor
@@ -1775,6 +1826,11 @@ Wenn das Objekt dann der `RaspberryPiCameraComponent` übergeben wird im Konstru
 include::{sourcedir}/fhnwgpio/components/RaspberryPiCameraComponent.java[tags=RasPiCamTakeVid]
 ----
 
+=== Grove LED Strip Driver
+Mit dem Grove LED Strip Driver lassen sich 12V LED Bänder mit 4 Anschlüssen steuern. Dieser Typ von LED Steifen lässt nur komplette Farbwechsel zu. Einzelne Pixel auf dem Band können nicht gesteuert werden. Dazu würde man sogenannte Neopixel Bänder benötigen, welche aber nur über 4 Anschlüsse verfügen.
+
+Unsere Component Klasse wiederspiegelt die offizielle LED Strip Driver Library, welche im Seed Studio Wiki zu finden ist. Wir haben die Library lediglich von C++ in Java übersetzt und die Konstruktoren angepasst. <<LedStripDriver>>
+
 [bibliography]
 == Literaturverzeichnis
 - [[[Log4j,1]]] Apache Logging Services™: Apache Log4j 2: [https://logging.apache.org/log4j/2.x/, 10.08.2020]
@@ -1802,22 +1858,24 @@ include::{sourcedir}/fhnwgpio/components/RaspberryPiCameraComponent.java[tags=Ra
 
 - [[[RfidReader,12]]] Seed Studio: Grove - 125KHz RFID Reader [https://wiki.seeedstudio.com/Grove-125KHz_RFID_Reader/, 10.08.2020]
 
-- [[[Potentiometer,13]]] Seed Studio: Grove - Rotary Angle Sensor [https://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/, 10.08.2020]
+- [[[LedStripDriver,13]]] Seed Studio: Grove - LED Strip Driver [https://wiki.seeedstudio.com/Grove-LED_Strip_Driver/, 10.08.2020]
 
-- [[[UltrasonicRanger,14]]] Seed Studio: Grove - Ultrasonic Ranger [https://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/, 10.08.2020]
+- [[[Potentiometer,14]]] Seed Studio: Grove - Rotary Angle Sensor [https://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/, 10.08.2020]
 
-- [[[GroveBaseHat,15]]] Seed Studio: Grove Base Hat for Raspberry Pi. [https://wiki.seeedstudio.com/Grove_Base_Hat_for_Raspberry_Pi/, 10.08.2020]
+- [[[UltrasonicRanger,15]]] Seed Studio: Grove - Ultrasonic Ranger [https://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/, 10.08.2020]
 
-- [[[GroveSA,16]]] Seed Studio: Grove System. [https://wiki.seeedstudio.com/Grove_System/, 09.08.2020]
+- [[[GroveBaseHat,16]]] Seed Studio: Grove Base Hat for Raspberry Pi. [https://wiki.seeedstudio.com/Grove_Base_Hat_for_Raspberry_Pi/, 10.08.2020]
 
-- [[[GroveCam,17]]] ShenZhen Top Create Electronic Co .，Ltd: CJ - CAM User Manual OV528 Protocol [https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf, 10.08.2020]
+- [[[GroveSA,17]]] Seed Studio: Grove System. [https://wiki.seeedstudio.com/Grove_System/, 09.08.2020]
 
-- [[[Pi4J,18]]] The Pi4J Project: Welcome to Pi4J! [https://www.pi4j.com/1.2/index.html, 10.08.2020]
+- [[[GroveCam,18]]] ShenZhen Top Create Electronic Co .，Ltd: CJ - CAM User Manual OV528 Protocol [https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf, 10.08.2020]
 
-- [[[LED,19]]] Wikipedia: Leuchtdiode [https://de.wikipedia.org/wiki/Leuchtdiode, 10.08.2020]
+- [[[Pi4J,19]]] The Pi4J Project: Welcome to Pi4J! [https://www.pi4j.com/1.2/index.html, 10.08.2020]
 
-- [[[ServoMotor,20]]] Youtube - Daniel Ross: Java and Raspberry Pi Programming - Servo Control Explained [https://www.youtube.com/watch?v=xw10KuDYu4Q, 10.08.2020]
+- [[[LED,20]]] Wikipedia: Leuchtdiode [https://de.wikipedia.org/wiki/Leuchtdiode, 10.08.2020]
 
-- [[[StepperMotor,21]]] Youtube - Gaven MacDonald: Stepper Motor Control with the Raspberry Pi [https://www.youtube.com/watch?v=Dc16mKFA7Fo, 10.08.2020]
+- [[[ServoMotor,21]]] Youtube - Daniel Ross: Java and Raspberry Pi Programming - Servo Control Explained [https://www.youtube.com/watch?v=xw10KuDYu4Q, 10.08.2020]
 
-- [[[Setup, 22]]] Youtube - TechWizTime: Connect to a Raspberry Pi Zero W via USB - No Mini HDMI Cable Needed [https://www.youtube.com/watch?v=xj3MPmJhAPU, 10.08.2020]
+- [[[StepperMotor,22]]] Youtube - Gaven MacDonald: Stepper Motor Control with the Raspberry Pi [https://www.youtube.com/watch?v=Dc16mKFA7Fo, 10.08.2020]
+
+- [[[Setup, 23]]] Youtube - TechWizTime: Connect to a Raspberry Pi Zero W via USB - No Mini HDMI Cable Needed [https://www.youtube.com/watch?v=xj3MPmJhAPU, 10.08.2020]

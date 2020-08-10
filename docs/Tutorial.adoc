@@ -31,10 +31,8 @@ image::FHNW.png[FHNW,382,59]
 
 *Datum*: {docdate}
 
-<<<
 toc::[]
 
-<<<
 :sectnums!:
 == Einleitung
 :sectnums:
@@ -42,8 +40,6 @@ toc::[]
 Dieses Tutorial soll den Studierenden der FHNW eine Hilfestellung bieten für die IoT Projekte in IP1/2. Es wird gezeigt, wie der Raspberry Pi grundlegend funktioniert und wie es mit anderen Geräten interagieren kann. Das Ziel dieses Tutorials ist es, dass die Entwicklung und die Arbeit an der Software der Projekte in den Vordergrund rückt und der elektrotechnische Teil erleichtert wird. Im Fokus bei der Entwicklung steht Java mit der Pi4J-Library, welche für Java IoT-Projekte auf dem Raspberry Pi genutzt wird.
 
 Der Hauptteil des Tutorials befasst sich mit verschiedenen Sensoren und Aktoren, welche an den Raspberry Pi angeschlossen werden können, welche zur erleichterten Verwendung hauseigene Komponenten-Klassen in Java bekommen haben. Diese Komponenten-Klassen können als Library in den IoT Projekten verwendet werden.
-
-<<<
 
 == Hardware 
 

@@ -31,7 +31,6 @@ image::FHNW.png[FHNW,382,59]
 
 *Datum*: {docdate}
 
-<<<
 [discrete]
 == Management Summary
 Das Ziel dieser Arbeit war es zu Beginn einen Hardware Simulator für die meistverwendeten Sensoren und Aktuatoren, die an den Raspberry Pi angeschlossen werden können, zu entwickeln. Der Simulator sollte die Programmierschnittstellen des Raspberry Pi auf Basis von der Java Library Pi4J simulieren können. Den Studierenden sollte es ermöglicht werden unter Verwendung von Java gegen ihren simulierten Aufbau zu programmieren und Feedback vom Simulator zu erhalten. Dieser Aufbau hätte die Effektivität der Teamarbeit an den IP1/2 Projekten erhöht und die Entwicklungsarbeit an der Hardware reduziert.
@@ -40,12 +39,10 @@ Ein grosser Teil dieser Arbeit beschäftigt sich damit, wieso der Simulator nich
 
 Es wurde eine API in Java entwickelt für die meistverwendeten Geräte, welche es vereinfachen soll, IoT Projekte in Java mit dem Raspberry Pi zu entwickeln. Neben den unabhängigen Geräten, welche an den Raspberry Pi angeschlossen werden können, ist die Library auch kompatibel mit einigen Grove Sensoren und Aktuatoren. Die Grove Sensoren und Aktuatoren können über den Grove Hat (Ein Aufsatz für den Raspberry Pi) direkt an dem Pi angeschlossen werden. Die Library und das modulare Grove System ermöglichen den Studierenden, die hardwarenahe Entwicklungszeit zu reduzieren. Zusätzlich wurde ein umfangreiches Tutorial erstellt, welches die Entwicklung und Verwendung der Komponentenklassen der API beschreibt. Das Tutorial und die API zusammen erreichen das ursprüngliche Ziel, den Informatikstudenten die elektrotechnischen Arbeiten der IoT Projekte zu erleichtern und die Softwareentwicklung in den Vordergrund zu stellen.
 
-<<<
 [discrete]
 == Inhaltsverzeichnis
 toc::[]
 
-<<<
 :sectnums!:
 == Einleitung
 
@@ -58,8 +55,6 @@ Zu Beginn sollte das Ziel mit einem Hardware Simulator erreicht werden, welche e
 Das Projekt entwickelte sich zu einer Java-Library mit einem umfangreichen Tutorial, welche das ursprüngliche Ziel gewinnbringender für die Studierenden zu erreichen vermochte.
 
 :sectnums:
-
-<<<
 
 == Anforderungen
 Die nachfolgende Tabelle enthält alle Anforderungen an den GPIO Simulator, welche wir während der Requirement Analyse identifizieren haben. Den einzelnen Anforderungen haben wir drei Prioriäten zugeteilt.
@@ -74,73 +69,55 @@ Die Umsetzung der Requirements soll gemäss Ihrer Priorität erfolgen.
 [cols="1,7,1"]
 |===
 |Nummer |Beschreibung  |Priorität
-
 |{counter:reqNumber} 
 |Anwender sollen unabhängig von der Hardwareverfügbarkeit an ihren Raspberry Pi Projekten arbeiten können.
 |1
-
 |{counter:reqNumber}
 |Anwender sollen auf eine einfache und intuitive Art konfigurieren können, ob der Code auf dem GPIO Simulator oder auf dem Raspberry Pi ausgeführt wird.
 |1
-
 |{counter:reqNumber}
 |Anwender sollen das Logging Level des GPIO Simulators konfigurieren können, ohne dass das Projekt neu gebaut werden muss.
 |1
-
 |{counter:reqNumber}
 |Anwender sollen mittels den vom GPIO Simulator zur Verfügung gestellten Funktionen die analogen und digitalen Pins des Raspberry Pi via Pi4J setzen können.
 |1
-
 |{counter:reqNumber} 
 |Anwender sollen mittels den vom GPIO Simulator zur Verfügung gestellten Funktionen die analogen und digitalen Pins des GPIO Simulators setzen können.
 |1
-
 |{counter:reqNumber}
 |Anwender sollen mittels den vom GPIO Simulator zur Verfügung gestellten Funktionen die analogen und digitalen Pins des Raspberry Pi via Pi4J auslesen können.
 |1
-
 |{counter:reqNumber}
 |Anwender sollen mittels den vom GPIO Simulator zur Verfügung gestellten Funktionen die analogen und digitalen Pins des GPIO Simulators auslesen können.
 |1
-
 |{counter:reqNumber}
 |Anwender sollen mittels den vom GPIO Simulator zur Verfügung gestellten Funktionen die Grove Anschlüsse des Raspberry Pi via Pi4J setzen können.
 |2
-
 |{counter:reqNumber}
 |Anwender sollen mittels den vom GPIO Simulator zur Verfügung gestellten Funktionen die Grove Anschlüsse des GPIO Simulators setzen können.
 |2
-
 |{counter:reqNumber}
 |Anwender sollen mittels den vom GPIO Simulator zur Verfügung gestellten Funktionen die Grove Anschlüsse des Raspberry Pi via Pi4J auslesen können.
 |2
-
 |{counter:reqNumber}
 |Anwender sollen mittels den vom GPIO Simulator zur Verfügung gestellten Funktionen die Grove Anschlüsse des GPIO Simulators auslesen können.
 |2
-
 |{counter:reqNumber}
 |Den Benutzern des GPIO Simulators sollen Code Beispiele für die gängigen Sensoren und Aktuatoren zur Verfügung stehen.
 |2
-
 |{counter:reqNumber}
 |Anwender sollen vom GPIO Simulator Feedback in einem User Interface erhalten.
 |3
-
 |{counter:reqNumber} 
 |Anwender sollen im User Interface des GPIO Simulators alle gängigen Sensoren und Aktuatoren zur Verfügung haben.
 |3
-
 |{counter:reqNumber}
 |Anwender sollen im User Interface des GPIO Simulators Sensoren und Aktuatoren mit dem Grove Hat verbinden können.
 |3
-
 |{counter:reqNumber} 
 |Anwender sollen die Konfiguration der Sensoren und Aktuatoren des GPIO Simulators speichern und wiederverwenden können.
 |3
 |===
-
-<<<
 
 == Hardware
 Zur Umsetzung unseres Projekts benötigen wir nebst einem Micro Computer noch diverse zusätzliche Hardware Komponenten. Dazu gehören vor allem eine Vielzahl von Sensoren und Aktuatoren. In der nachfolgenden Tabelle sind alle Komponenten festgehalten, welche uns zur Verfügung stehen.
@@ -188,7 +165,7 @@ Zur Umsetzung unseres Projekts benötigen wir nebst einem Micro Computer noch di
 Nebst der verwendeten Hardware benötigen wir auch einige Software Bibliotheken zur Umsetzung unseres Projektes. Da der Simulator auf Java basieren soll, verwenden wir ausschliesslich Java Libraries zur Implementation der gewünschten Funktionalität.
 
 === Pi4J
-Das Projekt Pi4J bietet vollzugriff auf die I/O Funktionalität des Raspberry Pi über eine objektorientierte Java API. Die Bibliothek abstrahiert die komplexe Hardware Programmierung und ermöglicht es Java Programmieren, sich auf die Implementation ihrer Logik zu konzentrieren.
+Das Projekt Pi4J bietet vollzugriff auf die I/O Funktionalität des Raspberry Pi über eine objektorientierte Java API. Die Bibliothek abstrahiert die komplexe Hardware Programmierung und ermöglicht es Java Programmieren, sich auf die Implementation ihrer Logik zu konzentrieren. <<Pi4J>>
 
 * Exportieren und Importieren von GPIO Pins
 * Konfigurieren der GPIO Pin Flussrichtung
@@ -245,11 +222,105 @@ Bei diesem Integrationstyp wird der Simulator zu einer separaten Applikation, di
 .Stand-Alone Integration 
 image::Standalone_Integration.png[500, 500, Design Standalone]
 
-<<<
+== GPIO Geräte kennenlernen
+Bevor wir mit der eigentlichen Implementation des GPIO Simulators gestartet haben, machten wir uns mit einigen der uns zur Verfügung gestellten Hardware Komponenten bekannt. Durch die Umsetzung der einzelnen Beispiele konnten wir den Pi besser kennenlernen und konnten ein Verständnis dafür aufbauen, wie er über seine GPIO Pins mit Sensoren und Aktuatoren kommunizieren kann.
 
-== TODO: GPIO Geräte kennenlernen
-Beschreiben wie wir zunächst die GPIO Devices kennengelernt haben und angefangen haben Beispiele zu erarbeiten.
+Total haben wir acht verschiedene Beispiele realisiert. Sie sind im Package fhnwexamples.gpio unseres Projektes zu finden.
 
+=== LED
+Die blinkende LED ist wohl für die meisten Programmiererinnen und Programmierer die erste Hardware Komponente, welche Sie über einen GPIO Pin steuern. Auch für uns war die LED das erste Device, welches wir an den Raspberry Pi angeschlossen haben.
+
+Die LED kann direkt an einen GPIO Output Pin angeschlossen werden. In unserem Beispiel haben wir uns für den Pin 2 entschieden. Damit wir den Zustand der Leuchtdiode steuern können müssen wir ein Objekt vom Typ `GpioPinDigitalOutput` vom `GpioController` anfordern. Über dieses Objekt können wir den Zustand des Pins über die Funktionen `high()` und `low()` steuern. Unsere `BlinkLed` Klasse lässt die LED im Sekundentackt blinken.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/gpio/BlinkLed.java[tags=BlinkLed]
+----
+
+=== Button
+Der Button ist das wohl einfachste Input Device überhaupt. Damit wir den aktuellen Wert es Buttons lesen können, benötigen wir einen `GpioPinDigitalInput`, welchen wir wir vom `GpioController` anfordern. Über die Funktionen `isHigh()` sowie `isLow()` können wir erfahren, ob der Button aktuell gedrückt ist oder nicht. In unserem Beispiel verwenden wir allerdings einen von Pi4J zur Verfügung gestellten Listener, welchen wir direkt auf dem Pin registrieren können. Bei Zustandsänderungen erhalten wir vom Listener sofort eine Benachrichtigung in der Form eines Events. Dieses können wir dann auswerten.
+
+Informationen zur Verkabelung des Buttons befinden sich im Tutorial.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/gpio/ButtonClick.java[tags=ButtonClick]
+----
+
+=== Key Pad
+.Key Pad
+[link=https://circuitdigest.com/microcontroller-projects/4x4-keypad-interfacing-with-pic16f877a]
+image::keypad.png[width=75% Key Pad]
+
+Ein Key Pad ist besteht im Prinzip aus einer Matrix von Buttons. In unserem Fall steuern wir ein 4x4 Key Pad an, welches aus 16 einzelnen Buttons besteht. Um zu erkennen, welcher Button im Moment gedrückt wird, benötigen wir acht GPIO Pins. Jeder dieser Pins repräsentiert eine Zeile oder eine Spalte in der oberen Grafik. Die Leiterbahnen X1 bis X4 haben wir als Output Pins deklariert. Die Pins Y1 bis Y2 sind unsere Input Pins. Beide legen wir als Array ab.
+
+
+In einer for-Schleife setzen wir Zeile für Zeile unter Strom um prüfen dann Pro Zeile, ob wir in einer der Spalten einen Input erhalten. Sollte dies der Fall sein, haben wir den aktuell gedrückten Knopf identifiziert und können ihn auf der Konsole ausgeben.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/gpio/KeyPad.java[tags=KeyPad]
+----
+
+=== LC Display
+Das von uns verwendet LC Display erlaubt die Anzeige von je 16 Zeichen auf 2 Zeilen. Total können also 32 Zeilen angezeigt werden. LC Displays gibt es in verschiedenen Varianten. Unser Display kann entweder über den I2C Bus des Raspberry Pis angesteuert werden oder auch direkt über die GPIO Pins. In diesem Beispiel verwenden wir die Kommunikation via GPIO Pins. Ein I2C Beispiel finden Sie im Tutorial.
+
+Das unten gezeigte Code Beispiel benutzt die Lcd Klasse von WiringPi. Im Konstruktor definieren wir, wie viele Zeilen und Spalten unser Display hat. In unserme Fall haben wir 2 Zeilen und 16 Spalten. Die Datenübermittlung erfolgt über 4 Bits. Mittels GPIO_01 bis GPIO_04 können wir Nachrichten an das Display senden. Über den RS Pin GPIO_06 wird dem Display mitgeteilt, ob es sich bei den gesendeten Bytes um einen Befehl oder um ein Zeichen handelt. Über den verbleibenden Pin GPIO_05 lässt sich die Helligkeit des Displays steuern.
+
+Das Beispiel zeigt auf der ersten Zeile des Displays den Text "gpiosimulator" an. Auf der zweiten Zeile wir die aktuelle Uhrzeit angezeigt.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/gpio/LcdSystemTime.java[tags=LcdSystemTime]
+----
+
+=== DC Motor
+DC Motoren können auf verschiedene Arten gesteuert werden. Einerseits können wir die Drehgeschwindigkeit eines Motors über **P**ulse **W**idth **M**odulation steuern, andererseits können wir durch die Änderung der Polarität die Drehrichtung umkehren. Für letzteres benötigen wir aber weitere Hardware.
+
+Informationen zur Hardware sowie dessen Verkabelung finden Sie im Tutorial.
+
+==== Steuerung der Laufrichtung
+Zur Steuerung der Laufrichtung benötigen wir einen Motor Driver. Für unser Beispiel haben wir den Treiber L293D verwendet. Mittels zwei Instanzen des `GpioDigitalOutputPin` können wir die Polarität des Treibers steuern. Ist der Pin `moveForward` HIGH und der Pin `moveBackward` LOW, dreht sich der Motor im Uhrzeigersinn. Dreht man die Zustände der Pins um, dreht der Motor im Gegenuhrzeigersinn. Wenn wir beide Pins LOW setzen, stoppt der Motor.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/gpio/MotorDirection.java[tags=MotorDirection]
+----
+
+==== Steuerung der Drehzahl
+Die Drehzahl des Motors können wir über PWM steuern. Der Raspberry Pi bietet uns zwei getrennte PWM Schaltkreise, welche jeweils über zwei Pins verfügen. Mittels PWM kann ein Pin in einem gewünschten Rhythmus an- und ausgeschaltet werden. Über das sogenannte Puls-Pause Verhältnis wird definiert, wie viele Prozent der Pin pro Zyklus HIGH ist. Ein Puls-Pause Verhältnis oder Duty Cycle von 75% entspricht dabei einer HIGH Time von 75% gefolgt auf eine LOW Time von 25%.
+
+.PWM als Grafik
+[link=https://www.elektronik-kompendium.de/sites/kom/0401111.htm]
+image::pwm.png[width=75% PWM as a Graph]
+
+Das PWM Signal steuert also die Menge an Strom, welche zum Motor fliesst. Bei einem kleineren Duty Cycle fliesst weniger Strom pro Zeit. Bei einem grösseren Duty Cycle fliesst entsprechend mehr Strom. Dies beeinflusst die Drehzahl des Motors direkt, weshalb wir über PWM den Motor optimal steuern können.
+
+Standardmässig entspricht ein PWM Wert von 1024 einer HIGH Time von 100%. Unser Beispiel lässt den Motor also in 10er Schritten von 0% bis 100% Drehleistung drehen.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/gpio/MotorSpeedHardPwm.java[tags=MotorSpeedHardPwm]
+----
+
+=== SerialCamera
+Bei der Grove Serial Camera handelt es sich um eine über den UART Bus des Raspberry Pi steuerbare Kamera. Die Kommunikation zwischen Kamera und Raspberry Pi folgt dem OV528 Protokoll. Die Klasse `SerialCamera` im Package `fhnwexamples.gpio` stellt eine rudimentäre Implementation dieses Protokolls dar. Weitere Informationen zur Grove Serial Camera sowie dem Protokoll OV528 finden Sie im Kapitel _Zusatzinformationen_ im Tutorial.
+
+=== Servo Motor
+
+Die Position des Armes eines Servo Motors lässt sich über ein PWM Signal steuern. Durch die Aufrechterhaltung eines konstanten Signals hält der Arm seine Position. Die meisten Servo Motoren benötigen einen PWM Input von 50Hz. Über die HIGH Time lässt sich der gewünschte Winkel einstellen. Wie wir bereits bei der Implementation der Drehzahlregulierung eines Gleichstrommotors gelernt haben, können wir die HIGH Time eines Pulses über den Duty Cycle regulieren.
+
+In unserem Servo Motor Beispiel drehen wir den Arm schrittweise von 0 (550 Mikrosekunden) auf 180 (2600 Mikrosekunden) Grad. Ist der Motor bei seiner maximalen Position angekommen, setzen wir ihn wieder auf seine Ausgangsposition zurück.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/gpio/ServoMotor.java[tags=ServoMotor]
+----
+
+=== Stepper Motor
+Stepper Motoren lassen eine präzise Steuerung des Drehwinkels zu. Der von uns eingesetzte Schrittmotor 28BYJ-48 lösst eine Drehgenauigkeit von 0.087890625° zu.
+
+Unser Steppe Motor Beispiel verwendet das `GpioStepperMotorComponent` Objekt, welches Bestandteil des Component Package von Pi4J ist. Da dieses Package in zukünftigen Versionen von Pi4J nicht mehr enthalten sein wird, sparen wir uns an dieser Stelle die Beschreibung des Codes. Die von uns im Rahmen des Tutorials implementierte Component Klasse zur Steuerung von Stepper Motoren ist bereits unter _Zusatzinformationen_ des Tutorials dokumentiert.
 
 == Simulatiosstrategie: 1. Iteration
 Nebst der Frage, wie wir den Simulator integrieren möchten, müssen wir uns darüber Gedanken machen, wie wir den Switch zwischen Simulator und Hardware für den Benutzer möglichste einfach gestalten können. Grundsätzlich ist es das Ziel, dass der Benutzer den Code nur an einer einzigen Stelle ändern muss, um zwischen Simulator und Hardware zu wechseln. Auch denkbar wäre eine Konfiguration ausserhalb des Codes mittels Konfigurationsdatei.
@@ -434,8 +505,6 @@ Das Tutorial soll ein separates Dokument sein und muss am Anfang ein Setup Guide
 
 Bei den Code Beispielen muss ausserdem darauf geachtet werden, dass sie nicht zu komplexe Themen wie Asynchronität ansprechen, da solche Themen den Rahmen eines Projektes für das erste und zweite Semester sprengen.
 
-<<<
-
 == Projektstrategie: Tutorial
 Das Ziel des Tutorials soll es sein, die Anlaufstelle für Hilfestellungen bezüglich der meistverwendeten Sensoren und Aktuatoren unter <<Hardware>> zu sein. Zudem sollte genau erklärt werden, wie ein IoT-Projekt in Java eingerichtet wird und wie die  Komponentenklassen als API eingebunden werden.
 
@@ -465,13 +534,27 @@ Das Beispielprojekt zeigt auch, wie das Logging der Komponentenklassen eingesetz
 Dieser Teil dient als Ergänzung zu dem Abschnitt für die Komponentenklassen. In dem vorherigen Abschnitt werden die Komponenten als Blackbox beschrieben und gezeigt wie man die API verwenden kann, aber in diesem Teil wird darauf eingegangen, was im Hintergrund tatsächlich passiert und wie die Komponentenklassen geschrieben sind. Für Studierende welche sich ein tieferes Wissen über die einzelnen Geräte oder den Code dahinter interessieren, bietet dieses Kapitel die Abendlektüre. Wenn es zu Fehlern oder Ergänzungen kommt wird es sich auch lohnen den Zusatzinformationsteil zu durchforsten.
 
 :sectnums!:
-== TODO Schluss
+== Fazit
+Während der Umsetzung unserer Projektarbeit stand stets der Nutzen des Endproduktes im Fokus. Mit unserem Deliverable möchten wir die Studierenden in den Projekten 1 und 2 möglichst gut bei Ihrem Einstieg in die Programmierung mit dem Raspberry Pi und Java unterstützen. Während der Arbeit an unserem Projekt wurden wir immer wieder aufs Neue vor unterschiedliche Hindernisse gestellt, welche es zu überwinden gab.
 
-<<<
-== TODO Literaturverzeichnis
+Das in der Projektvereinbarung definierte Ziel eines Hardware Simulators konnten wir auf Grund dieser Hindernisse leider nicht wie geplant realisieren. Der Simulator hätte es den Studierenden ermöglicht, auch ohne Hardware an Ihren Projekten zu arbeiten und Ihren Code gegen den Simulator zu prüfen. Diesen Vorteil kann das von uns realisierte Tutorial leider nicht bieten. Dennoch sind wir davon überzeugt, dass wir den Studierenden durch unser Tutorial und die darin enthaltenen Beispiele einen guten und lehrreichen Einstieg in die IoT Welt mit dem Raspberry Pi ermöglichen.
 
-<<<
-== TODO Ehrlichkeitserklärung
+Die durch uns entwickelten Component Klassen abstrahieren die teils sehr komplexen Abläufe und Hardware Protokolle von verschiedenen Komponenten und stellen stattdessen Klassen und Funktionen zur Verfügung, welche ohne weitere Detailkenntnisse verwendet werden können. Die Studierenden müssen sich nicht mehr mit diesen auseinandersetzen, wenn Sie dies nicht wollen. Im Teil _Zusatzinformationen_ unseres Tutorials finden interessierte Studenten Detailinformationen zu unseren Komponenten sowie Informationen zur Funktionalität des jeweiligen Sensors oder Aktuators.
 
-<<<
+Während der Umsetzung des Projektes haben wir viele spannende neue Erkenntnisse gesammelt, von denen wir künftig bestimmt profitieren können. Die Arbeit am Projekt und im Projektteam hat uns stehts Freude bereitet und wir sind mit unserem Resultat zufrieden.
+
+[bibliography]
+== Literaturverzeichnis
+- [[[LCD,1]]] Arduino-Grundlagen: LCD ansteuern [https://rotering-net.de/tut/arduino/lcd-ansteuern.html, 10.08.2020]
+
+- [[[Pi4J,2]]] The Pi4J Project: Welcome to Pi4J! [https://www.pi4j.com/1.2/index.html, 10.08.2020]
+
+== Ehrlichkeitserklärung
+Die Autoren Anessollah Ima und Jonathan Bättig erkläre hiermit, dass wir die vorliegende Arbeit eigenständig und ohne unerlaubte fremde Hilfe erstellt habe. Alle Textstellen in der Arbeit, die wörtlich oder sinngemäss aus Quellen entnommen wurden, habe wir als solche gekennzeichnet und im Literaturverzeichnis angegeben.
+
 == Anhang
+
+* Projekt auf GitHub: https://github.com/FHNW-IP5-IP6/GPIOSimulator
+* Release auf GitHub: https://github.com/FHNW-IP5-IP6/GPIOSimulator/releases/
+* Tutorial
+* Projektvereinbarung

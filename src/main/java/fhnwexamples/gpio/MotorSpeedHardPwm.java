@@ -11,6 +11,7 @@ public class MotorSpeedHardPwm extends Example {
         super(key, title);
     }
 
+    // tag::MotorSpeedHardPwm[]
     @Override public void execute() throws Exception {
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         final GpioController gpio = GpioFactory.getInstance();
@@ -22,7 +23,7 @@ public class MotorSpeedHardPwm extends Example {
         pwm.setShutdownOptions(true, PinState.LOW);
         pwm.setPwm(0); // Set software PWM to 0
 
-        while (console.isRunning()){
+        while (console.isRunning()) {
             for (int i = 0; i < 10; i++) {
                 pwm.setPwm(i * 100);
                 console.println("Motor is at " + (100 - (pwm.getPwm()) / 10) + "%");
@@ -37,4 +38,5 @@ public class MotorSpeedHardPwm extends Example {
 
         gpio.shutdown();
     }
+    // end::MotorSpeedHardPwm[]
 }

@@ -1282,9 +1282,10 @@ include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectStart]
 == Zusatzinformationen
 
 === LED
-Die LED ist wohl für die meisten GPIO Programmiererinnen und Programmierer die erste Komponente, welche an den Controller angeschlossen wird. Die blinkende LED ist quasi das "Hello World" der Hardware Programmierung. Auch wir haben die LED als erste Komponente an unseren Raspberry Pi angeschlossen.
+Die LED ist wohl für die meisten GPIO Programmiererinnen und Programmierer die erste Komponente, welche an den Controller angeschlossen wird. Die blinkende LED ist das "Hello World" der Hardware Programmierung.
 
-Die von uns implementierte Component-Klasse unterstützt die Statusänderung von LEDs, welche entweder direkt an die GPIO Pins der Raspberry Pi angeschlossen wurden, sowie auch jene, welche über den Grove Base Hat via dessen digitalen Adapter verbunden wurden. Wird dem Konstruktor ein ` GpioPinPwmOutput` Pin übergeben, lässt sich zusätzlich die Helligkeit der LED steuern.
+Die Component-Klasse unterstützt die Statusänderung von LEDs, welche entweder direkt an die GPIO Pins der Raspberry Pi angeschlossen wurden. Es werden auch LEDs, welche über den Grove Base Hat via dessen digitalen Adapter verbunden wurde. Wird dem Konstruktor ein ` GpioPinPwmOutput` Pin übergeben, lässt sich zusätzlich die Helligkeit der LED steuern.
+
 
 ==== Status modifizieren
 Alle Konstruktoren erlauben das Setzen des Status einer LED. Mit den Funktionen `turnLedOn()` sowie `turnLedOff()` kann kontrolliert werden, ob die LED leuchtet oder nicht.
@@ -1309,7 +1310,7 @@ Im entsprechenden Konstruktor setzen wir die gewünschte PWM Frequenz auf 50 Her
 include::{sourcedir}/fhnwgpio/components/LedComponent.java[tags=LedComponentPwmPin]
 ----
 
-Wir der oben gezeigte Konstruktor genutzt, kann die LED über PWM gedimmt werden. Dazu steht dem Anwender die Funktion `setBrightness()` zur Verfügung. Die gewünschte Helligkeit muss als Prozentzahl übermittelt werden. Erlaubt sind nur Werte im Range 0 bis 100.
+Wird der oben gezeigte Konstruktor genutzt, kann die LED über PWM gedimmt werden. Dazu steht dem Anwender die Funktion `setBrightness()` zur Verfügung. Die gewünschte Helligkeit muss als Prozentzahl übermittelt werden. Erlaubt sind nur Werte im Range 0 bis 100.
 
 [source,java]
 ----
@@ -1317,12 +1318,12 @@ include::{sourcedir}/fhnwgpio/components/LedComponent.java[tags=LedComponentSetB
 ----
 
 === Button
-Buttons gehören zu den Input Devices. Ein Button kann zwei Zustände annehmen. Entweder ist er gedrückt oder nicht gedrückt. Je nach Button Typ leitet er im gedrückten oder offenen Zustand Strom. Diesen Strom können wir an einem digitalen Input Pin des Raspberry Pi messen.
+Buttons gehören zu den Input Devices. Ein Button kann zwei Zustände annehmen. Entweder ist er gedrückt oder nicht gedrückt. Je nach Button Typ leitet er im gedrückten oder offenen Zustand Strom. Diesen Strom kann man mit einem digitalen Input Pin des Raspberry Pi messen.
 
 Um sogenannte Floating Pins zu vermeiden, müssen Buttons mit einem Pulldown-Wiederstand an einen Input angeschlossen werden. Grove Buttons und Grove Touch Sensoren haben einen solchen Pulldown-Wiederstand bereits integriert.
 
 ==== Pulldown-Wiederstand im Schaltbild
-Damit wir einen Button als Input Device verwenden können, müssen wir einen Pulldown-Wiederstand in unserer elektrischen Schaltung realisieren. Ein solcher Wiederstand garantiert uns immer einen sicheren Wert, welcher an unserem digitalen GPIO Input Pin anliegt.
+Damit ein Button als Input Device verwenden werden kann, muss ein Pulldown-Widerstand in der elektrischen Schaltung realisiert werden. Ein solcher Widerstand garantiert immer einen sicheren Wert, welcher an dem digitalen GPIO Input Pin anliegt.
 
 .Schaltbild Pulldown-Wiederstand
 [link=https://www.elektronik-kompendium.de/sites/raspberry-pi/2006051.htm]
@@ -1330,14 +1331,15 @@ image::pulldown.gif[width=75% Pulldown Ressistor]
 
 Wie man im Schaltbild erkennen kann, liest der GPIO Pin bei offenem Schalter eine Spannung von 0V des Ground Pins. Bei geschlossenem Schalter liegt die volle Spannung von 3.3V am GPIO Pin an. Der Input Pin besitzt also immer einen fixen Zustand. Entweder ist er High oder Low.
 
-Würden wir +VCC direkt mit dem GPIO Pin verbinden und einen Schalter dazwischen positionieren, so würde bei geschlossenem Schalter 3.3V Spannung am GPIO Input Pin anliegen. Der Pin wäre High. Ist der Schalter jedoch offen, liegt kein klar definierter Wert am Pin an. Der Wert kann zwischen 0V und 3.3V variieren. Ein Pin in diesem Zustand wird als "Floating" bezeichnet.
+Wäre +VCC direkt mit dem GPIO Pin verbunden und einen Schalter dazwischen positioniert, so würde bei geschlossenem Schalter 3.3V Spannung am GPIO Input Pin anliegen. Der Pin wäre High. Ist der Schalter jedoch offen, liegt kein klar definierter Wert am Pin an. Der Wert kann zwischen 0V und 3.3V variieren. Ein Pin in diesem Zustand wird als "Floating" bezeichnet.
 
-In unserem Beispiel verwenden wir einen Pulldown-Wiederstand von 10k Ohm. Zusätzlich schützen wir den Input Pin mit einem 1k Ohm Wiederstand, welcher in der oberen Grafik fehlt. Dieser 1k Ohm Wiederstand soll den Pin vor Programmierfehler schützen. Würde der GPIO Pin versehentlich als Output Pin im Programmcode deklariert werden, könnte dieser ohne den schützenden Wiederstand beschädigt werden.
+In diesem Beispiel wird ein Pulldown-Widerstand von 10k Ohm verwendet. Zusätzlich schützt ein 1k Ohm Widerstand den Input Pin. Dieser 1k Ohm Widerstand soll den Pin vor Programmierfehler schützen. Würde der GPIO Pin versehentlich als Output Pin im Programmcode deklariert werden, könnte dieser ohne den schützenden Widerstand beschädigt werden.
 
 ==== Pulldown-Wiederstand des Raspberry Pi
-Der Raspberry Pi besitzt einen internen Pulldown-Wiederstand, welcher via Software aktiviert werden kann. Dieser funktioniert prinzipiell gleich wie der von uns beschriebene Pulldown-Wiederstand im Schaltbild. Wir raten allerdings von der Verwendung des internen Pulldown-Wiederstandes ab. Diesen zu aktivieren kann schnell vergessen gehen. Im schlimmsten Fall führt dies dann zu einer Beschädigung des entsprechenden GPIO Pins.
+Der Raspberry Pi besitzt einen internen Pulldown-Widerstand, welcher via Software aktiviert werden kann. Dieser funktioniert gleich wie der von uns beschriebene Pulldown-Widerstand im Schaltbild. Wir raten allerdings von der Verwendung des internen Pulldown-Wiederstandes ab. Diesen zu aktivieren kann schnell vergessen gehen. Im schlimmsten Fall führt dies dann zu einer Beschädigung des entsprechenden GPIO Pins.
 
-Mittels Pi4J kann ein digitaler Input Pin mit aktivem Pulldown-Wiederstand mittels folgender Code Zeile erzeugt werden:
+Mittels Pi4J kann ein digitaler Input Pin mit aktivem Pulldown-Widerstand mittels folgender Code Zeile erzeugt werden:
+
 
 [source,java]
 ----
@@ -1345,7 +1347,7 @@ GpioPinDigitalInput pin = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_03, Pin
 ----
 
 ==== Zustand lesen
-Das Lesen des Inputs ist sehr simpel. Pi4J stellt uns Hierfür die Funktionen `isHigh()` sowie `isLow()` direkt auf dem `GpioPinDigitalInput` zur Verfügung. Mittels Inline If invertieren wir den Rückgabewert, sofern es sich um einen Button handelt, welcher im geschlossenen Zustand nicht gedrückt ist.
+Das Lesen des Inputs ist sehr simpel. Pi4J stellt uns Hierfür die Funktionen `isHigh()` sowie `isLow()` direkt auf dem `GpioPinDigitalInput` zur Verfügung. Mittels Inline If wird der Rückgabewert invertiert, sofern es sich um einen Button handelt, welcher im geschlossenen Zustand nicht gedrückt ist.
 
 [source,java]
 ----
@@ -1358,14 +1360,14 @@ include::{sourcedir}/fhnwgpio/components/ButtonComponent.java[tags=ButtonCompone
 === Buzzer
 Damit ein Buzzer einen Ton abspielt, muss ein bestimmtes PWM Signal anliegen. Das Signal versetzt eine Platte im Inneren des Buzzers in Schwingungen. Die daraus entstehenden Schallwellen generieren den Ton, welchen wir hören können. <<BuzzerBuild>>
 
-Für das Abspielen von Tönen ist eine Exakte Frequenz sehr wichtig. Aus diesem Grund unterstützt unsere Component Klasse nur Hardware PWM Pins des Raspberry Pi.
+Für das Abspielen von Tönen ist eine exakte Frequenz sehr wichtig. Aus diesem Grund unterstützt unsere Component Klasse nur Hardware PWM Pins des Raspberry Pi.
 
 .Buzzer Aufbau
 [link=https://www.islproducts.com/design-notes/piezo-buzzers-vs-magnetic-buzzers/]
 image::buzzer_construction.jpg[width=75% Buzzer Construction]
 
 ==== Clock Divider berechnen
-Damit ein bestimmter Ton abgespielt werden kann, muss sichergestellt werden, dass der PWM Pin, an welchem der Buzzer angeschlossen ist, ein Signal in der richtigen Frequenz liefert. Um dies zu realisieren, müssen wir herausfinden, um welchen Dividenden wir die Basisfrequenz von 19.2MHz des Raspberry Pi reduzieren müssen. Dazu teilen wir die Basisfrequenz durch die Tonfrequenz und den `dutyCycle`. Der Duty Cycle bestimmt, wie lange das Signal High geschaltet ist. Wir verwenden den Wert 512, was einer High Time von exakt 50% entspricht.
+Damit ein bestimmter Ton abgespielt werden kann, muss sichergestellt werden, dass der PWM Pin, an welchem der Buzzer angeschlossen ist, ein Signal in der richtigen Frequenz liefert. Um dies zu realisieren, müssen herausgefunden werden, um welchen Dividenden die Basisfrequenz von 19.2MHz des Raspberry Pi reduziert werden muss. Dazu wird die Basisfrequenz durch die Tonfrequenz und den `dutyCycle` geteilt. Der Duty Cycle bestimmt, wie lange das Signal High geschaltet ist. Wir verwenden den Wert 512, was einer High Time von exakt 50% entspricht.
 
 [source,java]
 ----
@@ -1373,7 +1375,7 @@ include::{sourcedir}/fhnwgpio/components/BuzzerComponent.java[tags=BuzzerCompone
 ----
 
 ==== Ton abspielen
-Ein Ton besteht aus einer Frequenz, welche über eine bestimmte Dauer wiedergegeben wird. Damit wir einen Ton abspielen können, müssen wir den errechneten Clock Divider via WiringPi setzen und auf dem PWM Pin schreiben. Danach wird das Programm pausiert, bis die gewünschte Tondauer erreicht wurde.
+Ein Ton besteht aus einer Frequenz, welche über eine bestimmte Dauer wiedergegeben wird. Damit ein Ton abgespielt werden kann, muss der errechnete Clock Divider via WiringPi gesetzt sein und auf dem PWM Pin geschrieben werden. Danach wird das Programm pausiert, bis die gewünschte Tondauer erreicht wurde.
 
 [source,java]
 ----
@@ -1381,7 +1383,7 @@ include::{sourcedir}/fhnwgpio/components/BuzzerComponent.java[tags=BuzzerCompone
 ----
 
 === LCD I2C
-Das LCD Modul besteht aus dem LCD1602 und dem PCF8574 I2C extender Mikrochip auf dem Rücken des LCDs. Der I2C Extender vereinfacht die Verkabelung und das Senden von Daten an das LCD-Display, da man ohne I2C Extender 8 GPIO Pins belegen müsste. In diesem Zusatzteil wird darauf eingegangen, wie die Messages tatsächlich an das LCD geschickt werden.
+Das LCD Modul besteht aus dem LCD1602 und dem PCF8574 I2C Extender Mikrochip auf dem Rücken des LCDs. Der I2C Extender vereinfacht die Verkabelung und das Senden von Daten an das LCD-Display, da man ohne I2C Extender 8 GPIO Pins belegen müsste. In diesem Zusatzteil wird darauf eingegangen, wie die Messages tatsächlich an das LCD-Display geschickt werden.
 
 ==== Befehle für den LCD1602
 Das LCD1602 besitzt den folgenden Befehlssatz:
@@ -1392,13 +1394,13 @@ include::{sourcedir}/fhnwgpio/components/I2CLCDComponent.java[tags=LCD1602Comman
 ----
 
 ==== Initialisierung
-Das LC Display wird im nach dem Protokoll folgendermassen initialisiert:
+Das LCD-Display wird im nach dem Protokoll folgendermassen initialisiert:
 
 .LCD1602 Init
 [link=https://www.waveshare.com/datasheet/LCD_en_PDF/LCD1602.pdf]
 image::LCD_Init.PNG[width=75% LCD Init]
 
-Die Initialisierung wurde in java folgendermassen realisiert:
+Die Initialisierung wurde in Java folgendermassen realisiert:
 [source,java]
 ----
 include::{sourcedir}/fhnwgpio/components/I2CLCDComponent.java[tags=LCDInit]
@@ -1430,7 +1432,7 @@ include::{sourcedir}/fhnwgpio/components/I2CLCDComponent.java[tags=LCDDisplayScr
 ----
 
 *Bounce Text* + 
-Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit geschenkt wird mittels eines kleinen Effekts. Ein kurzer Text bewegt sich mit einer Verzögerung von der einen Seite zur anderen, als würde der Text von der einen Seite zur Anderen springen.
+Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit geschenkt wird mittels eines kleinen Effekts. Ein kurzer Text bewegt sich mit einer Verzögerung von der einen Seite zur anderen, als würde der Text von der einen Seite zur Anderen hüpfen.
 
 [source,java]
 ----
@@ -1489,7 +1491,7 @@ Um das Echo der abgefeuerten Schallwelle zu messen, muss zunächst der Pinmodus 
 include::{sourcedir}/fhnwgpio/components/UltraSonicRangerComponent.java[tags=UltraSonicRangerMeasure]
 ----
 
-Wenn die gemessene Zeit zwischen Emission und Rezeption durch 2 geteilt wird, dann erhält man nur die Zeit bis zum Erreichen des Objektes. Um die Distanz in einer anderen Einheit darzustellen, muss man es zusätzlich durch folgende Konstanten teilen:
+Wenn die gemessene Zeit zwischen Emission und Rezeption durch 2 geteilt wird, dann erhält man nur die Zeit bis zum Erreichen des Objektes. Um die Distanz in einer anderen Einheit darzustellen, muss man es zusätzlich durch eine der folgenden Konstanten teilen:
 
 * Für cm: `29`
 * Für inches: `74`
@@ -1507,7 +1509,7 @@ include::{sourcedir}/fhnwgpio/components/PotentiometerComponent.java[tags=Potent
 ----
 
 ==== Wertebereich setzen
-Der Grove Potentiometer liefert uns über den I2C Bus je nach eingestellter Position einen Wert zwischen 0 und 1000. Mittels der `setRange()` Funktion kann der Rückgabewert eingeschränkt werden. Erlaubt sind nur positive Integer dessen Differenz mindestens 10 beträgt und nicht grösser als 999 ist.
+Der Grove Potentiometer liefert über den I2C Bus je nach eingestellter Position einen Wert zwischen 0 und 1000. Mittels der `setRange()` Funktion kann der Rückgabewert eingeschränkt werden. Erlaubt sind nur positive Integer deren Differenz mindestens 10 beträgt und die nicht grösser als 999 sind.
 
 [source,java]
 ----
@@ -1515,7 +1517,7 @@ include::{sourcedir}/fhnwgpio/components/PotentiometerComponent.java[tags=Potent
 ----
 
 ==== Value lesen
-Der aktuelle Value des Potentiometers kann über die `getValue()` Funktion gelesen werden. Dazu verwenden wird die `readData()` Funktion unserer Basisklasse. Wir erwarten zwei Bytes auf dem Bus, welche über eine Hilfsfunktion in ein Integer Wert konvertiert werden. Der gelesenen Integer wird gemäss dem eingestellten Range zurückgegeben.
+Der aktuelle Wert des Potentiometers kann über die `getValue()` Funktion gelesen werden. Dazu wird die `readData()` Funktion der Basisklasse verwendet. Es werden zwei Bytes auf dem Bus erwartet, welche über eine Hilfsfunktion in ein Integer Wert konvertiert werden. Der gelesenen Integer wird gemäss dem eingestellten Bereich zurückgegeben.
 
 [source,java]
 ----
@@ -1523,10 +1525,10 @@ include::{sourcedir}/fhnwgpio/components/PotentiometerComponent.java[tags=Potent
 ----
 
 === DC Motor
-Gleichstrommotoren können mittels dem ihnen zur Verfügung gestellten Strom in ihrer Drehrichtung und Drehzahl reguliert werden. Diese Eigenschaft haben wir uns zu Nutzen gemacht, um unsere Component Klasse zu implementieren.
+Gleichstrommotoren können mittels dem ihnen zur Verfügung gestellten Strom in der Drehrichtung und Drehzahl reguliert werden. Diese Eigenschaft wurde für die Component Klasse ausgenutzt.
 
 ==== Motor Treiber L293D
-Der Chip erlaubt uns das Anpassen der Drehrichtung von Gleichstrommotoren mit einer Spannungsaufnahme von bis zu 36 Volt. Jede Seite des Chips erlaubt die Kontrolle eines Motors. Mit einem einzelnen L293D können also gleich zwei Motoren individuell angesteuert werden. Die folgende Abbildung zeigt das Pinout des Chips gefolgt von einer Beschreibung der einzelnen Pins. <<L293D>>
+Der Chip erlaubt das Anpassen der Drehrichtung von Gleichstrommotoren mit einer Spannungsaufnahme von bis zu 36 Volt. Jede Seite des Chips erlaubt die Kontrolle eines Motors. Mit einem einzelnen L293D können also gleich zwei Motoren individuell angesteuert werden. Die folgende Abbildung zeigt das Pinout des Chips gefolgt von einer Beschreibung der einzelnen Pins. <<L293D>>
 
 .Pinout L293D
 [link=https://components101.com/l293d-pinout-features-datasheet]
@@ -1555,7 +1557,7 @@ image::L293D_Pinout.png[width=75% L293D Pinout]
 |===
 
 ==== Drehrichtung wechseln
-Wie bereits erwähnt, kann die Drehrichtung des Gleichstrommotors mittels Umkehrung der Polarität der Spannungsquelle gewechselt werden. Dies ist mittels des Motor Treibers L293D sehr einfach möglich. Die Polarität der Output Pins können wir mittels des Setzens der Input Pins beeinflussen. Die untere Tabelle zeigt, wie wir die verschiedenen Drehrichtungen umgesetzt haben. In unserem Beispiel verwenden wir die linke Seite des Chips. Enable 1, 2 ist also aktive, Enable 3, 4 ist inaktiv.
+Wie bereits erwähnt, kann die Drehrichtung des Gleichstrommotors mittels Umkehrung der Polarität der Spannungsquelle gewechselt werden. Dies ist mittels des Motor Treibers L293D sehr einfach möglich. Die Polarität der Output Pins können mittels des Setzens der Input Pins beeinflusst werden. Die untere Tabelle zeigt, wie die verschiedenen Drehrichtungen umgesetzt wurden. In diesem Beispiel wird linke Seite des Chips verwendet. Enable 1, 2 ist also aktive, Enable 3, 4 ist inaktiv.
 
 .Beschreibung Pinout
 [cols="1,1,1"]
@@ -1566,7 +1568,7 @@ Wie bereits erwähnt, kann die Drehrichtung des Gleichstrommotors mittels Umkehr
 |Low |Low |Motor stoppt.
 |===
 
-Das nachfolgenden Code Beispiele zeigt die `moveForwards()` sowie die `stop()` Funktion unserer Motor Component. Dabei wird unterschieden, ob der Motor zusätzlich über PWM gesteuert wird oder nicht. Dazu aber mehr im nächsten Unterkapitel.
+Das nachfolgenden Code Beispiele zeigen die `moveForwards()` sowie die `stop()` Funktionen der Motor Component. Dabei wird unterschieden, ob der Motor zusätzlich über PWM gesteuert wird oder nicht. Dazu aber mehr im nächsten Unterkapitel.
 
 [source,java]
 ----
@@ -1579,15 +1581,16 @@ include::{sourcedir}/fhnwgpio/components/MotorComponent.java[tags=MotorComponent
 ----
 
 ==== Geschwindigkeit anpassen
-Bei der Steuerung der Geschwindigkeit kann uns der Motor Treiber Chip nicht unterstützen. Dennoch kann die Geschwindigkeit des Motors manipuliert werden. Dies geschieht generell durch die Anpassung der am Motor anliegenden Spannung. Das Werkzeug unserer Wahl ist deshalb die **P**ulse **W**idth **M**odulation Funktion des Raspberry Pi.
+Bei der Steuerung der Geschwindigkeit kann der Motor Treiber Chip nicht unterstützen. Dennoch kann die Geschwindigkeit des Motors manipuliert werden. Dies geschieht generell durch die Anpassung der am Motor anliegenden Spannung. Das Werkzeug der Wahl ist deshalb die **P**ulse **W**idth **M**odulation Funktion des Raspberry Pi.
 
-*PWM* lässt es zu, Pins gemäss einem gewissen Rhythmus zwischen High und Low wechseln zu lassen. Beispielsweise können wir einen Pin in einer Frequenz von 50 Hertz zwischen On und Off wechseln lassen. Zusätzlich können wir pro Puls bestimmen, wie lange der Pin High ist, bevor er zu Low wechselt. Dies nennen wir den Duty Cycle. Über den Duty Cycle steuern wir die am Motor anliegende Spannung und somit die Geschwindigkeit des Motors. Ein Duty Cycle von 0% entspricht dem Stillstand des Motors. 25% Duty Cycle entspricht einer Drehgeschwindigkeit von 25%. 100% Duty Cycle entspricht der vollen Leistung des Motors.
+*PWM* lässt es zu, Pins gemäss einem gewissen Rhythmus zwischen High und Low wechseln zu lassen. Beispielsweise kann ein  Pin in einer Frequenz von 50 Hertz zwischen On und Off wechseln. Zusätzlich kann pro Puls bestimmt werden, wie lange der Pin High ist, bevor er zu Low wechselt. Dies nennt man einen Duty Cycle. Über den Duty Cycle steuert die Component Klasse die am Motor anliegende Spannung und somit die Geschwindigkeit des Motors. Ein Duty Cycle von 0% entspricht dem Stillstand des Motors. 25% Duty Cycle entspricht einer Drehgeschwindigkeit von 25%. 100% Duty Cycle entspricht der vollen Leistung des Motors.
+
 
 .PWM als Grafik
 [link=https://www.elektronik-kompendium.de/sites/kom/0401111.htm]
 image::pwm.png[width=75% PWM as a Graph]
 
-In unserer Component Klasse steuern wir den Duty Cycle über die GPIO Klasse von Wiring Pi. Der gewünschte Duty Cycle wird über die `setPWM()` Funktion festgelegt. Die `rangeAdjustment` Variable wird benötigt, da Wiring Pi zwischen Software und Hardware PWM Pins unterscheidet.
+In der Component Klasse wird der Duty Cycle über die GPIO Klasse von Wiring Pi gesteuert. Der gewünschte Duty Cycle wird über die `setPWM()` Funktion festgelegt. Die `rangeAdjustment` Variable wird benötigt, da Wiring Pi zwischen Software und Hardware PWM Pins unterscheidet.
 
 * **Software:** Duty Cycle zwischen 0 und 100
 * **Hardware:** Duty Cycle zwischen 0 und 1024
@@ -1608,7 +1611,7 @@ image::StepperMotor.gif[width=75% Single Stepping Stepper Motor]
 
 Bei den meisten Schrittmotoren kommt zusätzlich zur Welle noch ein Getriebe zum Einsatz, welches durch seine Übersetzung den Drehwinkel pro Schritt weiter verkleinert. Beim weit verbreiteten Stepper Motor 28BYJ-48 ist zum Beispiel ein 1/64 Getriebe verbaut. Jeder Schritt der Welle resultiert bei diesem Motor um eine um 64 verkleinerte Drehung.
 
-Mit der von uns zur Verfügung gestellten Component Klasse können vier Phasen Schrittmotoren gesteuert werden. Das jeweilige Getriebe hat keinen Einfluss auf die Funktionalität unserer Bibliothek.
+Mit der von uns zur Verfügung gestellten Component Klasse können vier Phasen Schrittmotoren gesteuert werden. Das jeweilige Getriebe hat keinen Einfluss auf die Funktionalität der Component Klassenbibliothek.
 
 ==== Single Stepping
 Beim Single Stepping wird jeweils nur eine Spule im Gehäuse des Motors unter Strom gesetzt. Die Welle des Motors richtet sich also immer genau nach der momentan aktiven Spule aus. <<Stepping>>
@@ -1629,7 +1632,7 @@ Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müsse
 |*Magnet 4* |0 |0 |0 |1
 |===
 
-Implementation des Modus als Byte Array in unserer Component Klasse:
+Untenstehend ist die Implementation des Modus als Byte Array in der Component Klasse:
 
 [source,java]
 ----
@@ -1688,9 +1691,9 @@ include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=Stepper
 ----
 
 ==== Motor drehen
-Die schrittweise Drehung des Motors haben wir in einem for-Loop implementier. Die Variable `element` enthält die zu einstellende Position des aktuell auszuführenden Schritts. Dies könnte zum Beispiel der Wert `0b0100` sein. Dieser entspricht dem 2. Step im Single Stepping.
+Die schrittweise Drehung des Motors ist in der Component Klasse in einem for-Loop implementiert. Die Variable `element` enthält die zu einstellende Position des aktuell auszuführenden Schrittes. Dies könnte zum Beispiel der Wert `0b0100` sein. Dieser entspricht dem 2. Step im Single Stepping.
 
-In einem nächsten Schritt müssen die einzelnen Pins gemäss dem aktuellen `element` gesetzt werden. Dazu nutzen wir den Bitweise Operator und verschieben die Bits gemäss dem aktuellen Pin. Durch die Addition von `0b0001` eliminieren wir alle überflüssigen Einsen. Nun können wir prüfen, ob das Byte dem Wert `1` entspricht. Ist dies der Fall, setzen wir den Pin auf `HIGH`.
+In einem nächsten Schritt müssen die einzelnen Pins gemäss dem aktuellen `element` gesetzt werden. Dazu nutzen wir den Bitwise Operator und verschieben die Bits gemäss dem aktuellen Pin. Durch die Addition von `0b0001` eliminieren wir alle überflüssigen Einsen. Nun können wir prüfen, ob das Byte dem Wert `1` entspricht. Ist dies der Fall, setzen wir den Pin auf `HIGH`.
 
 Zu guter Letzt setzen wir noch die lokale Variabel `currentPosition`. Diese ist für Richtungsänderungen und das saubere Laufen des Motors relevant.
 
@@ -1699,7 +1702,7 @@ Zu guter Letzt setzen wir noch die lokale Variabel `currentPosition`. Diese ist 
 include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentStep]
 ----
 
-Die `getElement()` Funktion gibt das aktuelle Element im Array des aktuellen Modus zurück. Dabei wir auch die aktuelle Drehrichtung des Motors berücksichtigt. Die Variabel `currentPosition` enthält die Position im Array, welcher der Motor vor dem nächsten Drehbefehl hatte. So stellen wir sicher, dass der Motor zwischen zwei einzelnen Befehlen niemals ruckelt (einzelne Steps überspringt).
+Die `getElement()` Funktion gibt das aktuelle Element im Array des aktuellen Modus zurück. Dabei wir auch die aktuelle Drehrichtung des Motors berücksichtigt. Die Variabel `currentPosition` enthält die Position im Array, welcher der Motor vor dem nächsten Drehbefehl hatte. So wird sichergestellt, dass der Motor zwischen zwei einzelnen Befehlen niemals ruckelt (einzelne Steps überspringt).
 
 [source,java]
 ----
@@ -1707,7 +1710,7 @@ include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=Stepper
 ----
 
 ==== Drehrichtung ändern
-In der lokalen Variable `currentPosition` speichern wir die aktuelle Position des Motors im Array des aktuellen Modi. Beim Drehen des Motors müssen wir die Variable neu berechnen, da wir beim Ändern der Drehrichtung einen seperaten Array verwenden. Dieser entspricht dem gespiegelten original Array des jeweiligen Modus.
+In der lokalen Variable `currentPosition` wird die aktuelle Position des Motors gespeichert im Array des aktuellen Modus. Beim Drehen des Motors wird die Variable neu berechnet, da beim Ändern der Drehrichtung ein separates Array verwendet wird. Dieser entspricht dem gespiegelten original Array des jeweiligen Modus.
 
 [source,java]
 ----
@@ -1715,7 +1718,7 @@ include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=Stepper
 include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentRevHalfStepping]
 ----
 
-Die neue Position entspricht der Länge des Array des aktuellen Modus reduziert um 1 minus der aktuellen Position im Array.
+Die neue Position entspricht der Länge des Arrays des aktuellen Modus reduziert um 1 minus der aktuellen Position im Array.
 
 [source,java]
 ----
@@ -1723,21 +1726,21 @@ include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=Stepper
 ----
 
 === Servo Motor
-Mit Servo Motoren lassen sich Winkel präzise einstellen und halten. Gängige Servo Motoren erlauben das Einstellen von Winkeln zwischen 0 und 180 Grad. Der Wechsel zwischen einzelnen Positionen erfolgt sehr zügig. Gesteuert wird die Position der Welle über ein PWM Signal. Unsere Klasse unterstützt dabei die Hardware PWM Pins des Raspberry Pi. Software PWM Signale unterstützen wir bewusst nicht. Diese sind meist zu ungenau und sind deshalb nicht für die Steuerung von Servo Motoren geeignet.
+Mit Servo Motoren lassen sich Winkel präzise einstellen und halten. Gängige Servo Motoren erlauben das Einstellen von Winkeln zwischen 0 und 180 Grad. Der Wechsel zwischen einzelnen Positionen erfolgt sehr zügig. Gesteuert wird die Position der Welle über ein PWM Signal. Die Component Klasse unterstützt dabei die Hardware PWM Pins des Raspberry Pi. Software PWM Signale unterstützen es bewusst nicht. Diese sind meist zu ungenau und sind deshalb nicht für die Steuerung von Servo Motoren geeignet.
 
 ==== Steuerung über PWM
-Die Mehrheit aller Servo Motoren benötigt für dessen Steuerung einen 50 Hertz PWM Puls, was einem Zyklus alle 20 Millisekunden entspricht. Mittels WiringPi können wir die gewünschte Frequenz ziemlich einfach einstellen. <<ServoMotor>>
+Die Mehrheit aller Servo Motoren benötigt für die Steuerung einen 50 Hertz PWM Puls, was einem Zyklus alle 20 Millisekunden entspricht. Mittels WiringPi kann die gewünschte Frequenz ziemlich einfach eingestellt werden. <<ServoMotor>>
 
-Der Raspberry Pi Prozessor liefert uns eine Basis-Frequenz von 19.2 MHZ. Diese müssen wir nun auf 50 Hertz reduzierten. Dies erreichen wir über die folgenden Einstellungen.
+Der Raspberry Pi Prozessor liefert eine Basis-Frequenz von 19.2 MHZ. Diese muss nun auf 50 Hertz reduzierten werden. Dies wird über die folgenden Einstellungen erreicht.
 
 [source,java]
 ----
 include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPWMFrequency]
 ----
 
-Durch die getätigten Einstellungen errechnet der Pi die PWM Frequenz 19.2 MHZ / 192 / 2000 = 50 HZ. Mit dieser Frequenz können wir nun weiterarbeiten.
+Durch die getätigten Einstellungen errechnet der Pi die PWM Frequenz 19.2 MHZ / 192 / 2000 = 50 HZ. Mit dieser Frequenz kann nun weitergearbeitet werden.
 
-Servo Motoren lassen sich nun über die sogenannte Pulslänge steuern. Die Pulslänge enspricht der HIGH Time eines einzelnen Pulses. Die meisten Mini und Micro Servo Motoren können über Pulslängen von 500 Mikro Sekunden bis 2400 Mikro Sekunden positioniert werden. Die genauen Werte können jedoch im Data Sheet des jeweiligen Servos gefunden werden. Kleinere Pulslängen entsprechen dabei kleineren Winkeln. Die Position verhält sich immer linear zur Pulslänge.
+Servo Motoren lassen sich über die sogenannte Pulslänge steuern. Die Pulslänge enspricht der HIGH Time eines einzelnen Pulses. Die meisten Mini- und Microservo Motoren können über Puslslängen von 500 Mikrsekunden bis 2400 Mikrosekunden positioniert werden. Die genauen Werte können jedoch im Data Sheet des jeweiligen Servos gefunden werden. Kleinere Pulslängen entsprechen dabei kleineren Winkeln. Die Position verhält sich immer linear zur Pulslänge.
 
 .Beispiele Pulslänge
 [cols="1,1"]
@@ -1750,7 +1753,7 @@ Servo Motoren lassen sich nun über die sogenannte Pulslänge steuern. Die Pulsl
 |180 |2400
 |===
 
-Leider können wir die Pulslänge nicht direkt in Mikro Sekunden an den Hardware PWM Pin weitergeben. Wir müssen die Value zuerst um den Faktor 10 reduzieren. WiringPi erlaubt nämlich nur das Setzen von Werten in einer Range von 0 bis 1024.
+Leider kann die Pulslänge nicht direkt in Mikrosekunden an den Hardware PWM Pin weitergegeben werden. Der Wert muss zuerst um den Faktor 10 reduziert werden. WiringPi erlaubt nämlich nur das Setzen von Werten in einem Bereich von 0 bis 1024.
 
 [source,java]
 ----
@@ -1763,7 +1766,7 @@ include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMoto
 ----
 
 ==== Winkel setzen
-Unsere Hilfsklasse untersützt das Setzen von gewünschen Servo Motor Positionen via gewünschtem Zielwinkel. Mit der Funktion `setPositionDegrees()` können Winkel auf einen Grad genau gesetzt werden, sofern der verwendete Servo dies ebenfalls unterstützt. Unterstützt der verwendete Servo dies nicht, können wir den Winkel nicht garantieren.
+Die Hilfsklasse in der Component Klassenbibliothek untersützt das Setzen von gewünschen Servo Motor Positionen via gewünschtem Zielwinkel. Mit der Funktion `setPositionDegrees()` können Winkel auf einen Grad genau gesetzt werden, sofern der verwendete Servo dies ebenfalls unterstützt. Unterstützt der verwendete Servo dies nicht, kann der Winkel nicht garantiert werden.
 
 [source,java]
 ----
@@ -1771,7 +1774,7 @@ include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMoto
 ----
 
 === Grove Serial Camera
-Die Grove Serial Camera ist eines der komplexeren Devices, welches von unserer Library unterstützt wird. Zur Kommunikation über den Serial Bus wird ein spezielles Protokoll eingesetzt. In den folgenden Unterkapiteln finden Sie weitere Informationen zu jenem Protokoll und unserer Implementation davon. <<GroveCam>>
+Die Grove Serial Camera ist eines der komplexeren Devices, welches von unserer Library unterstützt wird. Zur Kommunikation über den Serial Bus wird ein spezielles Protokoll eingesetzt. In den folgenden Unterkapiteln finden sie weitere Informationen zu jenem Protokoll und unserer Implementation davon. <<GroveCam>>
 
 ==== Protokoll
 Die Datenübermittlung zwischen Kamera und Pi erfolgt über den Serial Bus und das OV528 Protokoll. Die einzelnen Kommandos umfassen jeweils 6 Bytes, welche zusammen als Paket übermittelt werden. Das nachfolgende Beispiel zeigt das SYNC Kommando, welches jeweils zu Beginn der Kommunikation vom Pi ausgesendet wird. Folgende Bytes werden übermittelt: AA0D00000000h.
@@ -1787,7 +1790,8 @@ Bevor Befehle an die Kamera gesendet werden können, muss eine Verbindung zwisch
 [link=https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf]
 image::Grove_Serial_Camera_Initialisation.png[500, 500, Grove Serial Camera Connection]
 
-In unserer Java Klasse haben wir den Verbindungsaufbau in einer eigenen Funktion realisiert, welche vom jeweiligen Konstruktor aufgerufen wird. In einer While-Schlaufe wird das SYNC Kommando solange an die Kamera gesendet, bis diese eine Antwort auf den Serial Bus geschrieben hat. Ist dies nach 60 Versuchen nicht der Fall, wird die Initialisierung mit einem Fehler abgebrochen. Hat die Kamera eine Antwort gesendet, wird diese auf Ihre Korrektheit überprüft. Die ersten sechs Bytes müssen dem ACK Kommando entsprechen (AA0E0Dxx0000h). Bei den nächsten sechs Bytes muss es sich um das SYNC Kommando handeln (AA0D00000000h). Sofern dies der Fall ist, war der Verbindungsaufbau erfolgreich. Die Kamera ist nun bereit für die Entgegennahme von weiteren Befehlen.
+In der Component Klasse ist der Verbindungsaufbau in einer eigenen Funktion realisiert, welche vom jeweiligen Konstruktor aufgerufen wird. In einer While-Schlaufe wird das SYNC Kommando solange an die Kamera gesendet, bis diese eine Antwort auf den Serial Bus geschrieben hat. Ist dies nach 60 Versuchen nicht der Fall, wird die Initialisierung mit einem Fehler abgebrochen. Hat die Kamera eine Antwort gesendet, wird diese auf Ihre Korrektheit überprüft. Die ersten sechs Bytes müssen dem ACK Kommando entsprechen (AA0E0Dxx0000h). Bei den nächsten sechs Bytes muss es sich um das SYNC Kommando handeln (AA0D00000000h). Sofern dies der Fall ist, war der Verbindungsaufbau erfolgreich. Die Kamera ist nun bereit für die Entgegennahme von weiteren Befehlen.
+
 
 [source,java]
 ----
@@ -1795,9 +1799,10 @@ include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialC
 ----
 
 ==== JPEG Foto anfordern
-Nach dem erfolgreichen Verbindungsaufbau ist die Kamera bereit für das Schiessen von Bildern. Unsere Implementation stellt Bilder im JPEG Format in der Auflösung 640 x 480 zur Verfügung. Hierbei handelt es sich um die maximale Auflösung der Kamera. Theoretisch können auch Bilder in anderen Grössen und Formaten von der Kamera angefordert werden. Diese Formate werden von uns jedoch nicht unterstützt.
+Nach dem erfolgreichen Verbindungsaufbau ist die Kamera bereit für das Schiessen von Bildern. Die Implementation der Component Klasse stellt Bilder im JPEG Format in der Auflösung 640 x 480 zur Verfügung. Hierbei handelt es sich um die maximale Auflösung der Kamera. Theoretisch können auch Bilder in anderen Grössen und Formaten von der Kamera angefordert werden. Diese Formate werden von uns jedoch nicht unterstützt.
 
 Um ein Bild von der Kamera zu erhalten, sind mehrere einzelne Schritte, Befehle und Bestätigungen nötig. Diese sind im folgenden Diagramm ersichtlich.
+
 
 .Ablauf der Bildanforderung
 [link=https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf]
@@ -1818,9 +1823,9 @@ include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialC
 ----
 
 ==== Bild Pakete empfangen
-Nachdem die Bildgrösse von der Kamera ermittelt wurde, kann der Host Paket für Paket von der Kamera über den Serial Bus anfordern. Wir fordern solange Pakete von der Kamera an, bis wir das letzte Paket von der Kamera erhalten haben. Das letzte Paket erkennen wir anhand der letzten zwei Bytes. Handelt es sich bei diesen um 0xFF gefolgt von 0xD9, wurde das komplette JPEG übermittelt. Bei den zwei Bytes handelt es sich nämlich um den Footer eines jeden JPEGs.
+Nachdem die Bildgrösse von der Kamera ermittelt wurde, kann der Host Paket für Paket von der Kamera über den Serial Bus anfordern. Die Component Klasse fordert solange Pakete von der Kamera an, bis das letzte Paket von der Kamera erhalten wurde. Das letzte Paket wird anhand der letzten zwei Bytes erkannt. Handelt es sich bei diesen um 0xFF gefolgt von 0xD9, wurde das komplette JPEG übermittelt. Bei den zwei Bytes handelt es sich nämlich um den Footer eines jeden JPEGs.
 
-Da es bei der Übermittlung von Paketen immer zu Fehlern kommen kann, stellt das OV528 Protokoll einen Kontrollmechanismus zur Verfügung, über welchen Fehler identifiziert werden können. Bei den zwei letzten Bytes eines jeden Pakets handelt es sich um eine Prüfsumme, mit welchen die übermittelten Bilddaten überprüft werden können. Die Prüfsumme muss exakt der Summe der einzelnen übermittelten Bytes entsprechen. Ist dies der Fall, fordern wir das nächste Paket von der Kamera an. Stimmt die Prüfsumme jedoch nicht mit der Summe aller Bild-Bytes überein, fordern wir das fehlerhafte Paket erneut von der Kamera an. Damit kann sichergestellt werden, dass das erhaltene Bild immer fehlerfrei ist.
+Da es bei der Übermittlung von Paketen immer zu Fehlern kommen kann, stellt das OV528 Protokoll einen Kontrollmechanismus zur Verfügung, über welchen Fehler identifiziert werden können. Bei den zwei letzten Bytes eines jeden Pakets handelt es sich um eine Prüfsumme, mit welchen die übermittelten Bilddaten überprüft werden können. Die Prüfsumme muss exakt der Summe der einzelnen übermittelten Bytes entsprechen. Ist dies der Fall, wird das nächste Paket von der Kamera angefordert. Stimmt die Prüfsumme jedoch nicht mit der Summe aller Bild-Bytes überein, wird das fehlerhafte Paket erneut von der Kamera angefordert. Damit kann sichergestellt werden, dass das erhaltene Bild immer fehlerfrei ist.
 
 [source,java]
 ----
@@ -1894,10 +1899,10 @@ CameraConfiguration config = cameraConfiguration()
     .rotation(180);
 ----
 
-Wenn man dann dieses Objekt der `RaspberrPiCameraComponent` im Konstruktor übergibt, dann kann man mit der Methode `takeStill` Bilder aufnehmen, wie im wenn man die PiCam-Library direkt verwendet.
+Wenn man dann dieses Objekt der `RaspberrPiCameraComponent` im Konstruktor übergibt, dann kann man mit der Methode `takeStill` Bilder aufnehmen, wie wenn man die PiCam-Library direkt verwendet.
 
 ==== Videoaufnahme
-Für die Videoaufnahme gibt es eine Builder-Klasse, welche vom Syntax und der Verwendung her ähnlich aufgebaut ist, wie die `CameraConfiguration` Klasse von PiCam.
+Für die Videoaufnahme wurde in der Component Klassenbibliothek eine Builder-Klasse erstellt, welche vom Syntax und der Verwendung her ähnlich aufgebaut ist, wie die `CameraConfiguration` Klasse von PiCam.
 
 So wie mit der `CameraConfiguration` von der PiCam ein `raspistill` Befehl aufgebaut wird, wird mit der `RaspiVidConfiguration` dann ein `raspivid` Befehl aufgebaut.
 
@@ -1910,7 +1915,7 @@ RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
     .time(15000);
 ----
 
-Wenn das Objekt dann der `RaspberryPiCameraComponent` übergeben wird im Konstruktor, dann wird mit der Methode `takevid` ein Video aufgenommen. Dabei wird der Befehl der Konfigurationsklasse extrahiert und als Java Process ausgeführt.
+Wenn das Objekt dann der `RaspberryPiCameraComponent` übergeben wird im Konstruktor, dann wird mit der Methode `takeVid()` ein Video aufgenommen. Dabei wird der Befehl der Konfigurationsklasse extrahiert und als Java Process ausgeführt.
 
 [source,java]
 ----
@@ -1920,7 +1925,7 @@ include::{sourcedir}/fhnwgpio/components/RaspberryPiCameraComponent.java[tags=Ra
 === Grove LED Strip Driver
 Mit dem Grove LED Strip Driver lassen sich 12V LED Bänder mit 4 Anschlüssen steuern. Dieser Typ von LED Steifen lässt nur komplette Farbwechsel zu. Einzelne Pixel auf dem Band können nicht gesteuert werden. Dazu würde man sogenannte Neopixel Bänder benötigen, welche aber nur über 3 Anschlüsse verfügen und ein anderes Kommunikationsprotokoll verwenden.
 
-Unsere Component Klasse wiederspiegelt die offizielle LED Strip Driver Library, welche im Seed Studio Wiki zu finden ist. Wir haben die Library lediglich von C++ in Java übersetzt und die Konstruktoren angepasst. <<LedStripDriver>>
+Unsere Component Klasse widerspiegelt die offizielle LED Strip Driver Library, welche im Seed Studio Wiki zu finden ist. Wir haben die Library lediglich von C++ in Java übersetzt und die Konstruktoren angepasst. <<LedStripDriver>>
 
 [bibliography]
 == Literaturverzeichnis

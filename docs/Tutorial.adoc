@@ -37,23 +37,23 @@ toc::[]
 == Einleitung
 :sectnums:
 
-Dieses Tutorial soll den Studierenden der FHNW eine Hilfestellung bieten für die IoT Projekte in IP1/2. Es wird gezeigt, wie der Raspberry Pi grundlegend funktioniert und wie es mit anderen Geräten interagieren kann. Das Ziel dieses Tutorials ist es, dass die Entwicklung und die Arbeit an der Software der Projekte in den Vordergrund rückt und der elektrotechnische Teil erleichtert wird. Im Fokus bei der Entwicklung steht Java mit der Pi4J-Library, welche für Java IoT-Projekte auf dem Raspberry Pi genutzt wird.
+Dieses Tutorial soll den Studierenden der FHNW eine Hilfestellung für ihre GPIO Projekte im IP1/2 bieten. Es wird gezeigt, wie der Raspberry Pi grundlegend funktioniert und wie er mit anderen Geräten interagieren kann. Mit der Unterstützung, welche das Tutorial bietet, soll der Fokus auf die Implementation des Codes verschoben werden. Durch die zur Verfügung gestellten Komponenten Klassen müssen sich die Studierenden weniger mit der Funktionsweise der einzelnen Sensoren und Aktuatoren auseinandersetzen. Dieses Tutorial unterstützt die GPIO Entwicklung mit Java und der Pi4J-Library.
 
-Der Hauptteil des Tutorials befasst sich mit verschiedenen Sensoren und Aktoren, welche an den Raspberry Pi angeschlossen werden können, welche zur erleichterten Verwendung hauseigene Komponenten-Klassen in Java bekommen haben. Diese Komponenten-Klassen können als Library in den IoT Projekten verwendet werden.
+Der Hauptteil des Tutorials befasst sich mit verschiedenen Sensoren und Aktoren, welche an den Raspberry Pi angeschlossen werden können, für welche wir leicht zu verwendende, hauseigene Komponenten Klassen in Java zur Verfügung stellen. Diese Komponenten Klassen können als Library in den GPIO Projekten verwendet werden.
 
-== Hardware 
+== Hardware
 
 === Raspberry Pi
-Der Raspberry Pi ist ein kostengünstiger Computer in Kreditkartengrösse. Es ist ein leistungsfähiger kleiner PC, der es Menschen jeden Alters ermöglicht, sich mit Computern auseinanderzusetzen und zu lernen, wie man in Sprachen wie Scratch, Python oder Java programmiert. Es ist in der Lage, alles zu tun, was man von einem Desktop-Computer erwarten würde, vom Surfen im Internet und dem Abspielen von HD-Videos bis hin zum Erstellen von Tabellenkalkulationen, Textverarbeitung und Spielen. <<RaspberryPi1>>
+Der Raspberry Pi ist ein kostengünstiger Computer in Kreditkartengrösse. Er ist ein leistungsfähiger kleiner PC, der es Menschen jeden Alters ermöglicht, sich mit Computern auseinanderzusetzen und zu lernen, wie man in Sprachen wie Scratch, Python oder Java programmiert. Er ist in der Lage, alles zu tun, was man von einem Desktop-Computer erwarten würde. Vom Surfen im Internet und dem Abspielen von HD-Videos bis hin zum Erstellen von Tabellenkalkulationen, der Verarbeitung von Texten sowie dem Ausführen von Spielen. <<RaspberryPi1>>
 
-Darüber hinaus hat die Raspberry Pi die Fähigkeit, mit der Aussenwelt zu interagieren. An den sogenannten GPIO (General Purpose Input Output) Pins kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für IoT-Projekte macht. <<RaspberryPi2>>
+Darüber hinaus hat der Raspberry Pi die Fähigkeit, mit der Aussenwelt zu interagieren. An den sogenannten **G**eneral **P*urpose **I**nput **O**utput Pins, kurz GPIO, kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für GPIO Projekte macht. <<RaspberryPi2>>
 
 Der Pi wurde von der britischen Raspberry Pi Foundation entwickelt und hat das Ziel, Bildung im Bereich Computer Hardware, Elektronik und Informatik zu fördern.
 
 === Grove Sensoren & Aktuatoren
 Grove ist ein offenes modulares System, das für den einfachen Anschluss beliebiger Sensoren und Aktuatoren entwickelt wurde. Es gibt Grove Sensoren und Aktuatoren für die verschiedensten Bereiche:  Robotik, Annäherung, Bewegung, Umwelt und Biomedizin.
 
-Grove erleichtert das Anschliessen und Experimentieren mit den Geräte. Die Sensoren und Aktuatoren können mittels der Grove Kabel an einen Grove Aufsatz, wie dem Grove Base Hat angeschlossen werden, somit sind keine Jumper oder Lötkolben mehr erforderlich für einfache IoT Projekte. <<GroveSA>>
+Grove erleichtert das Anschliessen und Experimentieren mit den verschiedenen Geräten. Die Sensoren und Aktuatoren können mittels Grove Kabel an einen Grove Aufsatz, wie beispielsweise dem Grove Base Hat, angeschlossen werden. Dies macht die Nutzung von Jumper Kabeln sowie die Verwendung eines Lötkolbens für GPIO Projekte überflüssig. <<GroveSA>>
 
 === Grove Base Hat
 Grove Sensoren und Aktuatoren sind beliebt und werden oft in Projekten eingesetzt. Sie verfügen über simple Steckverbindungen, sogenannte Adapter, welche in Kombination mit dem Grove Base Hat eine sichere und fehlerfreie Verbindung mit dem Raspberry Pi garantieren. <<GroveBaseHat>>
@@ -62,14 +62,14 @@ Grove Sensoren und Aktuatoren sind beliebt und werden oft in Projekten eingesetz
 [link=https://wiki.seeedstudio.com/Grove_Base_Hat_for_Raspberry_Pi/]
 image::Grove_Base_Hat.png[500, 500, Grove Base Hat]
 
-Der Grove Base Hat stellt Adapter für PWM, Digital, Analog, UART sowie I2C zur Verfügung. Zusätzlich werden alle GPIO Pins auf den Hat projiziert. Unsere Implementation des Grove Adapters unterstützt alle diese Anschlüsse.
+Der Grove Base Hat stellt Adapter für PWM, Digital, Analog, UART sowie I2C zur Verfügung. Zusätzlich werden alle GPIO Pins auf den Hat projiziert und können mittels Jumper Kabel weiterverwendet werden. Die meisten von uns implementierten Komponenten unterstützten beide Anschlussarten.
 
 [source,java]
 ----
 include::{sourcedir}\fhnwgpio\grove\GroveAdapter.java[tags=GroveAdapter]
 ----
 
-Die Sensoren und Aktuatoren können über unsere Implementation sehr einfach verwendet werden. Das untere Beispiel zeigt, wie ein Potentiometer, welcher am Grove Base Hat Adapter A0 angeschlossen ist, erzeugt und abgefragt werden kann.
+Die Sensoren und Aktuatoren können über unsere Implementation sehr einfach verwendet werden. Das untere Beispiel zeigt, wie ein Potentiometer, welcher am Grove Base Hat Adapter A0 angeschlossen ist, erzeugt und abgefragt werden kann. Ohne die Abstraktion unserer Potentiometer Klasse wäre dies bei weitem komplizierter.
 
 [source,java]
 ----
@@ -78,10 +78,10 @@ potentiometer.getValue()
 ----
 
 ==== PWM
-Der Grove Base Hat unterstütz die Hardware PWM (**P**ulse **W**idth **M**odulation) Pins 12 sowie 13. Beide Pins sind im selben Adapter vereinigt.
+PWM steht für **P**ulse **W**idth **M**odulation. Der Grove Base Hat unterstütz die Hardware PWM Pins 12 sowie 13. Beide Pins sind im selben Adapter vereinigt.
 
 ==== UART
-Der UART Adapter macht den Serial Bus der Raspberry Pi für Grove Sensoren und Aktuatoren verfügbar. Er benutzt die GPIO Pins 14 und 15. An diesem Port würden wir die Grove Serial Camera anschliessen, wenn diese mit 3.3 Volt kompatibel wäre.
+Der UART Adapter macht den Serial Bus der Raspberry Pi für Grove Sensoren und Aktuatoren verfügbar. Er benutzt die GPIO Pins 14 und 15. An diesem Port würden wir die Grove Serial Camera anschliessen, wenn diese mit 3.3 Volt kompatibel wäre. Leider benötigt die Kamera aber eine Spannungsquelle mit 5V, weshalb das Kamera Modul manuell verkabelt werden muss.
 
 ==== Digital
 Der Grove Base Hat stellt sechs digitale Adapter zur Verfügung. Die Adapter stellen die Standard GPIO Pins des Pi dar. Die Pin Nummern entsprechen den Zahlen auf dem Board. Beispielsweise entspricht der Adapter D22 den Pins 22 und 23.
@@ -100,9 +100,9 @@ Der Chip hat die I2C Adresse 0x04. Die einzelnen analogen Anschlüsse haben jewe
 Die drei I2C Anschlüsse sind alle mit dem I2C Bus 1 des Raspberry Pi verbunden. Mit I2C können mehrere Devices auf einmal angesteuert werden.
 
 === Breadboard
-Breadboards sind Prototyping-Devices, welche es in diversen Grössen und Formen gibt. Sie bieten eine einfache Möglichkeit, elektronische Komponenten miteinander zu verbinden, ohne dass diese zusammengelötet werden müssen. Sie sind daher bestens für den Testaufbau von Schaltungen geeignet.
+Breadboards sind Prototyping-Devices, welche es in diversen Grössen und Formen gibt. Sie bieten eine einfache Möglichkeit, elektronische Komponenten miteinander zu verbinden, ohne dass diese zusammengelötet werden müssen. Sie sind daher bestens für den Testaufbau von Schaltungen geeignet. Wir haben das Breadboard immer dann verwendet, wenn wir nicht Grove Sensoren oder Aktuatoren an den Pi anschliessen mussten.
 
-Die untere Abbildung zeigt, wie ein solches Breadboard aufgebaut ist. In die einzelnen Punkte können Kabel oder elektronischen Leiter der einzelnen Devices eingesteckt werden. Sind Punkte miteinander verbunden, stehen sie bei Benutzung alle unter dem gleichen Strom. Die Roten Leitungen sind für die Stromzufuhr gedacht. Die blauen Leitungen können mit dem Ground Pin des Raspberry Pi verbunden werden.
+Die untere Abbildung zeigt, wie ein solches Breadboard aufgebaut ist. In die einzelnen Punkte können Kabel oder elektronischen Leiter der einzelnen Devices eingesteckt werden. Sind Punkte miteinander verbunden, stehen sie bei Benutzung alle unter dem gleichen Strom. Die roten Leitungen sind für die Stromzufuhr gedacht. Die blauen Leitungen können mit dem Ground Pin des Raspberry Pi verbunden werden.
 
 ._Breadboard_
 [link=https://magpi.raspberrypi.org/articles/breadboard-tutorial]
@@ -112,13 +112,13 @@ image::./installation/breadboard.jpeg[width=75% Breadboard]
 Zur Umsetzung von GPIO Projekten benötigen wir nebst den Hardware Komponenten natürlich auch Software. Als Basis dient uns Java 8 sowie Pi4J.
 
 === Java
-Zur Programmierung der GPIO Pins des Raspberry Pis benutzen wir die Objektorientierte Programmiersprache Java in der Version 8. Aus kompatibilitätsgründen sind neure Versionen von Java leider nicht unterstützt.
+Zur Programmierung der GPIO Pins des Raspberry Pis benutzen wir die objektorientierte Programmiersprache Java in der Version 8. Aus kompatibilitätsgründen sind neure Versionen von Java leider nicht unterstützt.
 
 === Pi4J
 Die Software Bibliothek Pi4J bietet vollzugriff auf die I/O Funktionalität des Raspberry Pi. Die Library abstrahiert die komplexe Hardware Programmierung und bietet stattdessen einfache API-Calls an, welche direkt verwendet werden können. Folgende Funktionalität wird von Pi4J abgedeckt: <<Pi4J>>
 
 * Exportieren und Importieren von GPIO Pins
-* Konfigurieren der GPIO Pin Flussrichtung
+* Konfigurieren der GPIO Pin-Flussrichtung
 * Lesen und Schreiben des GPIO Pin State
 * Pulse Width Modulation (Hardware & Software)
 * Erstellen von GPIO State Listeners (Hardware Interrupt)
@@ -136,7 +136,7 @@ Unsere Library verwendet Pi4J 1.2, da die Version 1.4 den I2C Bus des Raspberry 
 Wir benutzen Log4j 2 von Apache für das Schreiben von Logs in ein Rolling File. Log4j 2 ist ein beliebter und weit verbreiteter Vertreter der Java Logging Frameworks. <<Log4j>>
 
 == Setup des RaspberryPi
-Bevor Sie mit der Implementation ihres ersten Raspberry Pi Projekts starten können, muss der Mini-Computer aufgesetzt werden. Im Gegensatz zu den verschiedenen im Handel erhältichen Micro Controllern, wie Beispielsweise der Arduino Uno, benötigt der Pi ein Betriebssystem. Wir verwenden das auf Linux basierende System Raspbian, eine speziell für den Raspberry Pi modifiziertes Derbian.
+Bevor Sie mit der Implementation ihres ersten Raspberry Pi Projekts starten können, muss der Mini-Computer aufgesetzt werden. Im Gegensatz zu den verschiedenen im Handel erhältlichen Micro Controllern, wie Beispielsweise der Arduino Uno, benötigt der Pi ein Betriebssystem. Wir verwenden das auf Linux basierende System Raspbian, eine speziell für den Raspberry Pi modifiziertes Derbian.
 
 === Vorbereitung der Mini SD-Karte
 Wie bereits erwähnt, verwenden wir für den Betrieb des Raspberry Pi das Linux OS Raspbian. Das Betriebssystem werden Sie später auf die Ihnen zur Verfügung gestellte Mini SD-Karte installieren.
@@ -163,7 +163,7 @@ Nachdem Sie balenaEtcher installiert haben, können Sie die Applikation starten.
 image::./installation/balenaStart.png[width=75% balenaEtcher Startbildschirm]
 
 . Wählen Sie in einem ersten Schritt die .img-Datei des zuvor heruntergeladenen Raspbian aus.
-. Wählen Sie nun die Mini SD-Karte aus, welche Sie an Ihren PC angeschlossen haben. Bitte beachten Sie, dass die SD-Karte während der Installation formatiert wird und somit alle sich auf der Karte befindenden Daten unwiederruflich gelöscht werden.
+. Wählen Sie nun die Mini SD-Karte aus, welche Sie an Ihren PC angeschlossen haben. Bitte beachten Sie, dass die SD-Karte während der Installation formatiert wird und somit alle sich auf der Karte befindenden Daten unwiderruflich gelöscht werden.
 . Klicken Sie auf "Flash!" um die Installation des Images zu starten. Dieser Prozess kann einige Minuten in Anspruch nehmen.
 
 Sobald der Flash Vorgang abgeschlossen wurde, ist Raspbian auf der SD-Karte installiert und das OS ist betriebsbereit.
@@ -177,7 +177,7 @@ Für das initiale Login auf dem Pi können Sie die folgenden Standard Credential
 * *Passwort*: raspberry
 
 === Raspberry Pi ohne zusätzliche Hardware nutzen
-Es gibt verschiedene Gründe, weshalb Sie den Raspberry Pi ohne zusätzliche Hardware verwenden möchten. Womöglich erfüllt der Pi die Mindestanforderungen Ihrer bevorzugten Entwicklungsumgebung nicht oder Ihnen steht schlicht und einfach nicht die nötige Hardware zur Verfügung. In diesem Kapitel möchten wir Ihnen aufzeigen, wie Sie den Mini Computer ganz ohne zusätzliche Hardware konfigurieren und verwenden können. Sie benötigen dazu ledeglich ein USB-Kabel und Ihren Laptop. <<Setup>>
+Es gibt verschiedene Gründe, weshalb Sie den Raspberry Pi ohne zusätzliche Hardware verwenden möchten. Womöglich erfüllt der Pi die Mindestanforderungen Ihrer bevorzugten Entwicklungsumgebung nicht oder Ihnen steht schlicht und einfach nicht die nötige Hardware zur Verfügung. In diesem Kapitel möchten wir Ihnen aufzeigen, wie Sie den Mini Computer ganz ohne zusätzliche Hardware konfigurieren und verwenden können. Sie benötigen dazu lediglich ein USB-Kabel und Ihren Laptop. <<Setup>>
 
 Um mit dem Raspberry Pi ohne zusätzliche Hardware arbeiten zu können, wird SSH verwendet. Damit Sie via SSH auf den Pi zugreifen können, benötigen Sie eine SSH Software. Ein beliebtes Tool ist PuTTY. Sie können es unter folgendem Link direkt vom Hersteller herunterladen und auf Ihrem Rechner installieren: +
 https://www.putty.org/
@@ -225,9 +225,8 @@ Im neuen Shell Fenster können Sie sich mit den Standard Credentials anmelden un
 ._Login in PuTTY_
 image::./installation/puttyLogin.png[width=75% Login in PuTTY]
 
-
 ==== Zugriff über WiFi
-Die Verbindung zum Raspberry Pi via SSH funktioniert auch kabellos. Dafür muss sich Ihr Computer lediglich im gleichen Netzwerk befinden wie der Raspberry Pi. Zum Beispiel bei Ihnen Zuhause im WLAN oder über Ihren mobilen HotSpot. Damit der Pi auf das WLAN zugreifen kann, müssen Sie die SD-Karte erneut an Ihren Laptop anschliessen und eine neue Datei im boot Ordner erstellen. Das `wpa_supplicant.conf` File. <<RasPiWifi>>
+Die Verbindung zum Raspberry Pi via SSH funktioniert auch kabellos. Dafür muss sich Ihr Computer jedoch im gleichen Netzwerk befinden wie der Raspberry Pi. Zum Beispiel bei Ihnen Zuhause im WLAN oder über Ihren mobilen Hot Spot. Damit der Pi auf das WLAN zugreifen kann, müssen Sie die SD-Karte erneut an Ihren Laptop anschliessen und eine neue Datei im boot Ordner erstellen. Das `wpa_supplicant.conf` File. <<RasPiWifi>>
 
 Wenn Sie bereits mit dem Pi über Kabel verbunden sind, können Sie die Datei auch direkt über die PuTTY Konsole erstellen. Mit dem unteren Befehl wird das File mit dem Text Editor `nano` erstellt.
 
@@ -264,7 +263,7 @@ Um ohne Monitor von den Vorzügen des grafischen User Interface von Raspbian pro
 . Die Raspberry Pi Konfiguration mit dem Befehl `sudo raspi-config` öffnen.
 . Unter `Interfacing Options` zu `VNC` navigieren und die Auswahl bestätigen.
 
-Der Pi ist nun für die Verwendung von VNC konfiguriert. Jetzt müssen Sie noch ein entsprechendes Tool auf Ihrem Rechner installieren. Wir haben mit der Software Real VNC Viewer gute Erfahrungen gemacht und würden Ihnen ebenfalls empfehlen, dieses Tool zu verwenden. Es untersützt eine breite Palette von Betriebssystemen, auf welchen es installiert werden kann. Das Tool kann über diese Webseite bezogen werden: + 
+Der Pi ist nun für die Verwendung von VNC konfiguriert. Jetzt müssen Sie noch ein entsprechendes Tool auf Ihrem Rechner installieren. Wir haben mit der Software Real VNC Viewer gute Erfahrungen gemacht und würden Ihnen ebenfalls empfehlen, dieses Tool zu verwenden. Es unterstützt eine breite Palette von Betriebssystemen, auf welchen es installiert werden kann. Das Tool kann über diese Webseite bezogen werden: + 
 https://www.realvnc.com/de/connect/download/viewer/
 
 Beim Startup des Tools muss zuerst eine neue Verbindung angegeben werden. Diese wird dann für die künftige Verwendung abgespeichert.
@@ -298,13 +297,13 @@ Java kann mittels `apt` auf dem Pi installiert werden. Dazu müssen die folgende
 * `sudo apt update`
 * `sudo apt install openjdk-8-jdk`
 
-Sobald die installation abgeschlossen ist, kann mit dem Kommando `java –version` überprüft werden, ob die installation korrekt funktioniert hat. Das Kommando sollte den folgenden Output zeigen:
+Sobald die Installation abgeschlossen ist, kann mit dem Kommando `java –version` überprüft werden, ob die Installation korrekt funktioniert hat. Das Kommando sollte den folgenden Output zeigen:
 
 ._Output java -version_
 image::./installation/java_version.png[width=75% java -version output]
 
 ==== Gradle
-Gradle wird für das Bauen des Codes benötigt. Mittels dem `wget` Befehl kann das Build Tool direkt auf der Herstellerseite heruntergeladen werden. Wir haben die Version 6.5.1 verwendet. <<GradleInstall>>
+Gradle wird für das Bauen des Codes benötigt. Mittels dem `wget` Befehl kann das Build Tool direkt von der Herstellerseite heruntergeladen werden. Wir haben die Version 6.5.1 verwendet. <<GradleInstall>>
 
 * Gradle als `.zip` herunterladen und im `tmp` Directory speichern: +
 `wget https://services.gradle.org/distributions/gradle-6.5.1-bin.zip -P /tmp`
@@ -312,7 +311,7 @@ Gradle wird für das Bauen des Codes benötigt. Mittels dem `wget` Befehl kann d
 * Das heruntergeladene `.zip` File in den Folder `opt/gradle` entpacken: +
 `sudo unzip -d /opt/gradle /tmp/gradle-*.zip`
 
-Durch das Auflisten der entpackten Komponenten kann geführt werden, ob das Entpacken korrekt funktioniert hat.
+Durch das Auflisten der entpackten Komponenten kann geprüft werden, ob das Entpacken korrekt funktioniert hat.
 
 * `ls /opt/gradle/gradle-6.5.1`
 
@@ -340,18 +339,18 @@ In einem letzten Schritt laden wir die Umgebungsvariablen neu.
 
 * `source /etc/profile.d/gradle.sh`
 
-Die installation von Gradle ist nun abgeschlossen. Mit dem Befehl `gradle -v` können wir überprüfen, ob Gradel korrekt installiert wurde. Die Ausgabe des Kommandos sollte wie folgend aussehen:
+Die Installation von Gradle ist nun abgeschlossen. Mit dem Befehl `gradle -v` können wir überprüfen, ob Gradel korrekt installiert wurde. Die Ausgabe des Kommandos sollte wie folgend aussehen:
 
 ._Output gradle -v_
 image::./installation/gradle_version.png[width=75% gradle -v output]
 
 == Code auf dem Pi bauen
-Es ist möglich den Code in intelliJ auf dem eigenen Rechner zu schreiben und diesen dann auf den Pi zu deployen. Das hat den wesentlichen Vorteil, dass man nicht mit der langsamen Entwicklungsumgebung des Raspberry Pi arbeiten muss und auch nicht jede kleinste Änderung in git pushen muss, um es auf dem Pi mit der richtigen Hardware zu testen.
+Es ist möglich, den Code in IntelliJ auf dem eigenen Rechner zu schreiben, und diesen dann auf den Pi zu deployen. Das hat den wesentlichen Vorteil, dass man nicht mit der langsamen Entwicklungsumgebung des Raspberry Pi arbeiten muss und auch nicht jede kleinste Änderung in GIT pushen muss, um den neuen Code auf dem Pi auszuführen.
 
 === Remote Host in IntelliJ
-Um Ihren Raspberry Pi als Remote Host in IntelliJ einzurichten, müssen Sie zuerst in der Menüleiste die folgendenden Menüpunkte wählen:  _"Tools" -> "Deployment" -> "Browse Remote Host"_
+Um Ihren Raspberry Pi als Remote Host in IntelliJ einzurichten, müssen Sie zuerst in der Menüleiste die folgenden Menüpunkte wählen:  _"Tools" -> "Deployment" -> "Browse Remote Host"_
 
-Jetzt erscheint ein neues Menü auf der rechten Seite, wo sich auch normalerweise  die gradle und Datenbank Einstellungen befinden. 
+Jetzt erscheint ein neues Menü auf der rechten Seite, in welcher sich auch die Gradle und Datenbank Einstellungen befinden.
 
 Klicken Sie in diesem Menü auf die 3 Punkte, um einen neuen Server zu erstellen. Der Name spielt hierbei keine Rolle, aber der Typ sollte SFTP sein. Bestätigen Sie dann ihre Eingabe.
 
@@ -361,19 +360,18 @@ Nun können Sie die Einstellung für das Raspberry Pi im Deployment Fenster ange
 
 . Hier können Sie die Connection mit dem Usernamen und dem Passwort einmal ausprobieren, bevor Sie es hinzufügen.
 
-. Nach dem Connection-Test können Sie auf das kleine Ordner Symbol klicken, um auf die Ordner Struktur des Raspberry Pis zu zugreifen. Wählen Sie hier den Ort, an dem Alle Files des Projekts hinkopiert werden sollen.
+. Nach dem Connection-Test können Sie auf das kleine Ordner Symbol klicken, um auf die Ordner Struktur des Raspberry Pis zu zugreifen. Wählen Sie hier den Ort, an dem alle Files des Projekts kopiert werden sollen.
 
 . Sie können mehrere Server hinzufügen, für die einfache Verwendung in verschiedenen Netzwerken
-
 
 ._Remote Host Server Einstellungen_
 image::./installation/RemoteHost3.png[width=75% remote host server settings]
 
-Wenn man keine besonderen Mappings benötigt und einfach alle Files im angegeben Root-Pfad haben möchte, dann kann man im Mappings Menü unter Deployment Path ein einfaches `/` eingeben und das Mapping hinzufügen.
+Wenn man keine besonderen Mappings benötigt und einfach alle Files im angegeben Root-Pfad haben möchte, dann kann man im Mappings Menü unter Deployment Path ein simples `/` eingeben und das Mapping hinzufügen.
 
-Jetzt können Sie jederzeit alle Dateien oder einzelne ausgewählte Dateien (z. B nur das Jar-File) via Remote Host Menü auf den Raspberry Pi übertragen.
+Jetzt können Sie jederzeit alle Dateien oder einzelne ausgewählte Dateien (z. B. nur das .jar-File) via Remote Host Menü auf den Raspberry Pi übertragen.
 
-Auf dem Pi selbst müssen Sie dann nur noch ihr Projekt bauen und ausführen. Währen der Entwicklung geniessen Sie allerdings alle Vorzüge der IDE auf ihrem Rechner.
+Auf dem Pi selbst müssen Sie dann nur noch ihr Projekt bauen und ausführen. Während der Entwicklung geniessen Sie allerdings alle Vorzüge der IDE auf ihrem Rechner.
 
 ._Update Remote Host_
 image::./installation/RemoteHost4.png[width=60% update remote host server]
@@ -392,7 +390,7 @@ Gradle hat nun ein `.jar` File generiert und im Folder `build/libs` ihres Projek
 
 * `java -jar build/libs/YOUR_PROJECT_NAME_AND_VERSION.jar`
 
-Sofern Ihr Projekt den seriellen Bus des Raspberry Pis verwendet, müssen Sie das `.jar` als Administrator (`sudo`) starten.
+Sofern Ihr Projekt den seriellen oder I2C Bus des Raspberry Pis verwendet, müssen Sie das `.jar` als Administrator (`sudo`) starten.
 
 Der Befehl `gradle jar` setzt voraus, dass ihr `build.gradle` File einen Task mit dem Namen `jar` enthätl. Dieser Task sollte den folgenden Code enthalten:
 
@@ -409,23 +407,21 @@ jar {
 ----
 
 === Optional: Remote Debugging
-Es ist auch möglich den Code vom eigenen Rechner aus mit IntelliJ auf dem Raspberry Pi auszuführen und diesen auf dem eigenen Rechner zu debuggen. Diese Funktionalität kann sehr hilfreich sein, wenn man mit schwierigen Bugs zu tun hat, aber birgt auch Schwierigkeiten und funktioniert auch nicht immer ideal, deshalb wurde dieser Bereich als optional deklariert.
+Es ist auch möglich den Code vom eigenen Rechner aus mit IntelliJ auf dem Raspberry Pi auszuführen und diesen auf dem eigenen Rechner zu debuggen. Diese Funktionalität kann sehr hilfreich sein, wenn man mit schwierigen Bugs zu kämpfen hat. Allerdings kann das Remote Debugging selbst zu Schwierigkeiten führen und funktioniert manchmal nicht wie gewünscht. Deshalb wurde dieser Bereich als optional deklariert.
 
-Wenn Sie ein schweres Problem haben und sich das Debugging aber erleichtern wollen, dann ist es empfehlenswert diese Funktionalität auszuprobieren.
+Wenn Sie ein schweres Problem haben und sich das Debugging etwas erleichtern wollen, dann ist es empfehlenswert, diese Funktionalität auszuprobieren.
 
 *Setup*
 
 . Downloaden Sie das folgende Plugin von Jetbrains:  + 
 https://plugins.jetbrains.com/plugin/7738-embedded-linux-jvm-debugger-raspberry-pi-beaglebone-black-intel-galileo-ii-and-several-other-iot-devices-[Embedded Linux JVM Debugger]
 
-
-. Fügen Sie eine Run/ Debug Configuration hinzu vom Typ Embedded Linux JVM, wie im Bild weiter unten ersichtlich. Ersetzten Sie einfach die IP-Addresse und die Projektinformationen mit denen von Ihnen. + 
-
+. Fügen Sie eine Run / Debug Configuration vom Typ Embedded Linux JVM hinzu, wie im Bild weiter unten ersichtlich. Ersetzten Sie einfach die IP-Addresse und die Projektinformationen mit ihren eigenen. +
 
 ._Embedded JVM Configuration_
 image::./installation/RemoteDebugging.png[width=75% Remote Debuggging Configuration]
 
-Für  weitere Informationen zum Remote Debugging mit IntelliJ auf dem Raspberry Pi können Sie den folgenden Artikel studieren: + 
+Für weitere Informationen zum Remote Debugging mit IntelliJ auf dem Raspberry Pi können Sie den folgenden Artikel studieren: + 
 https://medium.com/@menchukanton/setup-intellij-idea-for-remote-debugging-java-code-on-a-raspberry-pi-6e9df09dfb95[Remote debugging java code on a Raspberry Pi]
 
 == Pi4J Basics
@@ -438,6 +434,8 @@ Zu Beginn eines jeden Pi4J GPIO Projektes muss der gewünschte Standard Provider
 ----
 GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
 ----
+
+Das `RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING` entspricht den Nummern auf dem unteren Pinout.
 
 .BCM Pinout
 [link=https://pinout.xyz]

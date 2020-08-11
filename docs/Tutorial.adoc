@@ -467,10 +467,10 @@ GpioPinPwmOutput pwm = gpio.provisionSoftPwmOutputPin(RaspiBcmPin.GPIO_02);		// 
 ----
 
 == Komponenten
-In diesem Kapitel sind einige der gängigen Sensoren und Aktuatoren beschrieben und wie diese an den Raspberry Pi angeschlossen werden können. Ausserdem wird beschrieben, wie die Geräte mit den Komponentenklassen in Java verwendet werden können
+In diesem Kapitel sind einige der gängigen Sensoren und Aktuatoren beschrieben und wie diese an den Raspberry Pi angeschlossen werden können. Ausserdem wird aufgezeigt, wie die Geräte mit den Component Klassen in Java verwendet werden können.
 
 === LED
-Leuchtdioden emittieren Licht, sofern Strom durch sie fliesst. Wie bei allen Dioden lassen LEDs nur eine Flussrichtung zu. Mit der `LedComponent` lässt sich der Status der LED kontrollieren. Über PWM kann zusätzlich die Helligkeit der LED eingestellt werden.   <<LED>>
+Leuchtdioden emittieren Licht, sofern Strom durch sie fliesst. Wie bei allen Dioden lassen LEDs nur eine Flussrichtung zu. Mit der `LedComponent` lässt sich der Status der LED kontrollieren. Über PWM kann zusätzlich die Helligkeit der LED eingestellt werden. <<LED>>
 
 .LED
 [link=https://upload.wikimedia.org/wikipedia/commons/9/9e/Verschiedene_LEDs.jpg]
@@ -479,7 +479,7 @@ image::led.jpg[width=75% LED]
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
-* 2x Kabel
+* 2x Jumper Kabel
 * 1x LED
 * 1x 220Ω Wiederstand
 
@@ -506,7 +506,7 @@ image::./fritzing/blink_led.png[width=75% LED Wiring]
 |===
 
 ==== Anwendungsbeispiel
-Die blinkende LED ist das "Hello World"-Äquivalent der GPIO Programmierung. Dieses Beispiel lässt eine LED zwei Mal blinken. Anschliessend wird die Helligkeit der LED schrittweise von 0% auf 100% inkrementiert. Nach dem Erreichen der maximalen Helligkeit dekrementiert die Lichtstärke wieder auf 0%. Das Dimmen der LED ist durch «Pulse Width Modulation» möglich. Diese Funktionalität wird durch die Übergabe eines `GpioPinPwmOutput` Pins an den Konstruktor der `LedComponent` ermöglicht.
+Die blinkende LED ist das "Hello World"-Äquivalent der GPIO Programmierung. Dieses Beispiel lässt eine LED zwei Mal blinken. Anschliessend wird die Helligkeit der LED schrittweise von 0% auf 100% inkrementiert. Nach dem Erreichen der maximalen Helligkeit wird die Lichtstärke wieder auf 0% dekrementiert. Das Dimmen der LED ist durch Pulse Width Modulation möglich. Diese Funktionalität wird durch die Übergabe eines `GpioPinPwmOutput` Pins an den Konstruktor der `LedComponent` ermöglicht.
 
 [source,java]
 ----
@@ -525,7 +525,7 @@ image::push_button.png[width=75% Push Button]
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
-* 4x Kabel
+* 4x Jumper Kabel
 * 1x Button
 * 1x 1kΩ Wiederstand
 * 1x 10kΩ Wiederstand
@@ -565,8 +565,7 @@ include::{sourcedir}/fhnwexamples/component/ButtonDevice.java[tags=ButtonDevice]
 Ein Buzzer ist funktioniert wie ein einfacher Lautsprecher. Er wandelt ein elektrisches Signal in einen Ton um. Je nach Frequenz des Signals ändert sich der Ton, welcher wiedergegeben wird.
 Die Hilfsklasse `Notes` stellt eine Vielzahl von Tönen über mehrere Oktaven zur Verfügung. Jedes Enum-Attribut verfügt über einen Integer, welcher der Frequenz des Tons entspricht.
 
-
-*Achtung:* Die Buzzer-Komponente manipuliert die PWM Grundfrequenz des Raspberry Pi beim Abspielen von Tönen sehr stark. Der Buzzer kann deshalb nicht zusammen mit anderen PWM Devices verwendet werden. Ist dies für ein Projekt nötig, muss auf einen externen PWM Generator zugegriffen werden.
+*Achtung:* Die Buzzer-Komponente manipuliert die PWM Grundfrequenz des Raspberry Pi beim Abspielen von Tönen sehr stark. Der Buzzer kann deshalb nicht zusammen mit anderen PWM Devices verwendet werden. Ist dies für ein Projekt nötig, muss auf einen externen PWM Generator zurückgegriffen werden.
 
 .Buzzer
 [link=https://www.geekering.com/wp-content/uploads/2020/01/buzzer_passivo.jpg]
@@ -575,7 +574,7 @@ image::./buzzer.jpg[width=30% Buzzer]
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
-* 2x Kabel
+* 2x Jumper Kabel
 * 1x Buzzer
 
 .Buzzer Verkabelung 
@@ -600,11 +599,9 @@ image::./fritzing/buzzer.png[width=50% Buzzer Fritzing]
 |void |stop(int duration) |Pauses for a specified amount of milliseconds.
 |===
 
-
 ==== Anwendungsbeispiel
 Dieses Code Beispiel spielt den «Imperial March», komponiert von John Williams und bekannt aus Star Wars, auf dem Buzzer. Der Buzzer wird am GPIO PWM Pin 12 angeschlossen. Im Array `notes` sind die zu spielenden Noten abgespeichert. Das Array `beats` speichert die Anzahl der Beats, über welche der Ton an der aktuellen Stelle gespielt werden soll. In der Variable `tempo` wird gespeichert, wie lange ein Beat geht. In diesem Fall 103 Millisekunden.
 In einer for-Schleife wird nun durch die einzelnen `notes` iteriert. Jeder Ton wird entsprechend seiner Anzahl Beats abgespielt.
-
 
 [source,java]
 ----
@@ -612,12 +609,12 @@ include::{sourcedir}/fhnwexamples/component/BuzzerDevice.java[tags=BuzzerDevice]
 ----
 
 === LCD I2C
-Das LCD Modul besteht aus dem LCD1602 Display und dem PCF8574 I2C Extender Mikrochip auf dem Rücken des LCDs.  Es wird über dem I2C Extender direkt an die I2C Pins des Raspberry Pis angeschlossen und benötigt eine Spannung von 5 Volt. Das Display hat zwei Zeilen und pro Zeile Platz für 16 Zeichen und somit insgesamt Platz für 32 Zeichen. Die Helligkeit des Hintergrundes kann mit einem Kreuzschlitzschraubenzieher am Extender angepasst werden.
+Das LCD Modul besteht aus dem LCD1602 Display und dem PCF8574 I2C Extender Mikrochip auf dem Rücken des LCDs.  Es wird über dem I2C Extender direkt an die I2C Pins des Raspberry Pis angeschlossen und benötigt eine Spannung von 5 Volt. Das Display hat zwei Zeilen und pro Zeile Platz für 16 Zeichen. Es hat somit Platz für insgesamt 32 Zeichen. Die Helligkeit des Hintergrundes kann mit einem Kreuzschlitzschraubendreher am Extender angepasst werden.
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
-* 4x Kabel
+* 4x Jumper Kabel
 * 1x LCD1602 I2C Modul mit PCF8574 I2C extender
 
 .LCD I2C Modul Verkabelung 
@@ -649,7 +646,7 @@ image::./fritzing/LCDI2C.png[width=75% I2C Wiring]
 |===
 
 ==== Anwendungsbeispiel
-In diesem Code Beispiel wird ein Text, welcher vom Nutzer eingegeben werden kann, in der ersten Zeile des LCD-Displays angezeigt und die Uhrzeit in der Zweiten. Die Uhrzeit wird im Sekundentakt aktualisiert. +
+In diesem Code Beispiel wird ein Text, welcher vom Nutzer eingegeben werden kann, in der ersten Zeile des LC-Displays angezeigt. In der zweiten Zeile wird die aktuelle Uhrzeit angezeigt. Diese wird im Sekundentakt aktualisiert. +
 
 [source,java]
 ----
@@ -657,7 +654,7 @@ include::{sourcedir}/fhnwexamples/component/LcdSystemTimeI2CDevice.java[tags=Lcd
 ----
 
 === Grove Potentiometer
-Ein Potentiometer ist eine Art dynamischer Widerstand, welcher durch das Drehen oder Verschieben eines Reglers vergrössert oder verkleinert werden kann. Der Grove Potentiometer gibt je nach eingestelltem Widerstand einen Wert zwischen 0 und 1'000 zurück. Mit einem Potentiometer kann man also Werte einstellen, mit welchen dann einen Aktuator kontrolliert werden kann. Zum Beispiel könnte man mit einem Potentiometer die Helligkeit einer Leuchtdiode steuern.<<Potentiometer>>
+Ein Potentiometer ist eine Art dynamischer Widerstand, welcher durch das Drehen oder Verschieben eines Reglers vergrössert oder verkleinert werden kann. Der Grove Potentiometer gibt je nach eingestelltem Widerstand einen Wert zwischen 0 und 1'000 zurück. Mit einem Potentiometer kann man also Werte einstellen, mit welchen dann einen Aktuator kontrolliert werden kann. Zum Beispiel könnte man mit einem Potentiometer die Helligkeit einer Leuchtdiode steuern. <<Potentiometer>>
 
 .Grove Potentiometer
 [link=https://www.seeedstudio.com/Grove-Rotary-Angle-Sensor.html]
@@ -668,7 +665,7 @@ Für die Verkabelung wird folgende Hardware benötigt:
 
 * 1x Grove Potentiometer
 * 1x Grove Adapter Kabel
-* 1x Grove Hat
+* 1x Grove Base Hat
 
 .Grove Potentiometer Verkabelung
 [link=https://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/]
@@ -699,14 +696,14 @@ include::{sourcedir}/fhnwexamples/component/PotentiometerDevice.java[tags=Potent
 ----
 
 === Grove RFID Reader
-Der Grove RFID Reader ist ein 125KHz RFID Reader, welches em4100 RFID Karteninformationen seriell lesen kann. Die maximale Distanz zum Lesen beträgt 70mm. Die RFID Reader benötigt eine Spannung von 5 Volt, weshalb es nicht mit dem Grove Hat kompatibel ist, da dieser nur 3.3 Volt liefert. Es ist jedoch möglich es mit Kabeln direkt an dem Pi zu verbinden, wie bei der Grove Serial Camera. <<RfidReader>>
+Der Grove RFID Reader ist ein 125KHz RFID Reader, welcher em4100 RFID Karteninformationen seriell lesen kann. Die maximale Distanz zum Lesen beträgt 70mm. Der RFID Reader benötigt eine Spannung von 5 Volt, weshalb er nicht mit dem Grove Hat kompatibel ist, da dieser nur 3.3 Volt liefert. Es ist jedoch möglich, den Reader mit Jumper Kabel direkt an dem Pi zu verbinden, wie bei der Grove Serial Camera. <<RfidReader>>
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
 * 1x Grove RFID Reader
 * 1x Grove Adapter Kabel
-* 4x Kabel
+* 4x Jumper Kabel
 
 .Grove RFID Reader Verkabelung
 image::./fritzing/grove_rfid_reader.png[width=75% Grove RFID Reader Fritzing]
@@ -730,7 +727,7 @@ image::./fritzing/grove_rfid_reader.png[width=75% Grove RFID Reader Fritzing]
 ==== Anwendungsbeispiel
 In diesem Code Beispiel wird der Grove RFID Reader getestet. Das serielle Gerät wird initialisiert und ein Listener wird hinzugefügt, der die `dataReceived()` Methode des `SerialDataEventListener` überschreibt. Diese Methode wird immer ausgeführt, wenn der RFID Reader Daten durch einen RFID Tag erhält.
 
-*Achtung:* Um Code auszuführen, der auf die seriellen Ports zugreift, muss man es als Superuser ausführen z. B: `sudo java -jar Example.jar`
+*Achtung:* Um Code auszuführen, der auf die seriellen Ports zugreift, muss man ihn als Superuser ausführen. Zum Beispiel mit dem Befehl `sudo java -jar Example.jar`.
 
 [source,java]
 ----
@@ -738,20 +735,20 @@ include::{sourcedir}/fhnwexamples/component/RFIDReaderDevice.java[tags=RFIDReade
 ----
 
 === Ultrasonic Ranger
-Der Grove Ultrasonic Ranger ist ein Grove Modul, welches an eines der digitalen Adapter des Grove Hats angeschlossen werden kann. Der Ultrasonic Ranger misst die Distanz zwischen dem Sensor und einem Ziel indem die Zeit zwischen der Emission und der Rezeption einer Ultraschallwelle gemessen wird. Es kann Distanzen von bis zu 2m lesen. <<UltrasonicRanger>>
+Der Grove Ultrasonic Ranger ist ein Grove Modul, welches an einen der digitalen Adapter des Grove Hats angeschlossen werden kann. Der Ultrasonic Ranger misst die Distanz zwischen dem Sensor und einem Ziel, indem die Zeit zwischen der Emission und der Rezeption einer Ultraschallwelle gemessen wird. Es kann Distanzen von bis zu 2m lesen. <<UltrasonicRanger>>
 
 *Formel zur Distanzmessung: 0.5 * T * C* +
 
-* T ist die Zeit zwischen Emission und Rezeption der Ultraschallwelle (Davon die Hälfte, da nur der einfache Weg verwendet wird)
+* T ist die Zeit zwischen Emission und Rezeption der Ultraschallwelle (Davon die Hälfte, da nur der einfache Weg gesucht ist)
 
-* C ist die Ultraschallwellengeschwindigkeit
+* C ist die Geschwindigkeit von Ultraschallwellen
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
 * 1x Grove Ultrasonic Ranger
 * 1x Grove Adapter Kabel
-* 1x Grove Hat
+* 1x Grove Base Hat
 
 .Ultrasonic Ranger Verkabelung 
 [link=https://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/]
@@ -799,7 +796,7 @@ Für die Verkabelung wird folgende Hardware benötigt:
 
 * 1x DC Motor
 * 1x L93D Treiber
-* 10x Kabel
+* 10x Jumper Kabel
 
 .DC Motor Verkabelung
 image::./fritzing/motor.png[width=75% DC Motor Fritzing]
@@ -829,14 +826,13 @@ Das Code Beispiel erzeugt ein neues `MotorComponent`. Bei der Erstellung wird je
 
 In einer while-Schlaufe wird die Drehzahl des vorwärts drehenden Motors schrittweise um 10% erhöht. Nachdem 100% Leistung erreicht wurde, stoppt der Motor für 5 Sekunden. Anschliessend wird die Drehrichtung des Motors umgekehrt. Der Motor dreht nun rückwärts und die Drehzahl wird wiederum schrittweise um je 10% inkrementiert.
 
-
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/component/MotorDevice.java[tags=MotorDevice]
 ----
 
 === Stepper Motor
-Der Stepper Motor oder Schrittmotor rotiert die in seiner Mitte liegende Welle in Schritten. Die Welle eines Schrittmotors dreht sich im Vergleich zu jener eines Gleichstrommotors sehr langsam. Dafür kann der Schrittmotor sehr genau gesteuert werden. Je nach eingestelltem Modus variiert die Anzahl der Schritte, welche für eine gesamte Drehung benötigt werden. Der Modus beeinflusst auch die Kraft, welcher der Motor hat und hängt mit dem resultierenden Energieverbrauch des Motors zusammen.<<StepperMotor>>
+Der Stepper Motor oder Schrittmotor rotiert die in seiner Mitte liegende Welle in Schritten. Die Welle eines Schrittmotors dreht sich im Vergleich zu jener eines Gleichstrommotors sehr langsam. Dafür kann der Schrittmotor sehr genau gesteuert werden. Je nach eingestelltem Modus variiert die Anzahl der Schritte, welche für eine gesamte Drehung benötigt werden. Der Modus beeinflusst auch die Kraft, welcher der Motor hat. Diese hängt wiederum mit dem resultierenden Energieverbrauch des Motors zusammen. <<StepperMotor>>
 
 In der unten abgebildeten Tabelle wird auf den weit verbreiteten Schrittmotor 28BYJ-48 Bezug genommen. Eine Drehung des Zylinders innerhalb des Motors resultiert in einer Drehung der Welle um 11.25°. Für eine komplette Drehung werden also 360° / 11.25° = 32 Schritte benötigt. Ein Getriebe innerhalb des Motors reduziert einen einzelnen Schritt in weitere 64 Steps. Unter Verwendung des Full oder Dual Stepping bedeutet ein einzelner Step also eine Drehung um 360° / (32 * 64) = 0.17578125°. Bei Half Stepping verdoppelt sich die Anzahl der möglichen Schritte, was eine Drehgenauigkeit von 0.087890625° zulässt.
 
@@ -860,7 +856,7 @@ Für die Verkabelung wird folgende Hardware benötigt:
 
 * 1x Steper Motor
 * 1x ULN2003APG Stepper Treiber
-* 8x Kabel
+* 8x Jumper Kabel
 
 .Stepper Motor Verkabelung 
 image::./fritzing/stepper_motor.png[width=75% RaspiCam Wiring]
@@ -904,7 +900,7 @@ Mittels Servo Motoren können spezifische Winkelpositionen eingestellt und gehal
 Für die Verkabelung wird folgende Hardware benötigt:
 
 * 1x Tower Pro Micro Servo 9g SG90
-* 3x Kabel
+* 3x Jumper Kabel
 
 .Servo Motor Verkabelung
 image::./fritzing/servo_motor.png[width=75% Servo Motor Fritzing]
@@ -931,10 +927,9 @@ image::./fritzing/servo_motor.png[width=75% Servo Motor Fritzing]
 |===
 
 ==== Anwendungsbeispiel
-Das unten abgebildete Beispiel zeigt die Verwendung der `ServoMotorComponent`. Es benutzt den Konstruktor mit den meisten Standardwerten. Dieser eignet sich für die meisten 180° Mini und Micro Servos.
+Das unten abgebildete Beispiel zeigt die Verwendung der `ServoMotorComponent`. Es benutzt den Konstruktor mit den meisten Standardwerten. Dieser eignet sich für eine Vielzahl der 180° Mini und Micro Servos.
 
 In einem while-Loop wird der Motor zuerst auf die kleinstmögliche Position gesetzt. Anschliessend wird die Position des Motors auf dessen Mitte und im Anschluss auf die maximale Position gesetzt. Zwischen den einzelnen Positionswechseln macht das Programm jeweils eine Sekunde Pause. Nun wird der Motor auf seine Ausgangsposition zurückgesetzt und Grad für Grad bis zum Maximum von 180° gedreht.
-
 
 [source,java]
 ----
@@ -942,7 +937,7 @@ include::{sourcedir}/fhnwexamples/component/ServoMotorDevice.java[tags=ServoMoto
 ----
 
 === Grove Serial Camera
-Die Grove Serial Camera besteht aus einem Kamera Modul und einem Control Board, welches die Kommunikation zwischen der Kamera und dem Raspberry Pi über den Serial Bus ermöglicht. Die Kamera benötigt eine Spannung von 5 Volt, weshalb sie leider nicht mit dem Grove Hat kompatibel ist. Dieser liefert nur 3.3 Volt an die Grove Adapter. Um die Kamera dennoch nutzen zu können, muss sie via Jumper Kabel an den Serial Port des Raspberry Pi angeschlossen werden. 
+Die Grove Serial Camera besteht aus einem Kamera Modul und einem Control Board, welches die Kommunikation zwischen der Kamera und dem Raspberry Pi über den Serial Bus ermöglicht. Die Kamera benötigt eine Spannung von 5 Volt, weshalb sie leider nicht mit dem Grove Hat kompatibel ist. Dieser liefert nur 3.3 Volt an die Grove Adapter. Um die Kamera dennoch nutzen zu können, muss sie via Jumper Kabel an den Serial Port des Raspberry Pi angeschlossen werden.
 
 .Grove Serial Camera
 [link=https://wiki.seeedstudio.com/Grove-Serial_Camera_Kit/]
@@ -953,7 +948,7 @@ Für die Verkabelung wird folgende Hardware benötigt:
 
 * 1x Grove Serial Camera 
 * 1x Grove Adapter Kabel
-* 4x Kabel
+* 4x Jumper Kabel
 
 .Serial Camera Verkabelung
 image::./fritzing/grove_serial_cam.png[width=75% Grove Serial Camera Fritzing]
@@ -977,7 +972,7 @@ image::./fritzing/grove_serial_cam.png[width=75% Grove Serial Camera Fritzing]
 |===
 
 ==== Anwendungsbeispiel
-Das unten Code Beispiel zeigt, wie mit der Hilfe der `SerialCameraComponent` ein JPEG Foto geschossen und unter einem bestimmten Pfad abgespeichert werden kann.
+Das untere Code Beispiel zeigt, wie mit der Hilfe der `SerialCameraComponent` ein JPEG Foto geschossen und unter einem bestimmten Pfad abgespeichert werden kann.
 
 [source,java]
 ----
@@ -985,13 +980,17 @@ include::{sourcedir}/fhnwexamples/component/SerialCameraDevice.java[tags=SerialC
 ----
 
 === Raspberry Pi Camera
-Die Raspberry Pi Camera ist die Kamera Komponente, welche standardmässig vom Pi unterstützt wird. Es ist eine kleine 8MP Kamera, die über ein Flachbandkabel direkt an dem Pi angeschlossen werden kann. Man kann maximal 3280 x 2464 Pixel für Bilder verwenden und für Videos 1080p mit 30fps oder 720p mit 60fps oder 640x480p mit 90fps.
+Die Raspberry Pi Camera ist jene Kamera Komponente, welche standardmässig vom Pi unterstützt wird. Es ist eine kleine 8MP Kamera, die über ein Flachbandkabel direkt an dem Pi angeschlossen werden kann. Die Kamera unterstützt eine maximale Auflösung von 3280 x 2464 Pixel für Bilder. Videos können in unterschiedlicher Qualität aufgenommen werden. Je mehr FPS gewünscht sind, desto weniger Pixel können geliefert werden.
+
+* 1080p mit 30fps
+* 720p mit 60 fps
+* 640p mit 90 fps.
 
 .Raspberry Pi Camera
 [link=https://projects.raspberrypi.org/en/projects/getting-started-with-picamera]
 image::./RaspberryPi_Camera.jpg[width=70% RaspiCam]
 
-Für die Verwendung muss die Kamera zunächst im OS aktiviert werden. Unter den `Interfacing Options`, von `raspi-config` kann es problemlos aktiviert werden.
+Für die Verwendung muss die Kamera zunächst im OS aktiviert werden. Unter den `Interfacing Options`, von `raspi-config` kann dies mit wenigen Klicks erledigt werden.
 
 .Raspberry Pi Camera aktivieren
 image::./RaspberryPi_Camera_Activation.jpg[width=60% activate RaspiCam]
@@ -1007,8 +1006,7 @@ raspistill -o /home/pi/Pictures/image.jpg
 
 Jetzt sollten ein Bild im Standardverzeichnis für Bilder auffindbar sein.
 
-Für mehr Informationen über die Befehle können Sie den Zusatzinformationsteil für die Raspberry Pi Camera anschauen -> 
-<<Terminal Befehle>>
+Für mehr Informationen über die Befehle können Sie den Zusatzinformationsteil für die Raspberry Pi Camera anschauen -> <<Terminal Befehle>>
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -1040,7 +1038,7 @@ image::./fritzing/raspiCam.png[width=60% RaspiCam Wiring]
 |===
 
 ==== Anwendungsbeispiel
-In diesem Code Beispiel wird die Raspberry Pi Camera mit der `RaspberryPiCameraComponent` verwendet, um zwei Bilder und ein Video aufzunehmen im Ordner `/home/pi/Pictures/`.  +
+In diesem Code Beispiel wird die Raspberry Pi Camera mit der `RaspberryPiCameraComponent` verwendet, um zwei Bilder und ein Video aufzunehmen. Diese werden im Ordner `/home/pi/Pictures/` abgelegt. +
 
 [source,java]
 ----
@@ -1050,20 +1048,19 @@ include::{sourcedir}/fhnwexamples/component/RaspberryPiCameraDevice.java[tags=Ra
 === Grove LED Strip Driver
 Der Grove LED Strip Driver erlaubt die Steuerung der Farbe eines RGB LED Bandes mit 12V Spannungsaufnahme. Die Steuerung erfolgt über einen digitalen Grove Adapter. Die Komponentenklasse repräsentiert ein Äquivalent zur offiziellen C++ Library des LED Strip Drivers. <<LedStripDriver>>
 
-*Achtung:* Die Kommunikation zwischen dem Raspberry Pi und dem LED Strip Driver erfolgt über ein digitales Protokoll via zwei Pins. Der erste Pin agiert dabei als Clock und der zweite als Data Pin. Beim Setzen des Clock Pins kann es ab und an zu minimalen Abweichungen kommen, was in einer leicht falschen Farbe resultiere kann.
-
+*Achtung:* Die Kommunikation zwischen dem Raspberry Pi und dem LED Strip Driver erfolgt über ein digitales Protokoll via zwei Pins. Der erste Pin agiert dabei als Clock und der zweite als Data Pin. Beim Setzen des Clock Pins kann es ab und an zu minimalen Abweichungen kommen, was in einer leicht verfälschten Farbe resultiere kann.
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
 * 1x 12V DC Power Spannungsquelle
-* 1x Grove Kabel
-* 4x Kabel
+* 1x Grove Adapter Kabel
+* 4x Jumper Kabel
 * 1x Grove LED Strip Driver
 * 1x LED Strip mit 4 Anschlüssen (+, B, R, G)
 * 1x Schraubendreher
 
-Die 12V Spannungsquelle muss mittels Schraubendreher am Treiber befestigt werden. Befestigungsstelle ist im unteren Bild rot umrahmt. Das Grove Kabel, welches mit einem digitalen Output des Grove Base Hat verbunden ist, muss an den Grove Anschluss _IN_ des Treibes angeschlossen werden. Die Kabel zur LED müssen ebenfalls mit dem Schaubendreher am Treiber angeklemmt werden. Die einzelnen Verbindungen sind mit G, R, B, + beschriftet. Diese müssen entsprechend mit dem LED Band verbunden werden.
+Die 12V Spannungsquelle muss mittels Schraubendreher am Treiber befestigt werden. Die Befestigungsstelle ist im unteren Bild rot umrahmt. Das Grove Kabel, welches mit einem digitalen Output des Grove Base Hat verbunden ist, muss an den Grove Anschluss _IN_ des Treibes angeschlossen werden. Die Kabel zur LED müssen ebenfalls mit dem Schaubendreher am Treiber angeklemmt werden. Die einzelnen Verbindungen sind mit G, R, B, + beschriftet. Diese müssen entsprechend mit dem LED Band verkabelt werden.
 
 * *+* mit der 12V Stromaufnahme
 * *B* mit dem blauen Kanal
@@ -1101,30 +1098,31 @@ include::{sourcedir}/fhnwexamples/component/LedStripDriverDevice.java[tags=LEDSt
 ----
 
 == Beispielprojekt
-Dieses Beispielprojekt soll zeigen, wie man die Component Klassen in ein neues Projekt einbindet und wie die Geräte in einem kleinen Projekt zusammenspielen können.
+Dieses Beispielprojekt soll zeigen, wie man die Component Klassen in ein neues Projekt einbindet und wie die Geräte in einem Projekt zusammenspielen können.
 
-Das Projekt ist ein Photo Booth, also eine Fotobox in der die folgenden Geräte zusammenarbeiten müssen, um ein gutes Foto von einer Person zu machen:
+Beim Projekt handelt es sich um einen Photo Booth, also eine Fotobox, in der die folgenden Geräte zusammenarbeiten müssen, um ein gutes Foto von einer Person zu machen:
 
-* Raspberry Pi
-* Button
-* Buzzer
+* Grove Base Hat
+* Grove Button
+* Grove Buzzer
 * LC Display
-* LED Band
+* LED Strip Driver
+* Raspberry Pi
 * Raspberry Pi Camera
 * Stepper Motor
 * Ultrasonic Ranger
 
 === Setup
-In den folgenden Unterkapiteln wird gezeigt wie ein neues GPIO Projekt aufgesetzt werden kann und welche Schritte nötig sind, um die Component Klassen zusammen mit Pi4J nutzen zu können.
+In den folgenden Unterkapiteln wird gezeigt, wie ein neues GPIO Projekt aufgesetzt werden kann. Des Weiteren wird ausgeführt, welche Schritte nötig sind, um die Component Klassen zusammen mit Pi4J nutzen zu können.
 
 ==== Component Klassen als Library hinzufügen
-Um die Component Klassen in einem neuen Projekt zu verwenden, muss man die Jar-Datei in dem neuen Projekt als Bibliothek hinzufügen.
+Um die Component Klassen in einem neuen Projekt zu verwenden, muss man die `jar`-Datei im neuen Projekt als Bibliothek hinzufügen.
 
-Unter den Releases der Github-Repository finden sie die Jar-Datei: https://github.com/FHNW-IP5-IP6/GPIOSimulator/releases/
+In den Releases des Github-Repository finden sie die `jar`-Datei: https://github.com/FHNW-IP5-IP6/GPIOSimulator/releases/
 
-Diese Jar-Datei muss in einen geeigneten Ordner im neuen Projekt hinzugefügt werden wie zum Beispiel `/build/libs`
+Diese `jar`-Datei muss in einen geeigneten Ordner im neuen Projekt hinzugefügt werden, wie zum Beispiel `/build/libs`.
 
-In der Datei `build.gradle` muss dann nur noch die Library angeben, dann sind die Komponenten Klassen wie in den Beispielen in Kapitel 5 nutzbar:
+In der Datei `build.gradle` muss dann nur noch die Library angeben. Sobald dies geschehen ist, sind die Component Klassen wie in den Beispielen im Kapitel 6 nutzbar:
 
 ----
 repositories {
@@ -1140,7 +1138,7 @@ dependencies {
 ----
 
 ==== Logging Informationen der Komponente
-Die Component Klassen können Informationen und eventuelle Fehler die auftreten könnten in Logs aufzeichnen. Diese Logs können im Beispielprojekt gesteuert werden, dafür muss zunächst log4j2 unter den gradle dependencies hinzugefügt werden im `build.gradle` File:
+Die Component Klassen können Informationen und eventuelle Fehler, die auftreten könnten, als Logs aufzeichnen. Wie genau diese Logs gemacht werden sollen, kann vom Programmierer gesteuert werden. Dafür muss zunächst log4j2 unter den gradle dependencies im `build.gradle` File hinzugefügt werden:
 
 ----
 dependencies {
@@ -1149,9 +1147,9 @@ dependencies {
 }
 ----
 
-Danach wird eine neue Ressource benötigt, welche dann die Logs steuert, die Datei `log4j2.xml`. Alle Logs der Component Klassen werden unter dem Namen `ComponentLogger` geloggt.
+Danach wird eine neue Ressource benötigt, über welche die Logs gesteuert werden können. Es handelt sich dabei um die Datei `log4j2.xml`. Alle Logs der Component Klassen werden unter dem Namen `ComponentLogger` geloggt.
 
-In dieser Beispieldatei werden alle Logs mit dem Level Info in der Console und in einer Logdatei namens _log_ festgehalten:
+In dieser Beispieldatei werden alle Logs ab dem Log Level _Info_ in der Console und in einer Logdatei namens _log_ festgehalten:
 
 ----
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1174,11 +1172,11 @@ In dieser Beispieldatei werden alle Logs mit dem Level Info in der Console und i
 </Configuration>
 ----
 
-Für mehr Informationen über Log4J2 und der Konfigurationsdatei findet man über folgendem Link: https://logging.apache.org/log4j/2.x/manual/configuration.html
+Weitere Informationen über log4j2 und dessen XML Konfigurationsdatei findet man über folgendem Link: https://logging.apache.org/log4j/2.x/manual/configuration.html
 
-Wenn jetzt eine Jar-Datei aus dem Projekt erstellt und ausgeführt wird, dann werden alle Komponenten Logs in der Konsole und im Log-File ersichtlich sein.
+Wenn jetzt eine `jar`-Datei aus dem Projekt erstellt und ausgeführt wird, werden von allen Komponenten Logs in der Konsole und in das Log-File geschrieben.
 
-Um mit gradle ein Jar File erstellen zu können muss man noch folgende Ergänzung im `build.gradle` vornehmen, wie in <<Code mit Gradle bauen>> beschrieben:
+Um mit gradle ein `jar`File erstellen zu können muss man noch folgende Ergänzung im `build.gradle` vornehmen, welche auch im <<Code mit Gradle bauen>> beschrieben ist:
 
 ----
 jar {
@@ -1195,7 +1193,7 @@ jar {
 Das Gradle Projekt ist nun vorbereitet. Es kann nun mit der Implementation der Photo Booth begonnen werden.
 
 ==== Ausarbeitung Projektidee
-In einem ersten Schritt haben wir uns überlegt, welche Zustände die Photo Booth überhaut haben kann und wie diese Zustände miteinander agieren sollen. Diese sind in folgendem State Diagramm festgehalten.
+In einem ersten Schritt haben wir uns überlegt, welche Zustände die Photo Booth überhaut haben kann, und wie diese Zustände miteinander agieren sollen. Unser Resultat ist im folgenden State Diagramm festgehalten.
 
 .State Machine
 image::Sample_Project_States.png[width=75% Project State Machine]
@@ -1205,16 +1203,16 @@ Die blauen Ovale im Diagramm entsprechen den einzelnen Zuständen. Mit den Pfeil
 Als nächstes muss definiert werden, was in den jeweiligen States alles geschehen soll.
 
 [.underline]*State 0*
-In diesem State wird darauf gewartet bis ein User die Photo Booth via Button Click aktiviert. Das LCD zeigt einen Text an, welchen den Benutzer dazu einlädt, den Knopf zu drücken. Sobald der Button betätigt wurde, wechseln wir in den nächsten State.
+In diesem State wird darauf gewartet, dass ein User die Photo Booth via Button Click aktiviert. Das LCD zeigt einen Text an, welcher den Benutzer dazu einlädt, den Knopf zu drücken. Sobald der Button betätigt wurde, wechseln wir in den nächsten State.
 
 [.underline]*State 1*
-In diesem State wird solange gewartet, bis sich der Benutzer korrekt positioniert hat. Wir fordern den Benutzer via LCD auf, sich einen Meter von der Kamera zu entfernen. Die Distanz wird mit dem Grove Ultrasonic Ranger gemessen und und auf dem LCD angezeigt. Solange sich der User nicht korrekt platziert hat, wird das LED Band rot leuchten. Sobald der Benutzer sich in der entsprechenden Distanz eingefunden hat, wechselt die Farbe des Bandes auf grün und es kann zum dritten State übergegangen werden
+In diesem State wird solange gewartet, bis sich der Benutzer korrekt positioniert hat. Wir fordern den Benutzer via LCD auf, sich einen Meter von der Kamera zu entfernen. Die Distanz wird mit dem Grove Ultrasonic Ranger gemessen und auf dem LCD angezeigt. Solange sich der User nicht korrekt platziert hat, wird das LED Band rot leuchten. Sobald der Benutzer sich in der entsprechenden Distanz eingefunden hat, wechselt die Farbe des Bandes auf grün und es kann zum dritten State übergegangen werden.
 
 [.underline]*State 2*
 Dieser State startet einen Countdown von 5 Sekunden. Die verbleibende Zeit wird einerseits auf dem LCD angezeigt und andererseits durch den Stepper Motor mittels einer Skala indiziert. Bei jedem Sekundenwechsel ertönt ein Signalton via Buzzer. Sobald der Countdown abgelaufen ist, wird in den finalen Status gewechselt.
 
 [.underline]*State 3*
-In diesem Status wird das Bild geschossen. Bevor dies passiert, leuchten die LED Streifen weiss auf und der Buzzer spielt einen hohen Ton ab. Anschliessend wir das Bild erstellt und abgespeichert. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zu guter Letzt wird der Stepper Motor wieder auf seine initiale Position gesetzt und in den State 0 gewechselt.
+In diesem Status wird das Bild geschossen. Bevor dies passiert, leuchtet der LED Streifen weiss auf und der Buzzer spielt einen hohen Ton ab. Anschliessend wir das Bild erstellt und abgespeichert. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zu guter Letzt wird der Stepper Motor wieder auf seine initiale Position gesetzt und in den State 0 gewechselt. Die Photo Booth ist bereit für den nächsten Kunden.
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -1228,56 +1226,55 @@ Für die Verkabelung wird folgende Hardware benötigt:
 * 1x Grove Button
 * 1x Grove Buzzer
 * 1x Grove Ultrasonic Ranger
-* 4x Grove Kabel
-* 10x Kabel
+* 4x Grove Adapter Kabel
+* 10x Jumper Kabel
 
 Das Tool Fritzing, mit welchem wir die Verkabelungen der Beispiele aufgezeichnet haben, besitzt leider keine Grafik für den Grove Base Hat. Aus diesem Grund können wir an dieser Stelle leider kein Bild der Verkabelung zeigen. Allerdings ist die Verkabelung im Code ersichtlich.
 
 ==== Codierung
 Der Source Code der einzelnen States wurde in separate Methoden eingeteilt.
-Zuerst werden alle benötigten Komponentenklassen initialisiert, um sie in den States verwenden zu können:
+
+Zuerst werden alle benötigten Components initialisiert, um sie in den States verwenden zu können:
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectInit]
 ----
 
-Der State 0 wurde über die Methode `isButtonPressed()` realisiert. Zunächst wird auf dem LCD-Display mitgeteilt, dass der Ablauf erst beginnt, wenn der Button gedrückt wird. Sobald dieser gedrückt wird, gibt die Methode `true` als Rückgabewert zurück, damit zum nächsten State fortgefahren werden kann.
+Der State 0 wurde über die Methode `isButtonPressed()` realisiert. Zunächst wird auf dem LC-Display mitgeteilt, dass der Ablauf erst beginnt, wenn der Button gedrückt wird. Sobald dieser gedrückt wird, gibt die Methode `true` als Rückgabewert zurück. Dies bedeutet, dass zum nächsten State gewechselt werden kann.
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectButtonPressed]
 ----
 
-Der State 1 wurde über die Methode `isDistanceInRange()` realisiert. Zu Beginn wird mittels LCD-Display gezeigt, welcher Abstand erwünscht ist. Der LED-Strip wird rot um zu sugerieren, dass der Abstand noch nicht korrekt ist. 
-Der Ultrasonic Ranger misst den Abstand sekündlich und sobald der Abstand in Ordnung ist, wird die Farbe des LED-Strips zu grün gewechselt und die Methode gibt `true` zurück, damit mit dem nächsten State fortgefahren werden kann.
+Der State 1 wurde über die Methode `isDistanceInRange()` realisiert. Zu Beginn wird mittels LC-Display gezeigt, welcher Abstand erwünscht ist. Der LED-Strip wird rot, um zu suggerieren, dass der Abstand noch nicht korrekt ist. Der Ultrasonic Ranger misst den Abstand sekündlich. Sobald der Abstand in Ordnung ist, wird die Farbe des LED-Strips zu grün gewechselt und die Methode gibt `true` zurück. Es kann mit dem nächsten State fortgefahren werden.
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectDistanceInRange]
 ----
 
-Der State 2 wurde über die Methode `countdown()` realisiert. Hier wird von der Zahl 5 hinabgezählt. Das Herunterzählen wird mit mehreren Geräten untermalt, um die Spannung zu erhöhen. Das LCD-Display zeigt den Countdown an und der Buzzer macht jeweils einen Buzz-Ton für 200 Millisekunden. Der Steppermotor führt eine Umdrehung von 400 Schritten aus, da es pro Schritt 2 Millisekunden benötigt, braucht es für den Countdown einer Zahl genau eine Sekunde.
+Der State 2 wurde über die Methode `countdown()` realisiert. Hier wird von der Zahl fünf hinabgezählt. Das Herunterzählen wird mit mehreren Geräten untermalt, um die Spannung zu erhöhen. Das LC-Display zeigt den Countdown an und der Buzzer macht jeweils einen Buzz-Ton für 200 Millisekunden. Der Stepper Motor führt eine Umdrehung von 400 Schritten aus. Da der Schrittmotor pro Schritt 2 Millisekunden benötigt, braucht er für 400 Schritte exakt 800 Millisekunden. Zusammen mit dem Buzzer Ton entspricht dies einer Wartezeit von exakt einer Sekunde.
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectCountDown]
 ----
 
-Der State 3 wurde über die Methode `takePicture()` realisiert. Bevor das Bild geschossen wird, wird der LED-Strip auf weiss gesetzt und der Buzzer spielt einen höheren Ton. Dann macht die Raspberry Pi Kamera das Bild und speichert es in den Bilderpfad des Raspberry Pi unter `/home/pi/Pictures/picam1.jpg`. Dass das Bild geschossen wurde, wird auf dem LCD-Display angezeigt und der LED-Strip wird wieder abgeschaltet.
+Der State 3 wurde über die Methode `takePicture()` realisiert. Bevor das Bild geschossen wird, wird der LED-Strip auf weiss gesetzt und der Buzzer spielt einen höheren Ton ab. Dann macht die Raspberry Pi Kamera ein Bild und speichert es auf dem Raspberry Pi unter `/home/pi/Pictures/picam1.jpg`. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zusätzlich wird das LED Band ausgeschaltet und der Stepper Motor wird wieder zu seiner initialen Position gedreht.
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectTakePicture]
 ----
 
-Der gesamte Ablauf wird dann in der `execute()` Methode ersichtlich. Diese Methode ist dafür verantwortlich, dass der Ablauf wieder von vorne beginnt bei State 0, sobald ein Bild gemacht wurde.
+Der gesamte Ablauf wird dann in der `execute()` Methode ersichtlich. Diese Methode ist dafür verantwortlich, dass der Ablauf wieder von vorne beginnt, sobald ein Foto gemacht wurde.
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectStart]
 ----
-
 
 == Zusatzinformationen
 

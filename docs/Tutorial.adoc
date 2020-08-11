@@ -1097,15 +1097,18 @@ Dieses Beispielprojekt soll zeigen, wie man die Komponentenklassen in ein neues 
 
 Das Projekt ist eine Art Photo Booth, also eine Fotobox in der die folgenden Geräte zusammenarbeiten müssen, um ein gutes Foto von einer Person zu machen:
 
+* Raspberry Pi
 * Button
 * Buzzer
 * LC Display
-* LED (LED Streifen)
-* Raspberry Pi (Grove Camera)
-* Motor als Countdown
-* ev Ranger für Distanz
+* LED Band
+* Raspberry Pi Camera
+* Stepper Motor
+* Ultrasonic Ranger
 
-=== Komponenten Klassen als Library hinzufügen
+=== Setup
+
+==== Component Klassen als Library hinzufügen
 Um die Komponenten Klassen in einem neuen Projekt zu verwenden, muss man die Jar-Datei in dem neuen Projekt als Bibliothek hinzufügen.
 
 Unter den Releases der Github-Repository finden Sie die Jar-Datei: https://github.com/FHNW-IP5-IP6/GPIOSimulator/releases/
@@ -1127,7 +1130,7 @@ dependencies {
 }
 ----
 
-=== Logging Informationen der Komponente
+==== Logging Informationen der Komponente
 Die Komponentenklassen können Informationen und eventuelle Fehler die auftreten könnten in logs aufzeichnen. Diese logs können im Beispielprojekt gesteuert werden, dafür muss man zunächst log4j2 unter den gradle dependencies hinzufügen im `build.gradle` File:
 
 ----
@@ -1179,12 +1182,13 @@ jar {
 }
 ----
 
-==== Projektidee
+=== Umsetzung
 
+==== Ausarbeitung Projektidee
 .State Machine
 image::Sample_Project_States.png[width=75% Project State Machine]
 
-==== Programm
+==== Codierung
 
 [source,java]
 ----

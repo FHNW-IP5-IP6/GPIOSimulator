@@ -122,8 +122,8 @@ public class SampleProject extends Example {
         lcd.clearText();
         for (int i = 5; i > 0; i--) {
             lcd.displayText("Countdown: " + i);
-            buzzer.playTone(Note.A4.getFrequency(), 150);
-            stepperMotor.stepBackwards(500);
+            buzzer.playTone(Note.A4.getFrequency(), 200);
+            stepperMotor.stepBackwards(400);
         }
         lcd.clearText();
     }

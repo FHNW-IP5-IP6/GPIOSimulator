@@ -1,0 +1,1974 @@
+:title: FHNW Pi4J Tutorial
+:toc: left
+:toc-title:
+:toclevels: 5
+:sectnums:
+:sectnumlevels: 5
+:sourcedir: ../src/main/java
+:imagesdir: ./assets/images
+:iconsdir: ./icons
+:stylesdir: ./styles
+:homepage: https://github.com/FHNW-IP5-IP6/GPIOSimulator
+
+image::FHNW.png[FHNW,382,59]
+[discrete]
+= IP5: FHNW Pi4J Tutorial
+
+*Autoren*:
+
+* Herr Jonathan Bättig (jonathan.baettig@students.fhnw.ch) 
+* Herr Anessollah Ima (anessollah.ima@students.fhnw.ch)
+
+*FHNW* +
+*Hochschule für Technik* +
+*Studiengang* : Informatik +
+*Semester* : 6BB
+
+*Betreuende Dozenten*:
+
+* Frau Dr. Barbara Scheuner (barbara.scheuner@fhnw.ch) 
+* Herr Dr. Dieter Holz (dieter.holz@fhnw.ch) 
+
+*Datum*: {docdate}
+
+toc::[]
+
+:sectnums!:
+== Einleitung
+:sectnums:
+
+Dieses Tutorial soll den Studierenden der FHNW eine Hilfestellung für ihre GPIO Projekte im IP1/2 bieten. Es wird gezeigt, wie der Raspberry Pi grundlegend funktioniert und wie er mit anderen Geräten interagieren kann. Mit der Unterstützung, welche das Tutorial bietet, soll der Fokus auf die Implementation des Codes verschoben werden. Durch die zur Verfügung gestellten Komponenten Klassen müssen sich die Studierenden weniger mit der Funktionsweise der einzelnen Sensoren und Aktuatoren auseinandersetzen. Dieses Tutorial unterstützt die GPIO Entwicklung mit Java und der Pi4J-Library.
+
+Der Hauptteil des Tutorials befasst sich mit verschiedenen Sensoren und Aktoren, welche an den Raspberry Pi angeschlossen werden können, für welche wir leicht zu verwendende, hauseigene Komponenten Klassen in Java zur Verfügung stellen. Diese Komponenten Klassen können als Library in den GPIO Projekten verwendet werden.
+
+== Hardware
+
+=== Raspberry Pi
+Der Raspberry Pi ist ein kostengünstiger Computer in Kreditkartengrösse. Er ist ein leistungsfähiger kleiner PC, der es Menschen jeden Alters ermöglicht, sich mit Computern auseinanderzusetzen und zu lernen, wie man in Sprachen wie Scratch, Python oder Java programmiert. Er ist in der Lage, alles zu tun, was man von einem Desktop-Computer erwarten würde. Vom Surfen im Internet und dem Abspielen von HD-Videos bis hin zum Erstellen von Tabellenkalkulationen, der Verarbeitung von Texten sowie dem Ausführen von Spielen. <<RaspberryPi1>>
+
+Darüber hinaus hat der Raspberry Pi die Fähigkeit, mit der Aussenwelt zu interagieren. An den sogenannten **G**eneral **P*urpose **I**nput **O**utput Pins, kurz GPIO, kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für GPIO Projekte macht. <<RaspberryPi2>>
+
+Der Pi wurde von der britischen Raspberry Pi Foundation entwickelt und hat das Ziel, Bildung im Bereich Computer Hardware, Elektronik und Informatik zu fördern.
+
+=== Grove Sensoren & Aktuatoren
+Grove ist ein offenes modulares System, das für den einfachen Anschluss beliebiger Sensoren und Aktuatoren entwickelt wurde. Es gibt Grove Sensoren und Aktuatoren für die verschiedensten Bereiche:  Robotik, Annäherung, Bewegung, Umwelt und Biomedizin.
+
+Grove erleichtert das Anschliessen und Experimentieren mit den verschiedenen Geräten. Die Sensoren und Aktuatoren können mittels Grove Kabel an einen Grove Aufsatz, wie beispielsweise dem Grove Base Hat, angeschlossen werden. Dies macht die Nutzung von Jumper Kabeln sowie die Verwendung eines Lötkolbens für GPIO Projekte überflüssig. <<GroveSA>>
+
+=== Grove Base Hat
+Grove Sensoren und Aktuatoren sind beliebt und werden oft in Projekten eingesetzt. Sie verfügen über simple Steckverbindungen, sogenannte Adapter, welche in Kombination mit dem Grove Base Hat eine sichere und fehlerfreie Verbindung mit dem Raspberry Pi garantieren. <<GroveBaseHat>>
+
+.Grove Base Hat
+[link=https://wiki.seeedstudio.com/Grove_Base_Hat_for_Raspberry_Pi/]
+image::Grove_Base_Hat.png[500, 500, Grove Base Hat]
+
+Der Grove Base Hat stellt Adapter für PWM, Digital, Analog, UART sowie I2C zur Verfügung. Zusätzlich werden alle GPIO Pins auf den Hat projiziert und können mittels Jumper Kabel weiterverwendet werden. Die meisten von uns implementierten Komponenten unterstützten beide Anschlussarten.
+
+[source,java]
+----
+include::{sourcedir}\fhnwgpio\grove\GroveAdapter.java[tags=GroveAdapter]
+----
+
+Die Sensoren und Aktuatoren können über unsere Implementation sehr einfach verwendet werden. Das untere Beispiel zeigt, wie ein Potentiometer, welcher am Grove Base Hat Adapter A0 angeschlossen ist, erzeugt und abgefragt werden kann. Ohne die Abstraktion unserer Potentiometer Klasse wäre dies bei weitem komplizierter.
+
+[source,java]
+----
+PotentiometerComponent potentiometer = new PotentiometerComponent(GroveAdapter.A0);
+potentiometer.getValue()
+----
+
+==== PWM
+PWM steht für **P**ulse **W**idth **M**odulation. Der Grove Base Hat unterstütz die Hardware PWM Pins 12 sowie 13. Beide Pins sind im selben Adapter vereinigt.
+
+==== UART
+Der UART Adapter macht den Serial Bus der Raspberry Pi für Grove Sensoren und Aktuatoren verfügbar. Er benutzt die GPIO Pins 14 und 15. An diesem Port würden wir die Grove Serial Camera anschliessen, wenn diese mit 3.3 Volt kompatibel wäre. Leider benötigt die Kamera aber eine Spannungsquelle mit 5V, weshalb das Kamera Modul manuell verkabelt werden muss.
+
+==== Digital
+Der Grove Base Hat stellt sechs digitale Adapter zur Verfügung. Die Adapter stellen die Standard GPIO Pins des Pi dar. Die Pin Nummern entsprechen den Zahlen auf dem Board. Beispielsweise entspricht der Adapter D22 den Pins 22 und 23.
+
+==== Analog
+Der Raspberry Pi selbst besitzt nur digitale GPIO Pins. Hier stellt uns der Grove Base Hat also zusätzliche Funktionalität zur Verfügung. An die vier analogen Adapter können analoge Sensoren und Aktuatoren angeschlossen werden. Diese kommunizieren mit einem Chip, welcher sich auf der Rückseite des Hats befindet. Dieser Chip wandelt dann die analogen Daten in ein digitales Format um. Zusätzlich implementiert der Chip das I2C Interface, über welches er mit dem Pi kommunizieren kann.
+
+Der Chip hat die I2C Adresse 0x04. Die einzelnen analogen Anschlüsse haben jeweils eine eigene Device Adresse.
+
+* **A0**: 0x30
+* **A2**: 0x32
+* **A4**: 0x34
+* **A6**: 0x36
+
+==== I2C
+Die drei I2C Anschlüsse sind alle mit dem I2C Bus 1 des Raspberry Pi verbunden. Mit I2C können mehrere Devices auf einmal angesteuert werden.
+
+=== Breadboard
+Breadboards sind Prototyping-Devices, welche es in diversen Grössen und Formen gibt. Sie bieten eine einfache Möglichkeit, elektronische Komponenten miteinander zu verbinden, ohne dass diese zusammengelötet werden müssen. Sie sind daher bestens für den Testaufbau von Schaltungen geeignet. Wir haben das Breadboard immer dann verwendet, wenn wir nicht Grove Sensoren oder Aktuatoren an den Pi anschliessen mussten.
+
+Die untere Abbildung zeigt, wie ein solches Breadboard aufgebaut ist. In die einzelnen Punkte können Kabel oder elektronischen Leiter der einzelnen Devices eingesteckt werden. Sind Punkte miteinander verbunden, stehen sie bei Benutzung alle unter dem gleichen Strom. Die roten Leitungen sind für die Stromzufuhr gedacht. Die blauen Leitungen können mit dem Ground Pin des Raspberry Pi verbunden werden.
+
+._Breadboard_
+[link=https://magpi.raspberrypi.org/articles/breadboard-tutorial]
+image::./installation/breadboard.jpeg[width=75% Breadboard]
+
+== Software
+Zur Umsetzung von GPIO Projekten benötigen wir nebst den Hardware Komponenten natürlich auch Software. Als Basis dient uns Java 8 sowie Pi4J.
+
+=== Java
+Zur Programmierung der GPIO Pins des Raspberry Pis benutzen wir die objektorientierte Programmiersprache Java in der Version 8. Aus kompatibilitätsgründen sind neure Versionen von Java leider nicht unterstützt.
+
+=== Pi4J
+Die Software Bibliothek Pi4J bietet vollzugriff auf die I/O Funktionalität des Raspberry Pi. Die Library abstrahiert die komplexe Hardware Programmierung und bietet stattdessen einfache API-Calls an, welche direkt verwendet werden können. Folgende Funktionalität wird von Pi4J abgedeckt: <<Pi4J>>
+
+* Exportieren und Importieren von GPIO Pins
+* Konfigurieren der GPIO Pin-Flussrichtung
+* Lesen und Schreiben des GPIO Pin State
+* Pulse Width Modulation (Hardware & Software)
+* Erstellen von GPIO State Listeners (Hardware Interrupt)
+* Automatisches setzen eines Pin State bei Programmende (GPIO Shutdown)
+* Senden und Empfangen von Daten via serielle Schnittstelle (RS232)
+* Support für Kommunikation über den I2C Bus (Inter-Integrated Circuit)
+* Support für Kommunikation über den SPI Bus (Serial Peripheral Interface)
+* Erweiterbarer GPIO Provider mit Support für GPIO Extension Boards
+* Zugriff auf System- und Netzwerkinformationen des Raspberry Pi
+* Wrapper Klassen für den direkten Zugriff auf WiringPi
+
+Unsere Library verwendet Pi4J 1.2, da die Version 1.4 den I2C Bus des Raspberry Pi nicht unterstützt.
+
+=== Log4j 2
+Wir benutzen Log4j 2 von Apache für das Schreiben von Logs in ein Rolling File. Log4j 2 ist ein beliebter und weit verbreiteter Vertreter der Java Logging Frameworks. <<Log4j>>
+
+== Setup des RaspberryPi
+Bevor sie mit der Implementation ihres ersten Raspberry Pi Projekts starten können, muss der Mini-Computer aufgesetzt werden. Im Gegensatz zu den verschiedenen im Handel erhältlichen Micro Controllern, wie Beispielsweise der Arduino Uno, benötigt der Pi ein Betriebssystem. Wir verwenden das auf Linux basierende System Raspbian, eine speziell für den Raspberry Pi modifiziertes Derbian.
+
+=== Vorbereitung der Mini SD-Karte
+Wie bereits erwähnt, verwenden wir für den Betrieb des Raspberry Pi das Linux OS Raspbian. Das Betriebssystem werden sie später auf die Ihnen zur Verfügung gestellte Mini SD-Karte installieren.
+
+In einem ersten Schritt laden sie bitte das Raspbian Image aus dem Internet auf ihren Rechner und speichern die Datei ab. Besuchen sie hierfür die Download-Website der Raspberry Organisation: + 
+https://www.raspberrypi.org/downloads/raspbian/
+
+._Raspbian Download_
+image::./installation/raspbianDownload.png[width=75% raspbian Download]
+
+Wählen sie nun die Raspbian Version `Raspbian Buster with desktop` aus. Sobald ihr Browser den Download abgeschlossen hat, extrahieren sie bitte den Zip-Ordner an eine beliebige Stelle. Im extrahierten Ordner befindet sich eine .img-Datei, welche wir in den folgenden Installationsschritten benötigen werden. Merken sie sich also, wo auf dem Dateisystem der entpackte Folder liegt.
+
+Damit sie das Raspbian Image auf ihre SD-Karte installieren können, brauchen sie eine geeignete Disk Imaging Software. Wir empfehlen Ihnen dafür balenaEtcher zu verwenden. Es gibt aber auch andere dafür geeignete Programme.
+
+Wenn sie sich ebenfalls für balenaEtcher entscheiden, können sie das Programm über den folgenden Link direkt von der balena Webseite herunterladen und installieren: + 
+https://www.balena.io/etcher/
+
+._balenaEtcher Download_
+image::./installation/balenaDownload.png[width=60% balenaEtcher Download]
+
+Nachdem sie balenaEtcher installiert haben, können sie die Applikation starten. In nur drei einfachen Schritten spiegelt balenaEtcher das Raspbian Image auf ihre Mini SD-Karte.
+
+._balenaEtcher Startbildschirm_
+image::./installation/balenaStart.png[width=75% balenaEtcher Startbildschirm]
+
+. Wählen sie in einem ersten Schritt die .img-Datei des zuvor heruntergeladenen Raspbian aus.
+. Wählen sie nun die Mini SD-Karte aus, welche sie an ihren PC angeschlossen haben. Bitte beachten sie, dass die SD-Karte während der Installation formatiert wird und somit alle sich auf der Karte befindenden Daten unwiderruflich gelöscht werden.
+. Klicken sie auf "Flash!" um die Installation des Images zu starten. Dieser Prozess kann einige Minuten in Anspruch nehmen.
+
+Sobald der Flash Vorgang abgeschlossen wurde, ist Raspbian auf der SD-Karte installiert und das OS ist betriebsbereit.
+
+=== Raspberry Pi mit zusätzlicher Hardware nutzen
+Wenn sie den Raspberry Pi als normalen Desktop Rechner verwenden möchten, können sie die vorbereitete Mini SD-Karte in den Pi einsetzen und weitere Hardware wie Maus, Monitor und Tastatur direkt an ihren Pi anschliessen. Sobald sie den Computer an das Stromnetz anschliessen, fährt Raspbian hoch und eine Login Maske erscheint.
+
+Für das initiale Login auf dem Pi können sie die folgenden Standard Credentials verwenden:
+
+* *User*: pi
+* *Passwort*: raspberry
+
+=== Raspberry Pi ohne zusätzliche Hardware nutzen
+Es gibt verschiedene Gründe, weshalb sie den Raspberry Pi ohne zusätzliche Hardware verwenden möchten. Womöglich erfüllt der Pi die Mindestanforderungen ihrer bevorzugten Entwicklungsumgebung nicht oder Ihnen steht schlicht und einfach nicht die nötige Hardware zur Verfügung. In diesem Kapitel möchten wir Ihnen aufzeigen, wie sie den Mini Computer ganz ohne zusätzliche Hardware konfigurieren und verwenden können. Sie benötigen dazu lediglich ein USB-Kabel und ihren Laptop. <<Setup>>
+
+Um mit dem Raspberry Pi ohne zusätzliche Hardware arbeiten zu können, wird SSH verwendet. Damit sie via SSH auf den Pi zugreifen können, benötigen sie eine SSH Software. Ein beliebtes Tool ist PuTTY. Sie können es unter folgendem Link direkt vom Hersteller herunterladen und auf ihrem Rechner installieren: +
+https://www.putty.org/
+
+==== Zugriff über SSH
+Bevor sie sich mit PuTTY via SSH auf den Pi einloggen können, müssen sie SSH in Raspbian aktivieren. Dazu legen sie die SD-Karte erneut in ihren PC ein und navigieren anschliessend mittels Datei-Explorer in den `boot` Folder der SD-Karte.
+
+Jetzt müssen sie verschiedene Einstellungen direkt an den markierten Files im `boot` Ordner vornehmen:
+
+._boot Ordner_
+image::./installation/bootFolder.png[width=75% boot Ordner]
+
+* Im File `config.txt` müssen sie ganz am Schluss den folgenden Snippet hinzufügen: +
+[source]
+----
+dtoverlay=dwc2
+----
+
+* Im File `cmdline.txt` müssen sie nach dem Text "rootwait" suchen und danach den folgenden Snippet hinzufügen: +
+[source]
+----
+modules-load=dwc2,g_ether
+----
+
+Der relevante Ausschnitt des Files sieht dann zum Beispiel so aus: 
+
+._cmdLine File_
+image::./installation/cmdLine.png[width=75% cmdLine file]
+
+Zu guter Letzt erstellen sie ein leeres File ohne Dateiendung mit dem Namen `ssh`. Um dies zu erreichen, können sie beispielsweise ein neues Textfile erstellen und dieses `ssh` nennen. Nun entfernen sie die Dateiendung .txt.
+
+._SSH aktivieren_
+image::./installation/activateSSH.png[width=75% activate SSH]
+
+Nun können sie die Mini SD-Karte wieder in den Raspberry Pi einlegen und diesen mittels USB-Kabel an ihren Computer anschliessen. Beim Startup von Raspbian untersucht das System den boot Folder und lädt ihre neuen Einstellungen. Anschliessend können sie PuTTY starten und mit der folgenden Konfiguration auf den Pi zugreifen.
+
+._SSH Zugriff mit PuTTY_
+image::./installation/SSHputty.png[width=65% SSH Zugriff]
+
+Im neuen Shell Fenster können sie sich mit den Standard Credentials anmelden und den Raspberry Pi über die Konsole verwenden.
+
+* *User*: pi
+* *Passwort*: raspberry
+
+._Login in PuTTY_
+image::./installation/puttyLogin.png[width=75% Login in PuTTY]
+
+==== Zugriff über WiFi
+Die Verbindung zum Raspberry Pi via SSH funktioniert auch kabellos. Dafür muss sich ihr Computer jedoch im gleichen Netzwerk befinden wie der Raspberry Pi. Zum Beispiel bei Ihnen Zuhause im WLAN oder über ihren mobilen Hot Spot. Damit der Pi auf das WLAN zugreifen kann, müssen sie die SD-Karte erneut an ihren Laptop anschliessen und eine neue Datei im boot Ordner erstellen. Das `wpa_supplicant.conf` File. <<RasPiWifi>>
+
+Wenn sie bereits mit dem Pi über Kabel verbunden sind, können sie die Datei auch direkt über die PuTTY Konsole erstellen. Mit dem unteren Befehl wird das File mit dem Text Editor `nano` erstellt.
+
+[source]
+----
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+----
+
+[source]
+----
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=CH
+
+network={
+    ssid="NETZWERK"
+    psk="PASSWORT"
+}
+----
+
+Bei `ssid` müssen sie ihren Netzwerknamen angeben und bei `psk` das Passwort. Sobald sie die nötigen Einstellungen abgeschlossen haben, speichern sie die getätigten Änderungen. Sofern nötig, schliessen sie die SD-Karte wieder an den Raspberry Pi an.
+
+Jetzt können sie in PuTTY die IP-Adresse ihres Raspberry Pi eingeben und sich somit direkt über das WLAN mit ihm verbinden.
+
+Die IP Adresse ihres Raspberry Pi können sie über den Befehl `hostname -I` anzeigen lassen, sofern sie bereits über Kabel mit dem Pi verbunden sind. Alternativ können sie auch ein Tool auf ihrem Laptop installieren, welches ihr Netzwerk nach IPs scannt. Dafür haben wir den Advanced IP Scanner verwendet. Er ist einfach zu verwenden und seine Funktionalität ist selbsterklärend. Das Tool kann unter dem folgenden Link für Windows Rechner heruntergeladen werden: +
+https://www.advanced-ip-scanner.com/de/
+
+._Advanced IP Scanner_
+image::./installation/advanced_ip_scanner.png[width=75% Advanced IP Scanner]
+
+==== Zugriff auf UI via VNC Viewer
+Um ohne Monitor von den Vorzügen des grafischen User Interface von Raspbian profitieren zu können, kann man die VNC Funktionalitäten des Raspberry Pi verwenden. Dieses Feature muss allerdings zuerst in den Einstellungen des Raspberry Pi aktiviert werden.
+
+. Die Raspberry Pi Konfiguration mit dem Befehl `sudo raspi-config` öffnen.
+. Unter `Interfacing Options` zu `VNC` navigieren und die Auswahl bestätigen.
+
+Der Pi ist nun für die Verwendung von VNC konfiguriert. Jetzt müssen sie noch ein entsprechendes Tool auf ihrem Rechner installieren. Wir haben mit der Software Real VNC Viewer gute Erfahrungen gemacht und würden Ihnen ebenfalls empfehlen, dieses Tool zu verwenden. Es unterstützt eine breite Palette von Betriebssystemen, auf welchen es installiert werden kann. Das Tool kann über diese Webseite bezogen werden: + 
+https://www.realvnc.com/de/connect/download/viewer/
+
+Beim Startup des Tools muss zuerst eine neue Verbindung angegeben werden. Diese wird dann für die künftige Verwendung abgespeichert.
+
+._VNC Viewer Zugriff auf Pi_
+image::./installation/VNCViewer.png[width=70% VNC Viewer Zugriff auf Pi]
+
+Nach einem kurzen Verbindungsaufbau öffnet sich ein neues Fenster, welches einem den Remote Zugriff auf das User Interface des Raspberry Pi erlaubt.
+
+._VNC Viewer GUI von Raspbian_
+image::./installation/VNCViewerGUI.png[width=70% VNC Viewer GUI von Raspbian]
+
+Es kann gut sein, dass die Auflösung sowie die Grösse der Icons zu Beginn noch nicht optimal ist. Die Einstellungen können sie wie folgend anpassen:
+
+* *Auflösung*: + 
+    _Preferences -> Raspberry Pi Configuration -> Display_ +
+    Hier können sie unter "Set Resolution" die Auflösung verändern. Es kann sein, dass sie zusätzlich die Option _"Underscan"_ deaktivieren müssen, weil sie eventuell ihre Einstellungen zur Auflösung überschreibt.
+
+* *Icon Grösse*: + 
+    _Preferences -> Appearance Settings -> System -> Defaults_ + 
+    Hier können sie die Grösse der Icons gemäss ihren Präferenzen ändern.
+
+=== Installation von zusätzlicher Software auf dem Pi
+Bevor mit der Implementation von GPIO Projekten gestartet werden kann, muss noch weitere Software auf dem Raspberry Pi installiert werden. Für eine erfolgreiche Installation muss der Raspberry Pi über eine aktive Internetverbindung verfügen.
+
+==== Java
+Da wir die GPIO Pins mit Java kontrollieren möchten, brauchen wir auf dem Raspberry zwingen eine Java Version. Unsere Component Klasse nutzen Libraries, welche die Installation von Java 8 voraussetzen. Aus diesem Grund muss Java 8 auf dem Pi installiert sein. Neuere Java Version werden aktuell leider nicht unterstützt.
+
+Java kann mittels `apt` auf dem Pi installiert werden. Dazu müssen die folgenden Kommandos auf der Konsole von Raspbian ausgeführt werden: <<JavaInstall>>
+
+* `sudo apt update`
+* `sudo apt install openjdk-8-jdk`
+
+Sobald die Installation abgeschlossen ist, kann mit dem Kommando `java –version` überprüft werden, ob die Installation korrekt funktioniert hat. Das Kommando sollte den folgenden Output zeigen:
+
+._Output java -version_
+image::./installation/java_version.png[width=75% java -version output]
+
+==== Gradle
+Gradle wird für das Bauen des Codes benötigt. Mittels dem `wget` Befehl kann das Build Tool direkt von der Herstellerseite heruntergeladen werden. Wir haben die Version 6.5.1 verwendet. <<GradleInstall>>
+
+* Gradle als `.zip` herunterladen und im `tmp` Directory speichern: +
+`wget https://services.gradle.org/distributions/gradle-6.5.1-bin.zip -P /tmp`
+
+* Das heruntergeladene `.zip` File in den Folder `opt/gradle` entpacken: +
+`sudo unzip -d /opt/gradle /tmp/gradle-*.zip`
+
+Durch das Auflisten der entpackten Komponenten kann geprüft werden, ob das Entpacken korrekt funktioniert hat.
+
+* `ls /opt/gradle/gradle-6.5.1`
+
+Das Kommando sollte den folgenden Output zeigen:
+
+._Gradle Ordner Inhalt_
+image::./installation/gradle_folder_content.png[width=75% Gradle Folder Content]
+
+In einem nächsten Schritt müssen wir die PATH Variable für Gradle konfigurieren. Dazu müssen wir ein neues File auf dem Pi anlegen.
+
+* Neues File mit dem `nano` Editor öffnen: +
+`sudo nano /etc/profile.d/gradle.sh`
+* Im Editor folgenden Code einfügen:
+----
+export GRADLE_HOME=/opt/gradle/gradle-6.5.1
+export PATH=${GRADLE_HOME}/bin:${PATH}`
+----
+* File mittels Ctrl + S speichern. Editor mit Ctrl + X verlassen.
+
+Nun müssen wir das eben erzeugte Script mit dem `chmod` Befehl noch ausführbar machen.
+
+* `sudo chmod +x /etc/profile.d/gradle.sh`
+
+In einem letzten Schritt laden wir die Umgebungsvariablen neu.
+
+* `source /etc/profile.d/gradle.sh`
+
+Die Installation von Gradle ist nun abgeschlossen. Mit dem Befehl `gradle -v` können wir überprüfen, ob Gradel korrekt installiert wurde. Die Ausgabe des Kommandos sollte wie folgend aussehen:
+
+._Output gradle -v_
+image::./installation/gradle_version.png[width=75% gradle -v output]
+
+== Code auf dem Pi bauen
+Es ist möglich, den Code in IntelliJ auf dem eigenen Rechner zu schreiben, und diesen dann auf den Pi zu deployen. Das hat den wesentlichen Vorteil, dass man nicht mit der langsamen Entwicklungsumgebung des Raspberry Pi arbeiten muss und auch nicht jede kleinste Änderung in GIT pushen muss, um den neuen Code auf dem Pi auszuführen.
+
+=== Remote Host in IntelliJ
+Um ihren Raspberry Pi als Remote Host in IntelliJ einzurichten, müssen sie zuerst in der Menüleiste die folgenden Menüpunkte wählen:  _"Tools" -> "Deployment" -> "Browse Remote Host"_
+
+Jetzt erscheint ein neues Menü auf der rechten Seite, in welcher sich auch die Gradle und Datenbank Einstellungen befinden.
+
+Klicken sie in diesem Menü auf die 3 Punkte, um einen neuen Server zu erstellen. Der Name spielt hierbei keine Rolle, aber der Typ sollte SFTP sein. Bestätigen sie dann ihre Eingabe.
+
+Nun können sie die Einstellung für das Raspberry Pi im Deployment Fenster angeben:
+
+. Geben sie zuerst die IP-Adresse des Raspberry Pis an
+
+. Hier können sie die Connection mit dem Usernamen und dem Passwort einmal ausprobieren, bevor sie es hinzufügen.
+
+. Nach dem Connection-Test können sie auf das kleine Ordner Symbol klicken, um auf die Ordner Struktur des Raspberry Pis zu zugreifen. Wählen sie hier den Ort, an dem alle Files des Projekts kopiert werden sollen.
+
+. Sie können mehrere Server hinzufügen, für die einfache Verwendung in verschiedenen Netzwerken
+
+._Remote Host Server Einstellungen_
+image::./installation/RemoteHost3.png[width=75% remote host server settings]
+
+Wenn man keine besonderen Mappings benötigt und einfach alle Files im angegeben Root-Pfad haben möchte, dann kann man im Mappings Menü unter Deployment Path ein simples `/` eingeben und das Mapping hinzufügen.
+
+Jetzt können sie jederzeit alle Dateien oder einzelne ausgewählte Dateien (z. B. nur das .jar-File) via Remote Host Menü auf den Raspberry Pi übertragen.
+
+Auf dem Pi selbst müssen sie dann nur noch ihr Projekt bauen und ausführen. Während der Entwicklung geniessen sie allerdings alle Vorzüge der IDE auf ihrem Rechner.
+
+._Update Remote Host_
+image::./installation/RemoteHost4.png[width=60% update remote host server]
+
+=== Code mit Gradle bauen
+Nachdem der Code via Remote Deployment auf den Rasbperry Pi gespielt wurde, müssen wir diesen noch kompilieren und als `.jar` ablegen. Dies ist die Aufgabe von Gradle. Für die Ausführung des Gradle Tasks navigieren sie bitte in den Root Folder ihres Projekts. Dort kann das Projekt dann mit dem folgenden Befehl gebaut werden:
+
+* `gradle jar`
+
+Sofern die Kompilierung fehlerfrei war, sollten sie den folgenden Output erhalten:
+
+._Output gradle jar_
+image::./installation/gradle_jar.png[width=75% gradle jar output]
+
+Gradle hat nun ein `.jar` File generiert und im Folder `build/libs` ihres Projektes abgelegt. Das `.jar` File kann nun gestartet werden.
+
+* `java -jar build/libs/YOUR_PROJECT_NAME_AND_VERSION.jar`
+
+Sofern ihr Projekt den seriellen oder I2C Bus des Raspberry Pis verwendet, müssen sie das `.jar` als Administrator (`sudo`) starten.
+
+Der Befehl `gradle jar` setzt voraus, dass ihr `build.gradle` File einen Task mit dem Namen `jar` enthätl. Dieser Task sollte den folgenden Code enthalten:
+
+[source,json]
+----
+jar {
+    manifest {
+        attributes "Main-Class": "Main.Class.Path"
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+----
+
+=== Optional: Remote Debugging
+Es ist auch möglich den Code vom eigenen Rechner aus mit IntelliJ auf dem Raspberry Pi auszuführen und diesen auf dem eigenen Rechner zu debuggen. Diese Funktionalität kann sehr hilfreich sein, wenn man mit schwierigen Bugs zu kämpfen hat. Allerdings kann das Remote Debugging selbst zu Schwierigkeiten führen und funktioniert manchmal nicht wie gewünscht. Deshalb wurde dieser Bereich als optional deklariert.
+
+Wenn sie ein schweres Problem haben und sich das Debugging etwas erleichtern wollen, dann ist es empfehlenswert, diese Funktionalität auszuprobieren.
+
+*Setup*
+
+. Downloaden sie das folgende Plugin von Jetbrains:  + 
+https://plugins.jetbrains.com/plugin/7738-embedded-linux-jvm-debugger-raspberry-pi-beaglebone-black-intel-galileo-ii-and-several-other-iot-devices-[Embedded Linux JVM Debugger]
+
+. Fügen sie eine Run / Debug Configuration vom Typ Embedded Linux JVM hinzu, wie im Bild weiter unten ersichtlich. Ersetzten sie einfach die IP-Addresse und die Projektinformationen mit ihren eigenen. +
+
+._Embedded JVM Configuration_
+image::./installation/RemoteDebugging.png[width=75% Remote Debuggging Configuration]
+
+Für weitere Informationen zum Remote Debugging mit IntelliJ auf dem Raspberry Pi können sie den folgenden Artikel studieren: + 
+https://medium.com/@menchukanton/setup-intellij-idea-for-remote-debugging-java-code-on-a-raspberry-pi-6e9df09dfb95[Remote debugging java code on a Raspberry Pi]
+
+== Pi4J Basics
+Wie wir im Tutorial bereits erläutert haben, verwenden unsere Component Klassen die Library Pi4J. Eine Vielzahl der von uns zur Verfügung gestellten Konstruktoren benötigen als Input verschiedene Typen von Pi4J GPIO Pins. In diesem Kapitel möchten wir erklären, wie solche Pins via Pi4J angefordert werden können.
+
+=== GPIOProvider
+Zu Beginn eines jeden Pi4J GPIO Projektes muss der gewünschte Standard Provider gesetzt werden. In unseren Beispielen verwenden wir ausschliesslich den `RaspiGpioProvider` mit dem Numbering Schema `RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING`.
+
+[source,java]
+----
+GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
+----
+
+Das `RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING` entspricht den Nummern auf dem unteren Pinout.
+
+.BCM Pinout
+[link=https://pinout.xyz]
+image::pinout.png[width=75% bcm pinout]
+
+=== GpioController
+Über den `GpioController` können verschiedene Pins vom Raspberry Pi angefordert werden. Der Controller sendet dem System die nötigen Befehle weiter.
+
+[source,java]
+----
+GpioController gpio = GpioFactory.getInstance();
+----
+
+=== Pins anfordern
+Über den zuvor erzeugten `GpioController` können nun die benötigten Pins angefordert werden. In unseren Beispielen und Component Klassen benötigen wir die Pin-Typen
+
+* GpioPinDigitalInput
+* GpioPinDigitalOutput
+* GpioPinPwmOutput (Software & Hardware).
+
+Die verschiedenen Pins können wie folgend vom GpioController angefordert werden:
+
+[source,java]
+----
+GpioPinDigitalInput pin = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_17);
+GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_17);
+GpioPinPwmOutput pwm = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_13);			// Hardware PWM
+GpioPinPwmOutput pwm = gpio.provisionSoftPwmOutputPin(RaspiBcmPin.GPIO_02);		// Software PWM
+----
+
+== Komponenten
+In diesem Kapitel sind einige der gängigen Sensoren und Aktuatoren beschrieben und wie diese an den Raspberry Pi angeschlossen werden können. Ausserdem wird aufgezeigt, wie die Geräte mit den Component Klassen in Java verwendet werden können.
+
+=== LED
+Leuchtdioden emittieren Licht, sofern Strom durch sie fliesst. Wie bei allen Dioden lassen LEDs nur eine Flussrichtung zu. Mit der `LedComponent` lässt sich der Status der LED kontrollieren. Über PWM kann zusätzlich die Helligkeit der LED eingestellt werden. <<LED>>
+
+.LED
+[link=https://upload.wikimedia.org/wikipedia/commons/9/9e/Verschiedene_LEDs.jpg]
+image::led.jpg[width=75% LED]
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 2x Jumper Kabel
+* 1x LED
+* 1x 220Ω Wiederstand
+
+.LED Verkabelung 
+image::./fritzing/blink_led.png[width=75% LED Wiring]
+
+==== API
+.LED - Konstruktoren
+[cols="1,1"]
+|===
+|*Konstruktor* |*Beschreibung*
+|LedComponent(com.pi4j.io.gpio.GpioPinDigitalOutput pin) |Constructor for directly controlling digital LEDs without PWM.
+|LedComponent(com.pi4j.io.gpio.GpioPinPwmOutput pwmPin) |Constructor for controlling LEDs connected to pins with hard- or software PWM. This constructor allows controlling the brightness of the LED.
+|LedComponent(GroveAdapter adapter) |Constructor for controlling Grove LEDs.
+|===
+
+.LED - Funktionen
+[cols="1,2,2"]
+|===
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|void |setBrightness(int brightness) |Set the brightness of a LED through PWM. Method may only be used if a PWM pin is provided.
+|void |turnLedOff() |Turns the LED off. If a PWM pin was provided in the constructor, the brightness is set to 0%.
+|void |turnLedOn() |Turns the LED on. If a PWM pin was provided in the constructor, the brightness is set to 100%.
+|===
+
+==== Anwendungsbeispiel
+Die blinkende LED ist das "Hello World"-Äquivalent der GPIO Programmierung. Dieses Beispiel lässt eine LED zwei Mal blinken. Anschliessend wird die Helligkeit der LED schrittweise von 0% auf 100% inkrementiert. Nach dem Erreichen der maximalen Helligkeit wird die Lichtstärke wieder auf 0% dekrementiert. Das Dimmen der LED ist durch Pulse Width Modulation möglich. Diese Funktionalität wird durch die Übergabe eines `GpioPinPwmOutput` Pins an den Konstruktor der `LedComponent` ermöglicht.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/LedDevice.java[tags=LedDevice]
+----
+
+=== Button
+Buttons sind simple Sensoren. Der Sensor kann zwei Zustände haben. Entweder lässt er Strom fliessen oder er unterbricht die Leitung. Richtig verkabelt kann der jeweilige Wert an einem digitalen Pin des Raspberry Pi gelesen werden.
+
+Die Komponentenklasse unterstützt sowohl Grove Buttons als auch Standard-Buttons. Andere einfache digitale Sensoren mit zwei Zuständen werden ebenfalls unterstützt wie beispielsweise Grove Touch Sensoren.
+
+.Button
+[link=https://cdn.antratek.nl/media/product/03c/mini-push-button-switch-com-00097-1b3.jpg]
+image::push_button.png[width=75% Push Button]
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 4x Jumper Kabel
+* 1x Button
+* 1x 1kΩ Wiederstand
+* 1x 10kΩ Wiederstand
+
+.Button Verkabelung 
+image::./fritzing/button_click.png[width=75% Button Wiring]
+
+==== API
+.Button - Konstruktoren
+[cols="1,1"]
+|===
+|*Konstruktor* |*Beschreibung*
+|ButtonComponent(com.pi4j.io.gpio.GpioPinDigitalInput pin) |Constructor for GPIO pins without value reversion.
+|ButtonComponent(com.pi4j.io.gpio.GpioPinDigitalInput pin, boolean reverse) |Constructor for GPIO pins. User can set if the buttons value should be reversed.
+|ButtonComponent(GroveAdapter adapter) |Constructor for digital grove devices without value reversion.
+|ButtonComponent(GroveAdapter adapter, boolean reverse) |Constructor for digital grove devices. User can set if the buttons value should be reversed.
+|===
+
+.Button - Funktionen
+[cols="1,2,2"]
+|===
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|boolean |isPressed() |Returns if the button is pressed.
+|boolean |isReleased() |Returns if the button is released.
+|void |	setReverse(boolean reverse) |This function allows the user to change the buttons behaviour.
+|===
+
+==== Anwendungsbeispiel
+Das folgende Code Beispiel loggt den Zustand des Buttons bei jedem Zustandswechsel. Zwischen den einzelnen Messungen wird jeweils eine Pause von 10 Millisekunden eingelegt. Dies hat zwei Gründe: Einerseits gönnen wir dem Prozessor des Raspberry Pi etwas Pausenzeit, andererseits eliminieren wir Messfehler, welche durch die Vibration des betätigenden Fingers ausgelöst werden können.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/ButtonDevice.java[tags=ButtonDevice]
+----
+
+=== Buzzer
+Ein Buzzer ist funktioniert wie ein einfacher Lautsprecher. Er wandelt ein elektrisches Signal in einen Ton um. Je nach Frequenz des Signals ändert sich der Ton, welcher wiedergegeben wird.
+Die Hilfsklasse `Notes` stellt eine Vielzahl von Tönen über mehrere Oktaven zur Verfügung. Jedes Enum-Attribut verfügt über einen Integer, welcher der Frequenz des Tons entspricht.
+
+*Achtung:* Die Buzzer-Komponente manipuliert die PWM Grundfrequenz des Raspberry Pi beim Abspielen von Tönen sehr stark. Der Buzzer kann deshalb nicht zusammen mit anderen PWM Devices verwendet werden. Ist dies für ein Projekt nötig, muss auf einen externen PWM Generator zurückgegriffen werden.
+
+.Buzzer
+[link=https://www.geekering.com/wp-content/uploads/2020/01/buzzer_passivo.jpg]
+image::./buzzer.jpg[width=30% Buzzer]
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 2x Jumper Kabel
+* 1x Buzzer
+
+.Buzzer Verkabelung 
+image::./fritzing/buzzer.png[width=50% Buzzer Fritzing]
+
+==== API
+.Buzzer - Konstruktoren
+[cols="1,1"]
+|===
+|*Konstruktor* |*Beschreibung*
+|BuzzerComponent(com.pi4j.io.gpio.GpioPinPwmOutput pin) |Constructor for GPIO buzzer usage.
+|BuzzerComponent(GroveAdapter groveAdapter) |Constructor for Grove buzzer usage.
+|===
+
+.Buzzer - Funktionen
+[cols="1,2,2"]
+|===
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|void |playTone(int frequency) |Plays a tone with a specific frequency.
+|void |playTone(int frequency, int duration) |Plays a tone at a frequency for a specified duration in milliseconds.
+|void |stop() |Pauses forever.
+|void |stop(int duration) |Pauses for a specified amount of milliseconds.
+|===
+
+==== Anwendungsbeispiel
+Dieses Code Beispiel spielt den «Imperial March», komponiert von John Williams und bekannt aus Star Wars, auf dem Buzzer. Der Buzzer wird am GPIO PWM Pin 12 angeschlossen. Im Array `notes` sind die zu spielenden Noten abgespeichert. Das Array `beats` speichert die Anzahl der Beats, über welche der Ton an der aktuellen Stelle gespielt werden soll. In der Variable `tempo` wird gespeichert, wie lange ein Beat geht. In diesem Fall 103 Millisekunden.
+In einer for-Schleife wird nun durch die einzelnen `notes` iteriert. Jeder Ton wird entsprechend seiner Anzahl Beats abgespielt.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/BuzzerDevice.java[tags=BuzzerDevice]
+----
+
+=== LCD I2C
+Das LCD Modul besteht aus dem LCD1602 Display und dem PCF8574 I2C Extender Mikrochip auf dem Rücken des LCDs.  Es wird über dem I2C Extender direkt an die I2C Pins des Raspberry Pis angeschlossen und benötigt eine Spannung von 5 Volt. Das Display hat zwei Zeilen und pro Zeile Platz für 16 Zeichen. Es hat somit Platz für insgesamt 32 Zeichen. Die Helligkeit des Hintergrundes kann mit einem Kreuzschlitzschraubendreher am Extender angepasst werden.
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 4x Jumper Kabel
+* 1x LCD1602 I2C Modul mit PCF8574 I2C extender
+
+.LCD I2C Modul Verkabelung 
+image::./fritzing/LCDI2C.png[width=75% I2C Wiring]
+
+==== API
+.I2C LCD - Konstruktoren
+[cols="1,1"]
+|===
+|*Konstruktor* |*Beschreibung*
+|I2CLCDComponent(int address, int busNumber) |Standard Constructor that needs address and the busnumber to initialise.
+|I2CLCDComponent(com.pi4j.io.i2c.I2CDevice device)	
+|Constructor that needs I2C information in the pi4j I2CDevice object.
+|===
+
+.I2C LCD - Funktionen
+[cols="1,2,2"]
+|===
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|void |init() |Sends initialisation commands to display.
+|void |clearText() |Clears the lcd text.
+|void |displayText​(String text) |Displays a text on the first line of the display. If it's larger than 16 characters then it will jump over to the second line. The excess characters (greater than 32) are not shown on the display.
+|void |displayText​(String text, int line) |Writes string to the lc display on a specific line. Excess characters (greater than 16) are not shown on the line.
+|void |displayText​(String text, int line, int pos, boolean jumpToNextLine) |Displays the string with an additional position. There are 16 fields on one LCD1602 line. The position gives the number of fields that should be empty before the text. Excess characters (greater than 16-position) on the line will not be shown.
+|void |displayScrollText​(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) |Shows text on display and scrolls it with a delay.
+|void |displayBounceText​(String text, int line, int delay, boolean jumpToNextLine, boolean startAgain) |Displays the text and scrolls to the sides, but bounces back. This only works for short texts, otherwise it would be unreadable.
+|void |writeCharacter​(byte charvalue) |Write a character to lcd.
+|void |setBacklightState​(boolean state) |Sets the backlight on or off
+|===
+
+==== Anwendungsbeispiel
+In diesem Code Beispiel wird ein Text, welcher vom Nutzer eingegeben werden kann, in der ersten Zeile des LC-Displays angezeigt. In der zweiten Zeile wird die aktuelle Uhrzeit angezeigt. Diese wird im Sekundentakt aktualisiert. +
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/LcdSystemTimeI2CDevice.java[tags=LcdSystemTimeI2CDevice]
+----
+
+=== Grove Potentiometer
+Ein Potentiometer ist eine Art dynamischer Widerstand, welcher durch das Drehen oder Verschieben eines Reglers vergrössert oder verkleinert werden kann. Der Grove Potentiometer gibt je nach eingestelltem Widerstand einen Wert zwischen 0 und 1'000 zurück. Mit einem Potentiometer kann man also Werte einstellen, mit welchen dann einen Aktuator kontrolliert werden kann. Zum Beispiel könnte man mit einem Potentiometer die Helligkeit einer Leuchtdiode steuern. <<Potentiometer>>
+
+.Grove Potentiometer
+[link=https://www.seeedstudio.com/Grove-Rotary-Angle-Sensor.html]
+image::./Grove_Rotary_Angle_Sensor.jpg[width=75% Grove Rotary Angle Sensor]
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Grove Potentiometer
+* 1x Grove Adapter Kabel
+* 1x Grove Base Hat
+
+.Grove Potentiometer Verkabelung
+[link=https://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/]
+image::./fritzing/Grove_Base_Hat_Rotary_Angel_Sensor.jpg[width=75% Grove Rotary Angle Sensor Fritzing]
+
+==== API
+.Potentiometer - Konstruktoren
+[cols="1,1"]
+|===
+|*Konstruktor* |*Beschreibung*
+|PotentiometerComponent(GroveAdapter groveAdapter) |Constructor of the PotentiometerComponent with Grove adapter.
+|===
+
+.Potentiometer - Funktionen
+[cols="1,2,2"]
+|===
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|int |getValue() |Get the current value from the potentiometer.
+|void |Set the value returned by getValue() to a specific range. The difference between minValue and MaxValue must be between 9 and 1001.
+|===
+
+==== Anwendungsbeispiel
+Das Code Beispiel erzeugt ein neues `PotentiometerComponent`, welches am Grove Base Hat am analogen Adapter A0 angeschlossen ist. Mit der `setRange()` Funktion wird sichergestellt, dass die zurückgegebenen Werte zwischen 0 und 100 liegen. Der aktuelle Wert wird alle 500 Millisekunden geloggt.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/PotentiometerDevice.java[tags=PotentiometerDevice]
+----
+
+=== Grove RFID Reader
+Der Grove RFID Reader ist ein 125KHz RFID Reader, welcher em4100 RFID Karteninformationen seriell lesen kann. Die maximale Distanz zum Lesen beträgt 70mm. Der RFID Reader benötigt eine Spannung von 5 Volt, weshalb er nicht mit dem Grove Hat kompatibel ist, da dieser nur 3.3 Volt liefert. Es ist jedoch möglich, den Reader mit Jumper Kabel direkt an dem Pi zu verbinden, wie bei der Grove Serial Camera. <<RfidReader>>
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Grove RFID Reader
+* 1x Grove Adapter Kabel
+* 4x Jumper Kabel
+
+.Grove RFID Reader Verkabelung
+image::./fritzing/grove_rfid_reader.png[width=75% Grove RFID Reader Fritzing]
+
+==== API
+
+.RFID Reader - Konstruktoren
+[cols="1,1"]
+|===
+|*Konstruktor* |*Beschreibung*
+|RFIDReaderComponent​() |Standard constructor of the RFID Reader.
+|===
+
+.RFID - Funktionen
+[cols="1,2,2"]
+|===
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|void |addListener​(com.pi4j.io.serial.SerialDataEventListener... listener) |Adds Listeners for when the device receives data.
+|===
+
+==== Anwendungsbeispiel
+In diesem Code Beispiel wird der Grove RFID Reader getestet. Das serielle Gerät wird initialisiert und ein Listener wird hinzugefügt, der die `dataReceived()` Methode des `SerialDataEventListener` überschreibt. Diese Methode wird immer ausgeführt, wenn der RFID Reader Daten durch einen RFID Tag erhält.
+
+*Achtung:* Um Code auszuführen, der auf die seriellen Ports zugreift, muss man ihn als Superuser ausführen. Zum Beispiel mit dem Befehl `sudo java -jar Example.jar`.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/RFIDReaderDevice.java[tags=RFIDReaderDevice]
+----
+
+=== Ultrasonic Ranger
+Der Grove Ultrasonic Ranger ist ein Grove Modul, welches an einen der digitalen Adapter des Grove Hats angeschlossen werden kann. Der Ultrasonic Ranger misst die Distanz zwischen dem Sensor und einem Ziel, indem die Zeit zwischen der Emission und der Rezeption einer Ultraschallwelle gemessen wird. Es kann Distanzen von bis zu 2m lesen. <<UltrasonicRanger>>
+
+*Formel zur Distanzmessung: 0.5 * T * C* +
+
+* T ist die Zeit zwischen Emission und Rezeption der Ultraschallwelle (Davon die Hälfte, da nur der einfache Weg gesucht ist)
+
+* C ist die Geschwindigkeit von Ultraschallwellen
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Grove Ultrasonic Ranger
+* 1x Grove Adapter Kabel
+* 1x Grove Base Hat
+
+.Ultrasonic Ranger Verkabelung 
+[link=https://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/]
+image::./Grove_Ultrasonic_Ranger.jpg[width=75% RaspiCam Wiring]
+
+==== API
+.Ultrasonic Ranger - Konstruktoren
+[cols="1,1"]
+|===
+|*Konstruktor* |*Beschreibung*
+|UltraSonicRangerComponent​(GroveAdapter groveAdapter) |Standard Constructor for the Ultra Sonic Ranger that only needs grove hat connection information.
+|===
+
+.Ultrasonic Ranger - Funktionen
+[cols="1,2,2"]
+|===
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|long |measureInCentimeter() |Measures the distance between the device and an object in cm.
+|long |measureInInches() |Measures the distance between the device and an object in inches.
+|===
+
+==== Anwendungsbeispiel
+In diesem Beispiel wird der Grove Ultrasonic Ranger an den D5 Adapter des Grove Hats angeschlossen und es wird sekündlich die Distanz gemessen zwischen dem Gerät und einem Ziel.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/UltraSonicRangerDevice.java[tags=UltraSonicRangerDevice]
+----
+
+=== DC Motor
+Gleichstrommotoren arbeiten, wie der Name schon verrät, mit Gleichstrom. Da der Raspberry Pi Gleichstrom mit 3.3 Volt sowie 5.0 Volt zur Verfügung stellt, können die Motoren direkt an den Stromkreis des Pi angeschlossen werden. Alternativ kann auch eine stärkere, externe Spannungsquelle verwendet werden. Dabei gilt aber zu beachten, dass der Motor nicht überlastet wird.
+
+Um einen DC Motor zu kontrollieren, benötigt man einen Motortreiber. In diesem Fall wurde dazu der Chip L293D verwendet. Natürlich kann auch ein anderer Treiber verwendet werden.
+<<DcMotor>>
+
+* Das Pinout des L293D findet ihr unter folgendem Link oder in diesem Dokument unter den Zusatzinformationen.: https://components101.com/l293d-pinout-features-datasheet
+* Dieses Youtube Video von Gaven MacDonald zeigt auf, wie ein DC Motor über GPIO Pins gesteuert werden kann. Ab der Minute 2 wird genauer auf den Treiber L293D eingegangen. https://www.youtube.com/watch?v=W7cV9_W12sM
+
+.Motor und Treiber
+[link=https://elektro.turanis.de/html/prj147/index.html]
+image::./motor_and_driver.png[width=75% DC Motor and Driver]
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x DC Motor
+* 1x L93D Treiber
+* 10x Jumper Kabel
+
+.DC Motor Verkabelung
+image::./fritzing/motor.png[width=75% DC Motor Fritzing]
+
+==== API
+.Motor - Konstruktoren
+[cols="1,1"]
+|===
+|*Konstruktor* |*Beschreibung*
+|MotorComponent(com.pi4j.io.gpio.GpioPinDigitalOutput forwards, com.pi4j.io.gpio.GpioPinDigitalOutput backwards) |Constructor of the MotorComponent. This constructor allows controlling the motors direction using digital output pins.
+|MotorComponent(com.pi4j.io.gpio.GpioPinPwmOutput forwards, com.pi4j.io.gpio.GpioPinPwmOutput backwards) |Constructor of the MotorComponent. This constructor allows controlling the motors direction and speed using hardware or software pwm output pins.
+|===
+
+.Motor - Funktionen
+[cols="1,2,2"]
+|===
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|void |moveBackwards() | Runs the motor run backwards at full speed.
+|void |moveBackwards(int power) |Runs the motor backwards at a specific speed.
+|void |moveForwards() |Runs the motor run forwards at full speed.
+|void |moveForwards(int power) |Runs the motor forwards at a specific speed.
+|void |stop() |Stops the motor.
+|===
+
+==== Anwendungsbeispiel
+Das Code Beispiel erzeugt ein neues `MotorComponent`. Bei der Erstellung wird jener Konstruktor benutzt, welcher PWM Pins unterstützt. Dieser erlaubt die Drosselung der Drehzahl des Motors.
+
+In einer while-Schlaufe wird die Drehzahl des vorwärts drehenden Motors schrittweise um 10% erhöht. Nachdem 100% Leistung erreicht wurde, stoppt der Motor für 5 Sekunden. Anschliessend wird die Drehrichtung des Motors umgekehrt. Der Motor dreht nun rückwärts und die Drehzahl wird wiederum schrittweise um je 10% inkrementiert.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/MotorDevice.java[tags=MotorDevice]
+----
+
+=== Stepper Motor
+Der Stepper Motor oder Schrittmotor rotiert die in seiner Mitte liegende Welle in Schritten. Die Welle eines Schrittmotors dreht sich im Vergleich zu jener eines Gleichstrommotors sehr langsam. Dafür kann der Schrittmotor sehr genau gesteuert werden. Je nach eingestelltem Modus variiert die Anzahl der Schritte, welche für eine gesamte Drehung benötigt werden. Der Modus beeinflusst auch die Kraft, welcher der Motor hat. Diese hängt wiederum mit dem resultierenden Energieverbrauch des Motors zusammen. <<StepperMotor>>
+
+In der unten abgebildeten Tabelle wird auf den weit verbreiteten Schrittmotor 28BYJ-48 Bezug genommen. Eine Drehung des Zylinders innerhalb des Motors resultiert in einer Drehung der Welle um 11.25°. Für eine komplette Drehung werden also 360° / 11.25° = 32 Schritte benötigt. Ein Getriebe innerhalb des Motors reduziert einen einzelnen Schritt in weitere 64 Steps. Unter Verwendung des Full oder Dual Stepping bedeutet ein einzelner Step also eine Drehung um 360° / (32 * 64) = 0.17578125°. Bei Half Stepping verdoppelt sich die Anzahl der möglichen Schritte, was eine Drehgenauigkeit von 0.087890625° zulässt.
+
+.Stepper Motor Modi
+[cols="1,2,1,1,1"]
+|===
+|*Typ* |*Enum Attribut* | *Schritte pro 360°* |*Energie* | *Kraft*
+|Half Stepping |StepperMotorMode.HALF_STEP |4096 | ca. 1.5x | 110% bis 120%
+|Single Stepping |StepperMotorMode.SINGLE_STEP |2048 |1x | 100%
+|Dual Stepping |StepperMotorMode.DOUBLE_STEP |2048 |2x | 130% bis 140%
+|===
+
+Auf YouTube findet sich ein sehr informatives Video von Gaven MacDonald über die Funktionsweise eines Stepper Motors. https://www.youtube.com/watch?v=Dc16mKFA7Fo
+
+.Stepper Motor Verkabelung 
+[link=https://www.bastelgarage.ch/stepper-motor-schrittmotor-5v-1-64-28byj-48]
+image::./stepper_motor_and_driver.png[width=75% RaspiCam Wiring]
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Steper Motor
+* 1x ULN2003APG Stepper Treiber
+* 8x Jumper Kabel
+
+.Stepper Motor Verkabelung 
+image::./fritzing/stepper_motor.png[width=75% RaspiCam Wiring]
+
+==== API
+.Stepper Motor - Konstruktoren
+[cols="1,1"]
+|===
+|*Konstruktor* |*Beschreibung*
+|StepperMotorComponent(com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4) |Constructor which uses the default value of 2 milliseconds for the step delay and the default stepper motor mode 'SINGLE_STEP'.
+|StepperMotorComponent(com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay) |Constructor which uses the default value 'SINGLE_STEP' for the stepper motor mode.
+|StepperMotorComponent(com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, int stepDelay, StepperMotorMode mode) |Constructor which allows to specify all the different Parameters.
+|StepperMotorComponent(com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut1, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut2, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut3, com.pi4j.io.gpio.GpioPinDigitalOutput digitalOut4, StepperMotorMode mode) |Constructor which uses the default value of 2 milliseconds for the step delay.
+|===
+
+.Stepper Motor - Funktionen
+[cols="1,2,2"]
+|===
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|StepperMotorMode |getMode() |Getter of the stepper motor mode value.
+|int |getStepDelay() |Getter of the step delay value.
+|void |	setMode(StepperMotorMode mode) |Setter of the stepper motor mode value.
+|void |setStepDelay(int stepDelay) |Setter of the step delay value.
+|void |stepBackwards(int steps) |Step the stepper motor backwards using the currently set mode for a specific amount of steps.
+|void |stepForwards(int steps) |Step the stepper motor forwards using the currently set mode for a specific amount of steps.
+|void |stop() |This methods stops the motor and clears the magnetic field.
+|===
+
+==== Anwendungsbeispiel
+Das unten abgebildete Beispiel zeigt die Verwendung der verschiedenen Stepper Motor Modi. Das Beispiel verwendet den Konstruktor mit den meisten Default Werten. Die Step-Verzögerung beträgt also 2 Millisekunden und der Modus wird initial auf `StepperMotorMode.SINGLE_STEP` gesetzt. Nach der Initialisierung wird der Motor in den verschiedenen Modi vorwärts und zurück gedreht. Vor jedem Wechsel in einen anderen Modus wird fünf Sekunden gewartet.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/StepperMotorDevice.java[tags=StepperMotorDevice]
+----
+
+=== Servo Motor
+Mittels Servo Motoren können spezifische Winkelpositionen eingestellt und gehalten werden. Positionen können dabei zügig gewechselt werden. Die meisten Servo Motoren erlauben Winkel zwischen 0 und 180 Grad. Der einzustellende Winkel wird dabei über PWM gesteuert. Genauer gesagt über dessen Pulslänge. <<ServoMotor>>
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Tower Pro Micro Servo 9g SG90
+* 3x Jumper Kabel
+
+.Servo Motor Verkabelung
+image::./fritzing/servo_motor.png[width=75% Servo Motor Fritzing]
+
+==== API
+.Servo Motor - Konstruktoren
+[cols="1,1"]
+|===
+|*Konstruktor* |*Beschreibung*
+|ServoMotorComponent(com.pi4j.io.gpio.GpioPinPwmOutput pin) |Constructor with default value for pulseMin = 500, pulseMax = 2400 and maxDegrees = 180. This constructor can be used for most micro and mini servo motors.
+|ServoMotorComponent(com.pi4j.io.gpio.GpioPinPwmOutput pin, int pulseMin, int pulseMax) |Constructor with default value for maxDegrees of 180 degrees.
+|ServoMotorComponent(com.pi4j.io.gpio.GpioPinPwmOutput pin, int pulseMin, int pulseMax, int maxDegrees) |Constructor with all possible values.
+|===
+
+.Servo Motor - Funktionen
+[cols="1,2,2"]
+|===
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|void |setCenter() |Sets the servo to its center position.
+|void |setMax() |Sets the servo to its maximal position.
+|void |setMin() |Sets the servo to its minimal position.
+|void |setPosition(int pulse) |Sets the servo position to a specific pulse high time in microseconds.
+|void |setPositionDegrees(int degree) |Sets the servo position to a desired angle in degrees.
+|===
+
+==== Anwendungsbeispiel
+Das unten abgebildete Beispiel zeigt die Verwendung der `ServoMotorComponent`. Es benutzt den Konstruktor mit den meisten Standardwerten. Dieser eignet sich für eine Vielzahl der 180° Mini und Micro Servos.
+
+In einem while-Loop wird der Motor zuerst auf die kleinstmögliche Position gesetzt. Anschliessend wird die Position des Motors auf dessen Mitte und im Anschluss auf die maximale Position gesetzt. Zwischen den einzelnen Positionswechseln macht das Programm jeweils eine Sekunde Pause. Nun wird der Motor auf seine Ausgangsposition zurückgesetzt und Grad für Grad bis zum Maximum von 180° gedreht.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/ServoMotorDevice.java[tags=ServoMotorDevice]
+----
+
+=== Grove Serial Camera
+Die Grove Serial Camera besteht aus einem Kamera Modul und einem Control Board, welches die Kommunikation zwischen der Kamera und dem Raspberry Pi über den Serial Bus ermöglicht. Die Kamera benötigt eine Spannung von 5 Volt, weshalb sie leider nicht mit dem Grove Hat kompatibel ist. Dieser liefert nur 3.3 Volt an die Grove Adapter. Um die Kamera dennoch nutzen zu können, muss sie via Jumper Kabel an den Serial Port des Raspberry Pi angeschlossen werden.
+
+.Grove Serial Camera
+[link=https://wiki.seeedstudio.com/Grove-Serial_Camera_Kit/]
+image::Grove_Serial_Camera.jpg[width=75% Grove Serial Camera]
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Grove Serial Camera 
+* 1x Grove Adapter Kabel
+* 4x Jumper Kabel
+
+.Serial Camera Verkabelung
+image::./fritzing/grove_serial_cam.png[width=75% Grove Serial Camera Fritzing]
+
+==== API
+.Serial Camera - Konstruktoren
+[cols="1,1"]
+|===
+|*Konstruktor* |*Beschreibung*
+|SerialCameraComponent(int packageSize) |Constructor of the SerialCameraComponent. Configures the default serial port of the Raspberry Pi.
+|SerialCameraComponent() |Constructor of the SerialCameraComponent with a default package size of 512 bytes. Configures the default serial port of the Raspberry Pi.
+|===
+
+.Serial Camera - Funktionen
+[cols="1,2,2"]
+|===
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|byte[] |getImageAsJpgBytes() |This method request a jpg image of the camera and returns it as a byte array.
+|java.lang.String |saveImageAsJpg(java.lang.String fileName) |Requests a jpg image from the camera and streams it to a file. The file name will be extended with a time stamp and the .jpg file extension.
+|java.lang.String |saveImageAsJpg(java.lang.String relativePath, java.lang.String fileName) |Requests a jpg image from the camera and streams it to a file. The file name will be extended with a time stamp and the .jpg file extension.
+|===
+
+==== Anwendungsbeispiel
+Das untere Code Beispiel zeigt, wie mit der Hilfe der `SerialCameraComponent` ein JPEG Foto geschossen und unter einem bestimmten Pfad abgespeichert werden kann.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/SerialCameraDevice.java[tags=SerialCameraDevice]
+----
+
+=== Raspberry Pi Camera
+Die Raspberry Pi Camera ist jene Kamera Komponente, welche standardmässig vom Pi unterstützt wird. Es ist eine kleine 8MP Kamera, die über ein Flachbandkabel direkt an dem Pi angeschlossen werden kann. Die Kamera unterstützt eine maximale Auflösung von 3280 x 2464 Pixel für Bilder. Videos können in unterschiedlicher Qualität aufgenommen werden. Je mehr FPS gewünscht sind, desto weniger Pixel können geliefert werden.
+
+* 1080p mit 30fps
+* 720p mit 60 fps
+* 640p mit 90 fps.
+
+.Raspberry Pi Camera
+[link=https://projects.raspberrypi.org/en/projects/getting-started-with-picamera]
+image::./RaspberryPi_Camera.jpg[width=70% RaspiCam]
+
+Für die Verwendung muss die Kamera zunächst im OS aktiviert werden. Unter den `Interfacing Options`, von `raspi-config` kann dies mit wenigen Klicks erledigt werden.
+
+.Raspberry Pi Camera aktivieren
+image::./RaspberryPi_Camera_Activation.jpg[width=60% activate RaspiCam]
+
+Raspbian OS enthält auch Applikationen, welche man nutzen kann, um die Kamera in der Konsole zu testen.
+
+Starten sie ihr Terminal und geben sie folgenden Befehl ein:
+
+[source,java]
+----
+raspistill -o /home/pi/Pictures/image.jpg
+----
+
+Jetzt sollten ein Bild im Standardverzeichnis für Bilder auffindbar sein.
+
+Für mehr Informationen über die Befehle können sie den Zusatzinformationsteil für die Raspberry Pi Camera anschauen -> <<Terminal Befehle>>
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Raspberry Pi Camera mit Flachbandkabel
+
+.Raspberry Pi Camera Verkabelung 
+image::./fritzing/raspiCam.png[width=60% RaspiCam Wiring]
+
+==== API
+.Raspberry Pi Camera - Konstruktoren
+[cols="1,1"]
+|===
+|*Konstruktor* |*Beschreibung*
+|RaspberryPiCameraComponent​(uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration) |Constructor for only using the picture functionality.
+|RaspberryPiCameraComponent​(fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration) |Constructor for only using the video functionality.
+|RaspberryPiCameraComponent​(uk.co.caprica.picam.CameraConfiguration raspiStillConfiguration, fhnwgpio.components.helper.RaspiVidConfiguration raspiVidConfiguration) |Constructor for using the picture and video functionality.
+|===
+
+.Raspberry Pi Camera - Funktionen
+[cols="1,2,2"]
+|===
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|void |takeStill() |Takes picture and saves it to the default Pictures folder.
+|void |takeStill​(String outputPath) |Takes picture and saves it to the specified outputPath.
+|void |takeStill​(String outputPath, int delay) | Takes a picture using the picam library and saves it to the specified output after a delay.
+|void |takeVid​(java.lang.String outputPath) |Takes a video with the configuration and saves it to the output path.
+|CameraConfiguration |createCameraConfiguration() |The picam library has a private constructor and therefore needs this method.
+|===
+
+==== Anwendungsbeispiel
+In diesem Code Beispiel wird die Raspberry Pi Camera mit der `RaspberryPiCameraComponent` verwendet, um zwei Bilder und ein Video aufzunehmen. Diese werden im Ordner `/home/pi/Pictures/` abgelegt. +
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/RaspberryPiCameraDevice.java[tags=RaspberryPiCameraDevice]
+----
+
+=== Grove LED Strip Driver
+Der Grove LED Strip Driver erlaubt die Steuerung der Farbe eines RGB LED Bandes mit 12V Spannungsaufnahme. Die Steuerung erfolgt über einen digitalen Grove Adapter. Die Komponentenklasse repräsentiert ein Äquivalent zur offiziellen C++ Library des LED Strip Drivers. <<LedStripDriver>>
+
+*Achtung:* Die Kommunikation zwischen dem Raspberry Pi und dem LED Strip Driver erfolgt über ein digitales Protokoll via zwei Pins. Der erste Pin agiert dabei als Clock und der zweite als Data Pin. Beim Setzen des Clock Pins kann es ab und an zu minimalen Abweichungen kommen, was in einer leicht verfälschten Farbe resultiere kann.
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x 12V DC Power Spannungsquelle
+* 1x Grove Adapter Kabel
+* 4x Jumper Kabel
+* 1x Grove LED Strip Driver
+* 1x LED Strip mit 4 Anschlüssen (+, B, R, G)
+* 1x Schraubendreher
+
+Die 12V Spannungsquelle muss mittels Schraubendreher am Treiber befestigt werden. Die Befestigungsstelle ist im unteren Bild rot umrahmt. Das Grove Kabel, welches mit einem digitalen Output des Grove Base Hat verbunden ist, muss an den Grove Anschluss _IN_ des Treibes angeschlossen werden. Die Kabel zur LED müssen ebenfalls mit dem Schaubendreher am Treiber angeklemmt werden. Die einzelnen Verbindungen sind mit G, R, B, + beschriftet. Diese müssen entsprechend mit dem LED Band verkabelt werden.
+
+* *+* mit der 12V Stromaufnahme
+* *B* mit dem blauen Kanal
+* *R* mit dem roten Kanal
+* *G* mit dem grünen Kanal
+
+.Grove LED Strip Driver
+[link=https://wiki.seeedstudio.com/Grove-LED_Strip_Driver/]
+image::led_strip_driver.jpg[width=75% Grove Led Strip Driver]
+
+==== API
+.LED Strip Driver - Konstruktoren
+[cols="1,1"]
+|===
+|*Konstruktor* |*Beschreibung*
+|LedStripDriverComponent(com.pi4j.io.gpio.GpioPinDigitalOutput data, com.pi4j.io.gpio.GpioPinDigitalOutput clock) |Standard constructor of the LED Strip Driver connected to the Pi's GPIO pins.
+|LedStripDriverComponent(GroveAdapter groveAdapter) |Standard constructor of the LED Strip Driver connected to the Grove Base Hat.
+|===
+
+.LED Strip Driver - Funktionen
+[cols="1,2,2"]
+|===
+|*Rückgabetyp* |*Funktion* |*Beschreibung*
+|void |setColor(int red, int green, int blue) |Sets the color of the LED strip connected to the LED strip driver.
+|void |start() |Before setting the color of the LED strip this command has to run.
+|void |stop() |After setting the color of the LED strip this command has to run.
+|===
+
+==== Anwendungsbeispiel
+Das folgende Code Beispiel wechselt alle fünf Sekunden die Farbe des LED Bands von Rot auf Grün und dann zu Blau. Die gewünschte Farbe kann mittels der Funktion `setColor()` als RGB Farbcode übergeben werden.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/component/LedStripDriverDevice.java[tags=LEDStripDriverDevice]
+----
+
+== Beispielprojekt
+Dieses Beispielprojekt soll zeigen, wie man die Component Klassen in ein neues Projekt einbindet und wie die Geräte in einem Projekt zusammenspielen können.
+
+Beim Projekt handelt es sich um einen Photo Booth, also eine Fotobox, in der die folgenden Geräte zusammenarbeiten müssen, um ein gutes Foto von einer Person zu machen:
+
+* Grove Base Hat
+* Grove Button
+* Grove Buzzer
+* LC Display
+* LED Strip Driver
+* Raspberry Pi
+* Raspberry Pi Camera
+* Stepper Motor
+* Ultrasonic Ranger
+
+=== Setup
+In den folgenden Unterkapiteln wird gezeigt, wie ein neues GPIO Projekt aufgesetzt werden kann. Des Weiteren wird ausgeführt, welche Schritte nötig sind, um die Component Klassen zusammen mit Pi4J nutzen zu können.
+
+==== Component Klassen als Library hinzufügen
+Um die Component Klassen in einem neuen Projekt zu verwenden, muss man die `jar`-Datei im neuen Projekt als Bibliothek hinzufügen.
+
+In den Releases des Github-Repository finden sie die `jar`-Datei: https://github.com/FHNW-IP5-IP6/GPIOSimulator/releases/
+
+Diese `jar`-Datei muss in einen geeigneten Ordner im neuen Projekt hinzugefügt werden, wie zum Beispiel `/build/libs`.
+
+In der Datei `build.gradle` muss dann nur noch die Library angeben. Sobald dies geschehen ist, sind die Component Klassen wie in den Beispielen im Kapitel 6 nutzbar:
+
+----
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'build/libs'
+    }
+}
+
+dependencies {
+    implementation name: 'GPIOSimulator-0.1'
+}
+----
+
+==== Logging Informationen der Komponente
+Die Component Klassen können Informationen und eventuelle Fehler, die auftreten könnten, als Logs aufzeichnen. Wie genau diese Logs gemacht werden sollen, kann vom Programmierer gesteuert werden. Dafür muss zunächst log4j2 unter den gradle dependencies im `build.gradle` File hinzugefügt werden:
+
+----
+dependencies {
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.2'
+    ...
+}
+----
+
+Danach wird eine neue Ressource benötigt, über welche die Logs gesteuert werden können. Es handelt sich dabei um die Datei `log4j2.xml`. Alle Logs der Component Klassen werden unter dem Namen `ComponentLogger` geloggt.
+
+In dieser Beispieldatei werden alle Logs ab dem Log Level _Info_ in der Console und in einer Logdatei namens _log_ festgehalten:
+
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <File name="File" fileName="log/log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="OFF"></Root>
+        <Logger name="ComponentLogger" level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Logger>
+    </Loggers>
+</Configuration>
+----
+
+Weitere Informationen über log4j2 und dessen XML Konfigurationsdatei findet man über folgendem Link: https://logging.apache.org/log4j/2.x/manual/configuration.html
+
+Wenn jetzt eine `jar`-Datei aus dem Projekt erstellt und ausgeführt wird, werden von allen Komponenten Logs in der Konsole und in das Log-File geschrieben.
+
+Um mit gradle ein `jar`File erstellen zu können muss man noch folgende Ergänzung im `build.gradle` vornehmen, welche auch im <<Code mit Gradle bauen>> beschrieben ist:
+
+----
+jar {
+    manifest {
+        attributes "Main-Class": "Program"
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+----
+
+=== Umsetzung
+Das Gradle Projekt ist nun vorbereitet. Es kann nun mit der Implementation der Photo Booth begonnen werden.
+
+==== Ausarbeitung Projektidee
+In einem ersten Schritt haben wir uns überlegt, welche Zustände die Photo Booth überhaut haben kann, und wie diese Zustände miteinander agieren sollen. Unser Resultat ist im folgenden State Diagramm festgehalten.
+
+.State Machine
+image::Sample_Project_States.png[width=75% Project State Machine]
+
+Die blauen Ovale im Diagramm entsprechen den einzelnen Zuständen. Mit den Pfeilen wird gezeigt, wie zwischen den Zuständen gewechselt werden kann. Im State 0 wird beispielsweise nur dann zu State 1 gewechselt, wenn ein Button gedrückt wurde. Wird der Button nicht gedrückt, bleiben das Programm im State 0.
+
+Als nächstes muss definiert werden, was in den jeweiligen States alles geschehen soll.
+
+[.underline]*State 0*
+In diesem State wird darauf gewartet, dass ein User die Photo Booth via Button Click aktiviert. Das LCD zeigt einen Text an, welcher den Benutzer dazu einlädt, den Knopf zu drücken. Sobald der Button betätigt wurde, wechseln wir in den nächsten State.
+
+[.underline]*State 1*
+In diesem State wird solange gewartet, bis sich der Benutzer korrekt positioniert hat. Wir fordern den Benutzer via LCD auf, sich einen Meter von der Kamera zu entfernen. Die Distanz wird mit dem Grove Ultrasonic Ranger gemessen und auf dem LCD angezeigt. Solange sich der User nicht korrekt platziert hat, wird das LED Band rot leuchten. Sobald der Benutzer sich in der entsprechenden Distanz eingefunden hat, wechselt die Farbe des Bandes auf grün und es kann zum dritten State übergegangen werden.
+
+[.underline]*State 2*
+Dieser State startet einen Countdown von 5 Sekunden. Die verbleibende Zeit wird einerseits auf dem LCD angezeigt und andererseits durch den Stepper Motor mittels einer Skala indiziert. Bei jedem Sekundenwechsel ertönt ein Signalton via Buzzer. Sobald der Countdown abgelaufen ist, wird in den finalen Status gewechselt.
+
+[.underline]*State 3*
+In diesem Status wird das Bild geschossen. Bevor dies passiert, leuchtet der LED Streifen weiss auf und der Buzzer spielt einen hohen Ton ab. Anschliessend wir das Bild erstellt und abgespeichert. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zu guter Letzt wird der Stepper Motor wieder auf seine initiale Position gesetzt und in den State 0 gewechselt. Die Photo Booth ist bereit für den nächsten Kunden.
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Grove LED Strip Driver
+* 1x 12V LED Strip
+* 1x LCD I2C
+* 1x Raspberry Pi Camera
+* 1x Stepper Motor
+* 1x ULN2003APG Stepper Treiber
+* 1x Grove Button
+* 1x Grove Buzzer
+* 1x Grove Ultrasonic Ranger
+* 4x Grove Adapter Kabel
+* 10x Jumper Kabel
+
+Das Tool Fritzing, mit welchem wir die Verkabelungen der Beispiele aufgezeichnet haben, besitzt leider keine Grafik für den Grove Base Hat. Aus diesem Grund können wir an dieser Stelle leider kein Bild der Verkabelung zeigen. Allerdings ist die Verkabelung im Code ersichtlich.
+
+==== Codierung
+Der Source Code der einzelnen States wurde in separate Methoden eingeteilt.
+
+Zuerst werden alle benötigten Components initialisiert, um sie in den States verwenden zu können:
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectInit]
+----
+
+Der State 0 wurde über die Methode `isButtonPressed()` realisiert. Zunächst wird auf dem LC-Display mitgeteilt, dass der Ablauf erst beginnt, wenn der Button gedrückt wird. Sobald dieser gedrückt wird, gibt die Methode `true` als Rückgabewert zurück. Dies bedeutet, dass zum nächsten State gewechselt werden kann.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectButtonPressed]
+----
+
+Der State 1 wurde über die Methode `isDistanceInRange()` realisiert. Zu Beginn wird mittels LC-Display gezeigt, welcher Abstand erwünscht ist. Der LED-Strip wird rot, um zu suggerieren, dass der Abstand noch nicht korrekt ist. Der Ultrasonic Ranger misst den Abstand sekündlich. Sobald der Abstand in Ordnung ist, wird die Farbe des LED-Strips zu grün gewechselt und die Methode gibt `true` zurück. Es kann mit dem nächsten State fortgefahren werden.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectDistanceInRange]
+----
+
+Der State 2 wurde über die Methode `countdown()` realisiert. Hier wird von der Zahl fünf hinabgezählt. Das Herunterzählen wird mit mehreren Geräten untermalt, um die Spannung zu erhöhen. Das LC-Display zeigt den Countdown an und der Buzzer macht jeweils einen Buzz-Ton für 200 Millisekunden. Der Stepper Motor führt eine Umdrehung von 400 Schritten aus. Da der Schrittmotor pro Schritt 2 Millisekunden benötigt, braucht er für 400 Schritte exakt 800 Millisekunden. Zusammen mit dem Buzzer Ton entspricht dies einer Wartezeit von exakt einer Sekunde.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectCountDown]
+----
+
+Der State 3 wurde über die Methode `takePicture()` realisiert. Bevor das Bild geschossen wird, wird der LED-Strip auf weiss gesetzt und der Buzzer spielt einen höheren Ton ab. Dann macht die Raspberry Pi Kamera ein Bild und speichert es auf dem Raspberry Pi unter `/home/pi/Pictures/picam1.jpg`. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zusätzlich wird das LED Band ausgeschaltet und der Stepper Motor wird wieder zu seiner initialen Position gedreht.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectTakePicture]
+----
+
+Der gesamte Ablauf wird dann in der `execute()` Methode ersichtlich. Diese Methode ist dafür verantwortlich, dass der Ablauf wieder von vorne beginnt, sobald ein Foto gemacht wurde.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectStart]
+----
+
+== Zusatzinformationen
+
+=== LED
+Die LED ist wohl für die meisten GPIO Programmiererinnen und Programmierer die erste Komponente, welche an den Controller angeschlossen wird. Die blinkende LED ist das "Hello World" der Hardware Programmierung.
+
+Die Component-Klasse unterstützt die Statusänderung von LEDs, welche entweder direkt an die GPIO Pins der Raspberry Pi angeschlossen wurden. Es werden auch LEDs, welche über den Grove Base Hat via dessen digitalen Adapter verbunden wurde. Wird dem Konstruktor ein ` GpioPinPwmOutput` Pin übergeben, lässt sich zusätzlich die Helligkeit der LED steuern.
+
+
+==== Status modifizieren
+Alle Konstruktoren erlauben das Setzen des Status einer LED. Mit den Funktionen `turnLedOn()` sowie `turnLedOff()` kann kontrolliert werden, ob die LED leuchtet oder nicht.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/LedComponent.java[tags=LedComponentTurnLedOn]
+----
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/LedComponent.java[tags=LedComponentTurnLedOff]
+----
+
+==== Helligkeit via PWM setzen
+Die Helligkeit der LED kann nur dann eingestellt werden, wenn der Pin, an welchen die LED angeschossen ist, ein PWM Signal sendet. Die Präzision des PWM Signals ist bei LEDs zweitrangig, weshalb auch Software PWM Signale erlaubt sind.
+
+Im entsprechenden Konstruktor setzen wir die gewünschte PWM Frequenz auf 50 Hertz.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/LedComponent.java[tags=LedComponentPwmPin]
+----
+
+Wird der oben gezeigte Konstruktor genutzt, kann die LED über PWM gedimmt werden. Dazu steht dem Anwender die Funktion `setBrightness()` zur Verfügung. Die gewünschte Helligkeit muss als Prozentzahl übermittelt werden. Erlaubt sind nur Werte im Range 0 bis 100.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/LedComponent.java[tags=LedComponentSetBrightness]
+----
+
+=== Button
+Buttons gehören zu den Input Devices. Ein Button kann zwei Zustände annehmen. Entweder ist er gedrückt oder nicht gedrückt. Je nach Button Typ leitet er im gedrückten oder offenen Zustand Strom. Diesen Strom kann man mit einem digitalen Input Pin des Raspberry Pi messen.
+
+Um sogenannte Floating Pins zu vermeiden, müssen Buttons mit einem Pulldown-Wiederstand an einen Input angeschlossen werden. Grove Buttons und Grove Touch Sensoren haben einen solchen Pulldown-Wiederstand bereits integriert.
+
+==== Pulldown-Wiederstand im Schaltbild
+Damit ein Button als Input Device verwenden werden kann, muss ein Pulldown-Widerstand in der elektrischen Schaltung realisiert werden. Ein solcher Widerstand garantiert immer einen sicheren Wert, welcher an dem digitalen GPIO Input Pin anliegt.
+
+.Schaltbild Pulldown-Wiederstand
+[link=https://www.elektronik-kompendium.de/sites/raspberry-pi/2006051.htm]
+image::pulldown.gif[width=75% Pulldown Ressistor]
+
+Wie man im Schaltbild erkennen kann, liest der GPIO Pin bei offenem Schalter eine Spannung von 0V des Ground Pins. Bei geschlossenem Schalter liegt die volle Spannung von 3.3V am GPIO Pin an. Der Input Pin besitzt also immer einen fixen Zustand. Entweder ist er High oder Low.
+
+Wäre +VCC direkt mit dem GPIO Pin verbunden und einen Schalter dazwischen positioniert, so würde bei geschlossenem Schalter 3.3V Spannung am GPIO Input Pin anliegen. Der Pin wäre High. Ist der Schalter jedoch offen, liegt kein klar definierter Wert am Pin an. Der Wert kann zwischen 0V und 3.3V variieren. Ein Pin in diesem Zustand wird als "Floating" bezeichnet.
+
+In diesem Beispiel wird ein Pulldown-Widerstand von 10k Ohm verwendet. Zusätzlich schützt ein 1k Ohm Widerstand den Input Pin. Dieser 1k Ohm Widerstand soll den Pin vor Programmierfehler schützen. Würde der GPIO Pin versehentlich als Output Pin im Programmcode deklariert werden, könnte dieser ohne den schützenden Widerstand beschädigt werden.
+
+==== Pulldown-Wiederstand des Raspberry Pi
+Der Raspberry Pi besitzt einen internen Pulldown-Widerstand, welcher via Software aktiviert werden kann. Dieser funktioniert gleich wie der von uns beschriebene Pulldown-Widerstand im Schaltbild. Wir raten allerdings von der Verwendung des internen Pulldown-Wiederstandes ab. Diesen zu aktivieren kann schnell vergessen gehen. Im schlimmsten Fall führt dies dann zu einer Beschädigung des entsprechenden GPIO Pins.
+
+Mittels Pi4J kann ein digitaler Input Pin mit aktivem Pulldown-Widerstand mittels folgender Code Zeile erzeugt werden:
+
+
+[source,java]
+----
+GpioPinDigitalInput pin = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_03, PinPullResistance.PULL_DOWN);
+----
+
+==== Zustand lesen
+Das Lesen des Inputs ist sehr simpel. Pi4J stellt uns Hierfür die Funktionen `isHigh()` sowie `isLow()` direkt auf dem `GpioPinDigitalInput` zur Verfügung. Mittels Inline If wird der Rückgabewert invertiert, sofern es sich um einen Button handelt, welcher im geschlossenen Zustand nicht gedrückt ist.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/ButtonComponent.java[tags=ButtonComponentIsPressed]
+----
+----
+include::{sourcedir}/fhnwgpio/components/ButtonComponent.java[tags=ButtonComponentIsReleased]
+----
+
+=== Buzzer
+Damit ein Buzzer einen Ton abspielt, muss ein bestimmtes PWM Signal anliegen. Das Signal versetzt eine Platte im Inneren des Buzzers in Schwingungen. Die daraus entstehenden Schallwellen generieren den Ton, welchen wir hören können. <<BuzzerBuild>>
+
+Für das Abspielen von Tönen ist eine exakte Frequenz sehr wichtig. Aus diesem Grund unterstützt unsere Component Klasse nur Hardware PWM Pins des Raspberry Pi.
+
+.Buzzer Aufbau
+[link=https://www.islproducts.com/design-notes/piezo-buzzers-vs-magnetic-buzzers/]
+image::buzzer_construction.jpg[width=75% Buzzer Construction]
+
+==== Clock Divider berechnen
+Damit ein bestimmter Ton abgespielt werden kann, muss sichergestellt werden, dass der PWM Pin, an welchem der Buzzer angeschlossen ist, ein Signal in der richtigen Frequenz liefert. Um dies zu realisieren, müssen herausgefunden werden, um welchen Dividenden die Basisfrequenz von 19.2MHz des Raspberry Pi reduziert werden muss. Dazu wird die Basisfrequenz durch die Tonfrequenz und den `dutyCycle` geteilt. Der Duty Cycle bestimmt, wie lange das Signal High geschaltet ist. Wir verwenden den Wert 512, was einer High Time von exakt 50% entspricht.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/BuzzerComponent.java[tags=BuzzerComponentCalculateClock]
+----
+
+==== Ton abspielen
+Ein Ton besteht aus einer Frequenz, welche über eine bestimmte Dauer wiedergegeben wird. Damit ein Ton abgespielt werden kann, muss der errechnete Clock Divider via WiringPi gesetzt sein und auf dem PWM Pin geschrieben werden. Danach wird das Programm pausiert, bis die gewünschte Tondauer erreicht wurde.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/BuzzerComponent.java[tags=BuzzerComponentPlayTone]
+----
+
+=== LCD I2C
+Das LCD Modul besteht aus dem LCD1602 und dem PCF8574 I2C Extender Mikrochip auf dem Rücken des LCDs. Der I2C Extender vereinfacht die Verkabelung und das Senden von Daten an das LCD-Display, da man ohne I2C Extender 8 GPIO Pins belegen müsste. In diesem Zusatzteil wird darauf eingegangen, wie die Messages tatsächlich an das LCD-Display geschickt werden.
+
+==== Befehle für den LCD1602
+Das LCD1602 besitzt den folgenden Befehlssatz:
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/I2CLCDComponent.java[tags=LCD1602Commands]
+----
+
+==== Initialisierung
+Das LCD-Display wird im nach dem Protokoll folgendermassen initialisiert:
+
+.LCD1602 Init
+[link=https://www.waveshare.com/datasheet/LCD_en_PDF/LCD1602.pdf]
+image::LCD_Init.PNG[width=75% LCD Init]
+
+Die Initialisierung wurde in Java folgendermassen realisiert:
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/I2CLCDComponent.java[tags=LCDInit]
+----
+
+==== Text auf dem Display anzeigen
+Sobald das LCD-Display initialisiert wurde, kann es jedes Zeichen auf der Zeichentabelle anzeigen. Das Display hat zwei Zeilen mit Platz für je 16 Zeichen, welche einzeln dem LCD zugeschickt werden müssen. Die einzelnen Zeichen werden in 8 Bit dargestellt, da aber das Gerät im 4-Bit Modus arbeitet, werden zuerst die 4-Bit auf der linken Seite der Zeichentabelle gesendet und danach die 4-Bit die oben zusehen sind in der Zeichentabelle.
+
+.LCD1602 Zeichentabelle
+[link=https://www.waveshare.com/datasheet/LCD_en_PDF/LCD1602.pdf]
+image::LCD_Characters.PNG[width=75% LCD Character Table]
+
+Wenn dem `I2CLCDComponent` ein ganzer String übergeben wird, dann werden alle Zeichen des Strings einzeln dem LCD geschickt und jeweils in zwei Nibbles (4-Bits) eingeteilt und gesendet.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/I2CLCDComponent.java[tags=LCDDisplayText]
+----
+
+==== Spezielle Anzeigefunktionen
+Das `I2CLCDComponent` hat zusätzlich zur normalen Anzeige noch 2 weitere Funktionen für besondere Anzeigemöglichkeiten:
+
+*Scroll Text* + 
+Ein Scroll Text ist ein Text, welcher von der Länge her die 32 Zeichen auf dem LCD übersteigt, deshalb werden zuerst einfach die ersten 32 Zeichen auf dem Display angezeigt. Mit einer Verzögerung, die man selber angeben kann, verschwinden dann langsam die ersten Zeichen und die darauffolgenden Zeichen werden angezeigt, was dann aussieht wie ein seitliches Scrollen.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/I2CLCDComponent.java[tags=LCDDisplayScrollText]
+----
+
+*Bounce Text* + 
+Ein Bounce ist für kurze Texte gedacht, denen vielleicht mehr Aufmerksamkeit geschenkt wird mittels eines kleinen Effekts. Ein kurzer Text bewegt sich mit einer Verzögerung von der einen Seite zur anderen, als würde der Text von der einen Seite zur Anderen hüpfen.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/I2CLCDComponent.java[tags=LCDDisplayBounceText]
+----
+
+=== Grove RFID Reader
+Dieses Grove-125kHz RFID-Lesegerät ist ein Modul zum Lesen von em4100 RFID-Karteninformationen mit dem Ausgabeformaten Uart. Es hat eine Empfindlichkeit mit maximal 7cm Erfassungsabstand. <<RfidReader>>
+
+Der Grove RFID Reader erzeugt ein elektromagnetisches Wechselfeld , dem der RFID-Tag ausgesetzt wird. Die Hochfrequenzenergie versorgt den Chip im RFID-Tag mit Strom und der RFID-Tag kann dann die Daten auf dem Tag an den RFID Reader übertragen.
+
+==== Kompatibilität mit RFID Tag
+Nicht jeder RFID-Tag ist mit dem Grove RFID Reader kompatibel. Die Daten auf dem Tag müssen dem Standart em4100 entsprechen, damit sie gelesen werden können. Em4100 legt fest, dass sich auf dem Tag 64 Bit Readonly Memory in folgendem Format befinden:
+
+.em4100 Aufbau
+[link=http://www.priority1design.com.au/em4100_protocol.html]
+image::RFID_em4100.PNG[width=75% RFID em4100]
+
+Ausserdem muss der Tag im selben Langwellen-Bereich von 125kHZ arbeiten können.
+
+==== RFID Tag Daten ausgeben
+Um die Daten aus dem Tag auszulesen kann man einfach den `SerialDataEventListener` von Pi4J dem `RFIDReaderComponent` übergeben. Wenn die 64 Bits an Daten beim Reader ankommen, dann werden sie davon angenommen.
+[source,java]
+----
+rfidReaderComponent.addListener(event -> {
+    // print out the data received to the console
+    try {
+        console.println("[HEX DATA]   " + event.getHexByteString());
+        console.println("[ASCII DATA] " + event.getAsciiString());
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+});
+----
+
+=== Grove Ultrasonic Ranger
+Dieser Grove Ultrasonic Ranger ist ein berührungsloses Distanzmessmodul, das bei 40KHz arbeitet. Wenn wir ein Impuls-Triggersignal durch den Signal-Pin liefern, gibt der Grove Ultrasonic Ranger 8 Zyklen mit 40kHz Zykluspegel aus und erkennt das Echo.  <<UltrasonicRanger>>
+
+Abstand = Echosignal hohe Zeit * Schallgeschwindigkeit (340M/S) / 2. 
+
+Das Triggersignal und das Echosignal des Grove Ultrasonic Ranger teilen sich denselben Pin.
+
+==== Trigger Signal
+Das Trigger Signal welches eine Ultraschallwelle mit dem Ranger abfeuert muss zunächst den Pinmodus auf Output stellen, danach wird der Pin abwechselnd mit einem in der Spezifikation definierten Abstand auf LOW, HIGH und dann wieder LOW gesetzt.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/UltraSonicRangerComponent.java[tags=UltraSonicRangerTrigger]
+----
+
+==== Echo messen
+Um das Echo der abgefeuerten Schallwelle zu messen, muss zunächst der Pinmodus auf Input gewechselt werden. Dann muss zunächst abgewartet werden bis der Pin LOW (Emission der Schallwelle) ist und danach bis er HIGH (Rezeption der Schallwelle) ist.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/UltraSonicRangerComponent.java[tags=UltraSonicRangerMeasure]
+----
+
+Wenn die gemessene Zeit zwischen Emission und Rezeption durch 2 geteilt wird, dann erhält man nur die Zeit bis zum Erreichen des Objektes. Um die Distanz in einer anderen Einheit darzustellen, muss man es zusätzlich durch eine der folgenden Konstanten teilen:
+
+* Für cm: `29`
+* Für inches: `74`
+
+
+=== Grove Potentiometer
+Das Grove Potentiometer wird über einen der analogen Ports an den Grove Base Hat angeschlossen. Der Grove Base Hat stellt die gelesenen oder zu schreibenden Werte über den I2C Bus dem Raspberry Pi zur Verfügung.
+
+==== Konstruktor
+Die `PotentiometerComponent` Klasse erweitert die von uns implementierte `I2CBase` Basisklasse. Im Konstruktor wird die I2C Adresse des analogen Potentiometers zusammen mit der zu verwendenden Bus Nummer an die Basisklasse weitergeleitet. Da der Raspberry Pi nur einen I2C Bus besitzt, wird immer dieser Bus übergeben.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/PotentiometerComponent.java[tags=PotentiometerComponentConstructor]
+----
+
+==== Wertebereich setzen
+Der Grove Potentiometer liefert über den I2C Bus je nach eingestellter Position einen Wert zwischen 0 und 1000. Mittels der `setRange()` Funktion kann der Rückgabewert eingeschränkt werden. Erlaubt sind nur positive Integer deren Differenz mindestens 10 beträgt und die nicht grösser als 999 sind.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/PotentiometerComponent.java[tags=PotentiometerComponentSetRange]
+----
+
+==== Value lesen
+Der aktuelle Wert des Potentiometers kann über die `getValue()` Funktion gelesen werden. Dazu wird die `readData()` Funktion der Basisklasse verwendet. Es werden zwei Bytes auf dem Bus erwartet, welche über eine Hilfsfunktion in ein Integer Wert konvertiert werden. Der gelesenen Integer wird gemäss dem eingestellten Bereich zurückgegeben.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/PotentiometerComponent.java[tags=PotentiometerComponentGetValue]
+----
+
+=== DC Motor
+Gleichstrommotoren können mittels dem ihnen zur Verfügung gestellten Strom in der Drehrichtung und Drehzahl reguliert werden. Diese Eigenschaft wurde für die Component Klasse ausgenutzt.
+
+==== Motor Treiber L293D
+Der Chip erlaubt das Anpassen der Drehrichtung von Gleichstrommotoren mit einer Spannungsaufnahme von bis zu 36 Volt. Jede Seite des Chips erlaubt die Kontrolle eines Motors. Mit einem einzelnen L293D können also gleich zwei Motoren individuell angesteuert werden. Die folgende Abbildung zeigt das Pinout des Chips gefolgt von einer Beschreibung der einzelnen Pins. <<L293D>>
+
+.Pinout L293D
+[link=https://components101.com/l293d-pinout-features-datasheet]
+image::L293D_Pinout.png[width=75% L293D Pinout]
+
+.Beschreibung Pinout
+[cols="1,2,4"]
+|===
+|*Pin Nummer* |*Pin Name* |*Beschreibung*
+|1 |Enable 1, 2 |Aktiviert Input 1 und 2 wenn 5V Spannung anliegt.
+|2 |Input 1 |Kontrolliert Output 1. Muss mit einem Controller verbunden werden.
+|3 |Output 1 |Wird mit dem Motor 1 verbunden.
+|4 |Ground |-
+|5 |Ground |-
+|6 |Output 2 |Wird mit dem Motor 1 verbunden.
+|7 |Input 2 |Kontrolliert Output 2. Muss mit einem Controller verbunden werden.
+|8 |Vcc 2) |Stromlieferant für den Motor / die Motoren. Positiver Pol der Stromquelle.
+|9 |Enable 3. 4 |Aktiviert Input 3 und 4 wenn 5V Spannung anliegt.
+|10 |Input 3 |Kontrolliert Output 3. Muss mit einem Controller verbunden werden.
+|11 |Output 3 |Wird mit dem Motor 2 verbunden.
+|12 |Ground |-
+|13 |Ground |-
+|14 |Output 4 |Wird mit dem Motor 2 verbunden.
+|15 |Input 4 |Kontrolliert Output 4. Muss mit einem Controller verbunden werden.
+|16 |Vcc 1 |Spannungsquelle für die Logik des Chips. Hier müssen 5V angelegt werden.
+|===
+
+==== Drehrichtung wechseln
+Wie bereits erwähnt, kann die Drehrichtung des Gleichstrommotors mittels Umkehrung der Polarität der Spannungsquelle gewechselt werden. Dies ist mittels des Motor Treibers L293D sehr einfach möglich. Die Polarität der Output Pins können mittels des Setzens der Input Pins beeinflusst werden. Die untere Tabelle zeigt, wie die verschiedenen Drehrichtungen umgesetzt wurden. In diesem Beispiel wird linke Seite des Chips verwendet. Enable 1, 2 ist also aktive, Enable 3, 4 ist inaktiv.
+
+.Beschreibung Pinout
+[cols="1,1,1"]
+|===
+|*Input 1* |*Input 2* |
+|High |Low |Motor dreht sich im Uhrzeigersinn.
+|Low |High |Motor dreht sich im Gegenuhrzeigersinn.
+|Low |Low |Motor stoppt.
+|===
+
+Das nachfolgenden Code Beispiele zeigen die `moveForwards()` sowie die `stop()` Funktionen der Motor Component. Dabei wird unterschieden, ob der Motor zusätzlich über PWM gesteuert wird oder nicht. Dazu aber mehr im nächsten Unterkapitel.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/MotorComponent.java[tags=MotorComponentMoveForwards]
+----
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/MotorComponent.java[tags=MotorComponentStop]
+----
+
+==== Geschwindigkeit anpassen
+Bei der Steuerung der Geschwindigkeit kann der Motor Treiber Chip nicht unterstützen. Dennoch kann die Geschwindigkeit des Motors manipuliert werden. Dies geschieht generell durch die Anpassung der am Motor anliegenden Spannung. Das Werkzeug der Wahl ist deshalb die **P**ulse **W**idth **M**odulation Funktion des Raspberry Pi.
+
+*PWM* lässt es zu, Pins gemäss einem gewissen Rhythmus zwischen High und Low wechseln zu lassen. Beispielsweise kann ein  Pin in einer Frequenz von 50 Hertz zwischen On und Off wechseln. Zusätzlich kann pro Puls bestimmt werden, wie lange der Pin High ist, bevor er zu Low wechselt. Dies nennt man einen Duty Cycle. Über den Duty Cycle steuert die Component Klasse die am Motor anliegende Spannung und somit die Geschwindigkeit des Motors. Ein Duty Cycle von 0% entspricht dem Stillstand des Motors. 25% Duty Cycle entspricht einer Drehgeschwindigkeit von 25%. 100% Duty Cycle entspricht der vollen Leistung des Motors.
+
+
+.PWM als Grafik
+[link=https://www.elektronik-kompendium.de/sites/kom/0401111.htm]
+image::pwm.png[width=75% PWM as a Graph]
+
+In der Component Klasse wird der Duty Cycle über die GPIO Klasse von Wiring Pi gesteuert. Der gewünschte Duty Cycle wird über die `setPWM()` Funktion festgelegt. Die `rangeAdjustment` Variable wird benötigt, da Wiring Pi zwischen Software und Hardware PWM Pins unterscheidet.
+
+* **Software:** Duty Cycle zwischen 0 und 100
+* **Hardware:** Duty Cycle zwischen 0 und 1024
+
+Der Raspberry Pi stellt zwei Hardware PWM Pins zur Verfügung. Dabei handelt es sich um die BCM Pins 12 und 13. Werden diese Pins an den Konstruktor übergeben, wird die Hardware PWM Funktionalität des Pi verwendet.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/MotorComponent.java[tags=MotorComponentMoveForwardsPwm]
+----
+
+=== Stepper Motor
+Schrittmotoren bestehen aus mehreren Spulen, welche um die in ihrer Mitte liegenden Welle angeordnet sind. Die Welle wird von einem Zylinder umschlossen, welcher abwechselnd mit positiven und negativen Polen versehen ist. Sobald durch eine Spule Strom fliesst, erzeugt diese ein Magnetfeld, nach welchem sich die Pole im Zylinder der Welle ausrichten. Somit kann die Welle gedreht werden. <<StepperMotor>>
+
+.Stepper Motor unter Single Stepping
+[link=https://commons.wikimedia.org/w/index.php?curid=10011776]
+image::StepperMotor.gif[width=75% Single Stepping Stepper Motor]
+
+Bei den meisten Schrittmotoren kommt zusätzlich zur Welle noch ein Getriebe zum Einsatz, welches durch seine Übersetzung den Drehwinkel pro Schritt weiter verkleinert. Beim weit verbreiteten Stepper Motor 28BYJ-48 ist zum Beispiel ein 1/64 Getriebe verbaut. Jeder Schritt der Welle resultiert bei diesem Motor um eine um 64 verkleinerte Drehung.
+
+Mit der von uns zur Verfügung gestellten Component Klasse können vier Phasen Schrittmotoren gesteuert werden. Das jeweilige Getriebe hat keinen Einfluss auf die Funktionalität der Component Klassenbibliothek.
+
+==== Single Stepping
+Beim Single Stepping wird jeweils nur eine Spule im Gehäuse des Motors unter Strom gesetzt. Die Welle des Motors richtet sich also immer genau nach der momentan aktiven Spule aus. <<Stepping>>
+
+.Single Stepping
+[link=https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping]
+image::single_stepping.jpg[width=75% Single Stepping]
+
+Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen. <<StepperMotor>>
+
+.Single Stepping
+[cols="1,1,1,1,1"]
+|===
+||*Step 1* |*Step 2* |*Step 3* |*Step 4*
+|*Magnet 1* |1 |0 |0 |0
+|*Magnet 2* |0 | 1|0 |0
+|*Magnet 3* |0 |0 |1 |0
+|*Magnet 4* |0 |0 |0 |1
+|===
+
+Untenstehend ist die Implementation des Modus als Byte Array in der Component Klasse:
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentSingleStepping]
+----
+
+==== Double Stepping
+Unter Verwendung des Double Stepping werden immer zwei Spulen simultan unter Strom gesetzt. Dies führt dazu, dass sich die Welle gemäss dem entstehenden Magnetfeld zwischen den zwei Spulen ausrichtet. Die sich überschneidenden Magnetfelder sind stärker als ein einzelnes Magnetfeld, weshalb der Schrittmotor unter diesem Modus mit grösserer Kraft arbeitet. Da allerdings zwei Spulen gleichzeitig mit Strom beliefert werden müssen, verdoppelt sich der Stromverbrauch im Vergleich zum Single Stepping. <<Stepping>>
+
+.Double Stepping
+[link=https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping]
+image::double_stepping.jpg[width=75% Double Stepping]
+
+Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen. <<StepperMotor>>
+
+.Double Stepping
+[cols="1,1,1,1,1"]
+|===
+||*Step 1* |*Step 2* |*Step 3* |*Step 4*
+|*Magnet 1* |1 |0 |0 |1
+|*Magnet 2* |1 |1 |0 |0
+|*Magnet 3* |0 |1 |1 |0
+|*Magnet 4* |0 |0 |1 |1
+|===
+
+Implementation des Modus als Byte Array in unserer Component Klasse:
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentDoubleStepping]
+----
+
+==== Half Stepping
+Im Gegensatz zu den anderen Modi agiert Half Stepping in acht Schritten. Somit kann die Position des Motors genauer bestimmt werden als in den anderen Modi. Half Stepping kombiniert Single Stepping und Dual Stepping. Dies führt dazu, dass der Motor nicht immer gleich viel Kraft hat. Bei jedem zweiten Schritt ist jeweils nur eine Spule aktiv. <<Stepping>>
+
+.Half Stepping
+image::half_stepping.jpg[width=75% Half Stepping]
+
+Die folgende Tabelle zeigt pro Schritt auf, wie die Spulen gesetzt werden müssen. <<StepperMotor>>
+
+.Half Stepping
+[cols="1,1,1,1,1,1,1,1,1"]
+|===
+||*Step 1* |*Step 2* |*Step 3* |*Step 4* |*Step 5* |*Step 6* |*Step 7* |*Step 8*
+|*Magnet 1* |1 |1 |0 |0 |0 |0 |0 |1
+|*Magnet 2* |0 |1 |1 |1 |0 |0 |0 |0
+|*Magnet 3* |0 |0 |0 |1 |1 |1 |0 |0
+|*Magnet 4* |0 |0 |0 |0 |0 |1 |1 |1
+|===
+
+Implementation des Modus als Byte Array in unserer Component Klasse:
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentHalfStepping]
+----
+
+==== Motor drehen
+Die schrittweise Drehung des Motors ist in der Component Klasse in einem for-Loop implementiert. Die Variable `element` enthält die zu einstellende Position des aktuell auszuführenden Schrittes. Dies könnte zum Beispiel der Wert `0b0100` sein. Dieser entspricht dem 2. Step im Single Stepping.
+
+In einem nächsten Schritt müssen die einzelnen Pins gemäss dem aktuellen `element` gesetzt werden. Dazu nutzen wir den Bitwise Operator und verschieben die Bits gemäss dem aktuellen Pin. Durch die Addition von `0b0001` eliminieren wir alle überflüssigen Einsen. Nun können wir prüfen, ob das Byte dem Wert `1` entspricht. Ist dies der Fall, setzen wir den Pin auf `HIGH`.
+
+Zu guter Letzt setzen wir noch die lokale Variabel `currentPosition`. Diese ist für Richtungsänderungen und das saubere Laufen des Motors relevant.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentStep]
+----
+
+Die `getElement()` Funktion gibt das aktuelle Element im Array des aktuellen Modus zurück. Dabei wir auch die aktuelle Drehrichtung des Motors berücksichtigt. Die Variabel `currentPosition` enthält die Position im Array, welcher der Motor vor dem nächsten Drehbefehl hatte. So wird sichergestellt, dass der Motor zwischen zwei einzelnen Befehlen niemals ruckelt (einzelne Steps überspringt).
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentGetElement]
+----
+
+==== Drehrichtung ändern
+In der lokalen Variable `currentPosition` wird die aktuelle Position des Motors gespeichert im Array des aktuellen Modus. Beim Drehen des Motors wird die Variable neu berechnet, da beim Ändern der Drehrichtung ein separates Array verwendet wird. Dieser entspricht dem gespiegelten original Array des jeweiligen Modus.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentHalfStepping]
+include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentRevHalfStepping]
+----
+
+Die neue Position entspricht der Länge des Arrays des aktuellen Modus reduziert um 1 minus der aktuellen Position im Array.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=StepperMotorComponentShiftPosition]
+----
+
+=== Servo Motor
+Mit Servo Motoren lassen sich Winkel präzise einstellen und halten. Gängige Servo Motoren erlauben das Einstellen von Winkeln zwischen 0 und 180 Grad. Der Wechsel zwischen einzelnen Positionen erfolgt sehr zügig. Gesteuert wird die Position der Welle über ein PWM Signal. Die Component Klasse unterstützt dabei die Hardware PWM Pins des Raspberry Pi. Software PWM Signale unterstützen es bewusst nicht. Diese sind meist zu ungenau und sind deshalb nicht für die Steuerung von Servo Motoren geeignet.
+
+==== Steuerung über PWM
+Die Mehrheit aller Servo Motoren benötigt für die Steuerung einen 50 Hertz PWM Puls, was einem Zyklus alle 20 Millisekunden entspricht. Mittels WiringPi kann die gewünschte Frequenz ziemlich einfach eingestellt werden. <<ServoMotor>>
+
+Der Raspberry Pi Prozessor liefert eine Basis-Frequenz von 19.2 MHZ. Diese muss nun auf 50 Hertz reduzierten werden. Dies wird über die folgenden Einstellungen erreicht.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPWMFrequency]
+----
+
+Durch die getätigten Einstellungen errechnet der Pi die PWM Frequenz 19.2 MHZ / 192 / 2000 = 50 HZ. Mit dieser Frequenz kann nun weitergearbeitet werden.
+
+Servo Motoren lassen sich über die sogenannte Pulslänge steuern. Die Pulslänge enspricht der HIGH Time eines einzelnen Pulses. Die meisten Mini- und Microservo Motoren können über Puslslängen von 500 Mikrsekunden bis 2400 Mikrosekunden positioniert werden. Die genauen Werte können jedoch im Data Sheet des jeweiligen Servos gefunden werden. Kleinere Pulslängen entsprechen dabei kleineren Winkeln. Die Position verhält sich immer linear zur Pulslänge.
+
+.Beispiele Pulslänge
+[cols="1,1"]
+|===
+|*Winkel in Grad* |*Pulslänge in Mikro Sekunden*
+|0 | 500
+|45 |975
+|90 |1450
+|135 |1925
+|180 |2400
+|===
+
+Leider kann die Pulslänge nicht direkt in Mikrosekunden an den Hardware PWM Pin weitergegeben werden. Der Wert muss zuerst um den Faktor 10 reduziert werden. WiringPi erlaubt nämlich nur das Setzen von Werten in einem Bereich von 0 bis 1024.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPosition]
+----
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPWM]
+----
+
+==== Winkel setzen
+Die Hilfsklasse in der Component Klassenbibliothek untersützt das Setzen von gewünschen Servo Motor Positionen via gewünschtem Zielwinkel. Mit der Funktion `setPositionDegrees()` können Winkel auf einen Grad genau gesetzt werden, sofern der verwendete Servo dies ebenfalls unterstützt. Unterstützt der verwendete Servo dies nicht, kann der Winkel nicht garantiert werden.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMotorComponentSetPositionDegrees]
+----
+
+=== Grove Serial Camera
+Die Grove Serial Camera ist eines der komplexeren Devices, welches von unserer Library unterstützt wird. Zur Kommunikation über den Serial Bus wird ein spezielles Protokoll eingesetzt. In den folgenden Unterkapiteln finden sie weitere Informationen zu jenem Protokoll und unserer Implementation davon. <<GroveCam>>
+
+==== Protokoll
+Die Datenübermittlung zwischen Kamera und Pi erfolgt über den Serial Bus und das OV528 Protokoll. Die einzelnen Kommandos umfassen jeweils 6 Bytes, welche zusammen als Paket übermittelt werden. Das nachfolgende Beispiel zeigt das SYNC Kommando, welches jeweils zu Beginn der Kommunikation vom Pi ausgesendet wird. Folgende Bytes werden übermittelt: AA0D00000000h.
+
+.SYNC Kommando
+[link=https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf]
+image::Grove_Serial_Camera_SYNC_Command.png[500, 500, Grove Serial Camera SYNC]
+
+==== Verbindung mit der Kamera aufbauen
+Bevor Befehle an die Kamera gesendet werden können, muss eine Verbindung zwischen Kamera und Raspberry Pi etabliert werden. Dazu wird vom Host mehrmals ein SYNC Kommando auf den Serial Port geschrieben und auf eine Antwort von der Kamera gewartet. Durchschnittlich antwortet die Kamera nach 25 SYNC Kommandos mit einem ACK (AA0E0Dxx0000h). Auf die Empfangsbestätigung folgt das Kommando, welches die Kamera bestätigt. In diesem Fall das SYNC Kommando (AA0D00000000h). Gibt die Kamera nach 60 SYNC Befehlen noch immer keine Antwort, kann davon ausgegangen werden, dass etwas mit der Verkabelung der Kamera nicht stimmt oder der Controller der Kamera defekt ist.
+
+.Verbindungsaufbau
+[link=https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf]
+image::Grove_Serial_Camera_Initialisation.png[500, 500, Grove Serial Camera Connection]
+
+In der Component Klasse ist der Verbindungsaufbau in einer eigenen Funktion realisiert, welche vom jeweiligen Konstruktor aufgerufen wird. In einer While-Schlaufe wird das SYNC Kommando solange an die Kamera gesendet, bis diese eine Antwort auf den Serial Bus geschrieben hat. Ist dies nach 60 Versuchen nicht der Fall, wird die Initialisierung mit einem Fehler abgebrochen. Hat die Kamera eine Antwort gesendet, wird diese auf ihre Korrektheit überprüft. Die ersten sechs Bytes müssen dem ACK Kommando entsprechen (AA0E0Dxx0000h). Bei den nächsten sechs Bytes muss es sich um das SYNC Kommando handeln (AA0D00000000h). Sofern dies der Fall ist, war der Verbindungsaufbau erfolgreich. Die Kamera ist nun bereit für die Entgegennahme von weiteren Befehlen.
+
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialCamInit]
+----
+
+==== JPEG Foto anfordern
+Nach dem erfolgreichen Verbindungsaufbau ist die Kamera bereit für das Schiessen von Bildern. Die Implementation der Component Klasse stellt Bilder im JPEG Format in der Auflösung 640 x 480 zur Verfügung. Hierbei handelt es sich um die maximale Auflösung der Kamera. Theoretisch können auch Bilder in anderen Grössen und Formaten von der Kamera angefordert werden. Diese Formate werden von uns jedoch nicht unterstützt.
+
+Um ein Bild von der Kamera zu erhalten, sind mehrere einzelne Schritte, Befehle und Bestätigungen nötig. Diese sind im folgenden Diagramm ersichtlich.
+
+
+.Ablauf der Bildanforderung
+[link=https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf]
+image::Grove_Serial_Camera_Get_Picture.png[500, 500, Grove Serial Camera Get Picture]
+
+==== Bildgrösser ermitteln
+Zur Ermittlung der Bildgrösse wird die gewünschte Paketgrösse der einzelnen Pakete benötigt. Die Paketgrösse kann vom Anwender im Bereich von 16 bis 2048 Bits definiert werden. Die Default Paketgrösse ist 512 Bits.
+
+Als erster Schritt wird die zuvor definierte gewünschte Paketgrösse an die Kamera gesendet und es wird auf eine Empfangsbestätigung der Kamera gewartet.
+
+Anschliessend wird das Snapshot Kommando an die Kamera gesendet. Dieses Kommando bereitet die Kamera auf das Erzeugen eines Bildes vor. Auch hier wird wieder auf eine Empfangsbestätigung der Kamera gewartet.
+
+Zu guter Letzt wird der Befehl zur JPEG Generierung an die Kamera übermittelt. Die Kamera antwortet auf dieses Kommando mit einer Empfangsbestätigung gefolgt von der Anzahl Bytes des Bildes, welches geschossen wurde.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialCamGetPictureLength]
+----
+
+==== Bild Pakete empfangen
+Nachdem die Bildgrösse von der Kamera ermittelt wurde, kann der Host Paket für Paket von der Kamera über den Serial Bus anfordern. Die Component Klasse fordert solange Pakete von der Kamera an, bis das letzte Paket von der Kamera erhalten wurde. Das letzte Paket wird anhand der letzten zwei Bytes erkannt. Handelt es sich bei diesen um 0xFF gefolgt von 0xD9, wurde das komplette JPEG übermittelt. Bei den zwei Bytes handelt es sich nämlich um den Footer eines jeden JPEGs.
+
+Da es bei der Übermittlung von Paketen immer zu Fehlern kommen kann, stellt das OV528 Protokoll einen Kontrollmechanismus zur Verfügung, über welchen Fehler identifiziert werden können. Bei den zwei letzten Bytes eines jeden Pakets handelt es sich um eine Prüfsumme, mit welchen die übermittelten Bilddaten überprüft werden können. Die Prüfsumme muss exakt der Summe der einzelnen übermittelten Bytes entsprechen. Ist dies der Fall, wird das nächste Paket von der Kamera angefordert. Stimmt die Prüfsumme jedoch nicht mit der Summe aller Bild-Bytes überein, wird das fehlerhafte Paket erneut von der Kamera angefordert. Damit kann sichergestellt werden, dass das erhaltene Bild immer fehlerfrei ist.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/SerialCameraComponent.java[tags=SerialCamGetPicture]
+----
+
+=== Raspberry Pi Camera
+Die Raspberry Pi Camera enthält in Raspbian vier Applikationen, welche man vom Terminal aus verwenden kann.
+
+* `raspistill` und `raspiyuv` für die Bildaufnahme
+* `raspivid` und `raspividyuv` für die Videoaufnahme
+
+`raspiyuv` und `raspividyuv` verwenden keinen Encoder, sondern senden ihr YUV (Ein Farbmodell wie RBG) direkt von der Kamera an ein File. Diese beiden Applikationen werden nicht unterstützt von der `RaspberryPiCameraComponent`. Die Device Klasse verwendet intern nur `raspistill` und `raspivid`. 
+
+In den folgenden Unterkapiteln wird auf die Terminal Befehle für `raspistill` und `raspivid` eingegangen, falls es direkt verwendet wird. Ausserdem wird auf die Funktionalität der `RaspberryPiCameraComponent` eingegangen.
+
+==== Terminal Befehle
+Hier sind einige Beispiele für Standardbefehle mit `raspistill`:
+
+* Bildaufnahme (default) + 
+`raspistill -o image.jpg`
+
+* Aufnahme in anderen Formaten z. B: jpg, bmp, gif und png + 
+`raspistill –e png -o image.png`
+
+* Zeitverzögerte Aufnahme mit -t _<Millisekunden>_ + 
+`raspistill  -t 2000 -o image.jpg`
+
+* Aufnahme in einer anderen Auflösung + 
+`raspistill  -w 640 -h 480 -o image.jpg`
+
+* Aufnahme in einer niedrigeren Qualität (In Prozent)
+`raspistill -q 50 -o image.jpg`
+
+Hier sind einige Beispiele für Standardbefehle mit `raspivid`:
+
+* 15 Sekunden Video mit default Einstellungen (1080p, also 1920 x 1080 und 30 fps) + 
+`raspivid  -t 15000 -o video.h264`
+
+* 15 Sekunden Video in 720p (1280 x 720) + 
+`raspivid -t 15000 -w 1280 -h 720 -o video.h264`
+
+* 15 Sekunden Video mit 10 Frames/Sekunde
+`raspivid -t 10000 -f 10 -o video.h264`
+
+* 15-Sekunden-Video mit 3 MBits/s +
+`raspivid -t 15000 -b 3000000 -o video.h264`
+
+Für mehr Informationen können sie die Befehle in der offiziellen Dokumentation anschauen: + 
+https://www.raspberrypi.org/documentation/raspbian/applications/camera.md[Raspberry Pi Camera - Terminal Befehle]
+
+==== Java Library für Bildaufnahme
+Es gibt zwei prominente java Libraries, welche für die Bildaufnahme verwendet werden können.
+
+* https://github.com/Hopding/JRPiCam[JRPiCam]: Verwendet eine Builder-Klasse, um die Befehle für `raspistill` aufzubauen und führt diese dann im Hintergrund mit einem Java Process aus. Es ist im Prinzip ein Wrapper für die native Applikation `raspistill`.
+* https://github.com/caprica/picam[PiCam] `raspistill` benutzt eine native MMAL library für die Kamera, welche von picam direkt verwendet wird. Das macht picam wesentlich schneller als JRPiCam, da es kein externes Programm verwendet.
+
+Für die Device-Klasse, welche wir zur Verfügung stellen, wird PiCam verwendet, da die hohe Geschwindigkeit ein immenser Vorteil ist. Falls aber Studierende die JRPiCam-Library verwenden möchten, dann werden sie auch hierfür ein Bespiel unter den RaspberryPi Camera Beispielen finden.
+
+==== Bildaufnahme
+Für die Bildaufnahme mit der `RaspberrPiCameraComponent` muss man sich zuerst ein `CameraConfiguration`-Objekt erstellen, welches praktisch den Befehl wiederspiegelt, welchen man im Terminal manuell eingeben kann.
+
+[source, java]
+----
+//Create Configuration object with builder approach
+CameraConfiguration config = cameraConfiguration()
+    .width(1920)
+    .height(1080)
+    .encoding(Encoding.JPEG)
+    .quality(85)
+    .rotation(180);
+----
+
+Wenn man dann dieses Objekt der `RaspberrPiCameraComponent` im Konstruktor übergibt, dann kann man mit der Methode `takeStill` Bilder aufnehmen, wie wenn man die PiCam-Library direkt verwendet.
+
+==== Videoaufnahme
+Für die Videoaufnahme wurde in der Component Klassenbibliothek eine Builder-Klasse erstellt, welche vom Syntax und der Verwendung her ähnlich aufgebaut ist, wie die `CameraConfiguration` Klasse von PiCam.
+
+So wie mit der `CameraConfiguration` von der PiCam ein `raspistill` Befehl aufgebaut wird, wird mit der `RaspiVidConfiguration` dann ein `raspivid` Befehl aufgebaut.
+
+[source, java]
+----
+//configuration for videos using raspivid with builder object
+RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
+    .verticalflip()
+    .previewOff()
+    .time(15000);
+----
+
+Wenn das Objekt dann der `RaspberryPiCameraComponent` übergeben wird im Konstruktor, dann wird mit der Methode `takeVid()` ein Video aufgenommen. Dabei wird der Befehl der Konfigurationsklasse extrahiert und als Java Process ausgeführt.
+
+[source,java]
+----
+include::{sourcedir}/fhnwgpio/components/RaspberryPiCameraComponent.java[tags=RasPiCamTakeVid]
+----
+
+=== Grove LED Strip Driver
+Mit dem Grove LED Strip Driver lassen sich 12V LED Bänder mit 4 Anschlüssen steuern. Dieser Typ von LED Steifen lässt nur komplette Farbwechsel zu. Einzelne Pixel auf dem Band können nicht gesteuert werden. Dazu würde man sogenannte Neopixel Bänder benötigen, welche aber nur über 3 Anschlüsse verfügen und ein anderes Kommunikationsprotokoll verwenden.
+
+Unsere Component Klasse widerspiegelt die offizielle LED Strip Driver Library, welche im Seed Studio Wiki zu finden ist. Wir haben die Library lediglich von C++ in Java übersetzt und die Konstruktoren angepasst. <<LedStripDriver>>
+
+[bibliography]
+== Literaturverzeichnis
+- [[[Log4j,1]]] Apache Logging Services™: Apache Log4j 2: [https://logging.apache.org/log4j/2.x/, 10.08.2020]
+
+- [[[L293D,2]]] components101: L293D Motor Driver IC [https://components101.com/l293d-pinout-features-datasheet, 10.08.2020]
+
+- [[[Stepping,3]]] DesignSpark: Stepper motors and drives, what is full step, half step and microstepping? [https://www.rs-online.com/designspark/stepper-motors-and-drives-what-is-full-step-half-step-and-microstepping, 10.08.2020]
+
+- [[[RaspberryPi2,4]]] Elektronik Kompendium: Raspberry Pi: GPIO - General Purpose Input Output. [https://www.elektronik-kompendium.de/sites/raspberry-pi/2002191.htm; 09.08.2020]
+
+- [[[PullDown,5]]] Elektronik Kompendium: Raspberry Pi: GPIO mit Pullup- oder Pulldown-Widerstand beschalten? [https://www.elektronik-kompendium.de/sites/raspberry-pi/2006051.htm, 10.08.2020]
+
+- [[[DcMotor,6]]] instructables circuits : DC Motor Control With Raspberry Pi and L293D [https://www.instructables.com/id/DC-Motor-Control-With-Raspberry-Pi-and-L293D/, 10.08.2020]
+
+- [[[BuzzerBuild,7]]] ISL Products International Ltd.: DESIGN NOTE: PIEZO BUZZERS VS. MAGNETIC BUZZERS [https://www.islproducts.com/design-notes/piezo-buzzers-vs-magnetic-buzzers/, 10.08.2020]
+
+- [[[GradleInstall,8]]] Linuxize: How to Install Gradle on Debian 9 [https://linuxize.com/post/how-to-install-gradle-on-debian-9/, 10.08.2020]
+
+- [[[JavaInstall,9]]] phoenixNAP: How To Install Java On Raspberry Pi [https://phoenixnap.com/kb/install-java-raspberry-pi, 10.08.2020]
+
+- [[[RasPiWifi,10]]] Raspberry Pi Foundation: Setting up a wireless LAN via the command line [https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md, 10.08.2020]
+
+- [[[RaspberryPi1,11]]] Raspberry Pi Foundation: What is a Raspberry Pi? [
+  https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/; 09.08.2020]
+
+- [[[RfidReader,12]]] Seed Studio: Grove - 125KHz RFID Reader [https://wiki.seeedstudio.com/Grove-125KHz_RFID_Reader/, 10.08.2020]
+
+- [[[LedStripDriver,13]]] Seed Studio: Grove - LED Strip Driver [https://wiki.seeedstudio.com/Grove-LED_Strip_Driver/, 10.08.2020]
+
+- [[[Potentiometer,14]]] Seed Studio: Grove - Rotary Angle Sensor [https://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/, 10.08.2020]
+
+- [[[UltrasonicRanger,15]]] Seed Studio: Grove - Ultrasonic Ranger [https://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/, 10.08.2020]
+
+- [[[GroveBaseHat,16]]] Seed Studio: Grove Base Hat for Raspberry Pi. [https://wiki.seeedstudio.com/Grove_Base_Hat_for_Raspberry_Pi/, 10.08.2020]
+
+- [[[GroveSA,17]]] Seed Studio: Grove System. [https://wiki.seeedstudio.com/Grove_System/, 09.08.2020]
+
+- [[[GroveCam,18]]] ShenZhen Top Create Electronic Co .，Ltd: CJ - CAM User Manual OV528 Protocol [https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf, 10.08.2020]
+
+- [[[Pi4J,19]]] The Pi4J Project: Welcome to Pi4J! [https://www.pi4j.com/1.2/index.html, 10.08.2020]
+
+- [[[LED,20]]] Wikipedia: Leuchtdiode [https://de.wikipedia.org/wiki/Leuchtdiode, 10.08.2020]
+
+- [[[ServoMotor,21]]] Youtube - Daniel Ross: Java and Raspberry Pi Programming - Servo Control Explained [https://www.youtube.com/watch?v=xw10KuDYu4Q, 10.08.2020]
+
+- [[[StepperMotor,22]]] Youtube - Gaven MacDonald: Stepper Motor Control with the Raspberry Pi [https://www.youtube.com/watch?v=Dc16mKFA7Fo, 10.08.2020]
+
+- [[[Setup, 23]]] Youtube - TechWizTime: Connect to a Raspberry Pi Zero W via USB - No Mini HDMI Cable Needed [https://www.youtube.com/watch?v=xj3MPmJhAPU, 10.08.2020]

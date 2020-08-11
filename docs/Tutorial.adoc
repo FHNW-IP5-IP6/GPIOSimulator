@@ -1194,10 +1194,50 @@ image::Sample_Project_States.png[width=75% Project State Machine]
 * *State 3:* led strip flash & bild machen & lcd anzeigen & motor aufrollen
 
 ==== Codierung
+Der Source Code der einzelnen States wurde in separate Methoden eingeteilt.
+Zuerst werden alle benötigten Komponentenklassen initialisiert, um sie in den States verwenden zu können:
 
 [source,java]
 ----
+include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectInit]
 ----
+
+Der State 0 wurde über die Methode `isButtonPressed()` realisiert. Zunächst wird auf dem LCD-Display mitgeteilt, dass der Ablauf erst beginnt, wenn der Button gedrückt wird. Sobald dieser gedrückt wird, gibt die Methode `true` als Rückgabewert zurück, damit zum nächsten State fortgefahren werden kann.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectButtonPressed]
+----
+
+Der State 1 wurde über die Methode `isDistanceInRange()` realisiert. Zu Beginn wird mittels LCD-Display gezeigt, welcher Abstand erwünscht ist. Der LED-Strip wird rot um zu sugerieren, das der Abstand noch nicht korrekt ist. 
+Der Ultrasonic Ranger misst den Abstand sekündlich und sobald der Abstand in Ordnung ist, wird die Farbe des LED-Strips zu grün gewechselt und die Methode gibt `true` zurück, damit mit dem nächsten State fortgefahren werden kann.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectDistanceInRange]
+----
+
+Der State 2 wurde über die Methode `countdown()` realisiert. Hier wird von der Zahl 5 hinabgezählt. Das Herunterzählen wird mit mehreren Geräten untermalt, um die Spannung zu erhöhen. Das LCD-Display zeigt den Countdown an und der Buzzer macht jeweils einen Buzz-Ton für 200 Millisekunden. Der Steppermotor führt eine Umdrehung von 400 Schritten aus, da es pro Schritt 2 Millisekunden benötigt, braucht es für den Countdown einer Zahl genau eine Sekunde.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectCountDown]
+----
+
+Der State 3 wurde über die Methode `takePicture()` realisiert. Bevor das Bild geschossen wird, wird der LED-Strip auf weiss gesetzt und der Buzzer spielt einen höheren Ton. Dann macht die Raspberry Pi Kamera das Bild und speichert es in den Bilderpfad des Raspberry Pi unter `/home/pi/Pictures/picam1.jpg`. Dass das Bild geschossen wurde, wird auf dem LCD-Display angezeigt und der LED-Strip wird wieder abgeschaltet.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectTakePicture]
+----
+
+Der gesamte Ablauf wird dann in der `execute()` Methode ersichtlich. Diese Methode ist dafür verantwortlich, dass der Ablauf wieder von vorne beginnt, sobald ein Bild gemacht wurde.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectStart]
+----
+
 
 == Zusatzinformationen
 

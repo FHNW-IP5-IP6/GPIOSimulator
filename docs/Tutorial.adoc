@@ -46,7 +46,7 @@ Der Hauptteil des Tutorials befasst sich mit verschiedenen Sensoren und Aktoren,
 === Raspberry Pi
 Der Raspberry Pi ist ein kostengünstiger Computer in Kreditkartengrösse. Er ist ein leistungsfähiger kleiner PC, der es Menschen jeden Alters ermöglicht, sich mit Computern auseinanderzusetzen und zu lernen, wie man in Sprachen wie Scratch, Python oder Java programmiert. Er ist in der Lage, alles zu tun, was man von einem Desktop-Computer erwarten würde. Vom Surfen im Internet und dem Abspielen von HD-Videos bis hin zum Erstellen von Tabellenkalkulationen, der Verarbeitung von Texten sowie dem Ausführen von Spielen. <<RaspberryPi1>>
 
-Darüber hinaus hat der Raspberry Pi die Fähigkeit, mit der Aussenwelt zu interagieren. An den sogenannten **G**eneral **P*urpose **I**nput **O**utput Pins, kurz GPIO, kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für GPIO Projekte macht. <<RaspberryPi2>>
+Darüber hinaus hat der Raspberry Pi die Fähigkeit, mit der Aussenwelt zu interagieren. An den sogenannten **G**eneral **P**urpose **I**nput **O**utput Pins, kurz GPIO, kann man diverse Sensoren und Aktoren anschliessen, was den Raspberry Pi sehr beliebt für GPIO Projekte macht. <<RaspberryPi2>>
 
 Der Pi wurde von der britischen Raspberry Pi Foundation entwickelt und hat das Ziel, Bildung im Bereich Computer Hardware, Elektronik und Informatik zu fördern.
 

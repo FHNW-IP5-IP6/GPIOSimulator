@@ -1098,30 +1098,31 @@ include::{sourcedir}/fhnwexamples/component/LedStripDriverDevice.java[tags=LEDSt
 ----
 
 == Beispielprojekt
-Dieses Beispielprojekt soll zeigen, wie man die Component Klassen in ein neues Projekt einbindet und wie die Geräte in einem kleinen Projekt zusammenspielen können.
+Dieses Beispielprojekt soll zeigen, wie man die Component Klassen in ein neues Projekt einbindet und wie die Geräte in einem Projekt zusammenspielen können.
 
-Das Projekt ist ein Photo Booth, also eine Fotobox in der die folgenden Geräte zusammenarbeiten müssen, um ein gutes Foto von einer Person zu machen:
+Beim Projekt handelt es sich um einen Photo Booth, also eine Fotobox, in der die folgenden Geräte zusammenarbeiten müssen, um ein gutes Foto von einer Person zu machen:
 
-* Raspberry Pi
-* Button
-* Buzzer
+* Grove Base Hat
+* Grove Button
+* Grove Buzzer
 * LC Display
-* LED Band
+* LED Strip Driver
+* Raspberry Pi
 * Raspberry Pi Camera
 * Stepper Motor
 * Ultrasonic Ranger
 
 === Setup
-In den folgenden Unterkapiteln wird gezeigt wie ein neues GPIO Projekt aufgesetzt werden kann und welche Schritte nötig sind, um die Component Klassen zusammen mit Pi4J nutzen zu können.
+In den folgenden Unterkapiteln wird gezeigt, wie ein neues GPIO Projekt aufgesetzt werden kann. Des Weiteren wird ausgeführt, welche Schritte nötig sind, um die Component Klassen zusammen mit Pi4J nutzen zu können.
 
 ==== Component Klassen als Library hinzufügen
-Um die Component Klassen in einem neuen Projekt zu verwenden, muss man die Jar-Datei in dem neuen Projekt als Bibliothek hinzufügen.
+Um die Component Klassen in einem neuen Projekt zu verwenden, muss man die `jar`-Datei im neuen Projekt als Bibliothek hinzufügen.
 
-Unter den Releases der Github-Repository finden sie die Jar-Datei: https://github.com/FHNW-IP5-IP6/GPIOSimulator/releases/
+In den Releases des Github-Repository finden sie die `jar`-Datei: https://github.com/FHNW-IP5-IP6/GPIOSimulator/releases/
 
-Diese Jar-Datei muss in einen geeigneten Ordner im neuen Projekt hinzugefügt werden wie zum Beispiel `/build/libs`
+Diese `jar`-Datei muss in einen geeigneten Ordner im neuen Projekt hinzugefügt werden, wie zum Beispiel `/build/libs`.
 
-In der Datei `build.gradle` muss dann nur noch die Library angeben, dann sind die Komponenten Klassen wie in den Beispielen in Kapitel 5 nutzbar:
+In der Datei `build.gradle` muss dann nur noch die Library angeben. Sobald dies geschehen ist, sind die Component Klassen wie in den Beispielen im Kapitel 6 nutzbar:
 
 ----
 repositories {
@@ -1137,7 +1138,7 @@ dependencies {
 ----
 
 ==== Logging Informationen der Komponente
-Die Component Klassen können Informationen und eventuelle Fehler die auftreten könnten in Logs aufzeichnen. Diese Logs können im Beispielprojekt gesteuert werden, dafür muss zunächst log4j2 unter den gradle dependencies hinzugefügt werden im `build.gradle` File:
+Die Component Klassen können Informationen und eventuelle Fehler, die auftreten könnten, als Logs aufzeichnen. Wie genau diese Logs gemacht werden sollen, kann vom Programmierer gesteuert werden. Dafür muss zunächst log4j2 unter den gradle dependencies im `build.gradle` File hinzugefügt werden:
 
 ----
 dependencies {
@@ -1146,9 +1147,9 @@ dependencies {
 }
 ----
 
-Danach wird eine neue Ressource benötigt, welche dann die Logs steuert, die Datei `log4j2.xml`. Alle Logs der Component Klassen werden unter dem Namen `ComponentLogger` geloggt.
+Danach wird eine neue Ressource benötigt, über welche die Logs gesteuert werden können. Es handelt sich dabei um die Datei `log4j2.xml`. Alle Logs der Component Klassen werden unter dem Namen `ComponentLogger` geloggt.
 
-In dieser Beispieldatei werden alle Logs mit dem Level Info in der Console und in einer Logdatei namens _log_ festgehalten:
+In dieser Beispieldatei werden alle Logs ab dem Log Level _Info_ in der Console und in einer Logdatei namens _log_ festgehalten:
 
 ----
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1171,11 +1172,11 @@ In dieser Beispieldatei werden alle Logs mit dem Level Info in der Console und i
 </Configuration>
 ----
 
-Für mehr Informationen über Log4J2 und der Konfigurationsdatei findet man über folgendem Link: https://logging.apache.org/log4j/2.x/manual/configuration.html
+Weitere Informationen über log4j2 und dessen XML Konfigurationsdatei findet man über folgendem Link: https://logging.apache.org/log4j/2.x/manual/configuration.html
 
-Wenn jetzt eine Jar-Datei aus dem Projekt erstellt und ausgeführt wird, dann werden alle Komponenten Logs in der Konsole und im Log-File ersichtlich sein.
+Wenn jetzt eine `jar`-Datei aus dem Projekt erstellt und ausgeführt wird, werden von allen Komponenten Logs in der Konsole und in das Log-File geschrieben.
 
-Um mit gradle ein Jar File erstellen zu können muss man noch folgende Ergänzung im `build.gradle` vornehmen, wie in <<Code mit Gradle bauen>> beschrieben:
+Um mit gradle ein `jar`File erstellen zu können muss man noch folgende Ergänzung im `build.gradle` vornehmen, welche auch im <<Code mit Gradle bauen>> beschrieben ist:
 
 ----
 jar {
@@ -1192,7 +1193,7 @@ jar {
 Das Gradle Projekt ist nun vorbereitet. Es kann nun mit der Implementation der Photo Booth begonnen werden.
 
 ==== Ausarbeitung Projektidee
-In einem ersten Schritt haben wir uns überlegt, welche Zustände die Photo Booth überhaut haben kann und wie diese Zustände miteinander agieren sollen. Diese sind in folgendem State Diagramm festgehalten.
+In einem ersten Schritt haben wir uns überlegt, welche Zustände die Photo Booth überhaut haben kann, und wie diese Zustände miteinander agieren sollen. Unser Resultat ist im folgenden State Diagramm festgehalten.
 
 .State Machine
 image::Sample_Project_States.png[width=75% Project State Machine]
@@ -1202,16 +1203,16 @@ Die blauen Ovale im Diagramm entsprechen den einzelnen Zuständen. Mit den Pfeil
 Als nächstes muss definiert werden, was in den jeweiligen States alles geschehen soll.
 
 [.underline]*State 0*
-In diesem State wird darauf gewartet bis ein User die Photo Booth via Button Click aktiviert. Das LCD zeigt einen Text an, welchen den Benutzer dazu einlädt, den Knopf zu drücken. Sobald der Button betätigt wurde, wechseln wir in den nächsten State.
+In diesem State wird darauf gewartet, dass ein User die Photo Booth via Button Click aktiviert. Das LCD zeigt einen Text an, welcher den Benutzer dazu einlädt, den Knopf zu drücken. Sobald der Button betätigt wurde, wechseln wir in den nächsten State.
 
 [.underline]*State 1*
-In diesem State wird solange gewartet, bis sich der Benutzer korrekt positioniert hat. Wir fordern den Benutzer via LCD auf, sich einen Meter von der Kamera zu entfernen. Die Distanz wird mit dem Grove Ultrasonic Ranger gemessen und und auf dem LCD angezeigt. Solange sich der User nicht korrekt platziert hat, wird das LED Band rot leuchten. Sobald der Benutzer sich in der entsprechenden Distanz eingefunden hat, wechselt die Farbe des Bandes auf grün und es kann zum dritten State übergegangen werden
+In diesem State wird solange gewartet, bis sich der Benutzer korrekt positioniert hat. Wir fordern den Benutzer via LCD auf, sich einen Meter von der Kamera zu entfernen. Die Distanz wird mit dem Grove Ultrasonic Ranger gemessen und auf dem LCD angezeigt. Solange sich der User nicht korrekt platziert hat, wird das LED Band rot leuchten. Sobald der Benutzer sich in der entsprechenden Distanz eingefunden hat, wechselt die Farbe des Bandes auf grün und es kann zum dritten State übergegangen werden.
 
 [.underline]*State 2*
 Dieser State startet einen Countdown von 5 Sekunden. Die verbleibende Zeit wird einerseits auf dem LCD angezeigt und andererseits durch den Stepper Motor mittels einer Skala indiziert. Bei jedem Sekundenwechsel ertönt ein Signalton via Buzzer. Sobald der Countdown abgelaufen ist, wird in den finalen Status gewechselt.
 
 [.underline]*State 3*
-In diesem Status wird das Bild geschossen. Bevor dies passiert, leuchten die LED Streifen weiss auf und der Buzzer spielt einen hohen Ton ab. Anschliessend wir das Bild erstellt und abgespeichert. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zu guter Letzt wird der Stepper Motor wieder auf seine initiale Position gesetzt und in den State 0 gewechselt.
+In diesem Status wird das Bild geschossen. Bevor dies passiert, leuchtet der LED Streifen weiss auf und der Buzzer spielt einen hohen Ton ab. Anschliessend wir das Bild erstellt und abgespeichert. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zu guter Letzt wird der Stepper Motor wieder auf seine initiale Position gesetzt und in den State 0 gewechselt. Die Photo Booth ist bereit für den nächsten Kunden.
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -1232,49 +1233,48 @@ Das Tool Fritzing, mit welchem wir die Verkabelungen der Beispiele aufgezeichnet
 
 ==== Codierung
 Der Source Code der einzelnen States wurde in separate Methoden eingeteilt.
-Zuerst werden alle benötigten Komponentenklassen initialisiert, um sie in den States verwenden zu können:
+
+Zuerst werden alle benötigten Components initialisiert, um sie in den States verwenden zu können:
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectInit]
 ----
 
-Der State 0 wurde über die Methode `isButtonPressed()` realisiert. Zunächst wird auf dem LCD-Display mitgeteilt, dass der Ablauf erst beginnt, wenn der Button gedrückt wird. Sobald dieser gedrückt wird, gibt die Methode `true` als Rückgabewert zurück, damit zum nächsten State fortgefahren werden kann.
+Der State 0 wurde über die Methode `isButtonPressed()` realisiert. Zunächst wird auf dem LC-Display mitgeteilt, dass der Ablauf erst beginnt, wenn der Button gedrückt wird. Sobald dieser gedrückt wird, gibt die Methode `true` als Rückgabewert zurück. Dies bedeutet, dass zum nächsten State gewechselt werden kann.
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectButtonPressed]
 ----
 
-Der State 1 wurde über die Methode `isDistanceInRange()` realisiert. Zu Beginn wird mittels LCD-Display gezeigt, welcher Abstand erwünscht ist. Der LED-Strip wird rot um zu sugerieren, dass der Abstand noch nicht korrekt ist. 
-Der Ultrasonic Ranger misst den Abstand sekündlich und sobald der Abstand in Ordnung ist, wird die Farbe des LED-Strips zu grün gewechselt und die Methode gibt `true` zurück, damit mit dem nächsten State fortgefahren werden kann.
+Der State 1 wurde über die Methode `isDistanceInRange()` realisiert. Zu Beginn wird mittels LC-Display gezeigt, welcher Abstand erwünscht ist. Der LED-Strip wird rot, um zu suggerieren, dass der Abstand noch nicht korrekt ist. Der Ultrasonic Ranger misst den Abstand sekündlich. Sobald der Abstand in Ordnung ist, wird die Farbe des LED-Strips zu grün gewechselt und die Methode gibt `true` zurück. Es kann mit dem nächsten State fortgefahren werden.
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectDistanceInRange]
 ----
 
-Der State 2 wurde über die Methode `countdown()` realisiert. Hier wird von der Zahl 5 hinabgezählt. Das Herunterzählen wird mit mehreren Geräten untermalt, um die Spannung zu erhöhen. Das LCD-Display zeigt den Countdown an und der Buzzer macht jeweils einen Buzz-Ton für 200 Millisekunden. Der Steppermotor führt eine Umdrehung von 400 Schritten aus, da es pro Schritt 2 Millisekunden benötigt, braucht es für den Countdown einer Zahl genau eine Sekunde.
+Der State 2 wurde über die Methode `countdown()` realisiert. Hier wird von der Zahl fünf hinabgezählt. Das Herunterzählen wird mit mehreren Geräten untermalt, um die Spannung zu erhöhen. Das LC-Display zeigt den Countdown an und der Buzzer macht jeweils einen Buzz-Ton für 200 Millisekunden. Der Stepper Motor führt eine Umdrehung von 400 Schritten aus. Da der Schrittmotor pro Schritt 2 Millisekunden benötigt, braucht er für 400 Schritte exakt 800 Millisekunden. Zusammen mit dem Buzzer Ton entspricht dies einer Wartezeit von exakt einer Sekunde.
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectCountDown]
 ----
 
-Der State 3 wurde über die Methode `takePicture()` realisiert. Bevor das Bild geschossen wird, wird der LED-Strip auf weiss gesetzt und der Buzzer spielt einen höheren Ton. Dann macht die Raspberry Pi Kamera das Bild und speichert es in den Bilderpfad des Raspberry Pi unter `/home/pi/Pictures/picam1.jpg`. Dass das Bild geschossen wurde, wird auf dem LCD-Display angezeigt und der LED-Strip wird wieder abgeschaltet.
+Der State 3 wurde über die Methode `takePicture()` realisiert. Bevor das Bild geschossen wird, wird der LED-Strip auf weiss gesetzt und der Buzzer spielt einen höheren Ton ab. Dann macht die Raspberry Pi Kamera ein Bild und speichert es auf dem Raspberry Pi unter `/home/pi/Pictures/picam1.jpg`. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zusätzlich wird das LED Band ausgeschaltet und der Stepper Motor wird wieder zu seiner initialen Position gedreht.
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectTakePicture]
 ----
 
-Der gesamte Ablauf wird dann in der `execute()` Methode ersichtlich. Diese Methode ist dafür verantwortlich, dass der Ablauf wieder von vorne beginnt bei State 0, sobald ein Bild gemacht wurde.
+Der gesamte Ablauf wird dann in der `execute()` Methode ersichtlich. Diese Methode ist dafür verantwortlich, dass der Ablauf wieder von vorne beginnt, sobald ein Foto gemacht wurde.
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectStart]
 ----
-
 
 == Zusatzinformationen
 

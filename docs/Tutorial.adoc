@@ -1043,6 +1043,8 @@ include::{sourcedir}/fhnwexamples/component/RaspberryPiCameraDevice.java[tags=Ra
 === Grove LED Strip Driver
 Der Grove LED Strip Driver erlaubt die Steuerung der Farbe eines RGB LED Bandes mit 12V Spannungsaufnahme. Die Steuerung erfolgt über einen digitalen Grove Adapter. Unsere Component Klasse repräsentiert ein Äquivalent zur offiziellen C++ Library des LED Strip Drivers. <<LedStripDriver>>
 
+*Achtung:* Die Kommunikation zwischen dem Raspberry Pi und dem LED Strip Driver erfolgt über ein digitales Protokoll via zwei Pins. Der erste Pin agiert dabei als Clock und der zweite als Data Pin. Beim Setzen des Clock Pins kann es ab und an zu minimalen Abweichungen kommen, was in einer leicht falschen Farbe resultiere kann.
+
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
@@ -1083,7 +1085,7 @@ image::led_strip_driver.jpg[width=75% Grove Led Strip Driver]
 |===
 
 ==== Anwendungsbeispiel
-Das folgende Code Beispiel wechselt alle fünf Sekunden die Farbe des LED Bands. Von Rot auf Grün und dann zu Blau. Die gewünschte Farbe kann mittels der Funktion `setColor()` als RGB Farbcode übergeben werden.
+Das folgende Code Beispiel wechselt alle fünf Sekunden die Farbe des LED Bands von Rot auf Grün und dann zu Blau. Die gewünschte Farbe kann mittels der Funktion `setColor()` als RGB Farbcode übergeben werden.
 
 [source,java]
 ----
@@ -1827,7 +1829,7 @@ include::{sourcedir}/fhnwgpio/components/RaspberryPiCameraComponent.java[tags=Ra
 ----
 
 === Grove LED Strip Driver
-Mit dem Grove LED Strip Driver lassen sich 12V LED Bänder mit 4 Anschlüssen steuern. Dieser Typ von LED Steifen lässt nur komplette Farbwechsel zu. Einzelne Pixel auf dem Band können nicht gesteuert werden. Dazu würde man sogenannte Neopixel Bänder benötigen, welche aber nur über 4 Anschlüsse verfügen.
+Mit dem Grove LED Strip Driver lassen sich 12V LED Bänder mit 4 Anschlüssen steuern. Dieser Typ von LED Steifen lässt nur komplette Farbwechsel zu. Einzelne Pixel auf dem Band können nicht gesteuert werden. Dazu würde man sogenannte Neopixel Bänder benötigen, welche aber nur über 3 Anschlüsse verfügen und ein anderes Kommunikationsprotokoll verwenden.
 
 Unsere Component Klasse wiederspiegelt die offizielle LED Strip Driver Library, welche im Seed Studio Wiki zu finden ist. Wir haben die Library lediglich von C++ in Java übersetzt und die Konstruktoren angepasst. <<LedStripDriver>>
 

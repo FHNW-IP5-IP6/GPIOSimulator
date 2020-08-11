@@ -1107,6 +1107,7 @@ Das Projekt ist eine Art Photo Booth, also eine Fotobox in der die folgenden Ger
 * Ultrasonic Ranger
 
 === Setup
+In den folgenden Unterkapiteln beschäftigen wir uns mit dem Aufsetzen von neuen GPIO Projekten. Wir haben dokumentiert, welche Schritte nötig sind, um unsere Komponenten Klassen zusammen mit Pi4J nutzen zu können.
 
 ==== Component Klassen als Library hinzufügen
 Um die Komponenten Klassen in einem neuen Projekt zu verwenden, muss man die Jar-Datei in dem neuen Projekt als Bibliothek hinzufügen.
@@ -1183,15 +1184,46 @@ jar {
 ----
 
 === Umsetzung
+Das Gradle Projekt ist nun vorbereitet. Wir können nun mit der Implementation unserer Photo Booth starten.
 
 ==== Ausarbeitung Projektidee
+In einem ersten Schritt haben wir uns überlegt, welche Zustände unsere Photo Booth überhaut haben kann und wie diese Zustände miteinander agieren. Dies haben wir in einem State Diagramm festgehalten.
+
 .State Machine
 image::Sample_Project_States.png[width=75% Project State Machine]
 
-* *State 0:* ist Button gedrückt ? goto state 1 : thread.sleep(100)
-* *State 1:* ist Distanz zwischen 1m und 2m ? led strip green, goto state 2 : led strip red
-* *State 2:* countdown laufen lassen. auf display anzeigen & stepper motor hinab lassen & buzzer beep
-* *State 3:* led strip flash & bild machen & lcd anzeigen & motor aufrollen
+Die blauen Ovale im Diagramm entsprechen den einzelnen Zuständen. Mit den Pfeilen wird gezeigt, wie zwischen den Zuständen gewechselt werden kann. Im State 0 wird beispielsweise nur dann zu State 1 gewechselt, wenn ein Button gedrückt wurde. Wird der Button nicht gedrückt, bleiben wir im State 0.
+
+Als nächstes haben wir uns überlegt, was in den jeweiligen States alles geschehen soll.
+
+[.underline]*State 0*
+In diesem State warten warten wir auf einen User, welcher die Photo Booth via Button Click aktiviert. Wir zeigen auf dem LCD einen Text an, welchen den Benutzer dazu einlädt, den Knopf zu drücken. Sobald der Button betätigt wurde, wechseln wir in den nächsten State.
+
+[.underline]*State 1*
+In diesem State warten wir solange, bis sich der Benutzer korrekt positioniert hat. Wir fordern den Benutzer via LCD auf, sich einen Meter von der Kamera zu entfernen. Die Distanz messen wir mit dem Grove Ultrasonic Ranger und zeigen Sie auf dem Display an. Solange sich der User nicht korrekt platziert hat, lassen wir das LED Band rot leuchten. Sobald der Benutzer sich in der entsprechenden Distanz eingefunden hat, wechseln wir die Farbe des Bandes auf grün und wechseln zu State 2.
+
+[.underline]*State 2*
+Dieser State startet einen Countdown von 5 Sekunden. Die verbleibende Zeit wird einerseits auf dem LCD angezeigt und andererseits durch den Stepper Motor mittels einer Skala indiziert. Bei jedem Sekundenwechsel ertönt ein Signalton via Buzzer. Sobald der Countdown abgelaufen ist, wird in den finalen Status gewechselt.
+
+[.underline]*State 3*
+In diesem Status wird das Bild geschossen. Bevor dies passiert, lassen wir den LED Streifen weiss aufleuchten und den Buzzer einen Ton abspielen. Anschliessend wir das Bild erstellt und abgespeichert. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zu guter Letzt wird der Stepper Motor wieder auf seine initiale Position gesetzt und in den State 0 gewechselt.
+
+==== Verkabelung
+Für die Verkabelung wird folgende Hardware benötigt:
+
+* 1x Grove LED Strip Driver
+* 1x 12V LED Strip
+* 1x LCD I2C
+* 1x Raspberry Pi Camera
+* 1x Stepper Motor
+* 1x ULN2003APG Stepper Treiber
+* 1x Grove Button
+* 1x Grove Buzzer
+* 1x Grove Ultrasonic Ranger
+* 4x Grove Kabel
+* 10x Kabel
+
+Das Tool Fritzing, mit welchem wir die Verkabelungen der Beispiele aufgezeichnet haben, besitzt leider keine Grafik für den Grove Base hat. Aus diesem Grund können wir an dieser Stelle leider kein Bild der Verkabelung zeigen. Allerdings ist die Verkabelung im Code ersichtlich.
 
 ==== Codierung
 Der Source Code der einzelnen States wurde in separate Methoden eingeteilt.

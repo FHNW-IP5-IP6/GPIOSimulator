@@ -1191,8 +1191,7 @@ image::Sample_Project_States.png[width=75% Project State Machine]
 * *State 0:* ist Button gedrückt ? goto state 1 : thread.sleep(100)
 * *State 1:* ist Distanz zwischen 1m und 2m ? led strip green, goto state 2 : led strip red
 * *State 2:* countdown laufen lassen. auf display anzeigen & stepper motor hinab lassen & buzzer beep
-* *State 3:* led strip flash & bild machen
-* *State 4:* picture name auf dispaly anzeigen, stepper motor aufrollen
+* *State 3:* led strip flash & bild machen & lcd anzeigen & motor aufrollen
 
 ==== Codierung
 

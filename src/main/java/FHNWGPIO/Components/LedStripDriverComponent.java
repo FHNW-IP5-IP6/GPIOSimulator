@@ -1,6 +1,7 @@
 package fhnwgpio.components;
 
 import com.pi4j.io.gpio.*;
+import fhnwgpio.components.helper.ComponentLogger;
 import fhnwgpio.grove.GroveAdapter;
 
 import java.util.concurrent.TimeUnit;
@@ -24,6 +25,8 @@ public class LedStripDriverComponent {
     public LedStripDriverComponent(GpioPinDigitalOutput data, GpioPinDigitalOutput clock) {
         this.data = data;
         this.clock = clock;
+        ComponentLogger.logInfo("LedStripDriverComponent: Created component with the data pin: "
+                + data.getPin().getAddress() + " and the clock pin "+clock.getPin().getAddress());
     }
 
     /**
@@ -40,6 +43,7 @@ public class LedStripDriverComponent {
      * Before setting the Color of the LED Strip this command has to run
      */
     public void start() throws InterruptedException {
+        ComponentLogger.logInfo("LedStripDriverComponent: Start to change the colour");
         send32Zeros();
     }
 

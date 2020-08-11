@@ -468,11 +468,11 @@ GpioPinPwmOutput pwm = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_13);			// Har
 GpioPinPwmOutput pwm = gpio.provisionSoftPwmOutputPin(RaspiBcmPin.GPIO_02);		// Software PWM
 ----
 
-== Beispiele
-In diesem Kapitel finden Sie für eine Vielzahl an gängigen Sensoren und Aktuatoren Code Beispiele sowie Beispiele zur Verkabelung.
+== Komponenten
+In diesem Kapitel sind einige der gängigen Sensoren und Aktuatoren beschrieben und wie diese an den Raspberry Pi angeschlossen werden können. Ausserdem wird beschrieben, wie die Geräte mit den Komponentenklassen in Java verwendet werden können
 
 === LED
-Leuchtdioden emmitieren Licht, sofern Strom duch sie fliesst. Wie bei allen Dioden lassen LEDs nur eine Flussrichtiung zu. Mit unserer LedComponent lässt sich der Status der LED kontrollieren. Über PWM kann zusätzlich die Helligkeit der LED eingestellt werden.  <<LED>>
+Leuchtdioden emittieren Licht, sofern Strom durch sie fliesst. Wie bei allen Dioden lassen LEDs nur eine Flussrichtung zu. Mit der `LedComponent` lässt sich der Status der LED kontrollieren. Über PWM kann zusätzlich die Helligkeit der LED eingestellt werden.   <<LED>>
 
 .LED
 [link=https://upload.wikimedia.org/wikipedia/commons/9/9e/Verschiedene_LEDs.jpg]
@@ -508,7 +508,7 @@ image::./fritzing/blink_led.png[width=75% LED Wiring]
 |===
 
 ==== Anwendungsbeispiel
-Die blinkende LED ist das "Hello World"-Äquivalent der GPIO Programmierung. Unser Beispiel lässt eine LED 2x blinken. Anschliessend wird die Helligkeit der LED schrittweise von 0% auf 100% inkrementiert. Nach dem Erreichen der maximalen Helligkeit dekrementieren die Lichtstärke wieder auf 0%. Das Dimmen der LED ist durch Pulse Width Modulation möglich. Diese Funktionalität wird durch die Übergabe eines `GpioPinPwmOutput` Pin an den Konstruktor der LedComponent ermöglicht.
+Die blinkende LED ist das "Hello World"-Äquivalent der GPIO Programmierung. Dieses Beispiel lässt eine LED zwei Mal blinken. Anschliessend wird die Helligkeit der LED schrittweise von 0% auf 100% inkrementiert. Nach dem Erreichen der maximalen Helligkeit dekrementiert die Lichtstärke wieder auf 0%. Das Dimmen der LED ist durch «Pulse Width Modulation» möglich. Diese Funktionalität wird durch die Übergabe eines `GpioPinPwmOutput` Pins an den Konstruktor der `LedComponent` ermöglicht.
 
 [source,java]
 ----
@@ -518,7 +518,7 @@ include::{sourcedir}/fhnwexamples/component/LedDevice.java[tags=LedDevice]
 === Button
 Buttons sind simple Sensoren. Der Sensor kann zwei Zustände haben. Entweder lässt er Strom fliessen oder er unterbricht die Leitung. Richtig verkabelt kann der jeweilige Wert an einem digitalen Pin des Raspberry Pi gelesen werden.
 
-Unsere Component-Klasse unterstützt sowohl Grove Buttons als auch Standard Buttons. Andere einfache digitale Sensoren mit zwei zuständen werden ebenfalls unterstützt wie Beispielsweise Grove Touch Sensoren.
+Die Komponentenklasse unterstützt sowohl Grove Buttons als auch Standard-Buttons. Andere einfache digitale Sensoren mit zwei Zuständen werden ebenfalls unterstützt wie beispielsweise Grove Touch Sensoren.
 
 .Button
 [link=https://cdn.antratek.nl/media/product/03c/mini-push-button-switch-com-00097-1b3.jpg]
@@ -556,7 +556,7 @@ image::./fritzing/button_click.png[width=75% Button Wiring]
 |===
 
 ==== Anwendungsbeispiel
-Das folgende Code Beispiel loggt den Zustand des Buttons bei jedem Zustandswechsel. Zwischen den einzelnen Messungen wird jeweils eine Pause von 10 Millisekunden eingelegt. Dies hat zwei Gründe. Einerseits gönnen wir dem Prozessor des Raspberry Pi etwas Pausenzeit, andererseits eliminieren wir Messfehler, welche durch die Vibration des betätigenden Fingers ausgelöst werden.
+Das folgende Code Beispiel loggt den Zustand des Buttons bei jedem Zustandswechsel. Zwischen den einzelnen Messungen wird jeweils eine Pause von 10 Millisekunden eingelegt. Dies hat zwei Gründe: Einerseits gönnen wir dem Prozessor des Raspberry Pi etwas Pausenzeit, andererseits eliminieren wir Messfehler, welche durch die Vibration des betätigenden Fingers ausgelöst werden können.
 
 [source,java]
 ----
@@ -564,11 +564,11 @@ include::{sourcedir}/fhnwexamples/component/ButtonDevice.java[tags=ButtonDevice]
 ----
 
 === Buzzer
-Ein Buzzer ist eine Art primitiver Speaker. Er wandelt ein elektrisches Signal in einen Ton um. Je nach Frequenz des Signals ändert sich der Ton, welche wiedergegeben wird.
+Ein Buzzer ist funktioniert wie ein einfacher Lautsprecher. Er wandelt ein elektrisches Signal in einen Ton um. Je nach Frequenz des Signals ändert sich der Ton, welcher wiedergegeben wird.
+Die Hilfsklasse `Notes` stellt eine Vielzahl von Tönen über mehrere Oktaven zur Verfügung. Jedes Enum-Attribut verfügt über einen Integer, welcher der Frequenz des Tons entspricht.
 
-Die Hilfsklasse `Notes` stellt eine Vielzahl von Tönen über mehrere Oktaven zur Verfügung. Jedes Enum Attribut verfügt über einen Integer, welcher der Frequenz des Tons entspricht.
 
-*Achtung:* Unsere Buzzer Komponente manipuliert die PWM Grundfrequenz des Raspberry Pi beim Abspielen von Tönen sehr stark. Der Buzzer kann deshalb nicht zusammen mit anderen PWM Devices verwendet werden. Ist dies für ein Projekt nötig, muss auf einen externen PWM Generator zugegriffen werden.
+*Achtung:* Die Buzzer-Komponente manipuliert die PWM Grundfrequenz des Raspberry Pi beim Abspielen von Tönen sehr stark. Der Buzzer kann deshalb nicht zusammen mit anderen PWM Devices verwendet werden. Ist dies für ein Projekt nötig, muss auf einen externen PWM Generator zugegriffen werden.
 
 .Buzzer
 [link=https://www.geekering.com/wp-content/uploads/2020/01/buzzer_passivo.jpg]
@@ -604,9 +604,9 @@ image::./fritzing/buzzer.png[width=50% Buzzer Fritzing]
 
 
 ==== Anwendungsbeispiel
-Unser Code Beispiel spielt den Imperial March komponiert von John Williams auf dem Buzzer. Der Buzzer wird am GPIO PWM Pin 12 angeschlossen. Im Array `notes` sind die zu spielenden Noten abgespeichert. Das Array `beats` speichert die Anzahl der Beats, über welche der Ton an der aktuellen stelle gespielt werden soll. In der Variable `tempo` wird gespeichert, wie lange ein Beat geht. Im unserem Fall 103 Millisekunden.
-
+Dieses Code Beispiel spielt den «Imperial March», komponiert von John Williams und bekannt aus Star Wars, auf dem Buzzer. Der Buzzer wird am GPIO PWM Pin 12 angeschlossen. Im Array `notes` sind die zu spielenden Noten abgespeichert. Das Array `beats` speichert die Anzahl der Beats, über welche der Ton an der aktuellen Stelle gespielt werden soll. In der Variable `tempo` wird gespeichert, wie lange ein Beat geht. In diesem Fall 103 Millisekunden.
 In einer for-Schleife wird nun durch die einzelnen `notes` iteriert. Jeder Ton wird entsprechend seiner Anzahl Beats abgespielt.
+
 
 [source,java]
 ----
@@ -614,7 +614,7 @@ include::{sourcedir}/fhnwexamples/component/BuzzerDevice.java[tags=BuzzerDevice]
 ----
 
 === LCD I2C
-Das LCD Modul besteht aus dem LCD1602 und dem PCF8574 I2C extender Mikrochip auf dem Rücken des LCDs.  Es wird über dem I2C Extender direkt an die I2C Pins des Raspberry Pis angeschlossen und benötigt eine Spannung von 5 Volt. Das Display hat zwei Zeilen und pro Zeile Platz für 16 Zeichen und somit insgesamt Platz für 32 Zeichen. Die Helligkeit des Hintergrundes kann mit einem Kreuzschlitzschraubenzieher am Extender angepasst werden.
+Das LCD Modul besteht aus dem LCD1602 Display und dem PCF8574 I2C Extender Mikrochip auf dem Rücken des LCDs.  Es wird über dem I2C Extender direkt an die I2C Pins des Raspberry Pis angeschlossen und benötigt eine Spannung von 5 Volt. Das Display hat zwei Zeilen und pro Zeile Platz für 16 Zeichen und somit insgesamt Platz für 32 Zeichen. Die Helligkeit des Hintergrundes kann mit einem Kreuzschlitzschraubenzieher am Extender angepasst werden.
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -651,14 +651,15 @@ image::./fritzing/LCDI2C.png[width=75% I2C Wiring]
 |===
 
 ==== Anwendungsbeispiel
-In diesem Code Beispiel wird der Titel des Projekts in der ersten Zeile angezeigt und die Uhrzeit in der Zweiten. Die Uhrzeit wird im Sekundentakt aktualisiert. +
+In diesem Code Beispiel wird ein Text, welcher vom Nutzer eingegeben werden kann, in der ersten Zeile des LCD-Displays angezeigt und die Uhrzeit in der Zweiten. Die Uhrzeit wird im Sekundentakt aktualisiert. +
+
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/component/LcdSystemTimeI2CDevice.java[tags=LcdSystemTimeI2CDevice]
 ----
 
 === Grove Potentiometer
-Ein Potentiometer ist eine Art dynamischer Wiederstand, welcher durch das Drehen oder Verschieben eines Reglers vergrössert oder verkleinert werden kann. Der Grove Potentiometer gibt uns je nach eingestelltem Wiederstand einen Wert zwischen 0 und 1'000 zurück. Mit einem Potentiometer können wir also Werte einstellen, mit welchen wir dann einen Aktuator kontrollieren können. Zum Beispiel könnten wir mit einem Potentiometer die Helligkeit einer Leuchtdiode steuern. <<Potentiometer>>
+Ein Potentiometer ist eine Art dynamischer Widerstand, welcher durch das Drehen oder Verschieben eines Reglers vergrössert oder verkleinert werden kann. Der Grove Potentiometer gibt je nach eingestelltem Widerstand einen Wert zwischen 0 und 1'000 zurück. Mit einem Potentiometer kann man also Werte einstellen, mit welchen dann einen Aktuator kontrolliert werden kann. Zum Beispiel könnte man mit einem Potentiometer die Helligkeit einer Leuchtdiode steuern.<<Potentiometer>>
 
 .Grove Potentiometer
 [link=https://www.seeedstudio.com/Grove-Rotary-Angle-Sensor.html]
@@ -667,7 +668,9 @@ image::./Grove_Rotary_Angle_Sensor.jpg[width=75% Grove Rotary Angle Sensor]
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
-* 1x Grove Potentiometer mit Grove Adapter Kabel
+* 1x Grove Potentiometer
+* 1x Grove Adapter Kabel
+* 1x Grove Hat
 
 .Grove Potentiometer Verkabelung
 [link=https://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/]
@@ -690,7 +693,7 @@ image::./fritzing/Grove_Base_Hat_Rotary_Angel_Sensor.jpg[width=75% Grove Rotary 
 |===
 
 ==== Anwendungsbeispiel
-Das Code Beispiel erzeugt ein neues `PotentiometerComponent`, welches am Grove Base Hat am analogen Adapter A0 anliegt. Mit der `setRange()` Funktion wird sichergestellt, dass die zurückgegebenen Werte zwischen 0 und 100 liegen. Der aktuelle Wert wird alle 500 Millisekunden geloggt.
+Das Code Beispiel erzeugt ein neues `PotentiometerComponent`, welches am Grove Base Hat am analogen Adapter A0 angeschlossen ist. Mit der `setRange()` Funktion wird sichergestellt, dass die zurückgegebenen Werte zwischen 0 und 100 liegen. Der aktuelle Wert wird alle 500 Millisekunden geloggt.
 
 [source,java]
 ----
@@ -698,12 +701,13 @@ include::{sourcedir}/fhnwexamples/component/PotentiometerDevice.java[tags=Potent
 ----
 
 === Grove RFID Reader
-Der Grove RFID Reader ist ein 125KHz RFID Reader, welches uem4100 RFID Karteninformationen seriell lesen kann. Die maximale Distanz zum Lesen beträgt 70mm. Die RFID Reader benötigt eine Spannung von 5 Volt, weshalb es nicht mit dem Grove Hat kompatibel ist, da dieser nur 3.3 Volt liefert. Es ist jedoch möglich es mit Kabeln direkt an den Pi zu verbinden, wie bei der Grove Serial Camera. <<RfidReader>>
+Der Grove RFID Reader ist ein 125KHz RFID Reader, welches em4100 RFID Karteninformationen seriell lesen kann. Die maximale Distanz zum Lesen beträgt 70mm. Die RFID Reader benötigt eine Spannung von 5 Volt, weshalb es nicht mit dem Grove Hat kompatibel ist, da dieser nur 3.3 Volt liefert. Es ist jedoch möglich es mit Kabeln direkt an dem Pi zu verbinden, wie bei der Grove Serial Camera. <<RfidReader>>
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
-* 1x Grove RFID Reader mit Grove Adapter Kabel
+* 1x Grove RFID Reader
+* 1x Grove Adapter Kabel
 * 4x Kabel
 
 .Grove RFID Reader Verkabelung
@@ -772,7 +776,8 @@ image::./Grove_Ultrasonic_Ranger.jpg[width=75% RaspiCam Wiring]
 |===
 
 ==== Anwendungsbeispiel
-In diesem Beispiel wird der Grove Ultrasonic Ranger an den D5 Adapter des Grove Hats angeschlossen und es wird sekündlich die Distanz gemessen zwischen dem Device und einem Ziel.
+In diesem Beispiel wird der Grove Ultrasonic Ranger an den D5 Adapter des Grove Hats angeschlossen und es wird sekündlich die Distanz gemessen zwischen dem Gerät und einem Ziel.
+
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/component/UltraSonicRangerDevice.java[tags=UltraSonicRangerDevice]
@@ -781,10 +786,11 @@ include::{sourcedir}/fhnwexamples/component/UltraSonicRangerDevice.java[tags=Ult
 === DC Motor
 Gleichstrommotoren arbeiten, wie der Name schon verrät, mit Gleichstrom. Da der Raspberry Pi Gleichstrom mit 3.3 Volt sowie 5.0 Volt zur Verfügung stellt, können die Motoren direkt an den Stromkreis des Pi angeschlossen werden. Alternativ kann auch eine stärkere, externe Spannungsquelle verwendet werden. Dabei gilt aber zu beachten, dass der Motor nicht überlastet wird.
 
-Um einen DC Motor zu kontrollieren, benötigt man einen Motor Treiber. Wir haben dazu den Chip L293D verwendet. Natürlich kann auch ein anderer Treiber verwendet werden. <<DcMotor>>
+Um einen DC Motor zu kontrollieren, benötigt man einen Motortreiber. In diesem Fall wurde dazu der Chip L293D verwendet. Natürlich kann auch ein anderer Treiber verwendet werden.
+<<DcMotor>>
 
-* Das Pinout des L293D findet ihr unter folgendem Link oder in diesem Dokument unter Zusatzinformationen.: https://components101.com/l293d-pinout-features-datasheet
-* Dieses Youtube Video von Gaven MacDonald zeit auf, wie ein DC Motor über GPIO Pins gesteuert werden kann. Ab der Minute 2 wird genauer auf den Treiber L293D eingegangen. https://www.youtube.com/watch?v=W7cV9_W12sM
+* Das Pinout des L293D findet ihr unter folgendem Link oder in diesem Dokument unter den Zusatzinformationen.: https://components101.com/l293d-pinout-features-datasheet
+* Dieses Youtube Video von Gaven MacDonald zeigt auf, wie ein DC Motor über GPIO Pins gesteuert werden kann. Ab der Minute 2 wird genauer auf den Treiber L293D eingegangen. https://www.youtube.com/watch?v=W7cV9_W12sM
 
 .Motor und Treiber
 [link=https://elektro.turanis.de/html/prj147/index.html]
@@ -821,9 +827,10 @@ image::./fritzing/motor.png[width=75% DC Motor Fritzing]
 |===
 
 ==== Anwendungsbeispiel
-Das Code Beispiel erzeugt ein neues `MotorComponent`. Bei der Erstellung wird jener Konstruktor benutzt, welcher PWM Pins unterstützt. Dieser erlaubt die Drosselung der Drehzahldes Motors.
+Das Code Beispiel erzeugt ein neues `MotorComponent`. Bei der Erstellung wird jener Konstruktor benutzt, welcher PWM Pins unterstützt. Dieser erlaubt die Drosselung der Drehzahl des Motors.
 
-In einer While-Schlaufe wird die Drehzahl des vorwärts drehenden Motors schrittweise um 10% erhöht. Nachdem 100% Leistung erreicht wurde, stoppt der Motor für 5 Sekunden. Anschliessend wird die Drehrichtung des Motors umgekehrt. Der Motor dreht nun rückwärts und die Drehzahl wird wiederum schrittweise um je 10% inkrementiert.
+In einer while-Schlaufe wird die Drehzahl des vorwärts drehenden Motors schrittweise um 10% erhöht. Nachdem 100% Leistung erreicht wurde, stoppt der Motor für 5 Sekunden. Anschliessend wird die Drehrichtung des Motors umgekehrt. Der Motor dreht nun rückwärts und die Drehzahl wird wiederum schrittweise um je 10% inkrementiert.
+
 
 [source,java]
 ----
@@ -831,9 +838,9 @@ include::{sourcedir}/fhnwexamples/component/MotorDevice.java[tags=MotorDevice]
 ----
 
 === Stepper Motor
-Der Stepper Motor oder Schrittmotor rotiert die in seiner Mitte liegende Welle in Schritten. Die Welle eines Schrittmotors dreht sich im Vergleich zu jener eines Gleichstrommotors sehr langsam. Dafür kann der Schrittmotor sehr genau gesteuert werden. Je nach eingestelltem Modus variiert die Anzahl der Schritte, welche für eine gesamte Drehung benötigt werden. Der Modus beeinflusst auch die Kraft, welcher der Motor hat und hat Zusammenhang mit dem resultierenden Energieverbrauch des Motors. <<StepperMotor>>
+Der Stepper Motor oder Schrittmotor rotiert die in seiner Mitte liegende Welle in Schritten. Die Welle eines Schrittmotors dreht sich im Vergleich zu jener eines Gleichstrommotors sehr langsam. Dafür kann der Schrittmotor sehr genau gesteuert werden. Je nach eingestelltem Modus variiert die Anzahl der Schritte, welche für eine gesamte Drehung benötigt werden. Der Modus beeinflusst auch die Kraft, welcher der Motor hat und hängt mit dem resultierenden Energieverbrauch des Motors zusammen.<<StepperMotor>>
 
-In der unten abgebildeten Tabelle beziehen wir uns auf den weit verbreiteten Schrittmotor 28BYJ-48. Eine Drehung des Zylinders innerhalb des Motors resultiert in einer Drehung der Welle um 11.25°. Für eine Komplette Drehung werden also 360° / 11.25° = 32 Schritte benötigt. Ein Getriebe innerhalb des Motors reduziert einen einzelnen Schritt in weitere 64 Steps. Unter Verwendung des Full oder Dual Stepping bedeutet ein einzelner Step also eine Drehung um 360° / (32 * 64) = 0.17578125°. Bei Half Stepping verdoppelt sich die Anzahl der möglichen Schritte, was eine Drehgenauigkeit von 0.087890625° zulässt.
+In der unten abgebildeten Tabelle wird auf den weit verbreiteten Schrittmotor 28BYJ-48 Bezug genommen. Eine Drehung des Zylinders innerhalb des Motors resultiert in einer Drehung der Welle um 11.25°. Für eine komplette Drehung werden also 360° / 11.25° = 32 Schritte benötigt. Ein Getriebe innerhalb des Motors reduziert einen einzelnen Schritt in weitere 64 Steps. Unter Verwendung des Full oder Dual Stepping bedeutet ein einzelner Step also eine Drehung um 360° / (32 * 64) = 0.17578125°. Bei Half Stepping verdoppelt sich die Anzahl der möglichen Schritte, was eine Drehgenauigkeit von 0.087890625° zulässt.
 
 .Stepper Motor Modi
 [cols="1,2,1,1,1"]
@@ -844,7 +851,7 @@ In der unten abgebildeten Tabelle beziehen wir uns auf den weit verbreiteten Sch
 |Dual Stepping |StepperMotorMode.DOUBLE_STEP |2048 |2x | 130% bis 140%
 |===
 
-Auf YouTube findet ihr ein sehr informatives Video von Gaven MacDonald über die Funktionsweise eines Stepper Motors. https://www.youtube.com/watch?v=Dc16mKFA7Fo
+Auf YouTube findet sich ein sehr informatives Video von Gaven MacDonald über die Funktionsweise eines Stepper Motors. https://www.youtube.com/watch?v=Dc16mKFA7Fo
 
 .Stepper Motor Verkabelung 
 [link=https://www.bastelgarage.ch/stepper-motor-schrittmotor-5v-1-64-28byj-48]
@@ -885,7 +892,7 @@ image::./fritzing/stepper_motor.png[width=75% RaspiCam Wiring]
 |===
 
 ==== Anwendungsbeispiel
-Das unten abgebildete Beispiel zeigt die Verwendung der verschiedenen Stepper Motor Modi. Das Beispiel verwendet den Konstruktor mit den meisten Default Values. Die Step Delay beträgt also 2 Millisekunden und der Modus wird initial auf `StepperMotorMode.SINGLE_STEP` gesetzt. Nach der Initialisierung wird der Motor in den verschiedenen Modi vorwärts und zurück gedreht. Vor jedem Wechsel in einen anderen Modus wird fünf Sekunden gewartet.
+Das unten abgebildete Beispiel zeigt die Verwendung der verschiedenen Stepper Motor Modi. Das Beispiel verwendet den Konstruktor mit den meisten Default Werten. Die Step-Verzögerung beträgt also 2 Millisekunden und der Modus wird initial auf `StepperMotorMode.SINGLE_STEP` gesetzt. Nach der Initialisierung wird der Motor in den verschiedenen Modi vorwärts und zurück gedreht. Vor jedem Wechsel in einen anderen Modus wird fünf Sekunden gewartet.
 
 [source,java]
 ----
@@ -926,9 +933,10 @@ image::./fritzing/servo_motor.png[width=75% Servo Motor Fritzing]
 |===
 
 ==== Anwendungsbeispiel
-Das unten abgebildete Beispiel zeigt die Verwendung unserer ServoMotorComponent. Es benutzt den Konstruktor mit den meisten Standardwerten. Dieser eignet sich für die meisten 180° Mini und Micro Servos.
+Das unten abgebildete Beispiel zeigt die Verwendung der `ServoMotorComponent`. Es benutzt den Konstruktor mit den meisten Standardwerten. Dieser eignet sich für die meisten 180° Mini und Micro Servos.
 
-In einem while-Loop wird der Motor zuerst auf die kleinstmögliche Position gesetzt. Anschliessend setzen wir die Position des Motors auf dessen Mitte und im Anschluss auf die maximale Position. Zwischen den einzelnen Positionswechsel macht das Programm jeweils eine Sekunde Pause. Nun wird der Motor auf seine Ausgangsposition zurückgesetzt und Grad für Grad bis zum Maximum von 180° gedreht.
+In einem while-Loop wird der Motor zuerst auf die kleinstmögliche Position gesetzt. Anschliessend wird die Position des Motors auf dessen Mitte und im Anschluss auf die maximale Position gesetzt. Zwischen den einzelnen Positionswechseln macht das Programm jeweils eine Sekunde Pause. Nun wird der Motor auf seine Ausgangsposition zurückgesetzt und Grad für Grad bis zum Maximum von 180° gedreht.
+
 
 [source,java]
 ----
@@ -936,7 +944,7 @@ include::{sourcedir}/fhnwexamples/component/ServoMotorDevice.java[tags=ServoMoto
 ----
 
 === Grove Serial Camera
-Die Grove Serial Camera besteht aus einem Kamera Modul und einem Control Board, welches die Kommunikation zwischen der Kamera und dem Raspberry Pi über den Serial Bus ermöglicht. Die Kamera benötigt eine Spannung von 5 Volt, weshalb sie leider nicht mit unserem Grove Hat kompatibel ist. Dieser liefert nur 3.3 Volt an die Grove Adapter. Um die Kamera dennoch nutzen zu können, muss sie via Jumper Kabel an den Serial Port des Raspberry Pi angeschlossen werden. Weitere Informationen zur Verkabelung können dem Tutorial entnommen werden.
+Die Grove Serial Camera besteht aus einem Kamera Modul und einem Control Board, welches die Kommunikation zwischen der Kamera und dem Raspberry Pi über den Serial Bus ermöglicht. Die Kamera benötigt eine Spannung von 5 Volt, weshalb sie leider nicht mit dem Grove Hat kompatibel ist. Dieser liefert nur 3.3 Volt an die Grove Adapter. Um die Kamera dennoch nutzen zu können, muss sie via Jumper Kabel an den Serial Port des Raspberry Pi angeschlossen werden. 
 
 .Grove Serial Camera
 [link=https://wiki.seeedstudio.com/Grove-Serial_Camera_Kit/]
@@ -945,7 +953,8 @@ image::Grove_Serial_Camera.jpg[width=75% Grove Serial Camera]
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
-* 1x Grove Serial Camera mit Grove Adapter Kabel
+* 1x Grove Serial Camera 
+* 1x Grove Adapter Kabel
 * 4x Kabel
 
 .Serial Camera Verkabelung
@@ -970,7 +979,7 @@ image::./fritzing/grove_serial_cam.png[width=75% Grove Serial Camera Fritzing]
 |===
 
 ==== Anwendungsbeispiel
-Das unten abgebildete Code Beispiel zeigt, wie mit der Hilfe unserer SerialCameraComponent ein JPEG Foto geschossen und unter einem bestimmten Pfad abgespeichert werden kann.
+Das unten Code Beispiel zeigt, wie mit der Hilfe der `SerialCameraComponent` ein JPEG Foto geschossen und unter einem bestimmten Pfad abgespeichert werden kann.
 
 [source,java]
 ----
@@ -978,18 +987,18 @@ include::{sourcedir}/fhnwexamples/component/SerialCameraDevice.java[tags=SerialC
 ----
 
 === Raspberry Pi Camera
-Die Raspberry Pi Camera ist die Camera Komponente, welche standardmässig vom Pi unterstützt wird. Es ist eine kleine 8MP Kamera, die über ein Flachbandkabel direkt an den Pi angeschlossen werden kann. Man kann 3280 x 2464 Pixel für Bilder verwenden und 1080p mit 30fps/ 720p mit 60fps/ 640x480p mit 90fps für Videos.
+Die Raspberry Pi Camera ist die Kamera Komponente, welche standardmässig vom Pi unterstützt wird. Es ist eine kleine 8MP Kamera, die über ein Flachbandkabel direkt an dem Pi angeschlossen werden kann. Man kann maximal 3280 x 2464 Pixel für Bilder verwenden und für Videos 1080p mit 30fps oder 720p mit 60fps oder 640x480p mit 90fps.
 
 .Raspberry Pi Camera
 [link=https://projects.raspberrypi.org/en/projects/getting-started-with-picamera]
 image::./RaspberryPi_Camera.jpg[width=70% RaspiCam]
 
-Für die Verwendung muss sie aber zunächst im OS aktiviert werden. Unter den Interfacing Options, von raspi-config können Sie es problemlos aktivieren. 
+Für die Verwendung muss die Kamera zunächst im OS aktiviert werden. Unter den `Interfacing Options`, von `raspi-config` kann es problemlos aktiviert werden.
 
 .Raspberry Pi Camera aktivieren
 image::./RaspberryPi_Camera_Activation.jpg[width=60% activate RaspiCam]
 
-Raspbian OS enthält auch Applikationen, welche sie nutzen können, um die Camera in der Console zu testen.
+Raspbian OS enthält auch Applikationen, welche man nutzen kann, um die Kamera in der Konsole zu testen.
 
 Starten Sie ihr Terminal und geben sie folgenden Befehl ein:
 
@@ -998,7 +1007,7 @@ Starten Sie ihr Terminal und geben sie folgenden Befehl ein:
 raspistill -o /home/pi/Pictures/image.jpg
 ----
 
-Jetzt sollten Sie ein Bild im Standardverzeichnis für Bilder finden können.
+Jetzt sollten ein Bild im Standardverzeichnis für Bilder auffindbar sein.
 
 Für mehr Informationen über die Befehle können Sie den Zusatzinformationsteil für die Raspberry Pi Camera anschauen -> 
 <<Terminal Befehle>>
@@ -1033,7 +1042,7 @@ image::./fritzing/raspiCam.png[width=60% RaspiCam Wiring]
 |===
 
 ==== Anwendungsbeispiel
-In diesem Code Beispiel wird die Raspberry Pi Camera mit der `RaspberryPiCameraComponent` verwendet, um zwei Bilder und ein Video aufzunehmen in den Ordner `/home/pi/Pictures/`.  +
+In diesem Code Beispiel wird die Raspberry Pi Camera mit der `RaspberryPiCameraComponent` verwendet, um zwei Bilder und ein Video aufzunehmen im Ordner `/home/pi/Pictures/`.  +
 
 [source,java]
 ----
@@ -1041,9 +1050,10 @@ include::{sourcedir}/fhnwexamples/component/RaspberryPiCameraDevice.java[tags=Ra
 ----
 
 === Grove LED Strip Driver
-Der Grove LED Strip Driver erlaubt die Steuerung der Farbe eines RGB LED Bandes mit 12V Spannungsaufnahme. Die Steuerung erfolgt über einen digitalen Grove Adapter. Unsere Component Klasse repräsentiert ein Äquivalent zur offiziellen C++ Library des LED Strip Drivers. <<LedStripDriver>>
+Der Grove LED Strip Driver erlaubt die Steuerung der Farbe eines RGB LED Bandes mit 12V Spannungsaufnahme. Die Steuerung erfolgt über einen digitalen Grove Adapter. Die Komponentenklasse repräsentiert ein Äquivalent zur offiziellen C++ Library des LED Strip Drivers. <<LedStripDriver>>
 
 *Achtung:* Die Kommunikation zwischen dem Raspberry Pi und dem LED Strip Driver erfolgt über ein digitales Protokoll via zwei Pins. Der erste Pin agiert dabei als Clock und der zweite als Data Pin. Beim Setzen des Clock Pins kann es ab und an zu minimalen Abweichungen kommen, was in einer leicht falschen Farbe resultiere kann.
+
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:

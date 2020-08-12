@@ -80,7 +80,7 @@ public class BuzzerComponent {
             Gpio.pwmSetClock(clock);
             Gpio.pwmWrite(pin.getAddress(), clock);
 
-            if (duration < 1) {
+            if (duration > 0) {
                 Thread.sleep(duration);
                 stop();
             }

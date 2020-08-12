@@ -1178,7 +1178,7 @@ Weitere Informationen über log4j2 und dessen XML Konfigurationsdatei findet man
 
 Wenn jetzt eine `jar`-Datei aus dem Projekt erstellt und ausgeführt wird, werden von allen Komponenten Logs in der Konsole und in das Log-File geschrieben.
 
-Um mit gradle ein `jar`File erstellen zu können muss man noch folgende Ergänzung im `build.gradle` vornehmen, welche auch im <<Code mit Gradle bauen>> beschrieben ist:
+Um mit gradle ein `jar` erstellen zu können muss man noch folgende Ergänzung im `build.gradle` vornehmen, welche auch im <<Code mit Gradle bauen>> beschrieben ist:
 
 ----
 jar {
@@ -1243,14 +1243,14 @@ Zuerst werden alle benötigten Components initialisiert, um sie in den States ve
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectInit]
 ----
 
-Der State 0 wurde über die Methode `isButtonPressed()` realisiert. Zunächst wird auf dem LC-Display mitgeteilt, dass der Ablauf erst beginnt, wenn der Button gedrückt wird. Sobald dieser gedrückt wird, gibt die Methode `true` als Rückgabewert zurück. Dies bedeutet, dass zum nächsten State gewechselt werden kann.
+Der State 0 wurde über die Methode `waitForButtonPress()` realisiert. Zunächst wird auf dem LC-Display mitgeteilt, dass der Ablauf erst beginnt, wenn der Button gedrückt wird. Sobald dieser gedrückt wurde, kann sich der Status ändern.
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectButtonPressed]
 ----
 
-Der State 1 wurde über die Methode `isDistanceInRange()` realisiert. Zu Beginn wird mittels LC-Display gezeigt, welcher Abstand erwünscht ist. Der LED-Strip wird rot, um zu suggerieren, dass der Abstand noch nicht korrekt ist. Der Ultrasonic Ranger misst den Abstand sekündlich. Sobald der Abstand in Ordnung ist, wird die Farbe des LED-Strips zu grün gewechselt und die Methode gibt `true` zurück. Es kann mit dem nächsten State fortgefahren werden.
+Der State 1 wurde über die Methode `waitForCorrectRange()` realisiert. Zu Beginn wird mittels LC-Display gezeigt, welcher Abstand erwünscht ist. Der LED-Strip wird rot, um zu suggerieren, dass der Abstand noch nicht korrekt ist. Der Ultrasonic Ranger misst den Abstand sekündlich. Sobald der Abstand in Ordnung ist, wird die Farbe des LED-Strips zu grün gewechselt und es kann mit dem nächsten State fortgefahren werden.
 
 [source,java]
 ----
@@ -1264,7 +1264,7 @@ Der State 2 wurde über die Methode `countdown()` realisiert. Hier wird von der 
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectCountDown]
 ----
 
-Der State 3 wurde über die Methode `takePicture()` realisiert. Bevor das Bild geschossen wird, wird der LED-Strip auf weiss gesetzt und der Buzzer spielt einen höheren Ton ab. Dann macht die Raspberry Pi Kamera ein Bild und speichert es auf dem Raspberry Pi unter `/home/pi/Pictures/picam1.jpg`. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zusätzlich wird das LED Band ausgeschaltet und der Stepper Motor wird wieder zu seiner initialen Position gedreht.
+Der State 3 wurde über die Methode `takePicture()` realisiert. Bevor das Bild geschossen wird, wird der LED-Strip auf weiss gesetzt und der Buzzer spielt einen höheren Ton ab. Dann macht die Raspberry Pi Kamera ein Bild und speichert es auf dem Raspberry Pi im Bilderpfad `/home/pi/Pictures/` unter dem Namen `pipic - <Datum und Uhrzeit>.jpg`. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zusätzlich wird das LED Band ausgeschaltet und der Stepper Motor wird wieder zu seiner initialen Position gedreht.
 
 [source,java]
 ----

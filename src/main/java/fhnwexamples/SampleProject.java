@@ -10,6 +10,10 @@ import uk.co.caprica.picam.CameraConfiguration;
 import uk.co.caprica.picam.enums.Encoding;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class SampleProject extends Example {
     private GpioController gpio;
@@ -32,12 +36,10 @@ public class SampleProject extends Example {
         init();
 
         while (true) {
-            if (isButtonPressed()) {
-                if (isDistanceInRange()) {
-                    countdown();
-                    takePicture();
-                }
-            }
+            waitForButtonPress();
+            waitForCorrectRange();
+            countdown();
+            takePicture();
         }
     }
     // end::ProjectStart[]
@@ -48,7 +50,7 @@ public class SampleProject extends Example {
         GpioFactory.setDefaultProvider(provider);
         gpio = GpioFactory.getInstance();
 
-        ultraSonicRanger = new UltraSonicRangerComponent(GroveAdapter.D5);
+        ultraSonicRanger = new UltraSonicRangerComponent(GroveAdapter.D18);
         button = new ButtonComponent(GroveAdapter.D16);
         buzzer = new BuzzerComponent(GroveAdapter.PWM);
 
@@ -76,24 +78,20 @@ public class SampleProject extends Example {
     // end::ProjectInit[]
 
     // tag::ProjectButtonPressed[]
-    private boolean isButtonPressed() throws InterruptedException {
+    private void waitForButtonPress() throws InterruptedException {
         lcd.displayText("Press Button", 1);
         lcd.displayText("To Start!", 2);
         Thread.sleep(1000);
 
-        while (true) {
-            if (button.isPressed()) {
-                break;
-            }
-            // Avoid vibration error
+        while (!button.isPressed()) {
+            //Avoid vibration error
             Thread.sleep(10);
         }
-        return true;
     }
     // end::ProjectButtonPressed[]
 
     // tag::ProjectDistanceInRange[]
-    private boolean isDistanceInRange() throws InterruptedException {
+    private void waitForCorrectRange() throws InterruptedException {
         lcd.clearText();
         lcd.displayText("Stay 1m away", 1);
 
@@ -101,19 +99,18 @@ public class SampleProject extends Example {
         ledStripDriver.setColor(255, 0, 0);
         ledStripDriver.stop();
 
-        while (true) {
-            long distance = ultraSonicRanger.measureInCentimeter();
+        long distance = ultraSonicRanger.measureInCentimeter();
+        lcd.displayText("Distance = " + distance + "cm", 2);
+
+        while (distance < 100 || distance > 200) {
+            distance = ultraSonicRanger.measureInCentimeter();
             lcd.displayText("Distance = " + distance + "cm", 2);
             Thread.sleep(1000);
-
-            if (distance > 100 && distance < 200) {
-                ledStripDriver.start();
-                ledStripDriver.setColor(0, 255, 0);
-                ledStripDriver.stop();
-                break;
-            }
         }
-        return true;
+
+        ledStripDriver.start();
+        ledStripDriver.setColor(0, 255, 0);
+        ledStripDriver.stop();
     }
     // end::ProjectDistanceInRange[]
 
@@ -122,6 +119,7 @@ public class SampleProject extends Example {
         lcd.clearText();
         for (int i = 5; i > 0; i--) {
             lcd.displayText("Countdown: " + i);
+            Thread.sleep(1000);
             buzzer.playTone(Note.A4.getFrequency(), 200);
             stepperMotor.stepBackwards(400);
         }
@@ -137,14 +135,18 @@ public class SampleProject extends Example {
         ledStripDriver.stop();
 
         buzzer.playTone(Note.A6.getFrequency(), 500);
-        raspberryPiCamera.takeStill("/home/pi/Pictures/picam1.jpg", 500);
+
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+
+        raspberryPiCamera.takeStill("/home/pi/Pictures/pipic -" + dateFormat.format(date) + ".jpg", 500);
         lcd.displayText("Picture taken!");
 
         ledStripDriver.start();
         ledStripDriver.setColor(0, 0, 0);
         ledStripDriver.stop();
 
-        stepperMotor.stepForwards(2500);
+        stepperMotor.stepForwards(2000);
     }
     // end::ProjectTakePicture[]
 

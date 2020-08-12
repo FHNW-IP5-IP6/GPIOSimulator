@@ -468,6 +468,33 @@ GpioPinPwmOutput pwm = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_13);			// Har
 GpioPinPwmOutput pwm = gpio.provisionSoftPwmOutputPin(RaspiBcmPin.GPIO_02);		// Software PWM
 ----
 
+=== Pi4J GPIO Beispiele
+Die beiden nachfolgenden Beispiele zeigen auf, wie Sensoren und Aktuatoren mittels Pi4J direkt gesteuert werden können. Bevor wir jeweils mit der Implementation der Component Klassen gestartet haben, erstellten wir ein solches Pi4J Beispiel. Dies hat uns geholfen, das eigentliche Gerät besser kennenzulernen und zu verstehen. Sofern Ihr neue Geräte steuern möchtet, welche unsere Library derzeit noch nicht unterstützen, würden wir Euch denselben Ansatz ans Herz legen.
+
+==== LED
+Die LED ist wohl für die meisten Programmiererinnen und Programmierer die erste Hardware Komponente, welche sie über einen GPIO Pin steuern. Auch für uns war die LED das erste Device, welches wir an den Raspberry Pi angeschlossen haben.
+
+Eine LED kann direkt an einen GPIO Output Pin angeschlossen werden. In unserem Beispiel haben wir uns für den Pin 2 entschieden. Damit wir den Zustand der Leuchtdiode steuern können, müssen wir ein Objekt des Typen `GpioPinDigitalOutput` vom `GpioController` anfordern. Über dieses Objekt können wir den Zustand des Pins über die Funktionen `high()` und `low()` steuern. Unsere `BlinkLed` Klasse lässt die LED im Sekundentackt blinken.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/gpio/BlinkLed.java[tags=BlinkLed]
+----
+
+==== Key Pad
+.Key Pad
+[link=https://circuitdigest.com/microcontroller-projects/4x4-keypad-interfacing-with-pic16f877a]
+image::keypad.png[width=75% Key Pad]
+
+Ein Key Pad besteht im Prinzip aus einer Matrix von Buttons. In unserem Fall steuern wir ein 4x4 Key Pad an, welches aus 16 einzelnen Buttons besteht. Um zu erkennen, welcher Button im Moment gedrückt wird, benötigen wir acht GPIO Pins. Jeder dieser Pins repräsentiert eine Zeile oder eine Spalte in der oberen Grafik. Die Leiterbahnen X1 bis X4 haben wir als Output Pins deklariert. Die Pins Y1 bis Y4 sind unsere Input Pins. Beide legen wir als Array ab.
+
+In einer for-Schleife setzen wir Zeile für Zeile unter Strom um prüfen dann pro Zeile, ob wir in einer der Spalten einen Input erhalten. Sollte dies der Fall sein, haben wir den aktuell gedrückten Knopf identifiziert und können ihn auf der Konsole ausgeben.
+
+[source,java]
+----
+include::{sourcedir}/fhnwexamples/gpio/KeyPad.java[tags=KeyPad]
+----
+
 == Komponenten
 In diesem Kapitel sind einige der gängigen Sensoren und Aktuatoren beschrieben und wie diese an den Raspberry Pi angeschlossen werden können. Ausserdem wird aufgezeigt, wie die Geräte mit den Component Klassen in Java verwendet werden können.
 
@@ -1107,7 +1134,7 @@ Beim Projekt handelt es sich um einen Photo Booth, also eine Fotobox, in der die
 * Grove Base Hat
 * Grove Button
 * Grove Buzzer
-* LC Display
+* LC-Display
 * LED Strip Driver
 * Raspberry Pi
 * Raspberry Pi Camera
@@ -1250,7 +1277,7 @@ Der State 0 wurde über die Methode `waitForButtonPress()` realisiert. Zunächst
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectButtonPressed]
 ----
 
-Der State 1 wurde über die Methode `waitForCorrectRange()` realisiert. Zu Beginn wird mittels LC-Display gezeigt, welcher Abstand erwünscht ist. Der LED-Strip wird rot, um zu suggerieren, dass der Abstand noch nicht korrekt ist. Der Ultrasonic Ranger misst den Abstand sekündlich. Sobald der Abstand in Ordnung ist, wird die Farbe des LED-Strips zu grün gewechselt und es kann mit dem nächsten State fortgefahren werden.
+Der State 1 wurde über die Methode `waitForCorrectRange()` realisiert. Zu Beginn wird mittels LC-Display gezeigt, welcher Abstand erwünscht ist. Der LED Strip wird rot, um zu suggerieren, dass der Abstand noch nicht korrekt ist. Der Ultrasonic Ranger misst den Abstand sekündlich. Sobald der Abstand in Ordnung ist, wird die Farbe des LED Strips zu grün gewechselt und es kann mit dem nächsten State fortgefahren werden.
 
 [source,java]
 ----
@@ -1264,7 +1291,7 @@ Der State 2 wurde über die Methode `countdown()` realisiert. Hier wird von der 
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectCountDown]
 ----
 
-Der State 3 wurde über die Methode `takePicture()` realisiert. Bevor das Bild geschossen wird, wird der LED-Strip auf weiss gesetzt und der Buzzer spielt einen höheren Ton ab. Dann macht die Raspberry Pi Kamera ein Bild und speichert es auf dem Raspberry Pi im Bilderpfad `/home/pi/Pictures/` unter dem Namen `pipic - <Datum und Uhrzeit>.jpg`. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zusätzlich wird das LED Band ausgeschaltet und der Stepper Motor wird wieder zu seiner initialen Position gedreht.
+Der State 3 wurde über die Methode `takePicture()` realisiert. Bevor das Bild geschossen wird, wird der LED Strip auf weiss gesetzt und der Buzzer spielt einen höheren Ton ab. Dann macht die Raspberry Pi Kamera ein Bild und speichert es auf dem Raspberry Pi im Bilderpfad `/home/pi/Pictures/` unter dem Namen `pipic - <Datum und Uhrzeit>.jpg`. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zusätzlich wird das LED Band ausgeschaltet und der Stepper Motor wird wieder zu seiner initialen Position gedreht.
 
 [source,java]
 ----

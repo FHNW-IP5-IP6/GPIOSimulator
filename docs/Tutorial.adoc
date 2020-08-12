@@ -483,7 +483,7 @@ Für die Verkabelung wird folgende Hardware benötigt:
 
 * 2x Jumper Kabel
 * 1x LED
-* 1x 220Ω Wiederstand
+* 1x 220Ω Widerstand
 
 .LED Verkabelung 
 image::./fritzing/blink_led.png[width=75% LED Wiring]
@@ -529,8 +529,8 @@ Für die Verkabelung wird folgende Hardware benötigt:
 
 * 4x Jumper Kabel
 * 1x Button
-* 1x 1kΩ Wiederstand
-* 1x 10kΩ Wiederstand
+* 1x 1kΩ Widerstand
+* 1x 10kΩ Widerstand
 
 .Button Verkabelung 
 image::./fritzing/button_click.png[width=75% Button Wiring]
@@ -1319,12 +1319,12 @@ include::{sourcedir}/fhnwgpio/components/LedComponent.java[tags=LedComponentSetB
 === Button
 Buttons gehören zu den Input Devices. Ein Button kann zwei Zustände annehmen. Entweder ist er gedrückt oder nicht gedrückt. Je nach Button Typ leitet er im gedrückten oder offenen Zustand Strom. Diesen Strom kann man mit einem digitalen Input Pin des Raspberry Pi messen.
 
-Um sogenannte Floating Pins zu vermeiden, müssen Buttons mit einem Pulldown-Wiederstand an einen Input angeschlossen werden. Grove Buttons und Grove Touch Sensoren haben einen solchen Pulldown-Wiederstand bereits integriert.
+Um sogenannte Floating Pins zu vermeiden, müssen Buttons mit einem Pulldown-Widerstand an einen Input angeschlossen werden. Grove Buttons und Grove Touch Sensoren haben einen solchen Pulldown-Widerstand bereits integriert.
 
-==== Pulldown-Wiederstand im Schaltbild
+==== Pulldown-Widerstand im Schaltbild
 Damit ein Button als Input Device verwenden werden kann, muss ein Pulldown-Widerstand in der elektrischen Schaltung realisiert werden. Ein solcher Widerstand garantiert immer einen sicheren Wert, welcher an dem digitalen GPIO Input Pin anliegt.
 
-.Schaltbild Pulldown-Wiederstand
+.Schaltbild Pulldown-Widerstand
 [link=https://www.elektronik-kompendium.de/sites/raspberry-pi/2006051.htm]
 image::pulldown.gif[width=75% Pulldown Ressistor]
 
@@ -1334,8 +1334,8 @@ Wäre +VCC direkt mit dem GPIO Pin verbunden und einen Schalter dazwischen posit
 
 In diesem Beispiel wird ein Pulldown-Widerstand von 10k Ohm verwendet. Zusätzlich schützt ein 1k Ohm Widerstand den Input Pin. Dieser 1k Ohm Widerstand soll den Pin vor Programmierfehler schützen. Würde der GPIO Pin versehentlich als Output Pin im Programmcode deklariert werden, könnte dieser ohne den schützenden Widerstand beschädigt werden.
 
-==== Pulldown-Wiederstand des Raspberry Pi
-Der Raspberry Pi besitzt einen internen Pulldown-Widerstand, welcher via Software aktiviert werden kann. Dieser funktioniert gleich wie der von uns beschriebene Pulldown-Widerstand im Schaltbild. Wir raten allerdings von der Verwendung des internen Pulldown-Wiederstandes ab. Diesen zu aktivieren kann schnell vergessen gehen. Im schlimmsten Fall führt dies dann zu einer Beschädigung des entsprechenden GPIO Pins.
+==== Pulldown-Widerstand des Raspberry Pi
+Der Raspberry Pi besitzt einen internen Pulldown-Widerstand, welcher via Software aktiviert werden kann. Dieser funktioniert gleich wie der von uns beschriebene Pulldown-Widerstand im Schaltbild. Wir raten allerdings von der Verwendung des internen Pulldown-Widerstandes ab. Diesen zu aktivieren kann schnell vergessen gehen. Im schlimmsten Fall führt dies dann zu einer Beschädigung des entsprechenden GPIO Pins.
 
 Mittels Pi4J kann ein digitaler Input Pin mit aktivem Pulldown-Widerstand mittels folgender Code Zeile erzeugt werden:
 

@@ -37,7 +37,7 @@ toc::[]
 == Einleitung
 :sectnums:
 
-Dieses Tutorial soll den Studierenden der FHNW eine Hilfestellung für ihre GPIO Projekte im IP1/2 bieten. Es wird gezeigt, wie der Raspberry Pi grundlegend funktioniert und wie er mit anderen Geräten interagieren kann. Mit der Unterstützung, welche das Tutorial bietet, soll der Fokus auf die Implementation des Codes verschoben werden. Durch die zur Verfügung gestellten Component Klassen müssen sich die Studierenden weniger mit der Funktionsweise der einzelnen Sensoren und Aktuatoren auseinandersetzen. Dieses Tutorial unterstützt die GPIO Entwicklung mit Java und der Pi4J-Library.
+Dieses Tutorial soll den Studierenden der FHNW eine Hilfestellung für Ihre GPIO Projekte im IP1/2 bieten. Es wird gezeigt, wie der Raspberry Pi grundlegend funktioniert und wie er mit anderen Geräten interagieren kann. Mit der Unterstützung, welche das Tutorial bietet, soll der Fokus auf die Implementation des Codes verschoben werden. Durch die zur Verfügung gestellten Component Klassen müssen sich die Studierenden weniger mit der Funktionsweise der einzelnen Sensoren und Aktuatoren auseinandersetzen. Dieses Tutorial unterstützt die GPIO Entwicklung mit Java und der Pi4J-Library.
 
 Der Hauptteil des Tutorials befasst sich mit verschiedenen Sensoren und Aktoren, welche an den Raspberry Pi angeschlossen werden können, für welche wir leicht zu verwendende, hauseigene Component Klassen in Java zur Verfügung stellen. Diese Klassen können als Library in den GPIO Projekten verwendet werden.
 
@@ -51,7 +51,7 @@ Darüber hinaus hat der Raspberry Pi die Fähigkeit, mit der Aussenwelt zu inter
 Der Pi wurde von der britischen Raspberry Pi Foundation entwickelt und hat das Ziel, Bildung im Bereich Computer Hardware, Elektronik und Informatik zu fördern.
 
 === Grove Sensoren & Aktuatoren
-Grove ist ein offenes modulares System, das für den einfachen Anschluss beliebiger Sensoren und Aktuatoren entwickelt wurde. Es gibt Grove Sensoren und Aktuatoren für die verschiedensten Bereiche:  Robotik, Annäherung, Bewegung, Umwelt und Biomedizin.
+Grove ist ein offenes, modulares System, welches für den einfachen Anschluss beliebiger Sensoren und Aktuatoren entwickelt wurde. Es gibt Grove Sensoren und Aktuatoren für die vielfältigsten Bereiche: Robotik, Annäherung, Bewegung, Umwelt und Biomedizin.
 
 Grove erleichtert das Anschliessen und Experimentieren mit den verschiedenen Geräten. Die Sensoren und Aktuatoren können mittels Grove Kabel an einen Grove Aufsatz, wie beispielsweise dem Grove Base Hat, angeschlossen werden. Dies macht die Nutzung von Jumper Kabeln sowie die Verwendung eines Lötkolbens für GPIO Projekte überflüssig. <<GroveSA>>
 
@@ -81,7 +81,7 @@ potentiometer.getValue()
 PWM steht für **P**ulse **W**idth **M**odulation. Der Grove Base Hat unterstützt die Hardware PWM Pins 12 sowie 13. Beide Pins sind im selben Adapter vereinigt.
 
 ==== UART
-Der UART Adapter macht den Serial Bus der Raspberry Pi für Grove Sensoren und Aktuatoren verfügbar. Er benutzt die GPIO Pins 14 und 15. An diesem Port würden sich die Grove Serial Camera oder der Grove RFID Reader anschliessen lassen, wenn diese mit 3.3 Volt kompatibel wären. Leider benötigt die Kamera und der RFID Reader aber eine Spannungsquelle mit 5V, weshalb diese Module manuell verkabelt werden müssen.
+Der UART Adapter macht den Serial Bus der Raspberry Pi für Grove Sensoren und Aktuatoren verfügbar. Er benutzt die GPIO Pins 14 und 15. An diesem Port würden sich die Grove Serial Camera oder der Grove RFID Reader anschliessen lassen, wenn diese mit 3.3 Volt kompatibel wären. Leider benötigen die Kamera und der RFID Reader aber eine Spannungsquelle mit 5V, weshalb diese Module manuell verkabelt werden müssen.
 
 ==== Digital
 Der Grove Base Hat stellt sechs digitale Adapter zur Verfügung. Die Adapter stellen die Standard GPIO Pins des Pi dar. Die Pin Nummern entsprechen den Zahlen auf dem Board. Beispielsweise entspricht der Adapter D22 den Pins 22 und 23.
@@ -100,9 +100,9 @@ Der Chip hat die I2C Adresse 0x04. Die einzelnen analogen Anschlüsse haben jewe
 Die drei I2C Anschlüsse sind alle mit dem I2C Bus 1 des Raspberry Pi verbunden. Mit I2C können mehrere Devices auf einmal angesteuert werden.
 
 === Breadboard
-Breadboards sind Prototyping-Devices, welche es in diversen Grössen und Formen gibt. Sie bieten eine einfache Möglichkeit, elektronische Komponenten miteinander zu verbinden, ohne dass diese zusammengelötet werden müssen. Sie sind daher bestens für den Testaufbau von Schaltungen geeignet. Das Breadboard wird immer dann verwendet, wenn Sensoren oder Aktuatoren an dem Pi angeschlossen werden, welche nicht von Grove stammen.
+Breadboards sind Prototyping-Devices, welche es in diversen Grössen und Formen gibt. Sie bieten eine einfache Möglichkeit, elektronische Komponenten miteinander zu verbinden, ohne dass diese zusammengelötet werden müssen. Sie sind daher bestens für den Testaufbau von Schaltungen geeignet. Das Breadboard wird immer dann verwendet, wenn Sensoren oder Aktuatoren an den Pi angeschlossen werden, welche nicht von Grove stammen.
 
-Die untere Abbildung zeigt, wie ein solches Breadboard aufgebaut ist. In die einzelnen Punkte können Kabel oder elektronische Leiter der einzelnen Devices eingesteckt werden. Sind Punkte miteinander verbunden, stehen sie bei Benutzung alle unter dem gleichen Strom. Die roten Leitungen sind für die Stromzufuhr gedacht. Die blauen Leitungen können mit dem Ground Pin des Raspberry Pi verbunden werden.
+Die untere Abbildung zeigt, wie ein solches Breadboard aufgebaut ist. In die einzelnen Punkte können Kabel oder elektronische Leiter der einzelnen Devices eingesteckt werden. Sind Punkte miteinander verbunden, stehen sie bei der Benutzung alle unter dem gleichen Strom. Die roten Leitungen sind für die Stromzufuhr gedacht. Die blauen Leitungen können mit dem Ground Pin des Raspberry Pi verbunden werden.
 
 ._Breadboard_
 [link=https://magpi.raspberrypi.org/articles/breadboard-tutorial]
@@ -112,7 +112,7 @@ image::./installation/breadboard.jpeg[width=75% Breadboard]
 Zur Umsetzung von GPIO Projekten benötigen wir nebst den Hardware Komponenten natürlich auch Software. Als Basis dient uns Java 8 sowie Pi4J.
 
 === Java
-Zur Programmierung der GPIO Pins des Raspberry Pis benutzen wir die objektorientierte Programmiersprache Java in der Version 8. Aus kompatibilitätsgründen mit der Pi4J Bibliothek werden neuere Versionen von bisher Java nicht unterstützt.
+Zur Programmierung der GPIO Pins des Raspberry  Pi benutzen wir die objektorientierte Programmiersprache Java in der Version 8. Aus Kompatibilitätsgründen mit der Pi4J Bibliothek werden neuere Versionen von Java nicht unterstützt.
 
 === Pi4J
 Die Software Bibliothek Pi4J bietet vollen Zugriff auf die I/O Funktionalität des Raspberry Pi. Die Library abstrahiert die komplexe Hardware Programmierung und bietet stattdessen einfache API-Calls an, welche direkt verwendet werden können. Folgende Funktionalitäten werden von Pi4J abgedeckt: <<Pi4J>>
@@ -122,7 +122,7 @@ Die Software Bibliothek Pi4J bietet vollen Zugriff auf die I/O Funktionalität d
 * Lesen und Schreiben des GPIO Pin State
 * Pulse Width Modulation (Hardware & Software)
 * Erstellen von GPIO State Listeners (Hardware Interrupt)
-* Automatisches setzen eines Pin State bei Programmende (GPIO Shutdown)
+* Automatisches Setzen eines Pin State bei Programmende (GPIO Shutdown)
 * Senden und Empfangen von Daten via serielle Schnittstelle (RS232)
 * Support für Kommunikation über den I2C Bus (Inter-Integrated Circuit)
 * Support für Kommunikation über den SPI Bus (Serial Peripheral Interface)
@@ -135,68 +135,68 @@ Unsere Library verwendet Pi4J 1.2, da die Version 1.4 den I2C Bus des Raspberry 
 === Log4j 2
 Für das Logging wird Log4j 2 von Apache verwendet. Log4j 2 ist ein beliebter und weit verbreiteter Vertreter der Java Logging Frameworks. <<Log4j>>
 
-== Setup des RaspberryPi
-Bevor sie mit der Implementation ihres ersten Raspberry Pi Projekts starten können, muss der Mini-Computer aufgesetzt werden. Im Gegensatz zu den verschiedenen im Handel erhältlichen Micro Controllern, wie Beispielsweise der Arduino Uno, benötigt der Pi ein Betriebssystem. Wir verwenden das auf Linux basierende System Raspbian, eine speziell für den Raspberry Pi modifiziertes Debian.
+== Setup des Raspberry Pi
+Bevor Sie mit der Implementation Ihres ersten Raspberry Pi Projekts starten können, muss der Mini-Computer aufgesetzt werden. Im Gegensatz zu den verschiedenen im Handel erhältlichen Micro Controllern, wie Beispielsweise der Arduino Uno, benötigt der Pi ein Betriebssystem. Wir verwenden das auf Linux basierende System Raspbian, eine speziell für den Raspberry Pi modifiziertes Debian.
 
 === Vorbereitung der Mini SD-Karte
-Wie bereits erwähnt, verwenden wir für den Betrieb des Raspberry Pi das Linux OS Raspbian. Das Betriebssystem werden sie später auf die Ihnen zur Verfügung gestellte Mini SD-Karte installieren.
+Wie bereits erwähnt, verwenden wir für den Betrieb des Raspberry Pi das Linux OS Raspbian. Das Betriebssystem werden Sie später auf die Ihnen zur Verfügung gestellte Mini SD-Karte installieren.
 
-In einem ersten Schritt laden sie bitte das Raspbian Image aus dem Internet auf ihren Rechner und speichern die Datei ab. Besuchen sie hierfür die Download-Website der Raspberry Organisation: + 
+In einem ersten Schritt laden Sie bitte das Raspbian Image aus dem Internet auf Ihren Rechner und speichern die Datei ab. Besuchen Sie hierfür die Download-Website der Raspberry Organisation: + 
 https://www.raspberrypi.org/downloads/raspbian/
 
 ._Raspbian Download_
 image::./installation/raspbianDownload.png[width=75% raspbian Download]
 
-Wählen sie nun die Raspbian Version `Raspbian Buster with desktop` aus. Sobald ihr Browser den Download abgeschlossen hat, extrahieren sie bitte den Zip-Ordner an eine beliebige Stelle. Im extrahierten Ordner befindet sich eine .img-Datei, welche wir in den folgenden Installationsschritten benötigen werden. Merken sie sich also, wo auf dem Dateisystem der entpackte Ordner liegt.
+Wählen Sie nun die Raspbian Version `Raspbian Buster with desktop` aus. Sobald Ihr Browser den Download abgeschlossen hat, extrahieren Sie bitte den Zip-Ordner an eine beliebige Stelle. Im extrahierten Ordner befindet sich eine .img-Datei, welche wir in den folgenden Installationsschritten benötigen werden. Merken Sie sich also, wo sich der entpackte Ordner auf dem Dateisystem befindet.
 
-Damit sie das Raspbian Image auf ihre SD-Karte installieren können, brauchen sie eine geeignete Disk Imaging Software. Wir empfehlen Ihnen dafür balenaEtcher zu verwenden. Es gibt aber auch andere dafür geeignete Programme.
+Damit Sie das Raspbian Image auf Ihre SD-Karte installieren können, brauchen Sie eine geeignete Disk Imaging Software. Wir empfehlen Ihnen dafür balenaEtcher zu verwenden. Es gibt aber auch andere dafür geeignete Programme.
 
-Wenn sie sich ebenfalls für balenaEtcher entscheiden, können sie das Programm über den folgenden Link direkt von der balena Webseite herunterladen und installieren: + 
+Wenn Sie sich ebenfalls für balenaEtcher entscheiden, können Sie das Programm über den folgenden Link direkt von der balena Webseite herunterladen und installieren: + 
 https://www.balena.io/etcher/
 
 ._balenaEtcher Download_
 image::./installation/balenaDownload.png[width=60% balenaEtcher Download]
 
-Nachdem sie balenaEtcher installiert haben, können sie die Applikation starten. In nur drei einfachen Schritten spiegelt balenaEtcher das Raspbian Image auf die Mini SD-Karte.
+Nachdem Sie balenaEtcher installiert haben, können Sie die Applikation starten. In nur drei einfachen Schritten spiegelt balenaEtcher das Raspbian Image auf die Mini SD-Karte.
 
 ._balenaEtcher Startbildschirm_
 image::./installation/balenaStart.png[width=75% balenaEtcher Startbildschirm]
 
-. Wählen sie in einem ersten Schritt die .img-Datei des zuvor heruntergeladenen Raspbian aus.
-. Wählen sie nun die Mini SD-Karte aus, welche sie an ihren PC angeschlossen haben. Bitte beachten sie, dass die SD-Karte während der Installation formatiert wird und somit alle sich auf der Karte befindenden Daten unwiderruflich gelöscht werden.
-. Klicken sie auf "Flash!" um die Installation des Images zu starten. Dieser Prozess kann einige Minuten in Anspruch nehmen.
+. Wählen Sie in einem ersten Schritt die .img-Datei des zuvor heruntergeladenen Raspbian aus.
+. Wählen Sie nun die Mini SD-Karte aus, welche Sie an Ihren PC angeschlossen haben. Bitte beachten sie, dass die SD-Karte während der Installation formatiert wird und somit alle sich auf der Karte befindenden Daten unwiderruflich gelöscht werden.
+. Klicken Sie auf "Flash!" um die Installation des Images zu starten. Dieser Prozess kann einige Minuten in Anspruch nehmen.
 
 Sobald der Flash Vorgang abgeschlossen wurde, ist Raspbian auf der SD-Karte installiert und das OS ist betriebsbereit.
 
 === Raspberry Pi mit zusätzlicher Hardware nutzen
-Wenn sie den Raspberry Pi als normalen Desktop Rechner verwenden möchten, können sie die vorbereitete Mini SD-Karte in den Pi einsetzen und weitere Hardware wie Maus, Monitor und Tastatur direkt an ihren Pi anschliessen. Sobald sie den Computer an das Stromnetz anschliessen, fährt Raspbian hoch und eine Login Maske erscheint.
+Wenn Sie den Raspberry Pi als normalen Desktop Rechner verwenden möchten, können Sie die vorbereitete Mini SD-Karte in den Pi einsetzen und weitere Hardware wie Maus, Monitor und Tastatur direkt an Ihren Pi anschliessen. Sobald Sie den Computer an das Stromnetz anschliessen, fährt Raspbian hoch und eine Login Maske erscheint.
 
-Für das initiale Login auf dem Pi können sie die folgenden Standard Credentials verwenden:
+Für das initiale Login auf dem Pi können Sie die folgenden Standard Credentials verwenden:
 
 * *User*: pi
 * *Passwort*: raspberry
 
 === Raspberry Pi ohne zusätzliche Hardware nutzen
-Es gibt verschiedene Gründe, weshalb sie den Raspberry Pi ohne zusätzliche Hardware verwenden möchten. Womöglich erfüllt der Pi die Mindestanforderungen ihrer bevorzugten Entwicklungsumgebung nicht oder ihnen steht schlicht und einfach nicht die nötige Hardware zur Verfügung. In diesem Kapitel möchten wir ihnen aufzeigen, wie sie den Mini Computer ganz ohne zusätzliche Hardware konfigurieren und verwenden können. Sie benötigen dazu lediglich ein USB-Kabel und ihren Laptop. <<Setup>>
+Es gibt verschiedene Gründe, weshalb Sie den Raspberry Pi ohne zusätzliche Hardware verwenden möchten. Womöglich erfüllt der Pi die Mindestanforderungen Ihrer bevorzugten Entwicklungsumgebung nicht oder ihnen steht schlicht und einfach nicht die nötige Hardware zur Verfügung. In diesem Kapitel möchten wir ihnen aufzeigen, wie Sie den Mini Computer ganz ohne zusätzliche Hardware konfigurieren und verwenden können. Sie benötigen dazu lediglich ein USB-Kabel und Ihren Laptop. <<Setup>>
 
-Um mit dem Raspberry Pi ohne zusätzliche Hardware arbeiten zu können, wird SSH verwendet. Damit sie via SSH auf den Pi zugreifen können, benötigen sie eine SSH Software. Ein beliebtes Tool ist PuTTY. Sie können es unter folgendem Link direkt vom Hersteller herunterladen und auf ihrem Rechner installieren: +
+Um mit dem Raspberry Pi ohne zusätzliche Hardware arbeiten zu können, wird SSH verwendet. Damit Sie via SSH auf den Pi zugreifen können, benötigen Sie eine SSH Software. Ein beliebtes Tool ist PuTTY. Sie können es unter folgendem Link direkt vom Hersteller herunterladen und auf Ihrem Rechner installieren: +
 https://www.putty.org/
 
 ==== Zugriff über SSH
-Bevor sie sich mit PuTTY via SSH auf den Pi einloggen können, müssen sie SSH in Raspbian aktivieren. Dazu legen sie die SD-Karte erneut in ihren PC ein und navigieren anschliessend mittels Datei-Explorer in den `boot` Folder der SD-Karte.
+Bevor Sie sich mit PuTTY via SSH auf den Pi einloggen können, müssen Sie SSH in Raspbian aktivieren. Dazu legen Sie die SD-Karte erneut in Ihren PC ein und navigieren anschliessend mittels Datei-Explorer in den `boot` Folder der SD-Karte.
 
-Jetzt müssen sie verschiedene Einstellungen direkt an den markierten Files im `boot` Ordner vornehmen:
+Jetzt müssen Sie verschiedene Einstellungen direkt an den markierten Files im `boot` Ordner vornehmen:
 
 ._boot Ordner_
 image::./installation/bootFolder.png[width=75% boot Ordner]
 
-* Im File `config.txt` müssen sie ganz am Schluss den folgenden Snippet hinzufügen: +
+* Im File `config.txt` müssen Sie ganz am Schluss den folgenden Snippet hinzufügen: +
 [source]
 ----
 dtoverlay=dwc2
 ----
 
-* Im File `cmdline.txt` müssen sie nach dem Text "rootwait" suchen und danach den folgenden Snippet hinzufügen: +
+* Im File `cmdline.txt` müssen Sie nach dem Text "rootwait" suchen und danach den folgenden Snippet hinzufügen: +
 [source]
 ----
 modules-load=dwc2,g_ether
@@ -207,17 +207,17 @@ Der relevante Ausschnitt des Files sieht dann zum Beispiel so aus:
 ._cmdLine File_
 image::./installation/cmdLine.png[width=75% cmdLine file]
 
-Zu guter Letzt erstellen sie ein leeres File ohne Dateiendung mit dem Namen `ssh`. Um dies zu erreichen, können sie beispielsweise ein neues Textfile erstellen und dieses `ssh` nennen. Nun entfernen sie die Dateiendung .txt.
+Zu guter Letzt erstellen Sie ein leeres File ohne Dateiendung mit dem Namen `ssh`. Um dies zu erreichen, können Sie beispielsweise ein neues Textfile erstellen und dieses `ssh` nennen. Nun entfernen Sie die Dateiendung .txt.
 
 ._SSH aktivieren_
 image::./installation/activateSSH.png[width=75% activate SSH]
 
-Nun können sie die Mini SD-Karte wieder in den Raspberry Pi einlegen und diesen mittels USB-Kabel an ihren Computer anschliessen. Beim Startup von Raspbian untersucht das System den boot Folder und lädt ihre neuen Einstellungen. Anschliessend können sie PuTTY starten und mit der folgenden Konfiguration auf den Pi zugreifen.
+Nun können Sie die Mini SD-Karte wieder in den Raspberry Pi einlegen und diesen mittels USB-Kabel an Ihren Computer anschliessen. Beim Startup von Raspbian untersucht das System den boot Folder und lädt Ihre neuen Einstellungen. Anschliessend können Sie PuTTY starten und mit der folgenden Konfiguration auf den Pi zugreifen.
 
 ._SSH Zugriff mit PuTTY_
 image::./installation/SSHputty.png[width=65% SSH Zugriff]
 
-Im neuen Shell Fenster können sie sich mit den Standard Credentials anmelden und den Raspberry Pi über die Konsole verwenden.
+Im neuen Shell Fenster können Sie sich mit den Standard Credentials anmelden und den Raspberry Pi über die Konsole verwenden.
 
 * *User*: pi
 * *Passwort*: raspberry
@@ -226,9 +226,9 @@ Im neuen Shell Fenster können sie sich mit den Standard Credentials anmelden un
 image::./installation/puttyLogin.png[width=75% Login in PuTTY]
 
 ==== Zugriff über WiFi
-Die Verbindung zum Raspberry Pi via SSH funktioniert auch kabellos. Dafür muss sich ihr Computer jedoch im gleichen Netzwerk befinden wie der Raspberry Pi. Zum Beispiel bei ihnen Zuhause im WLAN oder über ihren mobilen Hot Spot. Damit der Pi auf das WLAN zugreifen kann, müssen sie die SD-Karte erneut an ihren Laptop anschliessen und eine neue Datei im boot Ordner erstellen. Das `wpa_supplicant.conf` File. <<RasPiWifi>>
+Die Verbindung zum Raspberry Pi via SSH funktioniert auch kabellos. Dafür muss sich Ihr Computer jedoch im gleichen Netzwerk befinden wie der Raspberry Pi. Zum Beispiel bei ihnen Zuhause im WLAN oder über Ihren mobilen Hot Spot. Damit der Pi auf das WLAN zugreifen kann, müssen Sie die SD-Karte erneut an Ihren Laptop anschliessen und eine neue Datei im boot Ordner erstellen. Es handelt sich dabei um das `wpa_supplicant.conf` File. <<RasPiWifi>>
 
-Wenn sie bereits mit dem Pi über Kabel verbunden sind, können sie die Datei auch direkt über die PuTTY Konsole erstellen. Mit dem unteren Befehl wird das File mit dem Text Editor `nano` erstellt.
+Wenn Sie bereits mit dem Pi über Kabel verbunden sind, können Sie die Datei auch direkt über die PuTTY Konsole erstellen. Mit dem unteren Befehl wird das File mit dem Text Editor `nano` erstellt.
 
 [source]
 ----
@@ -247,11 +247,11 @@ network={
 }
 ----
 
-Bei `ssid` müssen sie ihren Netzwerknamen angeben und bei `psk` das Passwort. Sobald sie die nötigen Einstellungen abgeschlossen haben, speichern sie die getätigten Änderungen. Sofern nötig, schliessen sie die SD-Karte wieder an den Raspberry Pi an.
+Bei `ssid` müssen Sie Ihren Netzwerknamen angeben und bei `psk` das Passwort. Sobald Sie die nötigen Einstellungen abgeschlossen haben, speichern Sie die getätigten Änderungen. Sofern nötig, schliessen Sie die SD-Karte wieder an den Raspberry Pi an.
 
-Jetzt können sie in PuTTY die IP-Adresse ihres Raspberry Pi eingeben und sich somit direkt über das WLAN mit ihm verbinden.
+Jetzt können Sie in PuTTY die IP-Adresse Ihres Raspberry Pi eingeben und sich somit direkt über das WLAN mit ihm verbinden.
 
-Die IP Adresse ihres Raspberry Pi können sie über den Befehl `hostname -I` anzeigen lassen, sofern sie bereits über Kabel mit dem Pi verbunden sind. Alternativ können sie auch ein Tool auf ihrem Laptop installieren, welches ihr Netzwerk nach IPs scannt. Dafür haben wir den Advanced IP Scanner verwendet. Er ist einfach zu verwenden und seine Funktionalität ist selbsterklärend. Das Tool kann unter dem folgenden Link für Windows Rechner heruntergeladen werden: +
+Die IP Adresse Ihres Raspberry Pi können Sie über den Befehl `hostname -I` anzeigen lassen, sofern Sie bereits über Kabel mit dem Pi verbunden sind. Alternativ können Sie auch ein Tool auf Ihrem Laptop installieren, welches Ihr Netzwerk nach IPs scannt. Dafür haben wir den Advanced IP Scanner verwendet. Er ist einfach zu verwenden und seine Funktionalität ist selbsterklärend. Das Tool kann unter dem folgenden Link für Windows Rechner heruntergeladen werden: +
 https://www.advanced-ip-scanner.com/de/
 
 ._Advanced IP Scanner_
@@ -263,7 +263,7 @@ Um ohne Monitor von den Vorzügen des grafischen User Interface von Raspbian pro
 . Die Raspberry Pi Konfiguration mit dem Befehl `sudo raspi-config` öffnen.
 . Unter `Interfacing Options` zu `VNC` navigieren und die Auswahl bestätigen.
 
-Der Pi ist nun für die Verwendung von VNC konfiguriert. Jetzt müssen sie noch ein entsprechendes Tool auf ihrem Rechner installieren. Wir haben mit der Software Real VNC Viewer gute Erfahrungen gemacht und würden Ihnen ebenfalls empfehlen, dieses Tool zu verwenden. Es unterstützt eine breite Palette von Betriebssystemen, auf welchen es installiert werden kann. Das Tool kann über diese Webseite bezogen werden: + 
+Der Pi ist nun für die Verwendung von VNC konfiguriert. Jetzt müssen Sie noch ein entsprechendes Tool auf Ihrem Rechner installieren. Wir haben mit der Software Real VNC Viewer gute Erfahrungen gemacht und würden Ihnen ebenfalls empfehlen, dieses Tool zu verwenden. Es unterstützt eine breite Palette von Betriebssystemen, auf welchen es installiert werden kann. Das Tool kann über diese Webseite bezogen werden: + 
 https://www.realvnc.com/de/connect/download/viewer/
 
 Beim Startup des Tools muss zuerst eine neue Verbindung angegeben werden. Diese wird dann für die künftige Verwendung abgespeichert.
@@ -276,15 +276,15 @@ Nach einem kurzen Verbindungsaufbau öffnet sich ein neues Fenster, welches eine
 ._VNC Viewer GUI von Raspbian_
 image::./installation/VNCViewerGUI.png[width=70% VNC Viewer GUI von Raspbian]
 
-Es kann gut sein, dass die Auflösung sowie die Grösse der Icons zu Beginn noch nicht optimal ist. Die Einstellungen können sie wie folgend anpassen:
+Es kann gut sein, dass die Auflösung sowie die Grösse der Icons zu Beginn noch nicht optimal sind. Die Einstellungen können Sie wie folgend anpassen:
 
 * *Auflösung*: + 
     _Preferences -> Raspberry Pi Configuration -> Display_ +
-    Hier können sie unter "Set Resolution" die Auflösung verändern. Es kann sein, dass sie zusätzlich die Option _"Underscan"_ deaktivieren müssen, weil sie eventuell ihre Einstellungen zur Auflösung überschreibt.
+    Hier können Sie unter "Set Resolution" die Auflösung verändern. Es kann sein, dass Sie zusätzlich die Option _"Underscan"_ deaktivieren müssen, weil Sie eventuell Ihre Einstellungen zur Auflösung überschreibt.
 
 * *Icon Grösse*: + 
     _Preferences -> Appearance Settings -> System -> Defaults_ + 
-    Hier können sie die Grösse der Icons gemäss ihren Präferenzen ändern.
+    Hier können Sie die Grösse der Icons gemäss Ihren Präferenzen ändern.
 
 === Installation von zusätzlicher Software auf dem Pi
 Bevor mit der Implementation von GPIO Projekten gestartet werden kann, muss noch weitere Software auf dem Raspberry Pi installiert werden. Für eine erfolgreiche Installation muss der Raspberry Pi über eine aktive Internetverbindung verfügen.
@@ -303,7 +303,7 @@ Sobald die Installation abgeschlossen ist, kann mit dem Kommando `java –versio
 image::./installation/java_version.png[width=75% java -version output]
 
 ==== Gradle
-Gradle wird für das Bauen des Codes auf dem Raspberry Pi benötigt. Wenn das Jar-File auf dem eigenen Rechner gebaut wird und dem Pi zugeschickt wird, dann ist es nicht nötig diesen Schritt auszuführen.
+Gradle wird für das Bauen des Codes auf dem Raspberry Pi benötigt. Wenn das `jar`-File auf dem eigenen Rechner gebaut wird, und dem Pi zugeschickt wird, dann ist es nicht nötig, diesen Schritt auszuführen.
 
 Mittels dem `wget` Befehl kann das Build Tool direkt von der Herstellerseite heruntergeladen werden. Wir haben die Version 6.5.1 verwendet. <<GradleInstall>>
 
@@ -350,53 +350,53 @@ image::./installation/gradle_version.png[width=75% gradle -v output]
 Es ist möglich, den Code in IntelliJ auf dem eigenen Rechner zu schreiben und diesen dann auf den Pi zu deployen. Das hat den wesentlichen Vorteil, dass man nicht mit der langsamen Entwicklungsumgebung des Raspberry Pi arbeiten muss und auch nicht jede kleinste Änderung in GIT pushen muss, um den neuen Code auf dem Pi auszuführen.
 
 === Remote Host in IntelliJ
-Um ihren Raspberry Pi als Remote Host in IntelliJ einzurichten, müssen sie zuerst in der Menüleiste die folgenden Menüpunkte wählen:  _"Tools" -> "Deployment" -> "Browse Remote Host"_
+Um Ihren Raspberry Pi als Remote Host in IntelliJ einzurichten, müssen Sie zuerst in der Menüleiste die folgenden Menüpunkte wählen:  _"Tools" -> "Deployment" -> "Browse Remote Host"_
 
 Jetzt erscheint ein neues Menü auf der rechten Seite, in welcher sich auch die Gradle und Datenbank Einstellungen befinden.
 
-Klicken sie in diesem Menü auf die 3 Punkte, um einen neuen Server zu erstellen. Der Name spielt hierbei keine Rolle, aber der Typ sollte SFTP sein. Bestätigen sie dann ihre Eingabe.
+Klicken Sie in diesem Menü auf die 3 Punkte, um einen neuen Server zu erstellen. Der Name spielt hierbei keine Rolle, aber der Typ sollte SFTP sein. Bestätigen Sie dann Ihre Eingabe.
 
-Nun können sie die Einstellung für das Raspberry Pi im Deployment Fenster angeben:
+Nun können Sie die Einstellung für das Raspberry Pi im Deployment Fenster angeben:
 
-. Geben sie zuerst die IP-Adresse des Raspberry Pis an
+. Geben Sie zuerst die IP-Adresse des Raspberry  Pi an
 
-. Hier können sie die Connection mit dem Usernamen und dem Passwort einmal ausprobieren, bevor sie es hinzufügen.
+. Hier können Sie die Connection mit dem Usernamen und dem Passwort einmal ausprobieren, bevor Sie es hinzufügen.
 
-. Nach dem Connection-Test können sie auf das kleine Ordner Symbol klicken, um auf die Ordner Struktur des Raspberry Pis zu zugreifen. Wählen sie hier den Ort, an dem alle Files des Projekts kopiert werden sollen.
+. Nach dem Connection-Test können Sie auf das kleine Ordner Symbol klicken, um auf die Ordner Struktur des Raspberry  Pi zu zugreifen. Wählen Sie hier den Ort, an welchen alle Files des Projekts kopiert werden sollen.
 
-. Sie können mehrere Server hinzufügen, für die einfache Verwendung in verschiedenen Netzwerken
+. Für die einfache Verwendung des Remote Deployments in verschiedenen Netzwerken, können Sie mehrere Server hinzufügen.
 
 ._Remote Host Server Einstellungen_
 image::./installation/RemoteHost3.png[width=75% remote host server settings]
 
 Wenn man keine besonderen Mappings benötigt und einfach alle Files im angegeben Root-Pfad haben möchte, dann kann man im Mappings Menü unter Deployment Path ein simples `/` eingeben und das Mapping hinzufügen.
 
-Jetzt können sie jederzeit alle Dateien oder einzelne ausgewählte Dateien (z. B. nur das .jar-File) via Remote Host Menü auf den Raspberry Pi übertragen.
+Jetzt können Sie jederzeit alle Dateien oder einzelne ausgewählte Dateien (z. B. nur das `jar`-File) via Remote Host Menü auf den Raspberry Pi übertragen.
 
-Auf dem Pi selbst müssen sie dann nur noch ihr Projekt bauen und ausführen, aber es ist auch möglich das Projekt auf dem eigenen Rechner zu bauen und nur das Jar-File dem Raspberry Pi zu schicken, das ist ihnen selber überlassen. Während der Entwicklung geniessen sie allerdings alle Vorzüge der IDE auf ihrem Rechner.
+Auf dem Pi selbst müssen Sie dann nur noch Ihr Projekt bauen und ausführen Es ist aber auch möglich, das Projekt auf dem eigenen Rechner zu bauen und nur das `jar`-File dem Raspberry Pi zu schicken. Das ist ihnen selber überlassen. Während der Entwicklung geniessen Sie allerdings alle Vorzüge der IDE auf Ihrem Rechner.
 
 ._Update Remote Host_
 image::./installation/RemoteHost4.png[width=60% update remote host server]
 
 === Code mit Gradle auf dem Pi bauen
-Falls Sie das Jar-File nicht auf ihrem eigenen Rechner bauen können, müssen sie dies mit gradle auf dem Raspberry Pi machen, was in diesem Kapitel beschrieben wird.
+Falls Sie das `jar`-File nicht auf Ihrem eigenen Rechner bauen können, müssen Sie dies mit gradle auf dem Raspberry Pi machen. Wie Sie hierfür am besten vorgehen, wird in diesem Kapitel aufgezeigt.
 
-Nachdem der Code via Remote Deployment auf den Rasbperry Pi gespielt wurde, müssen wir diesen noch kompilieren und als `.jar` ablegen. Dies ist die Aufgabe von Gradle. Für die Ausführung des Gradle Tasks navigieren sie bitte in den Root Folder ihres Projekts. Dort kann das Projekt dann mit dem folgenden Befehl gebaut werden:
+Nachdem der Code via Remote Deployment auf den Rasbperry Pi gespielt wurde, müssen wir diesen noch kompilieren und als `.jar` ablegen. Dies ist die Aufgabe von Gradle. Für die Ausführung des Gradle Tasks navigieren Sie bitte in den Root Folder Ihres Projekts. Dort kann das Projekt dann mit dem folgenden Befehl gebaut werden:
 
 * `gradle jar`
 
-Sofern die Kompilierung fehlerfrei war, sollten sie den folgenden Output erhalten:
+Sofern die Kompilierung fehlerfrei war, sollten Sie den folgenden Output erhalten:
 
 ._Output gradle jar_
 image::./installation/gradle_jar.png[width=75% gradle jar output]
 
-Gradle hat nun ein `.jar` File generiert und im Folder `build/libs` ihres Projektes abgelegt. Das `.jar` File kann nun gestartet werden.
+Gradle hat nun ein `jar`-File generiert und im Folder `build/libs` Ihres Projektes abgelegt. Das `jar`-File kann nun gestartet werden.
 
 * `java -jar build/libs/YOUR_PROJECT_NAME_AND_VERSION.jar`
 
-Sofern ihr Projekt den seriellen oder I2C Bus des Raspberry Pis verwendet, müssen sie das `.jar` als Administrator (`sudo`) starten.
+Sofern Ihr Projekt den seriellen oder I2C Bus des Raspberry  Pi verwendet, müssen Sie das `.jar` als Administrator (`sudo`) starten.
 
-Der Befehl `gradle jar` setzt voraus, dass ihr `build.gradle` File einen Task mit dem Namen `jar` enthätl. Dieser Task sollte den folgenden Code enthalten:
+Der Befehl `gradle jar` setzt voraus, dass Ihr `build.gradle` File einen Task mit dem Namen `jar` enthält. Dieser Task sollte den folgenden Code enthalten:
 
 [source,json]
 ----
@@ -413,19 +413,19 @@ jar {
 === Optional: Remote Debugging
 Es ist auch möglich den Code vom eigenen Rechner aus mit IntelliJ auf dem Raspberry Pi auszuführen und diesen auf dem eigenen Rechner zu debuggen. Diese Funktionalität kann sehr hilfreich sein, wenn man mit schwierigen Bugs zu kämpfen hat. Allerdings kann das Remote Debugging selbst zu Schwierigkeiten führen und funktioniert manchmal nicht wie gewünscht. Deshalb wurde dieser Bereich als optional deklariert.
 
-Wenn sie ein schweres Problem haben und sich das Debugging etwas erleichtern wollen, dann ist es empfehlenswert, diese Funktionalität auszuprobieren.
+Wenn Sie ein schwerwiegendes Problem haben und sich das Debugging etwas erleichtern möchten, dann ist es empfehlenswert, diese Funktionalität auszuprobieren.
 
 *Setup*
 
-. Downloaden sie das folgende Plugin von Jetbrains:  + 
+. Downloaden Sie das folgende Plugin von Jetbrains:  + 
 https://plugins.jetbrains.com/plugin/7738-embedded-linux-jvm-debugger-raspberry-pi-beaglebone-black-intel-galileo-ii-and-several-other-iot-devices-[Embedded Linux JVM Debugger]
 
-. Fügen sie eine Run / Debug Configuration vom Typ Embedded Linux JVM hinzu, wie im Bild weiter unten ersichtlich. Ersetzten sie einfach die IP-Addresse und die Projektinformationen mit ihren eigenen. +
+. Fügen Sie eine Run / Debug Configuration vom Typ Embedded Linux JVM hinzu, wie im Bild weiter unten ersichtlich. Ersetzten Sie einfach die IP-Adresse und die Projektinformationen mit Ihren eigenen. +
 
 ._Embedded JVM Configuration_
 image::./installation/RemoteDebugging.png[width=75% Remote Debuggging Configuration]
 
-Für weitere Informationen zum Remote Debugging mit IntelliJ auf dem Raspberry Pi können sie den folgenden Artikel studieren: + 
+Für weitere Informationen zum Remote Debugging mit IntelliJ auf dem Raspberry Pi können Sie den folgenden Artikel studieren: + 
 https://medium.com/@menchukanton/setup-intellij-idea-for-remote-debugging-java-code-on-a-raspberry-pi-6e9df09dfb95[Remote debugging java code on a Raspberry Pi]
 
 == Pi4J Basics
@@ -516,7 +516,7 @@ include::{sourcedir}/fhnwexamples/component/LedDevice.java[tags=LedDevice]
 ----
 
 === Button
-Buttons sind simple Sensoren. Der Sensor kann zwei Zustände haben. Entweder lässt er Strom fliessen oder er unterbricht die Leitung. Richtig verkabelt kann der jeweilige Wert an einem digitalen Pin des Raspberry Pi gelesen werden.
+Buttons sind simple Sensoren, welche sich in zwei Zuständen befinden können. Entweder lässt er Strom fliessen oder er unterbricht die Leitung. Richtig verkabelt kann der jeweilige Wert an einem digitalen Pin des Raspberry Pi gelesen werden.
 
 Die Komponentenklasse unterstützt sowohl Grove Buttons als auch Standard-Buttons. Andere einfache digitale Sensoren mit zwei Zuständen werden ebenfalls unterstützt wie beispielsweise Grove Touch Sensoren.
 
@@ -564,7 +564,7 @@ include::{sourcedir}/fhnwexamples/component/ButtonDevice.java[tags=ButtonDevice]
 ----
 
 === Buzzer
-Ein Buzzer ist funktioniert wie ein einfacher Lautsprecher. Er wandelt ein elektrisches Signal in einen Ton um. Je nach Frequenz des Signals ändert sich der Ton, welcher wiedergegeben wird.
+Ein Buzzer funktioniert wie ein einfacher Lautsprecher. Er wandelt ein elektrisches Signal in einen Ton um. Je nach Frequenz des Signals ändert sich der Ton, welcher wiedergegeben wird.
 Die Hilfsklasse `Notes` stellt eine Vielzahl von Tönen über mehrere Oktaven zur Verfügung. Jedes Enum-Attribut verfügt über einen Integer, welcher der Frequenz des Tons entspricht.
 
 *Achtung:* Die Buzzer-Komponente manipuliert die PWM Grundfrequenz des Raspberry Pi beim Abspielen von Tönen sehr stark. Der Buzzer kann deshalb nicht zusammen mit anderen PWM Devices verwendet werden. Ist dies für ein Projekt nötig, muss auf einen externen PWM Generator zurückgegriffen werden.
@@ -611,13 +611,13 @@ include::{sourcedir}/fhnwexamples/component/BuzzerDevice.java[tags=BuzzerDevice]
 ----
 
 === LCD I2C
-Das LCD Modul besteht aus dem LCD1602 Display und dem PCF8574 I2C Extender Mikrochip auf dem Rücken des LCDs.  Es wird über dem I2C Extender direkt an die I2C Pins des Raspberry Pis angeschlossen und benötigt eine Spannung von 5 Volt. Das Display hat zwei Zeilen und pro Zeile Platz für 16 Zeichen. Es hat somit Platz für insgesamt 32 Zeichen. Die Helligkeit des Hintergrundes kann mit einem Kreuzschlitzschraubendreher am Extender angepasst werden.
+Das LCD Modul besteht aus dem LCD1602 Display und dem PCF8574 I2C Extender Mikrochip auf dem Rücken des LCDs.  Es wird über dem I2C Extender direkt an die I2C Pins des Raspberry  Pi angeschlossen und benötigt eine Spannung von 5 Volt. Das Display hat zwei Zeilen und bietet pro Zeile Platz für 16 Zeichen. Es hat somit Platz für insgesamt 32 Zeichen. Die Helligkeit des Hintergrundes kann mit einem Kreuzschlitzschraubendreher am Extender angepasst werden.
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
 
 * 4x Jumper Kabel
-* 1x LCD1602 I2C Modul mit PCF8574 I2C extender
+* 1x LCD1602 I2C Modul mit PCF8574 I2C Extender
 
 .LCD I2C Modul Verkabelung 
 image::./fritzing/LCDI2C.png[width=75% I2C Wiring]
@@ -698,7 +698,7 @@ include::{sourcedir}/fhnwexamples/component/PotentiometerDevice.java[tags=Potent
 ----
 
 === Grove RFID Reader
-Der Grove RFID Reader ist ein 125KHz RFID Reader, welcher em4100 RFID Karteninformationen seriell lesen kann. Die maximale Distanz zum Lesen beträgt 70mm. Der RFID Reader benötigt eine Spannung von 5 Volt, weshalb er nicht mit dem Grove Hat kompatibel ist, da dieser nur 3.3 Volt liefert. Es ist jedoch möglich, den Reader mit Jumper Kabel direkt an dem Pi zu verbinden, wie bei der Grove Serial Camera. <<RfidReader>>
+Der Grove RFID Reader ist ein 125KHz RFID Reader, welcher em4100 RFID Karteninformationen seriell lesen kann. Die maximale Distanz zum Lesen beträgt 70mm. Der RFID Reader benötigt eine Spannung von 5 Volt, weshalb er nicht mit dem Grove Hat kompatibel ist, da dieser nur 3.3 Volt liefert. Es ist jedoch möglich, den Reader mit Jumper Kabel direkt mit dem Pi zu verbinden, wie bei der Grove Serial Camera. <<RfidReader>>
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -773,7 +773,7 @@ image::./Grove_Ultrasonic_Ranger.jpg[width=75% RaspiCam Wiring]
 |===
 
 ==== Anwendungsbeispiel
-In diesem Beispiel wird der Grove Ultrasonic Ranger an den D5 Adapter des Grove Hats angeschlossen und es wird sekündlich die Distanz gemessen zwischen dem Gerät und einem Ziel.
+In diesem Beispiel wird der Grove Ultrasonic Ranger an den D5 Adapter des Grove Hats angeschlossen und es wird sekündlich die Distanz zwischen dem Gerät und einem Ziel gemessen.
 
 [source,java]
 ----
@@ -781,12 +781,12 @@ include::{sourcedir}/fhnwexamples/component/UltraSonicRangerDevice.java[tags=Ult
 ----
 
 === DC Motor
-Gleichstrommotoren arbeiten, wie der Name schon verrät, mit Gleichstrom. Da der Raspberry Pi Gleichstrom mit 3.3 Volt sowie 5.0 Volt zur Verfügung stellt, können die Motoren direkt an den Stromkreis des Pi angeschlossen werden. Alternativ kann auch eine stärkere, externe Spannungsquelle verwendet werden. Dabei gilt aber zu beachten, dass der Motor nicht überlastet wird.
+Gleichstrommotoren arbeiten, wie der Name schon verrät, mit Gleichstrom. Da der Raspberry Pi Gleichstrom mit 3.3 Volt sowie 5.0 Volt zur Verfügung stellt, können die Motoren direkt an den Stromkreis des  Pi angeschlossen werden. Alternativ kann auch eine stärkere, externe Spannungsquelle verwendet werden. Dabei gilt aber zu beachten, dass der Motor nicht überlastet wird.
 
 Um einen DC Motor zu kontrollieren, benötigt man einen Motortreiber. In diesem Fall wurde dazu der Chip L293D verwendet. Natürlich kann auch ein anderer Treiber verwendet werden.
 <<DcMotor>>
 
-* Das Pinout des L293D findet ihr unter folgendem Link oder in diesem Dokument unter den Zusatzinformationen.: https://components101.com/l293d-pinout-features-datasheet
+* Das Pinout des L293D findet Ihr unter folgendem Link oder in diesem Dokument unter den Zusatzinformationen.: https://components101.com/l293d-pinout-features-datasheet
 * Dieses Youtube Video von Gaven MacDonald zeigt auf, wie ein DC Motor über GPIO Pins gesteuert werden kann. Ab der Minute 2 wird genauer auf den Treiber L293D eingegangen. https://www.youtube.com/watch?v=W7cV9_W12sM
 
 .Motor und Treiber
@@ -834,7 +834,7 @@ include::{sourcedir}/fhnwexamples/component/MotorDevice.java[tags=MotorDevice]
 ----
 
 === Stepper Motor
-Der Stepper Motor oder Schrittmotor rotiert die in seiner Mitte liegende Welle in Schritten. Die Welle eines Schrittmotors dreht sich im Vergleich zu jener eines Gleichstrommotors sehr langsam. Dafür kann der Schrittmotor sehr genau gesteuert werden. Je nach eingestelltem Modus variiert die Anzahl der Schritte, welche für eine gesamte Drehung benötigt werden. Der Modus beeinflusst auch die Kraft, welcher der Motor hat. Diese hängt wiederum mit dem resultierenden Energieverbrauch des Motors zusammen. <<StepperMotor>>
+Der Stepper Motor oder Schrittmotor rotiert die in seiner Mitte liegende Welle in Schritten. Die Welle eines Schrittmotors dreht sich im Vergleich zu jener eines Gleichstrommotors sehr langsam. Dafür kann der Schrittmotor sehr genau gesteuert werden. Je nach eingestelltem Modus variiert die Anzahl Schritte, welche für eine gesamte Drehung benötigt werden. Der Modus beeinflusst auch die Kraft, welcher der Motor aufbringen kann. Diese hängt wiederum mit dem resultierenden Energieverbrauch des Motors zusammen. <<StepperMotor>>
 
 In der unten abgebildeten Tabelle wird auf den weit verbreiteten Schrittmotor 28BYJ-48 Bezug genommen. Eine Drehung des Zylinders innerhalb des Motors resultiert in einer Drehung der Welle um 11.25°. Für eine komplette Drehung werden also 360° / 11.25° = 32 Schritte benötigt. Ein Getriebe innerhalb des Motors reduziert einen einzelnen Schritt in weitere 64 Steps. Unter Verwendung des Full oder Dual Stepping bedeutet ein einzelner Step also eine Drehung um 360° / (32 * 64) = 0.17578125°. Bei Half Stepping verdoppelt sich die Anzahl der möglichen Schritte, was eine Drehgenauigkeit von 0.087890625° zulässt.
 
@@ -888,7 +888,7 @@ image::./fritzing/stepper_motor.png[width=75% RaspiCam Wiring]
 |===
 
 ==== Anwendungsbeispiel
-Das unten abgebildete Beispiel zeigt die Verwendung der verschiedenen Stepper Motor Modi. Das Beispiel verwendet den Konstruktor mit den meisten Default Werten. Die Step-Verzögerung beträgt also 2 Millisekunden und der Modus wird initial auf `StepperMotorMode.SINGLE_STEP` gesetzt. Nach der Initialisierung wird der Motor in den verschiedenen Modi vorwärts und zurück gedreht. Vor jedem Wechsel in einen anderen Modus wird fünf Sekunden gewartet.
+Das unten abgebildete Beispiel zeigt die Verwendung der verschiedenen Stepper Motor Modi. Das Beispiel verwendet den Konstruktor mit den meisten Default Werten. Die Step-Verzögerung beträgt also 2 Millisekunden und der Modus wird initial auf `StepperMotorMode.SINGLE_STEP` gesetzt. Nach der Initialisierung wird der Motor in den verschiedenen Modi vorwärts und rückwärts gedreht. Vor jedem Wechsel in einen anderen Modus wird fünf Sekunden gewartet.
 
 [source,java]
 ----
@@ -931,7 +931,7 @@ image::./fritzing/servo_motor.png[width=75% Servo Motor Fritzing]
 ==== Anwendungsbeispiel
 Das unten abgebildete Beispiel zeigt die Verwendung der `ServoMotorComponent`. Es benutzt den Konstruktor mit den meisten Standardwerten. Dieser eignet sich für eine Vielzahl der 180° Mini und Micro Servos.
 
-In einem while-Loop wird der Motor zuerst auf die kleinstmögliche Position gesetzt. Anschliessend wird die Position des Motors auf dessen Mitte und im Anschluss auf die maximale Position gesetzt. Zwischen den einzelnen Positionswechseln macht das Programm jeweils eine Sekunde Pause. Nun wird der Motor auf seine Ausgangsposition zurückgesetzt und Grad für Grad bis zum Maximum von 180° gedreht.
+In einem while-Loop wird der Motor zuerst auf die kleinstmögliche Position gesetzt. Anschliessend wird die Position des Motors auf dessen Mitte und im Anschluss auf die maximale Position gesetzt. Zwischen den einzelnen Positionswechseln pausiert das Programm jeweils eine Sekunde. Nun wird der Motor auf seine Ausgangsposition zurückgesetzt und Grad für Grad bis zum Maximum von 180° gedreht.
 
 [source,java]
 ----
@@ -974,7 +974,7 @@ image::./fritzing/grove_serial_cam.png[width=75% Grove Serial Camera Fritzing]
 |===
 
 ==== Anwendungsbeispiel
-Das untere Code Beispiel zeigt, wie mit der Hilfe der `SerialCameraComponent` ein JPEG Foto geschossen und unter einem bestimmten Pfad abgespeichert werden kann.
+Das untere Code Beispiel zeigt, wie mit Hilfe der `SerialCameraComponent` ein JPEG Foto geschossen und unter einem bestimmten Pfad abgespeichert werden kann.
 
 [source,java]
 ----
@@ -982,7 +982,7 @@ include::{sourcedir}/fhnwexamples/component/SerialCameraDevice.java[tags=SerialC
 ----
 
 === Raspberry Pi Camera
-Die Raspberry Pi Camera ist jene Kamera Komponente, welche standardmässig vom Pi unterstützt wird. Es ist eine kleine 8MP Kamera, die über ein Flachbandkabel direkt an dem Pi angeschlossen werden kann. Die Kamera unterstützt eine maximale Auflösung von 3280 x 2464 Pixel für Bilder. Videos können in unterschiedlicher Qualität aufgenommen werden. Je mehr FPS gewünscht sind, desto weniger Pixel können geliefert werden.
+Die Raspberry Pi Camera ist jene Kamera Komponente, welche standardmässig vom Pi unterstützt wird. Es ist eine kleine 8MP Kamera, die über ein Flachbandkabel direkt an den Pi angeschlossen werden kann. Die Kamera unterstützt eine maximale Auflösung von 3280 x 2464 Pixel für Bilder. Videos können in unterschiedlicher Qualität aufgenommen werden. Je mehr FPS gewünscht sind, desto weniger Pixel können geliefert werden.
 
 * 1080p mit 30fps
 * 720p mit 60 fps
@@ -999,16 +999,16 @@ image::./RaspberryPi_Camera_Activation.jpg[width=60% activate RaspiCam]
 
 Raspbian OS enthält auch Applikationen, welche man nutzen kann, um die Kamera in der Konsole zu testen.
 
-Starten sie ihr Terminal und geben sie folgenden Befehl ein:
+Starten Sie Ihr Terminal und geben Sie folgenden Befehl ein:
 
 [source,java]
 ----
 raspistill -o /home/pi/Pictures/image.jpg
 ----
 
-Jetzt sollten ein Bild im Standardverzeichnis für Bilder auffindbar sein.
+Jetzt sollte ein Bild im Standardverzeichnis für Bilder auffindbar sein.
 
-Für mehr Informationen über die Befehle können sie den Zusatzinformationsteil für die Raspberry Pi Camera anschauen -> <<Terminal Befehle>>
+Für mehr Informationen über die Befehle können Sie den Zusatzinformationsteil für die Raspberry Pi Camera anschauen -> <<Terminal Befehle>>
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -1062,7 +1062,7 @@ Für die Verkabelung wird folgende Hardware benötigt:
 * 1x LED Strip mit 4 Anschlüssen (+, B, R, G)
 * 1x Schraubendreher
 
-Die 12V Spannungsquelle muss mittels Schraubendreher am Treiber befestigt werden. Die Befestigungsstelle ist im unteren Bild rot umrahmt. Das Grove Kabel, welches mit einem digitalen Output des Grove Base Hat verbunden ist, muss an den Grove Anschluss _IN_ des Treibes angeschlossen werden. Die Kabel zur LED müssen ebenfalls mit dem Schaubendreher am Treiber angeklemmt werden. Die einzelnen Verbindungen sind mit G, R, B, + beschriftet. Diese müssen entsprechend mit dem LED Band verkabelt werden.
+Die 12V Spannungsquelle muss mittels Schraubendreher am Treiber befestigt werden. Die Befestigungsstelle ist im unteren Bild rot umrahmt. Das Grove Kabel, welches mit einem digitalen Output des Grove Base Hat verbunden ist, muss an den Grove Anschluss _IN_ des Treibes angeschlossen werden. Die Kabel zur LED müssen ebenfalls mit dem Schaubendreher am Treiber angeklemmt werden. Die einzelnen Verbindungen sind mit G, R, B, sowie + beschriftet. Diese müssen entsprechend mit dem LED Band verkabelt werden.
 
 * *+* mit der 12V Stromaufnahme
 * *B* mit dem blauen Kanal
@@ -1120,11 +1120,11 @@ In den folgenden Unterkapiteln wird gezeigt, wie ein neues GPIO Projekt aufgeset
 ==== Component Klassen als Library hinzufügen
 Um die Component Klassen in einem neuen Projekt zu verwenden, muss man die `jar`-Datei im neuen Projekt als Bibliothek hinzufügen.
 
-In den Releases des Github-Repository finden sie die `jar`-Datei: https://github.com/FHNW-IP5-IP6/GPIOSimulator/releases/
+In den Releases des Github-Repository finden Sie die `jar`-Datei: https://github.com/FHNW-IP5-IP6/GPIOSimulator/releases/
 
 Diese `jar`-Datei muss in einen geeigneten Ordner im neuen Projekt hinzugefügt werden, wie zum Beispiel `/build/libs`.
 
-In der Datei `build.gradle` muss dann nur noch die Library angeben. Sobald dies geschehen ist, sind die Component Klassen wie in den Beispielen im Kapitel 6 nutzbar:
+In der Datei `build.gradle` muss dann nur noch die Library angegeben werden. Sobald dies geschehen ist, sind die Component Klassen wie in den Beispielen im Kapitel 6 nutzbar:
 
 ----
 repositories {
@@ -1140,7 +1140,7 @@ dependencies {
 ----
 
 ==== Logging Informationen der Komponente
-Die Component Klassen können Informationen und eventuelle Fehler, die auftreten könnten, als Logs aufzeichnen. Wie genau diese Logs gemacht werden sollen, kann vom Programmierer gesteuert werden. Dafür muss zunächst log4j2 unter den gradle dependencies im `build.gradle` File hinzugefügt werden:
+Die Component Klassen können Informationen und eventuelle Fehler, welche auftreten könnten, als Logs aufzeichnen. Wie genau diese Logs gemacht werden sollen, kann vom Programmierer gesteuert werden. Dafür muss zunächst log4j2 unter den gradle dependencies im `build.gradle` File hinzugefügt werden:
 
 ----
 dependencies {
@@ -1174,11 +1174,11 @@ In dieser Beispieldatei werden alle Logs ab dem Log Level _Info_ in der Console 
 </Configuration>
 ----
 
-Weitere Informationen über log4j2 und dessen XML Konfigurationsdatei findet man über folgendem Link: https://logging.apache.org/log4j/2.x/manual/configuration.html
+Weitere Informationen über log4j2 und dessen XML Konfigurationsdatei findet Sie über folgenden Link: https://logging.apache.org/log4j/2.x/manual/configuration.html
 
 Wenn jetzt eine `jar`-Datei aus dem Projekt erstellt und ausgeführt wird, werden von allen Komponenten Logs in der Konsole und in das Log-File geschrieben.
 
-Um mit gradle ein `jar` erstellen zu können muss man noch folgende Ergänzung im `build.gradle` vornehmen, welche auch im <<Code mit Gradle bauen>> beschrieben ist:
+Um mit gradle ein `.jar` erstellen zu können muss man noch folgende Ergänzung im `build.gradle` vornehmen, welche auch im <<Code mit Gradle bauen>> beschrieben ist:
 
 ----
 jar {
@@ -1195,12 +1195,12 @@ jar {
 Das Gradle Projekt ist nun vorbereitet. Es kann nun mit der Implementation der Photo Booth begonnen werden.
 
 ==== Ausarbeitung Projektidee
-In einem ersten Schritt haben wir uns überlegt, welche Zustände die Photo Booth überhaut haben kann, und wie diese Zustände miteinander agieren sollen. Unser Resultat ist im folgenden State Diagramm festgehalten.
+In einem ersten Schritt haben wir uns überlegt, welche Zustände die Photo Booth überhaupt haben kann, und wie diese Zustände miteinander agieren sollen. Unser Resultat ist im folgenden State Diagramm festgehalten.
 
 .State Machine
 image::Sample_Project_States.png[width=75% Project State Machine]
 
-Die blauen Ovale im Diagramm entsprechen den einzelnen Zuständen. Mit den Pfeilen wird gezeigt, wie zwischen den Zuständen gewechselt werden kann. Im State 0 wird beispielsweise nur dann zu State 1 gewechselt, wenn ein Button gedrückt wurde. Wird der Button nicht gedrückt, bleiben das Programm im State 0.
+Die blauen Ovale im Diagramm entsprechen den einzelnen Zuständen. Mit den Pfeilen wird gezeigt, wie zwischen den Zuständen gewechselt werden kann. Im State 0 wird beispielsweise nur dann zu State 1 gewechselt, wenn ein Button gedrückt wurde. Wird der Button nicht gedrückt, bleibt das Programm im State 0.
 
 Als nächstes muss definiert werden, was in den jeweiligen States alles geschehen soll.
 
@@ -1236,7 +1236,7 @@ Das Tool Fritzing, mit welchem wir die Verkabelungen der Beispiele aufgezeichnet
 ==== Codierung
 Der Source Code der einzelnen States wurde in separate Methoden eingeteilt.
 
-Zuerst werden alle benötigten Components initialisiert, um sie in den States verwenden zu können:
+Zuerst werden alle benötigten Components initialisiert, damit diese in den States verwendet werden können.
 
 [source,java]
 ----
@@ -1257,7 +1257,7 @@ Der State 1 wurde über die Methode `waitForCorrectRange()` realisiert. Zu Begin
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectDistanceInRange]
 ----
 
-Der State 2 wurde über die Methode `countdown()` realisiert. Hier wird von der Zahl fünf hinabgezählt. Das Herunterzählen wird mit mehreren Geräten untermalt, um die Spannung zu erhöhen. Das LC-Display zeigt den Countdown an und der Buzzer macht jeweils einen Buzz-Ton für 200 Millisekunden. Der Stepper Motor führt eine Umdrehung von 400 Schritten aus. Da der Schrittmotor pro Schritt 2 Millisekunden benötigt, braucht er für 400 Schritte exakt 800 Millisekunden. Zusammen mit dem Buzzer Ton entspricht dies einer Wartezeit von exakt einer Sekunde.
+Der State 2 wurde über die Methode `countdown()` realisiert. Hier wird von der Zahl fünf heruntergezählt. Dieser Vorgang wird mit mehreren Geräten untermalt, um die Spannung zu erhöhen. Das LC-Display zeigt den Countdown an und der Buzzer macht jeweils einen Buzz-Ton für 200 Millisekunden. Der Stepper Motor führt eine Umdrehung von 400 Schritten aus. Da der Schrittmotor pro Schritt 2 Millisekunden benötigt, braucht er für 400 Schritte exakt 800 Millisekunden. Zusammen mit dem Buzzer Ton entspricht dies einer Wartezeit von exakt einer Sekunde.
 
 [source,java]
 ----
@@ -1279,7 +1279,7 @@ include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectStart]
 ----
 
 == Zusatzinformationen
-In diesem Teil des Tutorials findet ihr weiter Informationen zu den verschiedenen unterstützten Sensoren und Aktoren sowie der Implementation deren Component Klassen.
+In diesem Teil des Tutorials findet Ihr weiter Informationen zu den verschiedenen unterstützten Sensoren und Aktoren sowie der Implementation deren Component Klassen.
 
 === LED
 Die LED ist wohl für die meisten GPIO Programmiererinnen und Programmierer die erste Komponente, welche an den Raspberry Pi angeschlossen wird. Die blinkende LED repräsentiert quasi das "Hello World" der Hardware Programmierung.
@@ -1322,7 +1322,7 @@ Buttons gehören zu den Input Devices. Ein Button kann zwei Zustände annehmen. 
 Um sogenannte Floating Pins zu vermeiden, müssen Buttons mit einem Pulldown-Widerstand an einen Input angeschlossen werden. Grove Buttons und Grove Touch Sensoren haben einen solchen Pulldown-Widerstand bereits integriert.
 
 ==== Pulldown-Widerstand im Schaltbild
-Damit ein Button als Input Device verwenden werden kann, muss ein Pulldown-Widerstand in dessen elektrischen Schaltung realisiert werden. Ein solcher Widerstand garantiert immer einen sicheren Wert, welcher an dem digitalen GPIO Input Pin anliegt.
+Damit ein Button als Input Device verwenden werden kann, muss ein Pulldown-Widerstand in dessen elektrischer Schaltung realisiert werden. Ein solcher Widerstand garantiert immer einen sicheren Wert, welcher an dem digitalen GPIO Input Pin anliegt.
 
 .Schaltbild Pulldown-Widerstand
 [link=https://www.elektronik-kompendium.de/sites/raspberry-pi/2006051.htm]
@@ -1358,7 +1358,7 @@ include::{sourcedir}/fhnwgpio/components/ButtonComponent.java[tags=ButtonCompone
 === Buzzer
 Damit ein Buzzer einen Ton abspielt, muss ein bestimmtes PWM Signal anliegen. Das Signal versetzt eine Platte im Inneren des Buzzers in Schwingungen. Die daraus entstehenden Schallwellen generieren den Ton, welchen wir hören können. <<BuzzerBuild>>
 
-Für das Abspielen von Tönen ist eine exakte Frequenz sehr wichtig. Aus diesem Grund unterstützt unsere Component Klasse nur Hardware PWM Pins des Raspberry Pi. Sowie den PWM Anschluss des Grove Base Hat.
+Für das Abspielen von Tönen ist eine exakte Frequenz sehr wichtig. Aus diesem Grund unterstützt unsere Component Klasse nur Hardware PWM Pins des Raspberry Pi sowie den PWM Anschluss des Grove Base Hat.
 
 .Buzzer Aufbau
 [link=https://www.islproducts.com/design-notes/piezo-buzzers-vs-magnetic-buzzers/]
@@ -1392,7 +1392,7 @@ include::{sourcedir}/fhnwgpio/components/I2CLCDComponent.java[tags=LCD1602Comman
 ----
 
 ==== Initialisierung
-Das LC-Display wird im nach dem Protokoll folgendermassen initialisiert:
+Das LC-Display wird gemäss Protokoll folgendermassen initialisiert:
 
 .LCD1602 Init
 [link=https://www.waveshare.com/datasheet/LCD_en_PDF/LCD1602.pdf]
@@ -1442,7 +1442,7 @@ Dieses Grove-125kHz RFID-Lesegerät ist ein Modul zum Lesen von em4100 RFID-Kart
 
 Der Grove RFID Reader erzeugt ein elektromagnetisches Wechselfeld, welchem der RFID-Tag ausgesetzt wird. Die Hochfrequenzenergie versorgt den Chip im RFID-Tag mit Strom und der RFID-Tag kann dann die Daten auf seinem Speicher an den RFID Reader übertragen.
 
-==== Kompatibilität mit RFID Tag
+==== Kompatibilität mit RFID-Tag
 Nicht jeder RFID-Tag ist mit dem Grove RFID Reader kompatibel. Die Daten auf dem Tag müssen dem Standard em4100 entsprechen, damit sie gelesen werden können. em4100 legt fest, dass sich auf dem Tag ein 64 Bit Readonly Memory in folgendem Format befindet:
 
 .em4100 Aufbau
@@ -1451,7 +1451,7 @@ image::RFID_em4100.PNG[width=75% RFID em4100]
 
 Ausserdem muss der Tag im selben Langwellen-Bereich von 125kHZ arbeiten können.
 
-==== RFID Tag Daten ausgeben
+==== RFID-Tag Daten ausgeben
 Um die Daten aus dem Tag auszulesen, kann man einfach den `SerialDataEventListener` von Pi4J an das `RFIDReaderComponent` übergeben. Wenn die 64 Bits an Daten beim Reader ankommen, werden sie vom Component angenommen.
 
 [source,java]
@@ -1507,7 +1507,7 @@ include::{sourcedir}/fhnwgpio/components/PotentiometerComponent.java[tags=Potent
 ----
 
 ==== Wertebereich setzen
-Der Grove Potentiometer liefert über den I2C Bus je nach eingestellter Position einen Wert zwischen 0 und 1000. Mittels der `setRange()` Funktion kann der Rückgabewert eingeschränkt werden. Erlaubt sind nur positive Integer deren Differenz mindestens 10 beträgt und nicht grösser als 999 sind.
+Der Grove Potentiometer liefert über den I2C Bus je nach eingestellter Position einen Wert zwischen 0 und 1000. Mittels der `setRange()` Funktion kann der Rückgabewert eingeschränkt werden. Erlaubt sind nur positive Integer, deren Differenz mindestens 10 beträgt und nicht grösser als 999 sind.
 
 [source,java]
 ----
@@ -1515,7 +1515,7 @@ include::{sourcedir}/fhnwgpio/components/PotentiometerComponent.java[tags=Potent
 ----
 
 ==== Value lesen
-Der aktuelle Wert des Potentiometers kann über die `getValue()` Funktion gelesen werden. Dazu wird die `readData()` Funktion der Basisklasse verwendet. Es werden zwei Bytes auf dem Bus erwartet, welche über eine Hilfsfunktion in ein Integer Wert konvertiert werden. Der gelesenen Integer wird gemäss dem eingestellten Bereich zurückgegeben.
+Der aktuelle Wert des Potentiometers kann über die `getValue()` Funktion gelesen werden. Dazu wird die `readData()` Funktion der Basisklasse verwendet. Es werden zwei Bytes auf dem Bus erwartet, welche über eine Hilfsfunktion in ein Integer Wert konvertiert werden. Der gelesene Integer wird gemäss dem eingestellten Bereich zurückgegeben.
 
 [source,java]
 ----
@@ -1523,7 +1523,7 @@ include::{sourcedir}/fhnwgpio/components/PotentiometerComponent.java[tags=Potent
 ----
 
 === DC Motor
-Gleichstrommotoren können mittels dem ihnen zur Verfügung gestellten Strom in der Drehrichtung und Drehzahl reguliert werden. Diese Eigenschaft wurde in der Component Klasse ausgenutzt.
+Gleichstrommotoren können mittels dem ihnen zur Verfügung gestellten Strom in der Drehrichtung und der Drehzahl reguliert werden. Diese Eigenschaft wurde in der Component Klasse ausgenutzt.
 
 ==== Motor Treiber L293D
 Der Chip L293D erlaubt das Anpassen der Drehrichtung von Gleichstrommotoren mit einer Spannungsaufnahme von bis zu 36 Volt. Jede Seite des Chips erlaubt die Kontrolle eines Motors. Mit einem einzelnen L293D können also gleich zwei Motoren individuell angesteuert werden. Die folgende Abbildung zeigt das Pinout des Chips gefolgt von einer Beschreibung der einzelnen Pins. <<L293D>>
@@ -1555,7 +1555,7 @@ image::L293D_Pinout.png[width=75% L293D Pinout]
 |===
 
 ==== Drehrichtung wechseln
-Wie bereits erwähnt, kann die Drehrichtung des Gleichstrommotors mittels Umkehrung der Polarität der Spannungsquelle gewechselt werden. Dies ist mittels des Motor Treibers L293D sehr einfach möglich. Die Polarität der Output Pins können mittels des Setzens der Input Pins beeinflusst werden. Die untere Tabelle zeigt, wie die verschiedenen Drehrichtungen umgesetzt wurden. In diesem Beispiel wird linke Seite des Chips verwendet. Enable 1, 2 ist also aktive, Enable 3, 4 ist inaktiv.
+Wie bereits erwähnt, kann die Drehrichtung des Gleichstrommotors mittels Umkehrung der Polarität der Spannungsquelle gewechselt werden. Dies ist mittels des Motor Treibers L293D sehr einfach möglich. Die Polarität der Output Pins können mittels des Setzens der Input Pins beeinflusst werden. Die untere Tabelle zeigt, wie die verschiedenen Drehrichtungen umgesetzt wurden. In diesem Beispiel wird die linke Seite des Chips verwendet. Enable 1, 2 ist demnach aktiv, Enable 3, 4 ist inaktiv.
 
 .Beschreibung Pinout
 [cols="1,1,1"]
@@ -1566,7 +1566,7 @@ Wie bereits erwähnt, kann die Drehrichtung des Gleichstrommotors mittels Umkehr
 |Low |Low |Motor stoppt.
 |===
 
-Das nachfolgenden Code Beispiele zeigen die `moveForwards()` sowie die `stop()` Funktionen der Motor Component. Dabei wird unterschieden, ob der Motor zusätzlich über PWM gesteuert wird oder nicht. Hierzu aber mehr im nächsten Unterkapitel.
+Die nachfolgenden Code Beispiele zeigen die `moveForwards()` sowie die `stop()` Funktionen der Motor Component. Dabei wird unterschieden, ob der Motor zusätzlich über PWM gesteuert wird oder nicht. Hierzu aber mehr im nächsten Unterkapitel.
 
 [source,java]
 ----
@@ -1663,7 +1663,7 @@ include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=Stepper
 ----
 
 ==== Half Stepping
-Im Gegensatz zu den anderen Modi agiert Half Stepping in acht Schritten. Somit kann die Position des Motors genauer bestimmt werden als in den anderen Modi. Half Stepping kombiniert Single Stepping und Dual Stepping. Dies führt dazu, dass der Motor nicht immer gleich viel Kraft hat. Bei jedem zweiten Schritt ist jeweils nur eine Spule aktiv. <<Stepping>>
+Im Gegensatz zu den anderen Modi agiert Half Stepping in acht Schritten. Somit kann die Position des Motors genauer bestimmt werden als in den anderen Modi. Half Stepping kombiniert Single Stepping und Double Stepping. Dies führt dazu, dass der Motor nicht immer gleich viel Kraft hat. Bei jedem zweiten Schritt ist jeweils nur eine Spule aktiv. <<Stepping>>
 
 .Half Stepping
 image::half_stepping.jpg[width=75% Half Stepping]
@@ -1688,11 +1688,11 @@ include::{sourcedir}/fhnwgpio/components/StepperMotorComponent.java[tags=Stepper
 ----
 
 ==== Motor drehen
-Die schrittweise Drehung des Motors ist in der Component Klasse in einem for-Loop implementiert. Die Variable `element` enthält die zu einstellende Position des aktuell auszuführenden Schrittes. Dies könnte zum Beispiel der Wert `0b0100` sein. Dieser entspricht dem 2. Step im Single Stepping.
+Die schrittweise Drehung des Motors ist in der Component Klasse in einem for-Loop implementiert. Die Variable `element` enthält die einzustellende Position des aktuell auszuführenden Schrittes. Dies könnte zum Beispiel der Wert `0b0100` sein. Dieser entspricht dem 2. Step im Single Stepping.
 
 In einem nächsten Schritt müssen die einzelnen Pins gemäss dem aktuellen `element` gesetzt werden. Dazu nutzen wir den Bitwise Operator und verschieben die Bits gemäss dem aktuellen Pin. Durch die Addition von `0b0001` eliminieren wir alle überflüssigen Einsen. Nun können wir prüfen, ob das Byte dem Wert `1` entspricht. Ist dies der Fall, setzen wir den Pin auf `HIGH`.
 
-Zu guter Letzt setzen wir noch die lokale Variabel `currentPosition`. Diese ist für Richtungsänderungen und das saubere Laufen des Motors relevant.
+Zu guter Letzt setzen wir noch die lokale Variabel `currentPosition`. Diese ist für Richtungsänderungen und das reibungslose Laufen des Motors relevant.
 
 [source,java]
 ----
@@ -1728,7 +1728,7 @@ Mit Servo Motoren lassen sich Winkel präzise einstellen und halten. Gängige Se
 ==== Steuerung über PWM
 Die Mehrheit aller Servo Motoren benötigt für die Steuerung einen 50 Hertz PWM Puls, was einem Zyklus alle 20 Millisekunden entspricht. Mittels WiringPi kann die gewünschte Frequenz ziemlich einfach eingestellt werden. <<ServoMotor>>
 
-Der Raspberry Pi Prozessor liefert eine Basis-Frequenz von 19.2 MHZ. Diese muss nun auf 50 Hertz reduzierten werden. Dies wird über die folgenden Einstellungen erreicht:
+Der Raspberry Pi Prozessor liefert eine Basis-Frequenz von 19.2 MHZ. Diese muss nun auf 50 Hertz reduziert werden. Dies wird über die folgenden Einstellungen erreicht:
 
 [source,java]
 ----
@@ -1771,7 +1771,7 @@ include::{sourcedir}/fhnwgpio/components/ServoMotorComponent.java[tags=ServoMoto
 ----
 
 === Grove Serial Camera
-Die Grove Serial Camera ist eines der komplexeren Devices, welches von unserer Library unterstützt wird. Zur Kommunikation über den Serial Bus wird ein spezielles Protokoll eingesetzt. In den folgenden Unterkapiteln finden sie weitere Informationen zu jenem Protokoll und unserer Implementation davon. <<GroveCam>>
+Die Grove Serial Camera ist eines der komplexeren Devices, welches von unserer Library unterstützt wird. Zur Kommunikation über den Serial Bus wird ein spezielles Protokoll eingesetzt. In den folgenden Unterkapiteln finden Sie weitere Informationen zu jenem Protokoll und unserer Implementation davon. <<GroveCam>>
 
 ==== Protokoll
 Die Datenübermittlung zwischen Kamera und Pi erfolgt über den Serial Bus und das OV528 Protokoll. Die einzelnen Kommandos umfassen jeweils 6 Bytes, welche zusammen als Paket übermittelt werden. Das nachfolgende Beispiel zeigt das SYNC Kommando, welches jeweils zu Beginn der Kommunikation vom Pi ausgesendet wird. Folgende Bytes werden übermittelt: AA0D00000000h.
@@ -1804,10 +1804,10 @@ Um ein Bild von der Kamera zu erhalten, sind mehrere einzelne Schritte, Befehle 
 [link=https://files.seeedstudio.com/wiki/Grove-Serial_Camera_Kit/res/cj-ov528_protocol.pdf]
 image::Grove_Serial_Camera_Get_Picture.png[500, 500, Grove Serial Camera Get Picture]
 
-==== Bildgrösser ermitteln
+==== Bildgrösse ermitteln
 Zur Ermittlung der Bildgrösse wird die gewünschte Paketgrösse der einzelnen Pakete benötigt. Die Paketgrösse kann vom Anwender im Bereich von 16 bis 2048 Bits definiert werden. Die Default Paketgrösse ist 512 Bits.
 
-Als erster Schritt wird die zuvor definierte gewünschte Paketgrösse an die Kamera gesendet und es wird auf eine Empfangsbestätigung der Kamera gewartet.
+Als erster Schritt wird die gewünschte Paketgrösse, welche zuvor definiert wurde, an die Kamera gesendet. Nun wird auf eine Empfangsbestätigung der Kamera gewartet.
 
 Anschliessend wird das Snapshot Kommando an die Kamera gesendet. Dieses Kommando bereitet die Kamera auf das Erzeugen eines Bildes vor. Auch hier wird wieder auf eine Empfangsbestätigung der Kamera gewartet.
 
@@ -1836,7 +1836,7 @@ Die Raspberry Pi Camera wird in Raspbian von vier Applikationen unterstützt, we
 
 `raspiyuv` und `raspividyuv` verwenden keinen Encoder, sondern senden ihr YUV (Ein Farbmodell wie RBG) direkt von der Kamera an ein File. Diese beiden Applikationen werden nicht unterstützt von der `RaspberryPiCameraComponent`. Die Device Klasse verwendet intern nur `raspistill` und `raspivid`. 
 
-In den folgenden Unterkapiteln wird auf die Terminal Befehle für `raspistill` und `raspivid` eingegangen, sofern sie diese direkt verwende möchten. Ausserdem wird auf die Funktionalität der `RaspberryPiCameraComponent` eingegangen.
+In den folgenden Unterkapiteln wird auf die Terminal Befehle für `raspistill` und `raspivid` eingegangen, sofern Sie diese direkt verwende möchten. Ausserdem wird auf die Funktionalität der `RaspberryPiCameraComponent` eingegangen.
 
 ==== Terminal Befehle
 Hier sind einige Beispiele für Standardbefehle mit `raspistill`:
@@ -1870,7 +1870,7 @@ Hier sind einige Beispiele für Standardbefehle mit `raspivid`:
 * 15-Sekunden-Video mit 3 MBits/s +
 `raspivid -t 15000 -b 3000000 -o video.h264`
 
-Für mehr Informationen können sie die Befehle in der offiziellen Dokumentation nachschlagen: + 
+Für mehr Informationen können Sie die Befehle in der offiziellen Dokumentation nachschlagen: + 
 https://www.raspberrypi.org/documentation/raspbian/applications/camera.md[Raspberry Pi Camera - Terminal Befehle]
 
 ==== Java Library für Bildaufnahme
@@ -1879,7 +1879,7 @@ Es gibt zwei prominente java Libraries, welche für die Bildaufnahme verwendet w
 * https://github.com/Hopding/JRPiCam[JRPiCam]: Verwendet eine Builder-Klasse, um die Befehle für `raspistill` aufzubauen und führt diese dann im Hintergrund mit einem Java Process aus. Es ist im Prinzip ein Wrapper für die native Applikation `raspistill`.
 * https://github.com/caprica/picam[PiCam] `raspistill` benutzt eine native MMAL library für die Kamera, welche von PicCam direkt verwendet wird. Das macht PicCam wesentlich schneller als JRPiCam, da es kein externes Programm verwendet.
 
-Für die Component Klasse, welche wir zur Verfügung stellen, wird PiCam verwendet, da die hohe Geschwindigkeit ein immenser Vorteil ist. Falls aber Studierende die JRPiCam-Library verwenden möchten, dann werden sie auch hierfür ein Bespiel unter den Raspberry Pi Camera Beispielen finden.
+Für die Component Klasse, welche wir zur Verfügung stellen, wird PiCam verwendet, da die hohe Geschwindigkeit ein immenser Vorteil ist. Falls aber Studierende die JRPiCam-Library verwenden möchten, dann werden Sie auch hierfür ein Bespiel unter den Raspberry Pi Camera Beispielen finden.
 
 ==== Bildaufnahme
 Für die Bildaufnahme mit der `RaspberrPiCameraComponent` muss man sich zuerst ein `CameraConfiguration`-Objekt erstellen, welches praktisch den Befehl wiederspiegelt, welchen man im Terminal manuell eingeben würde.

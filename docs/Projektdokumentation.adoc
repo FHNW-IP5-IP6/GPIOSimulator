@@ -1,4 +1,4 @@
-:title: GPIOSimoulator
+:title: Projektdokumentation GPIOSimoulator
 :toc: left
 :toc-title:
 :toclevels: 5
@@ -38,10 +38,6 @@ Zu Beginn war das Ziel dieser Arbeit die Entwicklung eines Hardware Simulators, 
 Ein Grossteil dieser Arbeit beschäftigt sich mit der Frage, wieso der Simulator schlussendlich nicht im Rahmen dieser Arbeit realisiert werden konnte. Aufgrund verschiedener Hindernisse war es nicht möglich, einen Simulator zu programmieren, welcher den im Ziel definierten Nutzen bringt. Das Projekt musste sich anpassen, damit die Studierenden der ersten Semester dennoch einen Mehrwert von dieser Arbeit haben.
 
 Anstelle des Simulators wurde eine API in Java entwickelt, welche die beliebtesten Sensoren und Aktuatoren unterstützt. Die API vereinfacht die Implementation von GPIO Projekte in Java mit dem Raspberry Pi. Neben den unabhängigen Geräten, welche an den Raspberry Pi angeschlossen werden können, ist die Library auch kompatibel mit einigen Grove Sensoren und Aktuatoren. Die Grove Sensoren und Aktuatoren können über den Grove Base Hat (ein Aufsatz für den Raspberry Pi) direkt an den Pi angeschlossen werden. Die Library und das modulare Grove System ermöglichen den Studierenden, die hardwarenahe Entwicklungszeit erfolgreich zu reduzieren. Zusätzlich wurde ein umfangreiches Tutorial erstellt, welches die Entwicklung und Verwendung der Komponentenklassen der API beschreibt. Durch das Tutorial und die zur Verfügung gestellte API wird das ursprüngliche Ziel, den Informatikstudenten die elektrotechnischen Arbeiten der GPIO Projekte zu erleichtern, erreicht. Durch die Verwendung des Tutorials und der API können sich die Studierenden besser auf die Softwareentwicklung fokussieren.
-
-[discrete]
-== Inhaltsverzeichnis
-toc::[]
 
 :sectnums!:
 == Einleitung
@@ -179,7 +175,7 @@ Das Projekt Pi4J bietet Vollzugriff auf die I/O Funktionalität des Raspberry Pi
 * Zugriff auf System- und Netzwerkinformationen des Raspberry Pi
 * Wrapper Klassen für den direkten Zugriff auf WiringPi
 
-Zu Projektstart war geplant, dass wir für unser Projekt die Pi4J Bibliothek in der aktuellsten Snapshot Version 1.4 verwenden werden, welche sich derzeit noch in der Entwicklungsphase befindet. Basis für diesen Entscheid war die Tatsache, dass Pi4J 1.4 Java 11 unterstützt. Die release Version 1.2 unterstützt lediglich Java 8 und ist deshalb weniger interessant. Im Verlauf unseres Projekts mussten wir diesen Entscheid jedoch überdenken. Es hat sich herausgestellt, dass der aktuelle Stand von Pi4J 1.4 nicht die gewünschte Stabilität für unser Projekt bieten kann. Dies zeigte sich während der Erarbeitung unserer Code Beispiele für den I2C LC Display. Während der Entwicklung sind wir auf Probleme gestossen, welche direkt mit der Pi4J Version in Verbindung gebracht werden konnten. Die I2C Schnittstelle wird in Kombination mit Java 11 nicht unterstützt. Zu diesem Problem gibt es bereits ein offenes GibHub Issue auf dem Pi4J Projekt, welches als Workaround ein Downgrade auf Java 8 vorschlägt. Grundsätzlich war es aber das Ziel, durch den Einsatz von Pi4J 1.4 Java 8 zu vermeiden. Zusätzlich sind die Device Klassen, welche ein einfaches Interface für die Ansteuerung einer Vielzahl von Sensoren und Aktuatoren erlaubt, in Pi4J 1.4 nicht mehr enthalten. Diese wurden von den Entwicklern aus dem Projekt entfernt, da die Device Implementation kaum von Anwendern benutzt wurden. Für den GPIO Simulator sind diese Implementationen allerdings sehr interessant. Sie vereinfachen die Ansteuerung der Hardwarekomponenten und sind somit bestens für Studenten in den ersten Semestern geeignet.
+Zu Projektstart war geplant, dass wir für unser Projekt die Pi4J Bibliothek in der aktuellsten Snapshot Version 1.4 verwenden werden, welche sich derzeit noch in der Entwicklungsphase befindet. Basis für diesen Entscheid war die Tatsache, dass Pi4J 1.4 Java 11 unterstützt. Die release Version 1.2 unterstützt lediglich Java 8 und ist deshalb weniger interessant. Im Verlauf unseres Projekts mussten wir diesen Entscheid jedoch überdenken. Es hat sich herausgestellt, dass der aktuelle Stand von Pi4J 1.4 nicht die gewünschte Stabilität für unser Projekt bieten kann. Dies zeigte sich während der Erarbeitung unserer Code Beispiele für den I2C LC-Display. Während der Entwicklung sind wir auf Probleme gestossen, welche direkt mit der Pi4J Version in Verbindung gebracht werden konnten. Die I2C Schnittstelle wird in Kombination mit Java 11 nicht unterstützt. Zu diesem Problem gibt es bereits ein offenes GibHub Issue auf dem Pi4J Projekt, welches als Workaround ein Downgrade auf Java 8 vorschlägt. Grundsätzlich war es aber das Ziel, durch den Einsatz von Pi4J 1.4 Java 8 zu vermeiden. Zusätzlich sind die Device Klassen, welche ein einfaches Interface für die Ansteuerung einer Vielzahl von Sensoren und Aktuatoren erlaubt, in Pi4J 1.4 nicht mehr enthalten. Diese wurden von den Entwicklern aus dem Projekt entfernt, da die Device Implementation kaum von Anwendern benutzt wurden. Für den GPIO Simulator sind diese Implementationen allerdings sehr interessant. Sie vereinfachen die Ansteuerung der Hardwarekomponenten und sind somit bestens für Studenten in den ersten Semestern geeignet.
 
 Die Tatsache, dass in Pi4J 1.4 die Device Klassen fehlen und Java 11 wohl doch noch nicht komplett unterstütz wird, hat uns dazu bewegt, dass wir für unser Projekt auf die aktuelle Release Version 1.2 zurückgreifen.
 
@@ -261,8 +257,8 @@ In einer for-Schleife setzen wir Zeile für Zeile unter Strom um prüfen dann pr
 include::{sourcedir}/fhnwexamples/gpio/KeyPad.java[tags=KeyPad]
 ----
 
-=== LC Display
-Das von uns verwendet LC Display erlaubt die Anzeige von je 16 Zeichen auf 2 Zeilen. Total können also 32 Zeilen angezeigt werden. LC-Displays gibt es in verschiedenen Varianten. Unser Display kann entweder über den I2C Bus des Raspberry Pis angesteuert werden oder auch direkt über die GPIO Pins. In diesem Beispiel verwenden wir die Kommunikation via GPIO Pins. Ein I2C Beispiel finden sie im Tutorial. <<>>
+=== LC-Display
+Das von uns verwendet LC-Display erlaubt die Anzeige von je 16 Zeichen auf 2 Zeilen. Total können also 32 Zeilen angezeigt werden. LC-Displays gibt es in verschiedenen Varianten. Unser Display kann entweder über den I2C Bus des Raspberry Pis angesteuert werden oder auch direkt über die GPIO Pins. In diesem Beispiel verwenden wir die Kommunikation via GPIO Pins. Ein I2C Beispiel finden sie im Tutorial. <<>>
 
 Das unten gezeigte Code Beispiel benutzt die `Lcd` Klasse von WiringPi. Im Konstruktor definieren wir, wie viele Zeilen und Spalten unser Display hat. In unserem Fall haben wir 2 Zeilen und 16 Spalten. Die Datenübermittlung erfolgt über 4 Bits. Mittels GPIO_01 bis GPIO_04 können wir Nachrichten an das Display senden. Über den RS Pin GPIO_06 wird dem Display mitgeteilt, ob es sich bei den gesendeten Bytes um einen Befehl oder um ein Zeichen handelt. Über den verbleibenden Pin GPIO_05 lässt sich die Helligkeit des Displays steuern.
 

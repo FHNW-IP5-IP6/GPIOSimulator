@@ -425,8 +425,7 @@ https://plugins.jetbrains.com/plugin/7738-embedded-linux-jvm-debugger-raspberry-
 ._Embedded JVM Configuration_
 image::./installation/RemoteDebugging.png[width=75% Remote Debuggging Configuration]
 
-Für weitere Informationen zum Remote Debugging mit IntelliJ auf dem Raspberry Pi können Sie den folgenden Artikel studieren: + 
-https://medium.com/@menchukanton/setup-intellij-idea-for-remote-debugging-java-code-on-a-raspberry-pi-6e9df09dfb95[Remote debugging java code on a Raspberry Pi]
+Für weitere Informationen zum Remote Debugging mit IntelliJ auf dem Raspberry Pi können Sie den folgenden Artikel studieren: https://medium.com/@menchukanton/setup-intellij-idea-for-remote-debugging-java-code-on-a-raspberry-pi-6e9df09dfb95[Remote debugging java code on a Raspberry Pi]
 
 == Pi4J Basics
 Wie im Tutorial bereits erläutert wurde, verwenden die Component Klassen die Library Pi4J. Eine Vielzahl der zur Verfügung gestellten Konstruktoren benötigen als Input verschiedene Typen von Pi4J GPIO Pins. In diesem Kapitel wird gezeigt, wie solche Pins via Pi4J angefordert werden können.

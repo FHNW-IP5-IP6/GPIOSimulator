@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'ch.fhnw'
-version '0.1'
+version '1.0'
 
 repositories {
     jcenter()
@@ -81,10 +81,10 @@ asciidoctorPdf {
 
 jar {
     //exclude examples for using it like an API, but then manifest also has to be removed
-    //exclude("fhnwexamples/*")
-    manifest {
-        attributes "Main-Class": "fhnwexamples.Examples"
-    }
+    exclude("fhnwexamples/*")
+    //manifest {
+    //    attributes "Main-Class": "fhnwexamples.Examples"
+    //}
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }

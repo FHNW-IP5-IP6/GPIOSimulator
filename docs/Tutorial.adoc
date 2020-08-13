@@ -1222,26 +1222,26 @@ jar {
 Das Gradle Projekt ist nun vorbereitet. Es kann nun mit der Implementation der Photo Booth begonnen werden.
 
 ==== Ausarbeitung Projektidee
-In einem ersten Schritt haben wir uns überlegt, welche Zustände die Photo Booth überhaupt haben kann, und wie diese Zustände miteinander agieren sollen. Unser Resultat ist im folgenden State Diagramm festgehalten.
+In einem ersten Schritt haben wir uns überlegt, welche Zustände die Photo Booth überhaupt haben kann, und wie diese Zustände miteinander agieren sollen. Unser Resultat unserer Analyse haben wir in der folgenden Grafik festgehalten.
 
-.State Machine
+.Visualisierung Projektidee
 image::Sample_Project_States.png[width=75% Project State Machine]
 
-Die blauen Ovale im Diagramm entsprechen den einzelnen Zuständen. Mit den Pfeilen wird gezeigt, wie zwischen den Zuständen gewechselt werden kann. Im State 0 wird beispielsweise nur dann zu State 1 gewechselt, wenn ein Button gedrückt wurde. Wird der Button nicht gedrückt, bleibt das Programm im State 0.
+Die blauen Ovale im Diagramm entsprechen einzelnen Phasen, in welchen sich die Applikation befinden kann. Mit den Pfeilen wird angedeutet, wie zwischen den Phasen gewechselt werden kann. Zum Beispiel kann aus Phase 0 nur dann in die Phase 1 gewechselt werden, wenn ein Button gedrückt wird. Solange der Button nicht betätigt wird, bleibt das Programm in der Phase 0.
 
-Als nächstes muss definiert werden, was in den jeweiligen States alles geschehen soll.
+Als nächstes muss definiert werden, was in den jeweiligen Schritten alles geschehen soll.
 
-[.underline]*State 0*
-In diesem State wird darauf gewartet, dass ein User die Photo Booth via Button Click aktiviert. Das LCD zeigt einen Text an, welcher den Benutzer dazu einlädt, den Knopf zu drücken. Sobald der Button betätigt wurde, wechseln wir in den nächsten State.
+[.underline]*Phase 0*
+In diesem Schritt wird darauf gewartet, dass ein User die Photo Booth via Button Click aktiviert. Das LCD zeigt einen Text an, welcher den Benutzer dazu einlädt, den Knopf zu drücken. Sobald der Button betätigt wurde, wechseln wir in den nächsten Phase.
 
-[.underline]*State 1*
-In diesem State wird solange gewartet, bis sich der Benutzer korrekt positioniert hat. Wir fordern den Benutzer via LCD auf, sich einen Meter von der Kamera zu entfernen. Die Distanz wird mit dem Grove Ultrasonic Ranger gemessen und auf dem LCD angezeigt. Solange sich der User nicht korrekt platziert hat, wird das LED Band rot leuchten. Sobald der Benutzer sich in der entsprechenden Distanz eingefunden hat, wechselt die Farbe des Bandes auf grün und es kann zum dritten State übergegangen werden.
+[.underline]*Phase 1*
+In dieser Phase wird solange gewartet, bis sich der Benutzer korrekt positioniert hat. Wir fordern den Benutzer via LCD auf, sich einen Meter von der Kamera zu entfernen. Die Distanz wird mit dem Grove Ultrasonic Ranger gemessen und auf dem LCD angezeigt. Solange sich der User nicht korrekt platziert hat, wird das LED Band rot leuchten. Sobald der Benutzer sich in der entsprechenden Distanz eingefunden hat, wechselt die Farbe des Bandes auf grün und es kann zum dritten Schritt übergegangen werden.
 
-[.underline]*State 2*
-Dieser State startet einen Countdown von 5 Sekunden. Die verbleibende Zeit wird einerseits auf dem LCD angezeigt und andererseits durch den Stepper Motor mittels einer Skala indiziert. Bei jedem Sekundenwechsel ertönt ein Signalton via Buzzer. Sobald der Countdown abgelaufen ist, wird in den finalen Status gewechselt.
+[.underline]*Phase 2*
+Dieser Phase startet einen Countdown von 5 Sekunden. Die verbleibende Zeit wird einerseits auf dem LCD angezeigt und andererseits durch den Stepper Motor mittels einer Skala indiziert. Bei jedem Sekundenwechsel ertönt ein Signalton via Buzzer. Sobald der Countdown abgelaufen ist, wird in den finalen Schritt gewechselt.
 
-[.underline]*State 3*
-In diesem Status wird das Bild geschossen. Bevor dies passiert, leuchtet der LED Streifen weiss auf und der Buzzer spielt einen hohen Ton ab. Anschliessend wir das Bild erstellt und abgespeichert. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zu guter Letzt wird der Stepper Motor wieder auf seine initiale Position gesetzt und in den State 0 gewechselt. Die Photo Booth ist bereit für den nächsten Kunden.
+[.underline]*Phase 3*
+In diesem Schritt wird das Bild geschossen. Bevor dies passiert, leuchtet der LED Streifen weiss auf und der Buzzer spielt einen hohen Ton ab. Anschliessend wir das Bild erstellt und abgespeichert. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zu guter Letzt wird der Stepper Motor wieder auf seine initiale Position gesetzt und zurück in die Phase 0 gewechselt. Die Photo Booth ist bereit für den nächsten Kunden.
 
 ==== Verkabelung
 Für die Verkabelung wird folgende Hardware benötigt:
@@ -1261,37 +1261,37 @@ Für die Verkabelung wird folgende Hardware benötigt:
 Das Tool Fritzing, mit welchem wir die Verkabelungen der Beispiele aufgezeichnet haben, besitzt leider keine Grafik für den Grove Base Hat. Aus diesem Grund können wir an dieser Stelle leider kein Bild der Verkabelung zeigen. Allerdings ist die Verkabelung im Code ersichtlich.
 
 ==== Codierung
-Der Source Code der einzelnen States wurde in separate Methoden eingeteilt.
+Der Source Code der einzelnen Phasen wurde in separate Methoden eingeteilt.
 
-Zuerst werden alle benötigten Components initialisiert, damit diese in den States verwendet werden können.
+Zuerst werden alle benötigten Components initialisiert, damit diese in den einzelnen Schritten verwendet werden können.
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectInit]
 ----
 
-Der State 0 wurde über die Methode `waitForButtonPress()` realisiert. Zunächst wird auf dem LC-Display mitgeteilt, dass der Ablauf erst beginnt, wenn der Button gedrückt wird. Sobald dieser gedrückt wurde, kann sich der Status ändern.
+Der Schritt 0 wurde über die Methode `waitForButtonPress()` realisiert. Zunächst wird auf dem LC-Display mitgeteilt, dass der Ablauf erst beginnt, wenn der Button gedrückt wird. Sobald dieser gedrückt wurde, kann sich der Status ändern.
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectButtonPressed]
 ----
 
-Der State 1 wurde über die Methode `waitForCorrectRange()` realisiert. Zu Beginn wird mittels LC-Display gezeigt, welcher Abstand erwünscht ist. Der LED Strip wird rot, um zu suggerieren, dass der Abstand noch nicht korrekt ist. Der Ultrasonic Ranger misst den Abstand sekündlich. Sobald der Abstand in Ordnung ist, wird die Farbe des LED Strips zu grün gewechselt und es kann mit dem nächsten State fortgefahren werden.
+Die Phase 1 wurde über die Methode `waitForCorrectRange()` realisiert. Zu Beginn wird mittels LC-Display gezeigt, welcher Abstand erwünscht ist. Der LED Strip wird rot, um zu suggerieren, dass der Abstand noch nicht korrekt ist. Der Ultrasonic Ranger misst den Abstand sekündlich. Sobald der Abstand in Ordnung ist, wird die Farbe des LED Strips zu grün gewechselt und es kann mit dem nächsten Schritt fortgefahren werden.
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectDistanceInRange]
 ----
 
-Der State 2 wurde über die Methode `countdown()` realisiert. Hier wird von der Zahl fünf heruntergezählt. Dieser Vorgang wird mit mehreren Geräten untermalt, um die Spannung zu erhöhen. Das LC-Display zeigt den Countdown an und der Buzzer macht jeweils einen Buzz-Ton für 200 Millisekunden. Der Stepper Motor führt eine Umdrehung von 400 Schritten aus. Da der Schrittmotor pro Schritt 2 Millisekunden benötigt, braucht er für 400 Schritte exakt 800 Millisekunden. Zusammen mit dem Buzzer Ton entspricht dies einer Wartezeit von exakt einer Sekunde.
+Der Schritt 2 wurde über die Methode `countdown()` realisiert. Hier wird von der Zahl fünf heruntergezählt. Dieser Vorgang wird mit mehreren Geräten untermalt, um die Spannung zu erhöhen. Das LC-Display zeigt den Countdown an und der Buzzer macht jeweils einen Buzz-Ton für 200 Millisekunden. Der Stepper Motor führt eine Umdrehung von 400 Schritten aus. Da der Schrittmotor pro Schritt 2 Millisekunden benötigt, braucht er für 400 Schritte exakt 800 Millisekunden. Zusammen mit dem Buzzer Ton entspricht dies einer Wartezeit von exakt einer Sekunde.
 
 [source,java]
 ----
 include::{sourcedir}/fhnwexamples/SampleProject.java[tags=ProjectCountDown]
 ----
 
-Der State 3 wurde über die Methode `takePicture()` realisiert. Bevor das Bild geschossen wird, wird der LED Strip auf weiss gesetzt und der Buzzer spielt einen höheren Ton ab. Dann macht die Raspberry Pi Kamera ein Bild und speichert es auf dem Raspberry Pi im Bilderpfad `/home/pi/Pictures/` unter dem Namen `pipic - <Datum und Uhrzeit>.jpg`. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zusätzlich wird das LED Band ausgeschaltet und der Stepper Motor wird wieder zu seiner initialen Position gedreht.
+Die Phase 3 wurde über die Methode `takePicture()` realisiert. Bevor das Bild geschossen wird, wird der LED Strip auf weiss gesetzt und der Buzzer spielt einen höheren Ton ab. Dann macht die Raspberry Pi Kamera ein Bild und speichert es auf dem Raspberry Pi im Bilderpfad `/home/pi/Pictures/` unter dem Namen `pipic - <Datum und Uhrzeit>.jpg`. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zusätzlich wird das LED Band ausgeschaltet und der Stepper Motor wird wieder zu seiner initialen Position gedreht.
 
 [source,java]
 ----

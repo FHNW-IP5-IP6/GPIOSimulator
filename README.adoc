@@ -20,7 +20,7 @@ This project contains component classes for using sensors and actuators in Java 
 Download the `jar` file from the releases: + 
 https://github.com/FHNW-IP5-IP6/GPIOSimulator/releases/
 
-Add the file to the resources of your project and add a new gradle dependency.:
+Add the file to the resources of your project and add a new gradle dependency:
 
 [source]
 ----
@@ -41,4 +41,4 @@ Visit the following page for a complete tutorial:
 
 https://github.com/FHNW-IP5-IP6/GPIOSimulator/blob/dev/docs/Tutorial.adoc
 
-You can generate an `html` file or any other file format from the `Tutorial.adoc` using https://asciidoctor.org[asciidoctor]
+You can generate an `html` file or any other file format from the `Tutorial.adoc` using https://asciidoctor.org[asciidoctor].

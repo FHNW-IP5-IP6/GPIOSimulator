@@ -29,7 +29,7 @@ image::FHNW.png[FHNW,382,59]
 * Frau Dr. Barbara Scheuner (barbara.scheuner@fhnw.ch) 
 * Herr Dr. Dieter Holz (dieter.holz@fhnw.ch) 
 
-*Datum*: {docdate}
+*Datum*: 13.08.2020
 
 toc::[]
 

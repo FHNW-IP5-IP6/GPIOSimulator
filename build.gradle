@@ -1,19 +1,21 @@
 plugins {
-	id 'java'
+    id 'java'
     id 'org.asciidoctor.jvm.convert' version '3.1.0'
     id 'org.asciidoctor.jvm.pdf' version '3.1.0'
 }
 
 group 'ch.fhnw'
-version '0.1'
+version '1.0'
 
 repositories {
-	jcenter()
+    jcenter()
     mavenCentral()
-	maven {
-		url "https://oss.sonatype.org/content/repositories/snapshots/"
-	}
-
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+    maven {
+        url "https://jitpack.io"
+    }
 }
 
 
@@ -26,49 +28,64 @@ sourceSets {
 }
 
 compileJava {
-    options.encoding    = 'UTF-8'
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    options.encoding = 'UTF-8'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 dependencies {
-	implementation 'com.pi4j:pi4j-core:1.4-SNAPSHOT'
+    implementation 'com.pi4j:pi4j-core:1.2'
+    implementation 'com.pi4j:pi4j-device:1.2'
+    implementation 'com.github.Hopding:JRPiCam:v1.1.1'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.2'
+    compile "uk.co.caprica:picam:2.0.2"
 
-	testImplementation('org.junit.jupiter:junit-jupiter:5.6.0')
+    testImplementation('org.junit.jupiter:junit-jupiter:5.6.0')
 }
 
 test {
-	useJUnitPlatform()
-	testLogging {
-		events "passed", "skipped", "failed"
-	}
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
 
 
 asciidoctorj {
     modules {
-       diagram.version '1.5.18'
+        diagram.version '1.5.18'
     }
 }
 
 asciidoctor {
-  sourceDir  file('docs')
-  sources {
-    include 'documentation.adoc','syntax.adoc'
-  }
-  outputDir  file('build/docs')
-  attributes  'source-highlighter': 'coderay',
-              'coderay-linenums-mode': 'table',
-              'sourcedir': "${projectDir}/src/main/java",
-              'targeted-env': 'Sample'
+    sourceDir file('docs')
+    sources {
+        include 'documentation.adoc', 'syntax.adoc'
+    }
+    outputDir file('build/docs')
+    attributes 'source-highlighter': 'coderay',
+            'coderay-linenums-mode': 'table',
+            'sourcedir': "${projectDir}/src/main/java",
+            'targeted-env': 'Sample'
 }
 
 asciidoctorPdf {
-  sourceDir 'docs'
+    sourceDir 'docs'
 
-  asciidoctorj {
-    attributes 'source-highlighter' : 'coderay',
-               'sourcedir': "${projectDir}/src/main/java",
-               'targeted-env': 'PDF Sample'
-  }
+    asciidoctorj {
+        attributes 'source-highlighter': 'coderay',
+                'sourcedir': "${projectDir}/src/main/java",
+                'targeted-env': 'PDF Sample'
+    }
+}
+
+jar {
+    //exclude examples for using it like an API, but then manifest also has to be removed
+    exclude("fhnwexamples/*")
+    //manifest {
+    //    attributes "Main-Class": "fhnwexamples.Examples"
+    //}
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }

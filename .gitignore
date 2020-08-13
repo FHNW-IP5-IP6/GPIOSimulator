@@ -81,3 +81,7 @@ scenicView.properties
 # NetBeans
 .nb-gradle/
 nbproject/
+
+# jbaettig's Section
+docs/*.pdf
+/log/*

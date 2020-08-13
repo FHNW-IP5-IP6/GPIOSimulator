@@ -1,2 +1,44 @@
 = GIOSimulator
 
+*Creating GPIO projects in Java on the Raspberry Pi has never been this easy!*
+
+== What is the GPIOSimulator
+This project contains component classes for using sensors and actuators in Java with the Raspberry Pi. Additionally, it has a rich tutorial to support new developers to try Java for their GPIO Raspberry Pi projects.
+
+== Main Features
+* Beginner friendly component classes for easy usage of common sensors and actuators in Java
+
+* Compatibility with the Grove Base Hat
+
+* Compatibility with Grove Sensors and Actuators
+
+* A rich tutorial which explains all components
+
+* A sample project that shows how the components can work together
+
+== Installation
+Download the `jar` file from the releases: + 
+https://github.com/FHNW-IP5-IP6/GPIOSimulator/releases/
+
+Add the file to the resources of your project and add a new gradle dependency:
+
+[source]
+----
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'build/libs'
+    }
+}
+
+dependencies {
+    implementation name: 'GPIOSimulator-0.1'
+}
+----
+
+== Complete Tutorial
+Visit the following page for a complete tutorial:
+
+https://github.com/FHNW-IP5-IP6/GPIOSimulator/blob/dev/docs/Tutorial.adoc
+
+You can generate an `html` file or any other file format from the `Tutorial.adoc` using https://asciidoctor.org[asciidoctor].

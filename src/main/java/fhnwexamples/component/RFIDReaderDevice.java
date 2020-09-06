@@ -8,7 +8,6 @@ import com.pi4j.util.Console;
 import fhnwexamples.Example;
 import fhnwgpio.components.RFIDReaderComponent;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class RFIDReaderDevice extends Example {
 

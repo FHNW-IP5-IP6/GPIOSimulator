@@ -3,9 +3,6 @@ package fhnwexamples.component;
 import fhnwexamples.Example;
 import fhnwgpio.components.PotentiometerComponent;
 import fhnwgpio.grove.GroveAdapter;
-import com.pi4j.io.i2c.I2CBus;
-import com.pi4j.io.i2c.I2CDevice;
-import com.pi4j.io.i2c.I2CFactory;
 import com.pi4j.util.Console;
 
 /**

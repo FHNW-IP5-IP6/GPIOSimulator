@@ -5,7 +5,6 @@ import com.pi4j.io.gpio.RaspiGpioProvider;
 import com.pi4j.io.gpio.RaspiPinNumberingScheme;
 import com.pi4j.wiringpi.Gpio;
 import fhnwgpio.components.helper.ComponentLogger;
-import fhnwgpio.grove.Adapter;
 import fhnwgpio.grove.GroveAdapter;
 
 /**

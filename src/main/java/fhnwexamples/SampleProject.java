@@ -60,7 +60,7 @@ public class SampleProject extends Example {
         GpioPinDigitalOutput out4 = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_25);
         stepperMotor = new StepperMotorComponent(out1, out2, out3, out4);
 
-        ledStripDriver = new LedStripDriverComponent(GroveAdapter.D18);
+        ledStripDriver = new LedStripDriverComponent(GroveAdapter.D5);
         ledStripDriver.start();
         ledStripDriver.setColor(0, 0, 0);
         ledStripDriver.stop();

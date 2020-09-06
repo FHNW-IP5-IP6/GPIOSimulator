@@ -3703,23 +3703,23 @@ dependencies {
 <p>Die blauen Ovale im Diagramm entsprechen einzelnen Phasen, in welchen sich die Applikation befinden kann. Mit den Pfeilen wird angedeutet, wie zwischen den Phasen gewechselt werden kann. Zum Beispiel kann aus Phase 0 nur dann in die Phase 1 gewechselt werden, wenn ein Button gedrückt wird. Solange der Button nicht betätigt wird, bleibt das Programm in der Phase 0.</p>
 </div>
 <div class="paragraph">
-<p>Als nächstes muss definiert werden, was in den jeweiligen Schritten alles geschehen soll.</p>
+<p>Als nächstes muss definiert werden, was in den jeweiligen Phasen alles geschehen soll.</p>
 </div>
 <div class="paragraph">
 <p><strong class="underline">Phase 0</strong>
-In diesem Schritt wird darauf gewartet, dass ein User die Photo Booth via Button Click aktiviert. Das LCD zeigt einen Text an, welcher den Benutzer dazu einlädt, den Knopf zu drücken. Sobald der Button betätigt wurde, wechseln wir in den nächsten Phase.</p>
+In dieser Phase wird darauf gewartet, dass ein User die Photo Booth via Button Click aktiviert. Das LCD zeigt einen Text an, welcher den Benutzer dazu einlädt, den Knopf zu drücken. Sobald der Button betätigt wurde, geht das Programm in die nächste Phase über.</p>
 </div>
 <div class="paragraph">
 <p><strong class="underline">Phase 1</strong>
-In dieser Phase wird solange gewartet, bis sich der Benutzer korrekt positioniert hat. Wir fordern den Benutzer via LCD auf, sich einen Meter von der Kamera zu entfernen. Die Distanz wird mit dem Grove Ultrasonic Ranger gemessen und auf dem LCD angezeigt. Solange sich der User nicht korrekt platziert hat, wird das LED Band rot leuchten. Sobald der Benutzer sich in der entsprechenden Distanz eingefunden hat, wechselt die Farbe des Bandes auf grün und es kann zum dritten Schritt übergegangen werden.</p>
+In dieser Phase wird solange gewartet, bis sich der Benutzer korrekt positioniert hat. Der Benutzer wird via LCD aufgefordert, sich einen Meter von der Kamera zu entfernen. Die Distanz wird mit dem Grove Ultrasonic Ranger gemessen und auf dem LCD angezeigt. Solange sich der User nicht korrekt platziert hat, wird das LED Band rot leuchten. Sobald der Benutzer sich in der entsprechenden Distanz eingefunden hat, wechselt die Farbe des Bandes auf grün und es kann zu Phase 2 übergegangen werden.</p>
 </div>
 <div class="paragraph">
 <p><strong class="underline">Phase 2</strong>
-Dieser Phase startet einen Countdown von 5 Sekunden. Die verbleibende Zeit wird einerseits auf dem LCD angezeigt und andererseits durch den Stepper Motor mittels einer Skala indiziert. Bei jedem Sekundenwechsel ertönt ein Signalton via Buzzer. Sobald der Countdown abgelaufen ist, wird in den finalen Schritt gewechselt.</p>
+In dieser Phase startet einen Countdown von 5 Sekunden. Die verbleibende Zeit wird einerseits auf dem LCD angezeigt und andererseits durch den Stepper Motor mittels einer Skala indiziert. Bei jedem Sekundenwechsel ertönt ein Signalton via Buzzer. Sobald der Countdown abgelaufen ist, wird in die finale Phase gewechselt.</p>
 </div>
 <div class="paragraph">
 <p><strong class="underline">Phase 3</strong>
-In diesem Schritt wird das Bild geschossen. Bevor dies passiert, leuchtet der LED Streifen weiss auf und der Buzzer spielt einen hohen Ton ab. Anschliessend wir das Bild erstellt und abgespeichert. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zu guter Letzt wird der Stepper Motor wieder auf seine initiale Position gesetzt und zurück in die Phase 0 gewechselt. Die Photo Booth ist bereit für den nächsten Kunden.</p>
+In dieser letzten Phase wird das Bild geschossen. Bevor dies passiert, leuchtet der LED Streifen weiss auf und der Buzzer spielt einen hohen Ton ab. Anschliessend wir das Bild erstellt und abgespeichert. Auf dem LCD wird angezeigt, dass das Bild geschossen wurde. Zu guter Letzt wird der Stepper Motor wieder auf seine initiale Position gesetzt und das Programm wechselt zurück in die Phase 0. Die Photo Booth ist bereit für den nächsten Kunden.</p>
 </div>
 </div>
 <div class="sect3">
@@ -3793,7 +3793,7 @@ In diesem Schritt wird das Bild geschossen. Bevor dies passiert, leuchtet der LE
         GpioPinDigitalOutput out4 = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_25);
         stepperMotor = new StepperMotorComponent(out1, out2, out3, out4);
 
-        ledStripDriver = new LedStripDriverComponent(GroveAdapter.D18);
+        ledStripDriver = new LedStripDriverComponent(GroveAdapter.D5);
         ledStripDriver.start();
         ledStripDriver.setColor(0, 0, 0);
         ledStripDriver.stop();
@@ -5729,7 +5729,7 @@ RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-13 20:54:26 +0200
+Last updated 2020-09-06 11:10:42 +0200
 </div>
 </div>
 </body>

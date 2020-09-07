@@ -72,7 +72,7 @@ public class SampleProject extends Example {
                 .height(1080)
                 .encoding(Encoding.JPEG)
                 .quality(85)
-                .rotation(180);
+                .rotation(0);
         raspberryPiCamera = new RaspberryPiCameraComponent(stillConfig);
     }
     // end::ProjectInit[]

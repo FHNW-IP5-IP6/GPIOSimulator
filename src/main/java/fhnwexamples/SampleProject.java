@@ -79,6 +79,7 @@ public class SampleProject extends Example {
 
     // tag::ProjectButtonPressed[]
     private void waitForButtonPress() throws InterruptedException {
+        lcd.clearText();
         lcd.displayText("Press Button", 1);
         lcd.displayText("To Start!", 2);
         Thread.sleep(1000);

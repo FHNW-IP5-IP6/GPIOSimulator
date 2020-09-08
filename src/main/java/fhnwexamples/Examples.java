@@ -124,7 +124,8 @@ public class Examples {
         deviceExamples.add(new SerialCamera(11, "Grove Serial Camera example"));
         deviceExamples.add(new RaspberryPiCameraDevice(12, "Raspberry Pi Camera example"));
         deviceExamples.add(new LedStripDriverDevice(13, "LED Strip Driver example"));
-        deviceExamples.add(new SampleProject(99, "SampleProject!"));
+        deviceExamples.add(new PresentationProject(98, "Presentation Project!"));
+        deviceExamples.add(new SampleProject(99, "Sample Project!"));
     }
 
     /**

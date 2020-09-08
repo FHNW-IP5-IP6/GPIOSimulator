@@ -2,7 +2,6 @@ package fhnwgpio.components;
 
 import fhnwgpio.components.helper.ComponentLogger;
 import fhnwgpio.components.helper.RaspiVidConfiguration;
-import com.pi4j.util.Console;
 import uk.co.caprica.picam.*;
 
 import java.io.File;

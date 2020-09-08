@@ -60,7 +60,7 @@ public class SampleProject extends Example {
         GpioPinDigitalOutput out4 = gpio.provisionDigitalOutputPin(RaspiBcmPin.GPIO_25);
         stepperMotor = new StepperMotorComponent(out1, out2, out3, out4);
 
-        ledStripDriver = new LedStripDriverComponent(GroveAdapter.D18);
+        ledStripDriver = new LedStripDriverComponent(GroveAdapter.D5);
         ledStripDriver.start();
         ledStripDriver.setColor(0, 0, 0);
         ledStripDriver.stop();
@@ -72,13 +72,14 @@ public class SampleProject extends Example {
                 .height(1080)
                 .encoding(Encoding.JPEG)
                 .quality(85)
-                .rotation(180);
+                .rotation(0);
         raspberryPiCamera = new RaspberryPiCameraComponent(stillConfig);
     }
     // end::ProjectInit[]
 
     // tag::ProjectButtonPressed[]
     private void waitForButtonPress() throws InterruptedException {
+        lcd.clearText();
         lcd.displayText("Press Button", 1);
         lcd.displayText("To Start!", 2);
         Thread.sleep(1000);

@@ -1370,7 +1370,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_analyse_pi4j">6.2. Analyse Pi4J</h3>
 <div class="paragraph">
-<p>Da eine FHNW-Version von Pi4J nicht in Frage kommt, müssen wir eine andere Möglichkeit finden, wie wir den GPIO Simulator implementieren können. In einem ersten Schritt gilt es die Funktionalität und den Aufbau das gesamte Pi4J Pakets zu analysieren. Durch die Untersuchung möchten wir zusätzliche Erkenntnisse gewinnen, welche uns auf neue Ideen für mögliche Simulationsstrategien bringen.</p>
+<p>Da eine FHNW-Version von Pi4J nicht in Frage kommt, müssen wir eine andere Möglichkeit finden, wie wir den GPIO Simulator implementieren können. In einem ersten Schritt gilt es, die Funktionalität und den Aufbau des gesamten Pi4J Pakets zu analysieren. Durch die Untersuchung möchten wir zusätzliche Erkenntnisse gewinnen, welche uns auf neue Ideen für mögliche Simulationsstrategien bringen.</p>
 </div>
 <div class="paragraph">
 <p>Das Projekt Pi4J ist aufgeteilt in:</p>
@@ -1443,7 +1443,7 @@ Enthält native Scripts für weitere Entwicklungsboards wie NanoPi oder BananaPi
 <p>Bei dieser Vorgehensweise würden wir das Ziel verfolgen, alle Funktionen von Pi4J-Device simulieren zu können. Der Umfang des Pi4J-Device Layer ist definitiv überschaubarer im Vergleich zu jenem vom Pi4J-Core. Pi4J-Device bietet direkt Klassen für einzelne Devices an, welche die nötigen GPIO Zugriffe abstrahieren.</p>
 </div>
 <div class="paragraph">
-<p>Ansetzen würden wir bei dieser Implementationsart direkt bei den Device Beispielen von Pi4J. Für die oft verwendeten Devices würden wir eine eigene Klasse implementieren, welche die Simulation der Hardware übernehmen. Die Studentinnen und Studenten könnten in ihrem Code wählen, welches Device sie verwenden möchten. Entweder die durch uns implementierte Simulation oder das Pi4J-Device, welches direkt auf die Hardware zugreift. Dies hätte für uns den Vorteil, dass die Arbeit im Backend im Vergleich zur Simulation der GPIO Pins wesentlich geringer wäre und weniger Risiken mit sich bringt.</p>
+<p>Ansetzen würden wir bei dieser Implementationsart direkt bei den Device Beispielen von Pi4J. Für die oft verwendeten Devices würden wir eigene Klassen implementieren, welche die Simulation der Hardware übernehmen. Die Studentinnen und Studenten könnten in ihrem Code wählen, welches Device sie verwenden möchten. Entweder das simulierte Device oder das Pi4J-Device, welches direkt auf die Hardware zugreift. Dies hätte für uns den Vorteil, dass die Arbeit im Backend im Vergleich zur Simulation der GPIO Pins wesentlich geringer wäre und weniger Risiken mit sich bringen würde.</p>
 </div>
 <div class="paragraph">
 <p>Leider haben wir während unseren Recherchen festgestellt, dass Pi4J-Device in zukünftigen Releases nicht mehr weitergeführt wird. Aus diesem Grund bräuchte man eine eigene Pi4J-Device Version, welche dann von der FHNW weitergeführt und ergänzt werden könnte, wenn beispielsweise neue Devices benötigt werden.</p>
@@ -1515,7 +1515,7 @@ public Future&lt;?&gt; blink(long delay) {
 </div>
 </div>
 <div class="paragraph">
-<p>Um unsere Implementation zu testen, haben wir die von uns geschriebene Klasse <code>BlinkLedDevice</code> so modifiziert, dass wir eine <code>LEDBase</code> vom Typ <code>GpioLEDSimulator</code> erhalten. Dies haben wir durch den im Konstruktor der Factory übergebenen Boolean festgelegt. Auf dem Simulator Device rufen wir nun die <code>bink()</code> Funktion auf.</p>
+<p>Um unsere Implementation zu testen, haben wir die von uns geschriebene Klasse <code>BlinkLedDevice</code> so modifiziert, dass wir eine <code>LEDBase</code> vom Typ <code>GpioLEDSimulator</code> erhalten. Dies haben wir durch den im Konstruktor der Factory übergebenen Boolean festgelegt. Auf dem Simulator Device rufen wir nun die <code>blink()</code> Funktion auf.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1592,13 +1592,13 @@ java.lang.IllegalArgumentException: The path has to be absolute, but found: \lib
 <p>Generell gehen wir davon aus, dass wir unter Verwendung des <code>SimulatedGpioProvider</code> den Simulator wie geplant implementieren können. Der Benutzer müsste seinen Code jedoch nicht nur an einer Stelle anpassen, sondern an mindestens zwei Stellen. Das wäre aber wohl noch verkraftbar.</p>
 </div>
 <div class="paragraph">
-<p>Durch unsere bisherig gesammelten Erfahrungen mit den Sensoren und Aktuatoren sind wir uns aber unsicher, wie viel eine Simulation dem Studenten schlussendlich überhaupt an Mehrwert bringt. Wenn wir beispielsweise ein I2C LCD simulieren würden, könnten wir lediglich den Text an einem bestimmten Ort (Konsole / File / Simulator) weitergeben und anzeigen. Ob nun die Verkabelung stimmt und der Text in die richtigen Bytes zerlegt wird, können wir kaum testen oder sicherstellen.</p>
+<p>Durch unsere bisherig gesammelten Erfahrungen mit den Sensoren und Aktuatoren sind wir uns aber unsicher, wie viel eine Simulation dem Studenten schlussendlich überhaupt an Mehrwert bringt. Wenn wir beispielsweise ein I2C LCD simulieren würden, könnten wir lediglich den Text an einem bestimmten Ort (Konsole / File / Simulator) weitergeben und anzeigen. Ob nun die Verkabelung stimmt und der Text in die richtigen Bytes zerlegt wird, können wir kaum testen oder sicherstellen, da dafür die Logik des Mikrochips auf dem Gerät auch im Simulator simuliert werden müsste. Dies trifft nicht nur für das LCD zu, sondern für die meisten Sensoren und Aktuatoren. Bei einigen Geräten, wie dem Ultrasonic Ranger, muss die Zeit zwischen Emission und Rezeption der Ultraschallwelle in Mikrosekunden gemessen werden, was sehr stark von dem Gerät selber und der Umgebung abhängt. Eine Simulation könnte zufällige Zahlen zurückgeben, aber das würde dem Studierenden nicht helfen, da man erst wirklich sehen kann, ob die Berechnung korrekt ist, wenn man es mit der richtigen Hardware testet. In all diesen Fällen wäre ein Simulationsversuch reine Zeitverschwendung.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_der_simulator_wird_zum_ausführlichen_tutorial">7.3. Der Simulator wird zum ausführlichen Tutorial</h3>
 <div class="paragraph">
-<p>Diesen Ansatz haben wir bereits besprochen. Resultat der Projektarbeit wären eine Art Guide für die Verwendung von Pi4J-Devices, welche wir mit unseren eigen FHNW-Devices ergänzen können. Zusätzlich würden wir noch den Grove Hat und dessen Adapter unterstützen. Wir bieten dem Studenten somit stabile Beispiele, dessen Funktionsfähigkeit auf der verwendeten Hardware garantiert werden kann. Unserer Meinung nach wäre dieser Ansatz wesentlich gewinnbringender für die Studierenden als eine oberflächliche Simulation. Die schwierige Arbeit bei einem IoT Projekt hängt nämlich immer von der verwendeten Hardware ab.</p>
+<p>Diesen Ansatz haben wir bereits besprochen. Resultat der Projektarbeit wären eine Art Guide für die Verwendung von Pi4J-Devices, welche wir mit unseren eigen FHNW-Devices ergänzen können. Zusätzlich würden wir noch den Grove Hat und dessen Adapter unterstützen. Wir bieten dem Studenten somit stabile Beispiele, dessen Funktionsfähigkeit auf der verwendeten Hardware garantiert werden kann. Unserer Meinung nach wäre dieser Ansatz wesentlich gewinnbringender für die Studierenden als eine oberflächliche Simulation. Die schwierige Arbeit bei einem GPIO Projekt hängt nämlich immer von der verwendeten Hardware ab.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1744,7 +1744,7 @@ Dieser Teil dient als Ergänzung zum Allgemeinen Teil der Komponenten. Im vorher
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-13 21:04:37 +0200
+Last updated 2020-09-06 11:10:42 +0200
 </div>
 </div>
 </body>

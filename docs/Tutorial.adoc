@@ -787,7 +787,9 @@ image::./Grove_Ultrasonic_Ranger.jpg[width=75% RaspiCam Wiring]
 [cols="1,1"]
 |===
 |*Konstruktor* |*Beschreibung*
-|UltraSonicRangerComponent​(GroveAdapter groveAdapter) |Standard Constructor for the Ultra Sonic Ranger that only needs grove hat connection information.
+|UltraSonicRangerComponent​(GroveAdapter groveAdapter) |Standard Constructor for the Grove Ultra Sonic Ranger that only needs grove hat connection information.
+|UltraSonicRangerComponent​(Pin pin) |Constructor for the Ultrasonic Ranger that uses the same pin for the trigger and the echo
+|UltraSonicRangerComponent​(Pin trigger, Pin echo) |Constructor for using the Grove Ultrasonic Ranger without the Grove Base Hat. This is also compatible with other Ultrasonic Rangers that use different pins for the trigger and the echo
 |===
 
 .Ultrasonic Ranger - Funktionen

@@ -24,7 +24,7 @@ public class BuzzerDevice extends Example {
         Console console = new Console();
         console.promptForExit();
 
-        GpioPinPwmOutput pwm = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_12);
+        GpioPinPwmOutput pwm = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_18);
         BuzzerComponent buzzer = new BuzzerComponent(pwm);
 
         Note notes[] = { Note.G4, Note.G4, Note.G4, Note.DS4, Note.AS4, Note.G4, Note.DS4, Note.AS4, Note.G4, Note.D5,

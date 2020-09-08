@@ -5,5 +5,5 @@ public enum AdapterType {
     DIGITAL,
     I2C,
     PWM,
-    UART;
+    UART
 }

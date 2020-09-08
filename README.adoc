@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    implementation name: 'GPIOSimulator-0.1'
+    implementation name: 'GPIOSimulator-1.1'
 }
 ----
 

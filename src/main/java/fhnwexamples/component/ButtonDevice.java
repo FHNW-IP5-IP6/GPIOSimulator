@@ -22,7 +22,7 @@ public class ButtonDevice extends Example {
         Console console = new Console();
         console.promptForExit();
 
-        GpioPinDigitalInput pin = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_17);
+        GpioPinDigitalInput pin = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_25);
         ButtonComponent button = new ButtonComponent(pin);
 
         boolean lastStatePressed = false;

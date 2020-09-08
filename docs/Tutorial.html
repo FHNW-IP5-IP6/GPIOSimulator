@@ -1972,7 +1972,7 @@ GpioPinPwmOutput pwm = gpio.provisionSoftPwmOutputPin(RaspiBcmPin.GPIO_02);		// 
         Console console = new Console();
         console.promptForExit();
 
-        GpioPinDigitalInput pin = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_17);
+        GpioPinDigitalInput pin = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_25);
         ButtonComponent button = new ButtonComponent(pin);
 
         boolean lastStatePressed = false;
@@ -2107,7 +2107,7 @@ In einer for-Schleife wird nun durch die einzelnen <code>notes</code> iteriert. 
         Console console = new Console();
         console.promptForExit();
 
-        GpioPinPwmOutput pwm = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_12);
+        GpioPinPwmOutput pwm = gpio.provisionPwmOutputPin(RaspiBcmPin.GPIO_18);
         BuzzerComponent buzzer = new BuzzerComponent(pwm);
 
         Note notes[] = { Note.G4, Note.G4, Note.G4, Note.DS4, Note.AS4, Note.G4, Note.DS4, Note.AS4, Note.G4, Note.D5,
@@ -2535,7 +2535,15 @@ In einer for-Schleife wird nun durch die einzelnen <code>notes</code> iteriert. 
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">UltraSonicRangerComponent​(GroveAdapter groveAdapter)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Standard Constructor for the Ultra Sonic Ranger that only needs grove hat connection information.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Standard Constructor for the Grove Ultra Sonic Ranger that only needs grove hat connection information.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UltraSonicRangerComponent​(Pin pin)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for the Ultrasonic Ranger that uses the same pin for the trigger and the echo</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UltraSonicRangerComponent​(Pin trigger, Pin echo)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor for using the Grove Ultrasonic Ranger without the Grove Base Hat. This is also compatible with other Ultrasonic Rangers that use different pins for the trigger and the echo</p></td>
 </tr>
 </tbody>
 </table>
@@ -2572,7 +2580,14 @@ In einer for-Schleife wird nun durch die einzelnen <code>notes</code> iteriert. 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">            UltraSonicRangerComponent ultraSonicRangerComponent = new UltraSonicRangerComponent(GroveAdapter.D5);
+<pre class="highlight"><code class="language-java" data-lang="java">            GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
+            final GpioController gpio = GpioFactory.getInstance();
+
+            //Ultrasonic Ranger on the CrowPi
+            GpioPinDigitalInput echo = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_12);
+            GpioPinDigitalInput trigger = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_16);
+
+            UltraSonicRangerComponent ultraSonicRangerComponent = new UltraSonicRangerComponent(trigger, echo);
 
             //Shows the measured distance every second
             while (true) {
@@ -3805,7 +3820,7 @@ In dieser letzten Phase wird das Bild geschossen. Bevor dies passiert, leuchtet 
                 .height(1080)
                 .encoding(Encoding.JPEG)
                 .quality(85)
-                .rotation(180);
+                .rotation(0);
         raspberryPiCamera = new RaspberryPiCameraComponent(stillConfig);
     }</code></pre>
 </div>
@@ -3816,6 +3831,7 @@ In dieser letzten Phase wird das Bild geschossen. Bevor dies passiert, leuchtet 
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">    private void waitForButtonPress() throws InterruptedException {
+        lcd.clearText();
         lcd.displayText("Press Button", 1);
         lcd.displayText("To Start!", 2);
         Thread.sleep(1000);
@@ -3958,7 +3974,7 @@ In dieser letzten Phase wird das Bild geschossen. Bevor dies passiert, leuchtet 
         if (dimmable) {
             setBrightness(0);
         } else {
-            pin.high();
+            pin.low();
         }
 
         ComponentLogger.logInfo("LedComponent: LED turned off");
@@ -4404,12 +4420,12 @@ Ein Bounce ist für kurze Texte gedacht, denen durch einen kleinen Effekt mehr A
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">        ComponentLogger.logInfo("UltraSonicRangerComponent:  Trigger to measure distance");
-        Gpio.pinMode(pin, Gpio.OUTPUT);
-        Gpio.digitalWrite(pin, false);
+        Gpio.pinMode(triggerPin, Gpio.OUTPUT);
+        Gpio.digitalWrite(triggerPin, false);
         Thread.sleep(0, 2000);
-        Gpio.digitalWrite(pin, true);
+        Gpio.digitalWrite(triggerPin, true);
         Thread.sleep(0, 10000);
-        Gpio.digitalWrite(pin, false);</code></pre>
+        Gpio.digitalWrite(triggerPin, false);</code></pre>
 </div>
 </div>
 </div>
@@ -4424,7 +4440,7 @@ Ein Bounce ist für kurze Texte gedacht, denen durch einen kleinen Effekt mehr A
         int TIMEOUT = 1000000; //just a large number to avoid an endless loop when there is a device problem
 
         //wait for the pulse to start (ultra sonic wave sent)
-        while (count &lt; TIMEOUT &amp;&amp; Gpio.digitalRead(pin) == 0)
+        while (count &lt; TIMEOUT &amp;&amp; Gpio.digitalRead(echoPin) == 0)
             count++;
 
         if (count &gt;= TIMEOUT) return 0;
@@ -4432,7 +4448,7 @@ Ein Bounce ist für kurze Texte gedacht, denen durch einen kleinen Effekt mehr A
 
         count = 0;
         //wait for the pulse to end (ultra sonic wave received)
-        while (count &lt; TIMEOUT &amp;&amp; Gpio.digitalRead(pin) == 1)
+        while (count &lt; TIMEOUT &amp;&amp; Gpio.digitalRead(echoPin) == 1)
             count++;
         if (count &gt;= TIMEOUT) return 0;
         long t2 = microTime();
@@ -5729,7 +5745,7 @@ RaspiVidConfiguration vidConfig = new RaspiVidConfiguration()
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-09-06 11:10:42 +0200
+Last updated 2020-09-08 10:39:57 +0200
 </div>
 </div>
 </body>

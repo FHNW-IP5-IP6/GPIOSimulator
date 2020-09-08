@@ -1,11 +1,8 @@
 package fhnwgpio.components;
 
-import com.pi4j.io.gpio.GpioFactory;
-import com.pi4j.io.gpio.RaspiGpioProvider;
-import com.pi4j.io.gpio.RaspiPinNumberingScheme;
+import com.pi4j.io.gpio.*;
 import com.pi4j.wiringpi.Gpio;
 import fhnwgpio.components.helper.ComponentLogger;
-import fhnwgpio.grove.Adapter;
 import fhnwgpio.grove.GroveAdapter;
 
 /**
@@ -14,16 +11,48 @@ import fhnwgpio.grove.GroveAdapter;
  * Code is based on the python implementation
  */
 public class UltraSonicRangerComponent {
-    private int pin;
+    private int triggerPin;
+    private int echoPin;
 
     /**
-     * Standard Constructor for the Ultra Sonic Ranger that only needs grove hat connection information
+     * Standard Constructor for the Grove Ultrasonic Ranger that only needs grove hat connection information
      *
      * @param groveAdapter Adapter that contains the connection information
      */
     public UltraSonicRangerComponent(GroveAdapter groveAdapter) {
-        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
-        pin = groveAdapter.getAdapter().getUpperPin().getAddress();
+        this(groveAdapter.getAdapter().getUpperPin(), groveAdapter.getAdapter().getUpperPin());
+    }
+
+    /**
+     * Constructor for the Ultrasonic Ranger that uses the same pin for the trigger and the echo
+     *
+     * @param pin pin for trigger and echo
+     */
+    public UltraSonicRangerComponent(Pin pin) {
+        this(pin, pin);
+    }
+
+    /**
+     * Constructor for using the Grove Ultrasonic Ranger without the Grove Base Hat.
+     * This is also compatible with other Ultrasonic Rangers that use different pins for the trigger and the echo
+     *
+     * @param trigger trigger pin for triggering the Ultrasonic wave
+     * @param echo    echo pin for measuring the echo
+     */
+    public UltraSonicRangerComponent(GpioPinDigitalInput trigger, GpioPinDigitalInput echo) {
+        this(trigger.getPin(), echo.getPin());
+    }
+
+    /**
+     * Constructor for using the Grove Ultrasonic Ranger without the Grove Base Hat.
+     * This is also compatible with other Ultrasonic Rangers that use different pins for the trigger and the echo
+     *
+     * @param trigger trigger pin for triggering the Ultrasonic wave
+     * @param echo    echo pin for measuring the echo
+     */
+    public UltraSonicRangerComponent(Pin trigger, Pin echo) {
+        triggerPin = trigger.getAddress();
+        echoPin = echo.getAddress();
     }
 
     /**
@@ -58,12 +87,12 @@ public class UltraSonicRangerComponent {
     private void trigger() throws InterruptedException {
         // tag::UltraSonicRangerTrigger[]
         ComponentLogger.logInfo("UltraSonicRangerComponent:  Trigger to measure distance");
-        Gpio.pinMode(pin, Gpio.OUTPUT);
-        Gpio.digitalWrite(pin, false);
+        Gpio.pinMode(triggerPin, Gpio.OUTPUT);
+        Gpio.digitalWrite(triggerPin, false);
         Thread.sleep(0, 2000);
-        Gpio.digitalWrite(pin, true);
+        Gpio.digitalWrite(triggerPin, true);
         Thread.sleep(0, 10000);
-        Gpio.digitalWrite(pin, false);
+        Gpio.digitalWrite(triggerPin, false);
         // end::UltraSonicRangerTrigger[]
     }
 
@@ -73,7 +102,7 @@ public class UltraSonicRangerComponent {
      * @return the pulse difference
      */
     private long getPulseDifference() {
-        Gpio.pinMode(pin, Gpio.INPUT);
+        Gpio.pinMode(echoPin, Gpio.INPUT);
         long diff = 0;
         while (diff == 0) {
             diff = pulseIn();
@@ -90,7 +119,7 @@ public class UltraSonicRangerComponent {
         int TIMEOUT = 1000000; //just a large number to avoid an endless loop when there is a device problem
 
         //wait for the pulse to start (ultra sonic wave sent)
-        while (count < TIMEOUT && Gpio.digitalRead(pin) == 0)
+        while (count < TIMEOUT && Gpio.digitalRead(echoPin) == 0)
             count++;
 
         if (count >= TIMEOUT) return 0;
@@ -98,7 +127,7 @@ public class UltraSonicRangerComponent {
 
         count = 0;
         //wait for the pulse to end (ultra sonic wave received)
-        while (count < TIMEOUT && Gpio.digitalRead(pin) == 1)
+        while (count < TIMEOUT && Gpio.digitalRead(echoPin) == 1)
             count++;
         if (count >= TIMEOUT) return 0;
         long t2 = microTime();

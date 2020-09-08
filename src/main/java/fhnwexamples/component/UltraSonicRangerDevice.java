@@ -1,5 +1,6 @@
 package fhnwexamples.component;
 
+import com.pi4j.io.gpio.*;
 import com.pi4j.util.Console;
 import fhnwexamples.Example;
 import fhnwgpio.components.UltraSonicRangerComponent;
@@ -17,7 +18,14 @@ public class UltraSonicRangerDevice extends Example {
 
         try {
             // tag::UltraSonicRangerDevice[]
-            UltraSonicRangerComponent ultraSonicRangerComponent = new UltraSonicRangerComponent(GroveAdapter.D5);
+            GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
+            final GpioController gpio = GpioFactory.getInstance();
+
+            //Ultrasonic Ranger on the CrowPi
+            GpioPinDigitalInput echo = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_12);
+            GpioPinDigitalInput trigger = gpio.provisionDigitalInputPin(RaspiBcmPin.GPIO_16);
+
+            UltraSonicRangerComponent ultraSonicRangerComponent = new UltraSonicRangerComponent(trigger, echo);
 
             //Shows the measured distance every second
             while (true) {
@@ -29,7 +37,5 @@ public class UltraSonicRangerDevice extends Example {
         } catch (Exception e) {
             console.println(e.getMessage());
         }
-
-
     }
 }

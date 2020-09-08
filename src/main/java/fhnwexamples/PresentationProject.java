@@ -23,7 +23,7 @@ public class PresentationProject extends Example {
             if (button.isPressed()) {
                 buzzer.stop();
                 buzzerIsOn = !buzzerIsOn;
-                Thread.sleep(950);
+                Thread.sleep(900);
             }
 
             if (buzzerIsOn) {
@@ -33,7 +33,7 @@ public class PresentationProject extends Example {
                 buzzer.stop();
             }
 
-            Thread.sleep(50);
+            Thread.sleep(100);
         }
     }
 

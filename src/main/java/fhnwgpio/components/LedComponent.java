@@ -78,7 +78,7 @@ public class LedComponent {
         if (dimmable) {
             setBrightness(0);
         } else {
-            pin.high();
+            pin.low();
         }
 
         ComponentLogger.logInfo("LedComponent: LED turned off");
